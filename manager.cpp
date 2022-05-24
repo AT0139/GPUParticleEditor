@@ -2,6 +2,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "Scene.h"
+#include "input.h"
 
 Manager* Manager::m_singleton = nullptr;	//インスタンス
 
@@ -10,6 +11,7 @@ Scene* Manager::m_scene;
 void Manager::Init()
 {
 	Renderer::GetInstance()->Init();
+	Input::Init();
 
 	m_scene = new Scene();
 	m_scene->Init();
@@ -21,12 +23,16 @@ void Manager::Uninit()
 	m_scene->Uninit();
 	delete m_scene;
 
+	Input::Uninit();
 	Renderer::GetInstance()->Uninit();
 }
 
 void Manager::Update()
 {
+	Input::Update();
+
 	m_scene->Update();
+
 }
 
 void Manager::Draw()

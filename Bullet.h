@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-class Player :public GameObject
+class Bullet :public GameObject
 {
 public:
 	virtual void Init()override;
@@ -11,12 +11,14 @@ public:
 	virtual void Draw()override;
 
 private:
-
+	
 	class Model* m_model;
 
 	ID3D11VertexShader* m_vertexShader;
 	ID3D11PixelShader* m_pixelShader;
 	ID3D11InputLayout* m_vertexLayout;
-	
-	const float MOVE_SPEED = 0.2f;
+
+	const float MOVE_SPEED = 0.5f;
+
+	bool isShot;
 };

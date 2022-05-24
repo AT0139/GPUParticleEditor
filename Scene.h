@@ -7,6 +7,8 @@
 #include "model.h"
 #include "Player.h"
 #include "Stair.h"
+#include "Enemy.h"
+#include "Bullet.h"
 
 class Scene
 {
@@ -25,9 +27,13 @@ public:
 		AddGameObject<Field>();
 		AddGameObject<Player>();
 		AddGameObject<Stair>();
+		AddGameObject<Enemy>()->SetPosition(D3DXVECTOR3(-2.0f, 1.0f, 3.0f));
+		AddGameObject<Enemy>()->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 3.0f));
+		AddGameObject<Enemy>()->SetPosition(D3DXVECTOR3(2.0f, 1.0f, 3.0f));
+		AddGameObject<Bullet>();
 
 		//2Dオブジェクト
-		AddGameObject<Polygon2D>();
+		//AddGameObject<Polygon2D>();
 	}
 	void Uninit()
 	{

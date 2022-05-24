@@ -7,14 +7,14 @@ void Enemy::Init()
 {
 	//ƒ‚ƒfƒ‹“Ç‚Ýž‚Ý
 	m_model = new Model();
-	//m_model->Load();
+	m_model->Load((char*)"asset\\model\\torus.obj");
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
 	m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	m_rotation = D3DXVECTOR3(0.0f, 90.0f, 0.0f);
+	m_scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
 }
 
 void Enemy::Uninit()

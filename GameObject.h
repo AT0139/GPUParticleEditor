@@ -9,6 +9,7 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
+	void SetPosition(D3DXVECTOR3 position) { m_position = position; }
 protected:
 	D3DXVECTOR3 m_position;
 	D3DXVECTOR3 m_rotation;

@@ -1,11 +1,12 @@
 #include "main.h"
 #include "renderer.h"
 #include "model.h"
-#include "Player.h"
+#include "Bullet.h"
 #include "input.h"
 
 
-void Player::Init()
+
+void Bullet::Init()
 {
 	//モデル読み込み
 	m_model = new Model();
@@ -21,7 +22,7 @@ void Player::Init()
 	m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 }
 
-void Player::Uninit()
+void Bullet::Uninit()
 {
 	m_model->Unload();
 	delete m_model;
@@ -31,19 +32,17 @@ void Player::Uninit()
 	m_pixelShader->Release();
 }
 
-void Player::Update()
+void Bullet::Update()
 {
-	if (Input::GetKeyPress('W'))
-		m_position.z += MOVE_SPEED;	
-	if (Input::GetKeyPress('A'))
-		m_position.x -= MOVE_SPEED;
-	if (Input::GetKeyPress('S'))
-		m_position.z -= MOVE_SPEED;
-	if (Input::GetKeyPress('D'))
-		m_position.x += MOVE_SPEED;
+	if (Input::GetKeyTrigger(VK_SPACE))
+	{
+		isShot = true;
+	}
+	if (isShot)
+		m_position.z += MOVE_SPEED;
 }
 
-void Player::Draw()
+void Bullet::Draw()
 {
 	//入力レイアウト設定
 	Renderer::GetInstance()->GetDeviceContext()->IASetInputLayout(m_vertexLayout);
