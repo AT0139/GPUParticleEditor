@@ -34,7 +34,7 @@ void Player::Uninit()
 void Player::Update()
 {
 	if (Input::GetKeyPress('W'))
-		m_position.z += MOVE_SPEED;	
+		m_position.z += MOVE_SPEED;
 	if (Input::GetKeyPress('A'))
 		m_position.x -= MOVE_SPEED;
 	if (Input::GetKeyPress('S'))
