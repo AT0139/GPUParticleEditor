@@ -30,7 +30,6 @@ public:
 		AddGameObject<Enemy>()->SetPosition(D3DXVECTOR3(-2.0f, 1.0f, 3.0f));
 		AddGameObject<Enemy>()->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 3.0f));
 		AddGameObject<Enemy>()->SetPosition(D3DXVECTOR3(2.0f, 1.0f, 3.0f));
-		AddGameObject<Bullet>();
 
 		//2Dオブジェクト
 		//AddGameObject<Polygon2D>();
@@ -50,6 +49,8 @@ public:
 		{
 			object->Update();
 		}
+
+		m_gameObjects.remove_if([](GameObject* object) {return object->Destroy(); });
 	}
 	void Draw()
 	{

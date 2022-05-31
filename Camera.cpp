@@ -4,7 +4,7 @@
 
 void Camera::Init()
 {
-	m_position = D3DXVECTOR3(0.0f, 2.0f, -5.0f);
+	m_position = D3DXVECTOR3(0.0f, 5.0f, -5.0f);
 	m_target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
 

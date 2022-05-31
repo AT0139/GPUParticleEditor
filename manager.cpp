@@ -1,7 +1,7 @@
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
 #include "Scene.h"
+#include "manager.h"
 #include "input.h"
 
 Manager* Manager::m_singleton = nullptr;	//インスタンス

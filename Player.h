@@ -18,5 +18,5 @@ private:
 	ID3D11PixelShader* m_pixelShader;
 	ID3D11InputLayout* m_vertexLayout;
 	
-	const float MOVE_SPEED = 0.2f;
+	const float MOVE_SPEED = 0.1f;
 };

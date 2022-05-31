@@ -1,9 +1,11 @@
 #include "main.h"
 #include "renderer.h"
 #include "model.h"
+#include "Scene.h"
+#include "manager.h"
+#include "Bullet.h"
 #include "Player.h"
 #include "input.h"
-
 
 void Player::Init()
 {
@@ -41,6 +43,12 @@ void Player::Update()
 		m_position.z -= MOVE_SPEED;
 	if (Input::GetKeyPress('D'))
 		m_position.x += MOVE_SPEED;
+
+	if (Input::GetKeyTrigger(VK_SPACE))
+	{
+		Scene* scene = Manager::GetScene();
+		scene->AddGameObject<Bullet>()->SetPosition(m_position);
+	}
 }
 
 void Player::Draw()

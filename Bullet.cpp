@@ -19,7 +19,7 @@ void Bullet::Init()
 
 	m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	m_scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
 }
 
 void Bullet::Uninit()
@@ -34,12 +34,13 @@ void Bullet::Uninit()
 
 void Bullet::Update()
 {
-	if (Input::GetKeyTrigger(VK_SPACE))
+	m_position.z += MOVE_SPEED;
+
+	if (m_position.z > 6.0f)
 	{
-		isShot = true;
+		SetDestroy();
+		return;
 	}
-	if (isShot)
-		m_position.z += MOVE_SPEED;
 }
 
 void Bullet::Draw()
