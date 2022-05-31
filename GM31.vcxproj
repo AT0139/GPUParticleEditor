@@ -156,12 +156,14 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Polygon2D.cpp" />
     <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="SkyDome.cpp" />
     <ClCompile Include="Stair.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +173,7 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
     <ClInclude Include="model.h" />
@@ -178,6 +181,7 @@
     <ClInclude Include="Polygon2D.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SkyDome.h" />
     <ClInclude Include="Stair.h" />
   </ItemGroup>
   <ItemGroup>

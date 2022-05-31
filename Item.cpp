@@ -1,16 +1,10 @@
 #include "main.h"
-#include "manager.h"
 #include "renderer.h"
 #include "model.h"
-#include "Scene.h"
-#include "Bullet.h"
-#include "input.h"
+#include "Item.h"
 
-
-
-
-void Bullet::Init()
-{
+void Item::Init()
+{	
 	//モデル読み込み
 	m_model = new Model();
 	m_model->Load((char*)"asset\\model\\torus.obj");
@@ -22,10 +16,10 @@ void Bullet::Init()
 
 	m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
+	m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 }
 
-void Bullet::Uninit()
+void Item::Uninit()
 {
 	m_model->Unload();
 	delete m_model;
@@ -35,35 +29,11 @@ void Bullet::Uninit()
 	m_pixelShader->Release();
 }
 
-void Bullet::Update()
+void Item::Update()
 {
-	m_position.z += MOVE_SPEED;
-
-	if (m_position.z > 6.0f)
-	{
-		SetDestroy();
-		return;
-	}
-
-	Scene* scene = Manager::GetScene();
-	std::vector<Enemy*> enemyList = scene->GetGameObjects<Enemy>();
-
-	for (Enemy* enemy : enemyList)
-	{
-		D3DXVECTOR3 enemyPosition = enemy->GetPosition();
-		D3DXVECTOR3 direction = m_position - enemyPosition;
-		float length = D3DXVec3Length(&direction);
-
-		if (length < 2.0f)
-		{
-			enemy->SetDestroy();
-			SetDestroy();
-			return;
-		}
-	}
 }
 
-void Bullet::Draw()
+void Item::Draw()
 {
 	//入力レイアウト設定
 	Renderer::GetInstance()->GetDeviceContext()->IASetInputLayout(m_vertexLayout);
@@ -81,4 +51,5 @@ void Bullet::Draw()
 	Renderer::GetInstance()->SetWorldMatrix(&world);
 
 	m_model->Draw();
+
 }

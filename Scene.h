@@ -1,14 +1,17 @@
 #pragma once
 
 #include <list>
+#include <vector>
+#include <typeinfo>
 #include "Polygon2D.h"
 #include "Field.h"
 #include "Camera.h"
 #include "model.h"
 #include "Player.h"
 #include "Stair.h"
-#include "Enemy.h"
 #include "Bullet.h"
+#include "Enemy.h"
+#include "SkyDome.h"
 
 class Scene
 {
@@ -24,6 +27,7 @@ public:
 		AddGameObject<Camera>();
 
 		//3Dオブジェクト
+		//AddGameObject<SkyDome>();
 		AddGameObject<Field>();
 		AddGameObject<Player>();
 		AddGameObject<Stair>();
@@ -68,6 +72,33 @@ public:
 		m_gameObjects.push_back(gameobject);
 
 		return gameobject;
+	}
+
+	template <typename T>
+	T* GetGameObject()
+	{
+		for (GameObject* object : m_gameObjects)	//型を調べる(RTTI動的型情報)
+		{
+			if (typeid(*object) == typeid(T))
+			{
+				return (T*)object;
+			}
+		}
+		return nullptr;
+	}
+
+	template <typename T>
+	std::vector<T*> GetGameObjects()
+	{
+		std::vector<T*> objects;	//STLの配列
+		for (GameObject* object : m_gameObjects)	//型を調べる(RTTI動的型情報)
+		{
+			if (typeid(*object) == typeid(T))
+			{
+				objects.push_back((T*)object);
+			}
+		}
+		return objects;
 	}
 
 protected:
