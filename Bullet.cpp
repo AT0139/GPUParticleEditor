@@ -46,7 +46,7 @@ void Bullet::Update()
 	}
 
 	Scene* scene = Manager::GetScene();
-	std::vector<Enemy*> enemyList = scene->GetGameObjects<Enemy>();
+	std::vector<Enemy*> enemyList = scene->GetGameObjects<Enemy>(1);
 
 	for (Enemy* enemy : enemyList)
 	{
