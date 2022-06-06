@@ -16,31 +16,37 @@
 class Scene
 {
 public:
-	Scene() {
-	}
+	Scene() {}
 	virtual ~Scene() {}
 
+	enum Layer
+	{
+		CAMERA,
+		OBJECT,
+		UI,
+		LAYER_MAX
+	};
 
 	void Init()
 	{
 		//カメラ
-		AddGameObject<Camera>(0);
+		AddGameObject<Camera>(CAMERA);
 
 		//3Dオブジェクト
 		//AddGameObject<SkyDome>();
-		AddGameObject<Field>(1);
-		AddGameObject<Stair>(1);
-		AddGameObject<Player>(1);
-		AddGameObject<Enemy>(1)->SetPosition(D3DXVECTOR3(-2.0f, 1.0f, 3.0f));
-		AddGameObject<Enemy>(1)->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 3.0f));
-		AddGameObject<Enemy>(1)->SetPosition(D3DXVECTOR3(2.0f, 1.0f, 3.0f));
+		AddGameObject<Field>(OBJECT);
+		AddGameObject<Stair>(OBJECT);
+		AddGameObject<Player>(OBJECT);
+		AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(-2.0f, 1.0f, 3.0f));
+		AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 3.0f));
+		AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(2.0f, 1.0f, 3.0f));
 
 		//2Dオブジェクト
-		AddGameObject<Polygon2D>(2);
+		AddGameObject<Polygon2D>(UI);
 	}
 	void Uninit()
 	{
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < LAYER_MAX; i++)
 		{
 			for (GameObject* object : m_gameObjects[i])	//範囲for文
 			{
@@ -53,7 +59,7 @@ public:
 	void Update()
 	{
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < LAYER_MAX; i++)
 		{
 			for (GameObject* object : m_gameObjects[i])
 			{
@@ -65,7 +71,7 @@ public:
 	}
 	void Draw()
 	{
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < LAYER_MAX; i++)
 		{
 			for (GameObject* object : m_gameObjects[i])
 			{
@@ -112,5 +118,5 @@ public:
 	}
 
 protected:
-	std::list<GameObject*> m_gameObjects[3];	//STLのリスト構造
+	std::list<GameObject*> m_gameObjects[LAYER_MAX];	//STLのリスト構造
 };

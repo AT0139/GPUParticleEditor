@@ -46,7 +46,8 @@ void Bullet::Update()
 	}
 
 	Scene* scene = Manager::GetScene();
-	std::vector<Enemy*> enemyList = scene->GetGameObjects<Enemy>(1);
+	//“G“–‚½‚è”»’è
+	std::vector<Enemy*> enemyList = scene->GetGameObjects<Enemy>(scene->OBJECT);
 
 	for (Enemy* enemy : enemyList)
 	{
@@ -61,6 +62,7 @@ void Bullet::Update()
 			return;
 		}
 	}
+	//ŠK’i“–‚½‚è”»’è
 }
 
 void Bullet::Draw()
