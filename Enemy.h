@@ -10,9 +10,10 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
-
+	static void Load();
+	static void Unload();
 private:
-	class Model* m_model;
+	static class Model* m_model;
 
 	ID3D11VertexShader* m_vertexShader;
 	ID3D11PixelShader* m_pixelShader;

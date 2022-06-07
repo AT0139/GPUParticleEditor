@@ -29,6 +29,9 @@ public:
 
 	void Init()
 	{
+		Bullet::Load();
+		Enemy::Load();
+
 		//ÉJÉÅÉâ
 		AddGameObject<Camera>(CAMERA);
 
@@ -55,6 +58,8 @@ public:
 			}
 			m_gameObjects[i].clear();
 		}
+		Bullet::Unload();
+		Enemy::Unload();
 	}
 	void Update()
 	{

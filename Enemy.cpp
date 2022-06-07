@@ -3,12 +3,11 @@
 #include "model.h"
 #include "Enemy.h"
 
+
+Model* Enemy::m_model;
+
 void Enemy::Init()
 {
-	//ƒ‚ƒfƒ‹“Ç‚Ýž‚Ý
-	m_model = new Model();
-	m_model->Load((char*)"asset\\model\\torus.obj");
-
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
@@ -19,9 +18,6 @@ void Enemy::Init()
 
 void Enemy::Uninit()
 {
-	m_model->Unload();
-	delete m_model;
-
 	m_vertexLayout->Release();
 	m_vertexShader->Release();
 	m_pixelShader->Release();
@@ -49,4 +45,17 @@ void Enemy::Draw()
 	Renderer::GetInstance()->SetWorldMatrix(&world);
 
 	m_model->Draw();
+}
+
+void Enemy::Load()
+{	
+	//ƒ‚ƒfƒ‹“Ç‚Ýž‚Ý
+	m_model = new Model();
+	m_model->Load((char*)"asset\\model\\torus.obj");
+}
+
+void Enemy::Unload()
+{
+	m_model->Unload();
+	delete m_model;
 }

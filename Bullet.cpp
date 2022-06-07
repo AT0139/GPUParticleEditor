@@ -6,16 +6,11 @@
 #include "Bullet.h"
 #include "input.h"
 
-
+Model* Bullet::m_model;	//スタティックメンバ変数再度宣言
 
 
 void Bullet::Init()
 {
-	//モデル読み込み
-	m_model = new Model();
-	m_model->Load((char*)"asset\\model\\torus.obj");
-
-
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
 	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
@@ -27,9 +22,6 @@ void Bullet::Init()
 
 void Bullet::Uninit()
 {
-	m_model->Unload();
-	delete m_model;
-
 	m_vertexLayout->Release();
 	m_vertexShader->Release();
 	m_pixelShader->Release();
@@ -84,3 +76,16 @@ void Bullet::Draw()
 
 	m_model->Draw();
 }
+
+void Bullet::Load()
+{
+	//モデル読み込み
+	m_model = new Model();
+	m_model->Load((char*)"asset\\model\\torus.obj");
+}
+
+void Bullet::Unload()
+{
+	m_model->Unload();
+	delete m_model;
+}	
