@@ -1,7 +1,7 @@
 #include "main.h"
 #include "renderer.h"
 #include "model.h"
-#include "ModelManager.h"
+#include "ResourceManager.h"
 #include "Enemy.h"
 
 
@@ -9,7 +9,7 @@ Model* Enemy::m_model;
 
 void Enemy::Init()
 {
-	m_model = ModelManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
+	m_model = ResourceManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
@@ -53,7 +53,7 @@ void Enemy::Draw()
 void Enemy::Load()
 {	
 	//ƒ‚ƒfƒ‹“Ç‚Ýž‚Ý
-	m_model = ModelManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
+	m_model = ResourceManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
 };
 
 

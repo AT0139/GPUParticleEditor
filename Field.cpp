@@ -1,6 +1,7 @@
 #include "main.h"
 #include "renderer.h"
 #include "Field.h"
+#include "ResourceManager.h"
 
 void Field::Init()
 {
@@ -41,8 +42,8 @@ void Field::Init()
 	Renderer::GetInstance()->GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 
 	//テクスチャ読み込み
-	D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance()->GetDevice(), "asset/texture/field000.jpg", NULL, NULL, &m_texture, NULL);
-
+	//D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance()->GetDevice(), "asset/texture/field000.jpg", NULL, NULL, &m_texture, NULL);
+	m_texture = ResourceManager::GetInstance()->GetTextureData("asset/texture/field000.jpg");
 	assert(m_texture);
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");

@@ -2,7 +2,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "model.h"
-#include "ModelManager.h"
+#include "ResourceManager.h"
 #include "Scene.h"
 #include "Bullet.h"
 #include "input.h"
@@ -13,7 +13,7 @@ Model* Bullet::m_model;	//スタティックメンバ変数再度宣言
 
 void Bullet::Init()
 {
-	m_model = ModelManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
+	m_model = ResourceManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
@@ -86,7 +86,7 @@ void Bullet::Draw()
 void Bullet::Load()
 {
 	//モデル読み込み
-	m_model = ModelManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
+	m_model = ResourceManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
 }
 
 void Bullet::Unload()
