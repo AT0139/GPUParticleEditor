@@ -6,12 +6,15 @@
 #include "Scene.h"
 #include "Bullet.h"
 #include "input.h"
+#include "Explosion.h"
 
 Model* Bullet::m_model;	//スタティックメンバ変数再度宣言
 
 
 void Bullet::Init()
 {
+	m_model = ModelManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
+
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
 	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
@@ -52,8 +55,10 @@ void Bullet::Update()
 		{
 			enemy->SetDestroy();
 			SetDestroy();
+			scene->AddGameObject<Explosion>(scene->OBJECT)->SetPosition(enemyPosition);
 			return;
 		}
+		
 	}
 	//階段当たり判定
 }

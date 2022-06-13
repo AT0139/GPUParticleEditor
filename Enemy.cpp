@@ -9,6 +9,8 @@ Model* Enemy::m_model;
 
 void Enemy::Init()
 {
+	m_model = ModelManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
+
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 

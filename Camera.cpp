@@ -1,6 +1,7 @@
 #include "main.h"
 #include "renderer.h"
 #include "Camera.h"
+#include "input.h"
 
 void Camera::Init()
 {
@@ -19,11 +20,10 @@ void Camera::Update()
 void Camera::Draw()
 {
 	//ビューマトリクス設定
-	D3DXMATRIX viewMatrix;
 	D3DXVECTOR3 up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	D3DXMatrixLookAtLH(&viewMatrix, &m_position, &m_target, &up);
+	D3DXMatrixLookAtLH(&m_viewMatrix, &m_position, &m_target, &up);
 
-	Renderer::GetInstance()->SetViewMatrix(&viewMatrix);
+	Renderer::GetInstance()->SetViewMatrix(&m_viewMatrix);
 
 	//プロジェクションマトリクス設定	
 	D3DXMATRIX projectionMatrix;

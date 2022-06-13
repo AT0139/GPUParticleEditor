@@ -1,8 +1,6 @@
 
-
 #include "main.h"
 #include "manager.h"
-
 
 const char* CLASS_NAME = "AppClass";
 const char* WINDOW_NAME = "DX11ƒQ[ƒ€";
@@ -19,8 +17,11 @@ HWND GetWindow()
 }
 
 
+
+
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+
 	WNDCLASSEX wcex =
 	{
 		sizeof(WNDCLASSEX),
@@ -107,8 +108,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	UnregisterClass(CLASS_NAME, wcex.hInstance);
 
 	Manager::GetInstance()->Uninit();
-
-
 
 	return (int)msg.wParam;
 }

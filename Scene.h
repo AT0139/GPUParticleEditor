@@ -29,9 +29,6 @@ public:
 
 	void Init()
 	{
-		Bullet::Load();
-		Enemy::Load();
-
 		//ƒJƒƒ‰
 		AddGameObject<Camera>(CAMERA);
 
