@@ -7,16 +7,16 @@ void SkyDome::Init()
 {
 	//ƒ‚ƒfƒ‹“Ç‚Ýž‚Ý
 	m_model = new Model();
-	m_model->Load((char*)"asset\\model\\sky.obj");
+	m_model->Load((char*)"asset\\model\\skydome.obj");
 
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
 	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
-	m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_position = D3DXVECTOR3(0.0f, -100.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_scale = D3DXVECTOR3(200.0f, 200.0f, 200.0f);
+	m_scale = D3DXVECTOR3(150.0f, 150.0f, 150.0f);
 }
 
 void SkyDome::Uninit()

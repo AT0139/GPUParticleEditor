@@ -36,7 +36,7 @@ public:
 		AddGameObject<Camera>(CAMERA);
 
 		//3Dオブジェクト
-		//AddGameObject<SkyDome>();
+		AddGameObject<SkyDome>(OBJECT);
 		AddGameObject<Field>(OBJECT);
 		AddGameObject<Stair>(OBJECT);
 		AddGameObject<Player>(OBJECT);
@@ -58,8 +58,6 @@ public:
 			}
 			m_gameObjects[i].clear();
 		}
-		Bullet::Unload();
-		Enemy::Unload();
 	}
 	void Update()
 	{

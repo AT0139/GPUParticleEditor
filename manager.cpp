@@ -53,7 +53,7 @@ Manager::~Manager()
 //シングルトン用インスタンス取得関数
 Manager* Manager::GetInstance()
 {
-	if (m_singleton)
+	if (!m_singleton)
 	{
 		m_singleton = new Manager();
 	}

@@ -1,14 +1,14 @@
 #include "main.h"
 #include "renderer.h"
 #include "model.h"
+#include "ModelManager.h"
 #include "Stair.h"
 
 
 void Stair::Init()
 {
 	//ƒ‚ƒfƒ‹“Ç‚Ýž‚Ý
-	m_model = new Model();
-	m_model->Load((char*)"asset\\model\\upstair.obj");
+	m_model = ModelManager::GetInstance()->GetModelData("asset\\model\\upstair.obj");
 
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");

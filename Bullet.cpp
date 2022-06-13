@@ -2,6 +2,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "model.h"
+#include "ModelManager.h"
 #include "Scene.h"
 #include "Bullet.h"
 #include "input.h"
@@ -80,8 +81,7 @@ void Bullet::Draw()
 void Bullet::Load()
 {
 	//ƒ‚ƒfƒ‹“Ç‚Ýž‚Ý
-	m_model = new Model();
-	m_model->Load((char*)"asset\\model\\torus.obj");
+	m_model = ModelManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
 }
 
 void Bullet::Unload()

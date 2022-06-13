@@ -8,7 +8,10 @@
 #include "renderer.h"
 #include "model.h"
 
-
+Model::Model(const char* fileName)
+{
+	Load(fileName);
+}
 
 void Model::Draw()
 {

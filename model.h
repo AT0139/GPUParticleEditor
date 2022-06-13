@@ -43,20 +43,25 @@ class Model
 {
 private:
 
-	ID3D11Buffer*	m_VertexBuffer;
-	ID3D11Buffer*	m_IndexBuffer;
+	ID3D11Buffer* m_VertexBuffer;
+	ID3D11Buffer* m_IndexBuffer;
 
-	SUBSET*	m_SubsetArray;
+	SUBSET* m_SubsetArray;
 	unsigned int	m_SubsetNum;
 
-	void LoadObj( const char *FileName, MODEL *Model );
-	void LoadMaterial( const char *FileName, MODEL_MATERIAL **MaterialArray, unsigned int *MaterialNum );
+
+
+	void LoadObj(const char* FileName, MODEL* Model);
+	void LoadMaterial(const char* FileName, MODEL_MATERIAL** MaterialArray, unsigned int* MaterialNum);
 
 public:
 
+	Model() {}
+	Model(const char* fileName);
+
 	void Draw();
 
-	void Load( const char *FileName );
+	void Load(const char* FileName);
 	void Unload();
 
 };
