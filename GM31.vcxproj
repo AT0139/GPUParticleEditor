@@ -171,6 +171,7 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="SkyDome.cpp" />
     <ClCompile Include="Stair.cpp" />
+    <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
@@ -191,6 +192,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SkyDome.h" />
     <ClInclude Include="Stair.h" />
+    <ClInclude Include="Tree.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="common.hlsl">

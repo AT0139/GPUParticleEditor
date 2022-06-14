@@ -29,13 +29,13 @@ void Camera::Update()
 	//m_position = playerPos + D3DXVECTOR3(0.0f, 5.0f, -5.0f);
 
 
-	//サードパーソンビュー
-	m_target = playerPos;
-	m_position = playerPos - playerForward * 5.0f + D3DXVECTOR3(0.0f, 2.0f, 0.0f);
+	////サードパーソンビュー
+	//m_target = playerPos;
+	//m_position = playerPos - playerForward * 5.0f + D3DXVECTOR3(0.0f, 2.0f, 0.0f);
 
-	////サードパーソンビュー(右寄り)
-	//m_target = playerPos + playerRight;
-	//m_position = playerPos - playerForward * 5.0f + playerRight+ D3DXVECTOR3(0.0f, 2.0f, 0.0f);
+	//サードパーソンビュー(右寄り)
+	m_target = playerPos + playerRight;
+	m_position = playerPos - playerForward * 5.0f + playerRight+ D3DXVECTOR3(0.0f, 2.0f, 0.0f);
 
 	////ファーストパーソンビュー
 	//m_target = playerPos + playerForward;

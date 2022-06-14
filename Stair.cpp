@@ -15,7 +15,7 @@ void Stair::Init()
 
 	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
-	m_position = D3DXVECTOR3(3.0f, 1.0f, 0.0f);
+	m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, D3DX_PI + 1.0f, 0.0f);
 	m_scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 }

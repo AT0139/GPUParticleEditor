@@ -12,6 +12,7 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "SkyDome.h"
+#include "Tree.h"
 
 class Scene
 {
@@ -34,12 +35,13 @@ public:
 
 		//3Dオブジェクト
 		AddGameObject<SkyDome>(OBJECT);
-		AddGameObject<Field>(OBJECT);
-		AddGameObject<Stair>(OBJECT);
 		AddGameObject<Player>(OBJECT);
+		AddGameObject<Field>(OBJECT);
+		AddGameObject<Stair>(OBJECT)->SetPosition(D3DXVECTOR3(10.0f, 0.0f, 10.0f));
 		AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(-2.0f, 1.0f, 3.0f));
 		AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 3.0f));
 		AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(2.0f, 1.0f, 3.0f));
+		AddGameObject<Tree>(OBJECT)->SetPosition(D3DXVECTOR3(-8.0f, 2.0f, 5.0f));
 
 		//2Dオブジェクト
 		AddGameObject<Polygon2D>(UI);

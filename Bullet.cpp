@@ -32,16 +32,20 @@ void Bullet::Uninit()
 }
 
 void Bullet::Update()
-{
-	m_position.z += MOVE_SPEED;
+{	
+	Scene* scene = Manager::GetScene();
 
-	if (m_position.z > 6.0f)
+	Player* player = scene->GetGameObject<Player>(scene->OBJECT);
+	
+	m_position += player->GetForward() * MOVE_SPEED;
+
+	if (m_count > DESTROY_COUNT)
 	{
 		SetDestroy();
 		return;
 	}
 
-	Scene* scene = Manager::GetScene();
+
 	//“G“–‚½‚è”»’è
 	std::vector<Enemy*> enemyList = scene->GetGameObjects<Enemy>(scene->OBJECT);
 
@@ -60,7 +64,8 @@ void Bullet::Update()
 		}
 		
 	}
-	//ŠK’i“–‚½‚è”»’è
+	
+	m_count++;
 }
 
 void Bullet::Draw()
