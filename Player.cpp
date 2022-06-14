@@ -35,15 +35,26 @@ void Player::Uninit()
 
 void Player::Update()
 {
-	if (Input::GetKeyPress('W'))
-		m_position.z += MOVE_SPEED;
-	if (Input::GetKeyPress('A'))
-		m_position.x -= MOVE_SPEED;
-	if (Input::GetKeyPress('S'))
-		m_position.z -= MOVE_SPEED;
-	if (Input::GetKeyPress('D'))
-		m_position.x += MOVE_SPEED;
+	//ROTATION
+	if (Input::GetKeyPress('Q'))
+		m_rotation.y -= 0.1f;
+	if (Input::GetKeyPress('E'))
+		m_rotation.y += 0.1f;
 
+	D3DXVECTOR3 forward = GetForward();
+	D3DXVECTOR3 right = GetRight();
+
+	//MOVE
+	if (Input::GetKeyPress('W'))
+		m_position += forward * MOVE_SPEED;
+	if (Input::GetKeyPress('A'))
+		m_position -= right * MOVE_SPEED;
+	if (Input::GetKeyPress('S'))
+		m_position -= forward * MOVE_SPEED;
+	if (Input::GetKeyPress('D'))
+		m_position += right * MOVE_SPEED;
+
+	//SHOT
 	if (Input::GetKeyTrigger(VK_SPACE))
 	{
 		Scene* scene = Manager::GetScene();
@@ -63,7 +74,7 @@ void Player::Draw()
 	//ワールドマトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.x, m_rotation.y, m_rotation.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
 	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 	world = scale * rot * trans;
 	Renderer::GetInstance()->SetWorldMatrix(&world);

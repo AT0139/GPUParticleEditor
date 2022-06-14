@@ -15,6 +15,7 @@ ResourceManager* ResourceManager::GetInstance()
 	return m_singleton;
 }
 
+
 Model* ResourceManager::GetModelData(std::string filePath)
 {
 	//ƒL[‚ª‘¶İ‚µ‚Ä‚¢‚é‚©
@@ -25,6 +26,7 @@ Model* ResourceManager::GetModelData(std::string filePath)
 	}
 	return m_modelList[filePath];
 }
+
 
 ID3D11ShaderResourceView* ResourceManager::GetTextureData(std::string filePath)
 {

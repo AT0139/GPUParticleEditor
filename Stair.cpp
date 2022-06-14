@@ -16,7 +16,7 @@ void Stair::Init()
 	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
 	m_position = D3DXVECTOR3(3.0f, 1.0f, 0.0f);
-	m_rotation = D3DXVECTOR3(D3DX_PI + 1.0f, 0.0f, 0.0f);
+	m_rotation = D3DXVECTOR3(0.0f, D3DX_PI + 1.0f, 0.0f);
 	m_scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 }
 
@@ -47,7 +47,7 @@ void Stair::Draw()
 	////ワールドマトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.x, m_rotation.y, m_rotation.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
 	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 	world = scale * rot * trans;
 	Renderer::GetInstance()->SetWorldMatrix(&world);
