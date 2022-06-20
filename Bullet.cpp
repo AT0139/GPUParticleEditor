@@ -24,6 +24,9 @@ void Bullet::Init()
 	m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
+
+	Player* player = Manager::GetScene()->GetGameObject<Player>(Manager::GetScene()->OBJECT);
+	m_forward = player->GetForward();
 }
 
 void Bullet::Uninit()
@@ -36,10 +39,8 @@ void Bullet::Uninit()
 void Bullet::Update()
 {	
 	Scene* scene = Manager::GetScene();
-
-	Player* player = scene->GetGameObject<Player>(scene->OBJECT);
 	
-	m_position += player->GetForward() * MOVE_SPEED;
+	m_position += m_forward * MOVE_SPEED;
 
 	if (m_count > DESTROY_COUNT)
 	{

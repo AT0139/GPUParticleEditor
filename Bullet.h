@@ -22,6 +22,7 @@ private:
 	ID3D11PixelShader* m_pixelShader;
 	ID3D11InputLayout* m_vertexLayout;
 
+	D3DXVECTOR3 m_forward;
 
 	int m_count;
 };
