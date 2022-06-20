@@ -3,6 +3,7 @@
 #include "Tree.h"
 #include "manager.h"
 #include "Scene.h"
+#include "Camera.h"
 #include "ResourceManager.h"
 
 void Tree::Init()

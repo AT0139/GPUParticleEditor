@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "input.h"
 #include "Scene.h"
+#include "Player.h"
 
 void Camera::Init()
 {
@@ -35,7 +36,7 @@ void Camera::Update()
 
 	//サードパーソンビュー(右寄り)
 	m_target = playerPos + playerRight;
-	m_position = playerPos - playerForward * 5.0f + playerRight+ D3DXVECTOR3(0.0f, 2.0f, 0.0f);
+	m_position = playerPos - playerForward * 5.0f + playerRight + D3DXVECTOR3(0.0f, 2.0f, 0.0f);
 
 	////ファーストパーソンビュー
 	//m_target = playerPos + playerForward;

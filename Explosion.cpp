@@ -3,6 +3,7 @@
 #include "Explosion.h"
 #include "manager.h"
 #include "Scene.h"
+#include "Camera.h"
 #include "ResourceManager.h"
 
 void Explosion::Init()

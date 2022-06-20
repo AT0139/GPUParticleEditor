@@ -3,6 +3,9 @@
 #include "Scene.h"
 #include "manager.h"
 #include "input.h"
+#include "Game.h"
+#include "Title.h"
+#include "Result.h"
 
 Manager* Manager::m_singleton = nullptr;	//インスタンス
 
@@ -13,7 +16,7 @@ void Manager::Init()
 	Renderer::GetInstance()->Init();
 	Input::Init();
 
-	m_scene = new Scene();
+	m_scene = new Game();
 	m_scene->Init();
 }
 

@@ -4,9 +4,11 @@
 #include "model.h"
 #include "ResourceManager.h"
 #include "Scene.h"
+#include "Enemy.h"
 #include "Bullet.h"
 #include "input.h"
 #include "Explosion.h"
+#include "Player.h"
 
 Model* Bullet::m_model;	//スタティックメンバ変数再度宣言
 
