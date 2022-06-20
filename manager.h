@@ -1,6 +1,6 @@
 #pragma once
 
-class Scene;
+#include "Scene.h"
 
 class Manager
 {
@@ -13,6 +13,18 @@ public:
 	
 	static Manager* GetInstance();
 	static Scene* GetScene() { return m_scene; };
+
+	template<typename T>
+	static void SetScene()
+	{
+		if (m_scene)
+		{
+			m_scene->Uninit();
+			delete m_scene;
+		}
+		m_scene = new T();
+		m_scene->Init();
+	}
 
 private:
 	Manager() {}

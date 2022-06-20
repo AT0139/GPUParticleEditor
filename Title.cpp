@@ -1,5 +1,8 @@
 #include "Title.h"
 #include "Polygon2D.h"
+#include "input.h"
+#include "manager.h"
+#include "Game.h"
 
 void Title::Init()
 {
@@ -14,4 +17,9 @@ void Title::Uninit()
 void Title::Update()
 {
 	Scene::Update();
+
+	if (Input::GetKeyTrigger(VK_RETURN))
+	{
+		Manager::GetInstance()->SetScene<Game>();
+	}
 }

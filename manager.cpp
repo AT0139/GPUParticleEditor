@@ -9,15 +9,14 @@
 
 Manager* Manager::m_singleton = nullptr;	//インスタンス
 
-Scene* Manager::m_scene;
+Scene* Manager::m_scene = nullptr;
 
 void Manager::Init()
 {
 	Renderer::GetInstance()->Init();
 	Input::Init();
 
-	m_scene = new Game();
-	m_scene->Init();
+	SetScene<Title>();
 }
 
 

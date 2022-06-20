@@ -41,6 +41,20 @@ ID3D11ShaderResourceView* ResourceManager::GetTextureData(std::string filePath)
 	return m_textureList[filePath];
 }
 
+void ResourceManager::Release()
+{
+	for (const auto model : m_modelList)
+	{
+		model.second->Unload();
+	}
+	m_modelList.clear();
+	for (const auto texture : m_textureList)
+	{
+		texture.second->Release();
+	}
+	m_textureList.clear();
+}
+
 
 ResourceManager::~ResourceManager()
 {

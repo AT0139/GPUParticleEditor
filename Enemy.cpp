@@ -59,6 +59,6 @@ void Enemy::Load()
 
 void Enemy::Unload()
 {
-	m_model->Unload();
-	delete m_model;
+	//m_model->Unload();
+	//delete m_model;
 }

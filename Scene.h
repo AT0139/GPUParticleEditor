@@ -22,7 +22,7 @@ public:
 
 	virtual void Init() = 0;	//ƒˆ‰¼‘zŠÖ”
 
-	void Uninit()
+	virtual void Uninit()
 	{
 		for (int i = 0; i < LAYER_MAX; i++)
 		{
@@ -34,7 +34,7 @@ public:
 			m_gameObjects[i].clear();
 		}
 	}
-	void Update()
+	virtual void Update()
 	{
 		for (int i = 0; i < LAYER_MAX; i++)
 		{

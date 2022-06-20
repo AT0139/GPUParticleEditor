@@ -98,6 +98,6 @@ void Bullet::Load()
 
 void Bullet::Unload()
 {
-	m_model->Unload();
-	delete m_model;
+	//m_model->Unload();
+	//delete m_model;
 }	

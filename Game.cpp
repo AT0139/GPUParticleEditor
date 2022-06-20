@@ -9,6 +9,10 @@
 #include "Enemy.h"
 #include "SkyDome.h"
 #include "Tree.h"
+#include "input.h"
+#include "manager.h"
+#include "Result.h"
+#include "ResourceManager.h"
 
 void Game::Init()
 {
@@ -32,9 +36,15 @@ void Game::Init()
 void Game::Uninit()
 {
 	Scene::Uninit();
+	ResourceManager::GetInstance()->Release();
 }
 
 void Game::Update()
 {
 	Scene::Update();
+
+	if (Input::GetKeyTrigger(VK_RETURN))
+	{
+		Manager::GetInstance()->SetScene<Result>();
+	}
 }

@@ -15,6 +15,8 @@ public:
 	Model* GetModelData(std::string filePath);
 	ID3D11ShaderResourceView* GetTextureData(std::string filePath);
 
+	void Release();
+
 private:
 	ResourceManager() {}
 	~ResourceManager();

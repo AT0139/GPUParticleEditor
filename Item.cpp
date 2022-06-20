@@ -21,8 +21,8 @@ void Item::Init()
 
 void Item::Uninit()
 {
-	m_model->Unload();
-	delete m_model;
+	//m_model->Unload();
+	//delete m_model;
 
 	m_vertexLayout->Release();
 	m_vertexShader->Release();
