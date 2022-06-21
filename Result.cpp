@@ -1,4 +1,5 @@
 #include "Result.h"
+#include "main.h"
 #include "Polygon2D.h"
 #include "input.h"
 #include "manager.h"
