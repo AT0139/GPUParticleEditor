@@ -13,6 +13,7 @@
 #include "manager.h"
 #include "Result.h"
 #include "ResourceManager.h"
+#include "audio.h"
 
 void Game::Init()
 {
@@ -31,6 +32,11 @@ void Game::Init()
 
 	//2Dオブジェクト
 	AddGameObject<Polygon2D>(UI);
+
+	Audio* bgm = AddGameObject<Audio>(UI);
+	bgm->Load("asset\\audio\\bgm.wav");
+	bgm->Play(true);
+
 }
 
 void Game::Uninit()

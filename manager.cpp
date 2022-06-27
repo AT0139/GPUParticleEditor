@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "Title.h"
 #include "Result.h"
+#include "audio.h"
 
 Manager* Manager::m_singleton = nullptr;	//インスタンス
 
@@ -15,6 +16,7 @@ void Manager::Init()
 {
 	Renderer::GetInstance()->Init();
 	Input::Init();
+	Audio::InitMaster();
 
 	SetScene<Title>();
 }
@@ -25,6 +27,7 @@ void Manager::Uninit()
 	m_scene->Uninit();
 	delete m_scene;
 
+	Audio::UninitMaster();
 	Input::Uninit();
 	Renderer::GetInstance()->Uninit();
 }

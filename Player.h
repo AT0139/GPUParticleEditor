@@ -13,6 +13,7 @@ public:
 private:
 
 	class Model* m_model;
+	class Audio* m_shotSE;
 
 	ID3D11VertexShader* m_vertexShader;
 	ID3D11PixelShader* m_pixelShader;

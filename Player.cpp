@@ -4,8 +4,10 @@
 #include "Scene.h"
 #include "manager.h"
 #include "Bullet.h"
+#include "audio.h"
 #include "Player.h"
 #include "input.h"
+
 
 void Player::Init()
 {
@@ -17,6 +19,10 @@ void Player::Init()
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
 	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
+
+	Scene* scene = Manager::GetInstance()->GetScene();
+	m_shotSE = scene->AddGameObject<Audio>(scene->UI);
+	m_shotSE->Load("asset\\audio\\wan.wav");
 
 	m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -59,6 +65,8 @@ void Player::Update()
 	{
 		Scene* scene = Manager::GetScene();
 		scene->AddGameObject<Bullet>(scene->OBJECT)->SetPosition(m_position);
+
+		m_shotSE->Play();
 	}
 }
 
