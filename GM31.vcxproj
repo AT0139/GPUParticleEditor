@@ -172,6 +172,7 @@
     <ClCompile Include="Polygon2D.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="Result.cpp" />
+    <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="SkyDome.cpp" />
     <ClCompile Include="Stair.cpp" />
     <ClCompile Include="Title.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="renderer.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Shadow.h" />
     <ClInclude Include="SkyDome.h" />
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Title.h" />

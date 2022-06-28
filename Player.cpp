@@ -5,6 +5,7 @@
 #include "manager.h"
 #include "Bullet.h"
 #include "audio.h"
+#include "Shadow.h"
 #include "Player.h"
 #include "input.h"
 
@@ -23,6 +24,10 @@ void Player::Init()
 	Scene* scene = Manager::GetInstance()->GetScene();
 	m_shotSE = scene->AddGameObject<Audio>(scene->UI);
 	m_shotSE->Load("asset\\audio\\wan.wav");
+
+	m_shadow = scene->AddGameObject<Shadow>(scene->OBJECT);
+	m_shadow->SetPosition(m_position);
+	m_shadow->SetScale(D3DXVECTOR3(2.0f, 1.0f, 2.0f));
 
 	m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -68,6 +73,10 @@ void Player::Update()
 
 		m_shotSE->Play();
 	}
+
+	D3DXVECTOR3 shadowPos = m_position;
+	shadowPos.y = 0.01f;
+	m_shadow->SetPosition(shadowPos);
 }
 
 void Player::Draw()

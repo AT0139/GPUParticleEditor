@@ -13,6 +13,7 @@ public:
 	virtual void Draw() = 0;
 
 	void SetPosition(D3DXVECTOR3 position) { m_position = position; }
+	void SetScale(D3DXVECTOR3 scale) { m_scale = scale; }
 	D3DXVECTOR3 GetPosition() { return m_position; }
 	D3DXVECTOR3 GetForward()
 	{
