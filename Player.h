@@ -12,7 +12,7 @@ public:
 
 private:
 
-	class Model* m_model;
+	class AnimationModel *m_model;
 	class Audio* m_shotSE;
 	class Shadow* m_shadow;
 

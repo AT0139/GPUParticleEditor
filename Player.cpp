@@ -1,6 +1,6 @@
 #include "main.h"
 #include "renderer.h"
-#include "model.h"
+#include "AnimationModel.h"
 #include "Scene.h"
 #include "manager.h"
 #include "Bullet.h"
@@ -13,8 +13,8 @@
 void Player::Init()
 {
 	//ƒ‚ƒfƒ‹“Ç‚Ýž‚Ý
-	m_model = new Model();
-	m_model->Load((char*)"asset\\model\\torus.obj");
+	m_model = new AnimationModel();
+	m_model->Load((char*)"asset\\model\\Akai_Idle.fbx");
 
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
@@ -25,13 +25,13 @@ void Player::Init()
 	m_shotSE = scene->AddGameObject<Audio>(scene->UI);
 	m_shotSE->Load("asset\\audio\\wan.wav");
 
-	m_shadow = scene->AddGameObject<Shadow>(scene->OBJECT);
-	m_shadow->SetPosition(m_position);
-	m_shadow->SetScale(D3DXVECTOR3(2.0f, 1.0f, 2.0f));
+	//m_shadow = scene->AddGameObject<Shadow>(scene->OBJECT);
+	//m_shadow->SetPosition(m_position);
+	//m_shadow->SetScale(D3DXVECTOR3(2.0f, 1.0f, 2.0f));
 
 	m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	m_scale = D3DXVECTOR3(0.01f, 0.01f, 0.01f);
 }
 
 void Player::Uninit()
@@ -74,9 +74,9 @@ void Player::Update()
 		m_shotSE->Play();
 	}
 
-	D3DXVECTOR3 shadowPos = m_position;
-	shadowPos.y = 0.01f;
-	m_shadow->SetPosition(shadowPos);
+	//D3DXVECTOR3 shadowPos = m_position;
+	//shadowPos.y = 0.01f;
+	//m_shadow->SetPosition(shadowPos);
 }
 
 void Player::Draw()

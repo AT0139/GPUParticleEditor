@@ -11,7 +11,7 @@ public:
 	virtual void Draw()override;
 
 private:
-	Model* m_model;
+	class Model* m_model;
 
 	ID3D11VertexShader* m_vertexShader;
 	ID3D11PixelShader* m_pixelShader;
