@@ -2,6 +2,13 @@
 
 #include "GameObject.h"
 
+#define MAX_BONES 48
+
+struct SkinningBuffer
+{
+	D3DXMATRIX SkinTransform[MAX_BONES];
+};
+
 class Player :public GameObject
 {
 public:
@@ -11,7 +18,6 @@ public:
 	virtual void Draw()override;
 
 private:
-
 	class AnimationModel *m_model;
 	class Audio* m_shotSE;
 	class Shadow* m_shadow;
@@ -21,4 +27,6 @@ private:
 	ID3D11InputLayout* m_vertexLayout;
 	
 	const float MOVE_SPEED = 0.1f;
+
+	int m_frame;
 };

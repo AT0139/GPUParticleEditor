@@ -1,6 +1,4 @@
 
-
-
 cbuffer WorldBuffer : register(b0)
 {
 	matrix World;
@@ -14,9 +12,6 @@ cbuffer ProjectionBuffer : register(b2)
 	matrix Projection;
 }
 
-
-
-
 struct MATERIAL
 {
 	float4 Ambient;
@@ -27,7 +22,7 @@ struct MATERIAL
 	float3 Dummy;
 };
 
-cbuffer MaterialBuffer : register(b3)
+cbuffer MaterialBuffer : register(b5)
 {
 	MATERIAL Material;
 }
@@ -49,10 +44,6 @@ cbuffer LightBuffer : register(b4)
 	LIGHT Light;
 }
 
-
-
-
-
 struct VS_IN
 {
 	float4 Position		: POSITION0;
@@ -67,4 +58,5 @@ struct PS_IN
 	float4 Position		: SV_POSITION;
 	float4 Diffuse		: COLOR0;
 	float2 TexCoord		: TEXCOORD0;
+    float3 Normal : NORMAL0;
 };

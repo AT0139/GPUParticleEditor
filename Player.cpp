@@ -14,7 +14,7 @@ void Player::Init()
 {
 	//ƒ‚ƒfƒ‹“Ç‚Ýž‚Ý
 	m_model = new AnimationModel();
-	m_model->Load((char*)"asset\\model\\Akai_Idle.fbx");
+	m_model->Load((char*)"asset\\model\\Akai_Jump.fbx");
 
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
@@ -32,12 +32,13 @@ void Player::Init()
 	m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_scale = D3DXVECTOR3(0.01f, 0.01f, 0.01f);
+	//m_scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 }
 
 void Player::Uninit()
 {
-	//m_model->Unload();
-	//delete m_model;
+	m_model->Unload();
+	delete m_model;
 
 	m_vertexLayout->Release();
 	m_vertexShader->Release();
@@ -46,6 +47,8 @@ void Player::Uninit()
 
 void Player::Update()
 {
+	m_model->Update(m_frame);
+
 	//ROTATION
 	if (Input::GetKeyPress('Q'))
 		m_rotation.y -= 0.1f;
@@ -77,6 +80,9 @@ void Player::Update()
 	//D3DXVECTOR3 shadowPos = m_position;
 	//shadowPos.y = 0.01f;
 	//m_shadow->SetPosition(shadowPos);
+
+	m_frame++;
+
 }
 
 void Player::Draw()
