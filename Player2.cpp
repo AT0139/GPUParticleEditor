@@ -6,15 +6,15 @@
 #include "Bullet.h"
 #include "audio.h"
 #include "Shadow.h"
-#include "Player.h"
+#include "Player2.h"
 #include "input.h"
 
 
-void Player::Init()
+void Player2::Init()
 {
 	//モデル読み込み
 	m_model = new AnimationModel();
-	m_model->Load((char*)"asset\\model\\Akai_Run.fbx");
+	m_model->Load((char*)"asset\\model\\ship.fbx");
 
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
@@ -29,13 +29,13 @@ void Player::Init()
 	//m_shadow->SetPosition(m_position);
 	//m_shadow->SetScale(D3DXVECTOR3(2.0f, 1.0f, 2.0f));
 
-	m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_position = D3DXVECTOR3(3.0f, 0.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_scale = D3DXVECTOR3(0.008f, 0.008f, 0.008f);
+	m_scale = D3DXVECTOR3(1, 1, 1);
 	//m_scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 }
 
-void Player::Uninit()
+void Player2::Uninit()
 {
 	m_model->Unload();
 	delete m_model;
@@ -45,7 +45,7 @@ void Player::Uninit()
 	m_pixelShader->Release();
 }
 
-void Player::Update()
+void Player2::Update()
 {
 	m_model->Update(m_frame);
 
@@ -85,7 +85,7 @@ void Player::Update()
 
 }
 
-void Player::Draw()
+void Player2::Draw()
 {
 	//入力レイアウト設定
 	Renderer::GetInstance()->GetDeviceContext()->IASetInputLayout(m_vertexLayout);

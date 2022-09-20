@@ -191,7 +191,8 @@ void AnimationModel::Unload()
 
 	for (auto pair : m_texture)
 	{
-		pair.second->Release();
+		if (pair.second)
+			pair.second->Release();
 	}
 
 	aiReleaseImport(m_aiScene);

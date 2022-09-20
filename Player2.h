@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-class Player :public GameObject
+class Player2 :public GameObject
 {
 public:
 	virtual void Init()override;

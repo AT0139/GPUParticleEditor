@@ -90,6 +90,9 @@
     <ClCompile Include="AnimationModel.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Player2.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -167,6 +170,9 @@
     <ClInclude Include="AnimationModel.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Player2.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="unlitTextureVS.hlsl" />
@@ -174,8 +180,5 @@
     <FxCompile Include="vertexLightingVS.hlsl" />
     <FxCompile Include="common.hlsl" />
     <FxCompile Include="unlitTexturePS.hlsl" />
-    <FxCompile Include="skinningCommon.hlsl" />
-    <FxCompile Include="SkinningPS.hlsl" />
-    <FxCompile Include="skinningVS.hlsl" />
   </ItemGroup>
 </Project>
