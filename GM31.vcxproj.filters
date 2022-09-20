@@ -174,5 +174,8 @@
     <FxCompile Include="vertexLightingVS.hlsl" />
     <FxCompile Include="common.hlsl" />
     <FxCompile Include="unlitTexturePS.hlsl" />
+    <FxCompile Include="skinningCommon.hlsl" />
+    <FxCompile Include="SkinningPS.hlsl" />
+    <FxCompile Include="skinningVS.hlsl" />
   </ItemGroup>
 </Project>

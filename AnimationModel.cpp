@@ -215,7 +215,10 @@ void AnimationModel::Update(int frame)
 		aiQuaternion rot = nodeAnim->mRotationKeys[f].mValue;
 
 		f = frame % nodeAnim->mNumPositionKeys;
-		aiVector3D pos = nodeAnim->mPositionKeys[f].mValue;
+		aiVector3D pos;
+		//アニメーションデータが1より大きい場合(アニメーションデータがある)
+		if (nodeAnim->mNumPositionKeys > 1)
+			pos = nodeAnim->mPositionKeys[f].mValue;
 		
 		bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot, pos);
 	}
@@ -409,6 +412,8 @@ void AnimationModel::CreateBone(aiNode* node)
 {
 	BONE bone;
 
+	bone.TransMatrix = node->mTransformation;
+
 	m_bone[node->mName.C_Str()] = bone;
 
 	for (unsigned int n = 0; n < node->mNumChildren; n++)
@@ -425,6 +430,7 @@ void AnimationModel::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
 	aiMatrix4x4 worldMatrix;
 
 	worldMatrix = matrix;
+	worldMatrix *= bone->TransMatrix;
 	worldMatrix *= bone->AnimationMatrix;
 
 	bone->Matrix = worldMatrix;

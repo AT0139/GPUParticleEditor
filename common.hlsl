@@ -27,9 +27,6 @@ cbuffer MaterialBuffer : register(b5)
 	MATERIAL Material;
 }
 
-
-
-
 struct LIGHT
 {
 	bool Enable;
