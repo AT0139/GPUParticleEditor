@@ -14,8 +14,11 @@ void Player::Init()
 {
 	//ƒ‚ƒfƒ‹“Ç‚Ýž‚Ý
 	m_model = new AnimationModel();
-	m_model->Load((char*)"asset\\model\\Akai_Run.fbx");
+	m_model->Load((char*)"asset\\model\\Akai_Idle.fbx");
+	m_model->LoadAnimation((char*)"asset\\model\\Akai_Idle.fbx", "Idol");
+	m_model->LoadAnimation((char*)"asset\\model\\Akai_FastRun.fbx","Run");
 
+	m_animationName = "Idol";
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
@@ -47,7 +50,7 @@ void Player::Uninit()
 
 void Player::Update()
 {
-	m_model->Update(m_frame);
+	m_model->Update(m_animationName.c_str(), m_frame);
 
 	//ROTATION
 	if (Input::GetKeyPress('Q'))
@@ -60,11 +63,20 @@ void Player::Update()
 
 	//MOVE
 	if (Input::GetKeyPress('W'))
+	{
 		m_position += forward * MOVE_SPEED;
+		m_animationName = "Run";
+	}
+	else if (Input::GetKeyPress('S'))
+	{
+		m_position -= forward * MOVE_SPEED;
+		m_animationName = "Run";
+	}
+	else
+		m_animationName = "Idol";
+
 	if (Input::GetKeyPress('A'))
 		m_position -= right * MOVE_SPEED;
-	if (Input::GetKeyPress('S'))
-		m_position -= forward * MOVE_SPEED;
 	if (Input::GetKeyPress('D'))
 		m_position += right * MOVE_SPEED;
 

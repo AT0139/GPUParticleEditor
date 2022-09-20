@@ -31,8 +31,9 @@ class AnimationModel
 {
 public:
 	void Load(const char* FileName);
+	void LoadAnimation(const char* fileName, const char* animarionName);
 	void Unload();
-	void Update(int frame);
+	void Update(const char* animationName,int frame);
 	void Draw();
 
 private:
@@ -41,6 +42,7 @@ private:
 	ID3D11Buffer** m_indexBuffer;
 
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_texture;
+	std::unordered_map<std::string, const aiScene*>m_animation;
 
 	std::vector<DEFORM_VERTEX>* m_deformVertex;	//変形後頂点データ
 	std::unordered_map<std::string, BONE>m_bone;	//ボーンデータ(名前で参照)

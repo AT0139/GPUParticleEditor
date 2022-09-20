@@ -177,6 +177,12 @@ void AnimationModel::Load(const char* FileName)
 	}
 }
 
+void AnimationModel::LoadAnimation(const char* fileName, const char* animarionName)
+{
+	m_animation[animarionName] = aiImportFile(fileName, aiProcess_ConvertToLeftHanded);
+	assert(m_animation[animarionName]);
+}
+
 void AnimationModel::Unload()
 {
 	for (unsigned int m = 0; m < m_aiScene->mNumMeshes; m++)
@@ -196,15 +202,20 @@ void AnimationModel::Unload()
 	}
 
 	aiReleaseImport(m_aiScene);
+
+	for (auto pair : m_animation)
+	{
+		aiReleaseImport(pair.second);
+	}
 }
 
-void AnimationModel::Update(int frame)
+void AnimationModel::Update(const char* animationName,int frame)
 {
-	if (!m_aiScene->HasAnimations())
+	if (!m_animation[animationName]->HasAnimations())
 		return;
 
 	//アニメーションデータからボーンマトリクス算出
-	aiAnimation* animation = m_aiScene->mAnimations[0];
+	aiAnimation* animation = m_animation[animationName]->mAnimations[0];
 
 	for (unsigned int c = 0; c < animation->mNumChannels; c++)
 	{

@@ -10,6 +10,7 @@ public:
 	virtual void Update()override;
 	virtual void Draw()override;
 
+	std::string m_animationName;
 private:
 	class AnimationModel *m_model;
 	class Audio* m_shotSE;

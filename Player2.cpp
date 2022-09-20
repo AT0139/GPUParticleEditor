@@ -47,7 +47,7 @@ void Player2::Uninit()
 
 void Player2::Update()
 {
-	m_model->Update(m_frame);
+	//m_model->Update(m_frame);
 
 	//ROTATION
 	if (Input::GetKeyPress('Q'))

@@ -30,7 +30,7 @@ void Game::Init()
 	AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 3.0f));
 	AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(2.0f, 1.0f, 3.0f));
 	AddGameObject<Tree>(OBJECT)->SetPosition(D3DXVECTOR3(-8.0f, 2.0f, 5.0f));
-	AddGameObject<Player2>(OBJECT);
+	//AddGameObject<Player2>(OBJECT);
 
 	//2Dオブジェクト
 	//AddGameObject<Polygon2D>(UI);
