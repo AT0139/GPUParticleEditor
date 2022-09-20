@@ -8,13 +8,12 @@
 #include "Shadow.h"
 #include "Player.h"
 #include "input.h"
-
+#include "ResourceManager.h"
 
 void Player::Init()
 {
 	//ƒ‚ƒfƒ‹“Ç‚Ýž‚Ý
-	m_model = new AnimationModel();
-	m_model->Load((char*)"asset\\model\\Akai_Idle.fbx");
+	m_model = ResourceManager::GetInstance()->GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
 	m_model->LoadAnimation((char*)"asset\\model\\Akai_Idle.fbx", "Idol");
 	m_model->LoadAnimation((char*)"asset\\model\\Akai_FastRun.fbx","Run");
 
@@ -40,8 +39,8 @@ void Player::Init()
 
 void Player::Uninit()
 {
-	m_model->Unload();
-	delete m_model;
+	//m_model->Unload();
+	//delete m_model;
 
 	m_vertexLayout->Release();
 	m_vertexShader->Release();

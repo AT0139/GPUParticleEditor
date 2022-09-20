@@ -4,6 +4,11 @@
 
 
 
+AnimationModel::AnimationModel(const char* fileName)
+{
+	Load(fileName);
+}
+
 void AnimationModel::Load(const char* FileName)
 {
 	const std::string modelPath(FileName);
@@ -228,9 +233,9 @@ void AnimationModel::Update(const char* animationName,int frame)
 
 		f = frame % nodeAnim->mNumPositionKeys;
 		aiVector3D pos;
-		//アニメーションデータが1より大きい場合(アニメーションデータがある)
-		if (nodeAnim->mNumPositionKeys > 1)
-			pos = nodeAnim->mPositionKeys[f].mValue;
+		//アニメーションデータが1より大きい場合(アニメーションデータがある)(クリーチャーになる場合はコメントアウト)
+		//if (nodeAnim->mNumPositionKeys > 1)
+		//	pos = nodeAnim->mPositionKeys[f].mValue;
 		
 		bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot, pos);
 	}

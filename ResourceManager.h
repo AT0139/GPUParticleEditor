@@ -2,17 +2,16 @@
 
 //モデルデータを管理するクラス
 
-#include <map>
+#include <unordered_map>
 #include <string>
-
-class Model;
 
 class ResourceManager
 {
 public:
 	static ResourceManager* GetInstance();
 
-	Model* GetModelData(std::string filePath);
+	class Model* GetModelData(std::string filePath);
+	class AnimationModel* GetAnimationModelData(std::string filePath);
 	ID3D11ShaderResourceView* GetTextureData(std::string filePath);
 
 	void Release();
@@ -23,6 +22,7 @@ private:
 
 	static ResourceManager* m_singleton;
 
-	std::map <std::string,Model*> m_modelList;
-	std::map <std::string, ID3D11ShaderResourceView*> m_textureList;
+	std::unordered_map <std::string, Model*> m_modelList;
+	std::unordered_map <std::string, AnimationModel*>m_animationModelList;
+	std::unordered_map <std::string, ID3D11ShaderResourceView*> m_textureList;
 };

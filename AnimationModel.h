@@ -30,6 +30,9 @@ struct BONE
 class AnimationModel
 {
 public:
+	AnimationModel() {}
+	AnimationModel(const char* fileName);
+
 	void Load(const char* FileName);
 	void LoadAnimation(const char* fileName, const char* animarionName);
 	void Unload();

@@ -1,6 +1,7 @@
 #include "main.h"
 #include "renderer.h"
 #include "model.h"
+#include "AnimationModel.h"
 #include "ResourceManager.h"
 
 ResourceManager* ResourceManager::m_singleton = nullptr;
@@ -25,6 +26,15 @@ Model* ResourceManager::GetModelData(std::string filePath)
 		m_modelList[filePath] = new Model(filePath.c_str());
 	}
 	return m_modelList[filePath];
+}
+
+AnimationModel* ResourceManager::GetAnimationModelData(std::string filePath)
+{
+	if (m_animationModelList.find(filePath) == m_animationModelList.end())
+	{
+		m_animationModelList[filePath] = new AnimationModel(filePath.c_str());
+	}
+	return m_animationModelList[filePath];
 }
 
 
@@ -53,6 +63,11 @@ void ResourceManager::Release()
 		texture.second->Release();
 	}
 	m_textureList.clear();
+	for (const auto model : m_animationModelList)
+	{
+		model.second->Unload();
+	}
+	m_animationModelList.clear();
 }
 
 
@@ -68,6 +83,11 @@ ResourceManager::~ResourceManager()
 		texture.second->Release();
 	}
 	m_textureList.clear();
+	for (const auto model : m_animationModelList)
+	{
+		model.second->Unload();
+	}
+	m_animationModelList.clear();
 	
 	delete m_singleton;
 	m_singleton = nullptr;
