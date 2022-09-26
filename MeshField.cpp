@@ -97,7 +97,7 @@ void MeshField::Init()
 	}
 
 	//テクスチャ読み込み
-	m_texture = ResourceManager::GetInstance()->GetTextureData("asset/texture/field000.jpg");
+	m_texture = ResourceManager::GetInstance()->GetTextureData("asset/texture/forest.jpg");
 	assert(m_texture);
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
