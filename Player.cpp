@@ -32,7 +32,7 @@ void Player::Init()
 	//m_shadow->SetScale(D3DXVECTOR3(2.0f, 1.0f, 2.0f));
 
 	m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_rotation = D3DXVECTOR3(0.0f, 3.14f, 0.0f);
 	m_scale = D3DXVECTOR3(0.008f, 0.008f, 0.008f);
 	//m_scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 }
@@ -63,21 +63,21 @@ void Player::Update()
 	//MOVE
 	if (Input::GetKeyPress('W'))
 	{
-		m_position += forward * MOVE_SPEED;
+		m_position -= forward * MOVE_SPEED;
 		m_animationName = "Run";
 	}
 	else if (Input::GetKeyPress('S'))
 	{
-		m_position -= forward * MOVE_SPEED;
+		m_position += forward * MOVE_SPEED;
 		m_animationName = "Run";
 	}
 	else
 		m_animationName = "Idol";
 
 	if (Input::GetKeyPress('A'))
-		m_position -= right * MOVE_SPEED;
-	if (Input::GetKeyPress('D'))
 		m_position += right * MOVE_SPEED;
+	if (Input::GetKeyPress('D'))
+		m_position -= right * MOVE_SPEED;
 
 	//SHOT
 	if (Input::GetKeyTrigger(VK_SPACE))

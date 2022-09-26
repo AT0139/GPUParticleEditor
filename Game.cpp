@@ -1,8 +1,9 @@
 #include "main.h"
+#include "renderer.h"
 #include "Game.h"
 #include "Polygon2D.h"
 #include "Camera.h"
-#include "Field.h"
+#include "MeshField.h"
 #include "Player.h"
 #include "Stair.h"
 #include "Bullet.h"
@@ -24,7 +25,7 @@ void Game::Init()
 	//3Dオブジェクト
 	AddGameObject<SkyDome>(OBJECT);
 	AddGameObject<Player>(OBJECT);
-	AddGameObject<Field>(OBJECT);
+	AddGameObject<MeshField>(OBJECT);
 	AddGameObject<Stair>(OBJECT)->SetPosition(D3DXVECTOR3(10.0f, 0.0f, 10.0f));
 	AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(-2.0f, 1.0f, 3.0f));
 	AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 3.0f));

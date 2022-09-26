@@ -179,6 +179,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
+    <ClCompile Include="MeshField.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="Player2.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
+    <ClInclude Include="MeshField.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="Player2.h" />
     <ClInclude Include="ResourceManager.h" />
