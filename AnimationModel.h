@@ -36,7 +36,7 @@ public:
 	void Load(const char* FileName);
 	void LoadAnimation(const char* fileName, const char* animarionName);
 	void Unload();
-	void Update(const char* animationName,int frame);
+	void Update(const char* animationName1, const char* animationName2, float blendRate, int frame);
 	void Draw();
 
 private:

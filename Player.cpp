@@ -9,13 +9,15 @@
 #include "Player.h"
 #include "input.h"
 #include "ResourceManager.h"
+#include "MeshField.h"
 
 void Player::Init()
 {
 	//モデル読み込み
 	m_model = ResourceManager::GetInstance()->GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
-	m_model->LoadAnimation((char*)"asset\\model\\Akai_Idle.fbx", "Idol");
-	m_model->LoadAnimation((char*)"asset\\model\\Akai_FastRun.fbx","Run");
+	m_model->LoadAnimation((char*)"asset\\model\\Akai_Idle.fbx", "Idle");
+	m_model->LoadAnimation((char*)"asset\\model\\Akai_Run.fbx", "Run");
+	m_model->LoadAnimation((char*)"asset\\model\\Akai_WalkingBackward.fbx", "WalkingBack");
 
 	m_animationName = "Idol";
 
@@ -23,7 +25,7 @@ void Player::Init()
 
 	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "vertexLightingPS.cso");
 
-	Scene* scene = Manager::GetInstance()->GetScene();
+
 	//m_shotSE = scene->AddGameObject<Audio>(scene->UI);
 	//m_shotSE->Load("asset\\audio\\wan.wav");
 
@@ -32,7 +34,7 @@ void Player::Init()
 	//m_shadow->SetScale(D3DXVECTOR3(2.0f, 1.0f, 2.0f));
 
 	m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_rotation = D3DXVECTOR3(0.0f, 3.14f, 0.0f);
+	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_scale = D3DXVECTOR3(0.008f, 0.008f, 0.008f);
 	//m_scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 }
@@ -49,7 +51,7 @@ void Player::Uninit()
 
 void Player::Update()
 {
-	m_model->Update(m_animationName.c_str(), m_frame);
+	m_model->Update("Idle", "Run", m_blendRate, m_frame);
 
 	//ROTATION
 	if (Input::GetKeyPress('Q'))
@@ -59,25 +61,35 @@ void Player::Update()
 
 	D3DXVECTOR3 forward = GetForward();
 	D3DXVECTOR3 right = GetRight();
-
+	
 	//MOVE
 	if (Input::GetKeyPress('W'))
 	{
-		m_position -= forward * MOVE_SPEED;
-		m_animationName = "Run";
+		m_position += forward * MOVE_SPEED;
+		m_blendRate += 0.05f;
 	}
 	else if (Input::GetKeyPress('S'))
 	{
-		m_position += forward * MOVE_SPEED;
-		m_animationName = "Run";
+		m_position -= forward * MOVE_SPEED;
+		m_blendRate	+= 0.05f;
 	}
 	else
-		m_animationName = "Idol";
+		m_blendRate -= 0.1f;
 
 	if (Input::GetKeyPress('A'))
 		m_position += right * MOVE_SPEED;
 	if (Input::GetKeyPress('D'))
 		m_position -= right * MOVE_SPEED;
+
+	if (m_blendRate > 1.0f)
+		m_blendRate = 1.0f;
+	if (m_blendRate < 0.0f)
+		m_blendRate = 0.0f;
+
+	Scene* scene = Manager::GetInstance()->GetScene();
+	MeshField* field = scene->GetGameObject<MeshField>(scene->OBJECT);
+	m_position.y = field->GetHeight(m_position);
+
 
 	//SHOT
 	if (Input::GetKeyTrigger(VK_SPACE))
@@ -108,7 +120,7 @@ void Player::Draw()
 	//ワールドマトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y + D3DX_PI, m_rotation.x, m_rotation.z);
 	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 	world = scale * rot * trans;
 	Renderer::GetInstance()->SetWorldMatrix(&world);

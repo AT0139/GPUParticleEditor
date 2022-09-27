@@ -3,6 +3,9 @@
 #include "MeshField.h"
 #include "ResourceManager.h"
 
+#include <iostream>
+using namespace std;
+
 float g_fieldHeight[FIELD_X + 1][FIELD_Z + 1] =
 {
 	{0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f},
@@ -16,8 +19,8 @@ float g_fieldHeight[FIELD_X + 1][FIELD_Z + 1] =
 	{0.0f,0.0f,0.0f,0.5f,1.0f,1.5f,1.0f,0.5f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f},
 	{0.0f,0.0f,0.5f,1.0f,1.5f,2.0f,1.5f,1.0f,0.5f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f},
 	{0.0f,0.0f,0.0f,0.5f,1.0f,1.5f,1.0f,0.5f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f},
-	{0.0f,0.0f,0.0f,0.0f,0.5f,1.0f,0.5f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f},
-	{0.0f,0.0f,0.0f,0.0f,0.0f,0.5f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f},
+	{0.0f,0.0f,0.0f,0.0f,0.5f,1.0f,2.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f},
+	{0.0f,0.0f,0.0f,0.0f,0.0f,0.5f,1.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f},
 	{0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f},
 	{0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f},
 	{0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f},
@@ -30,6 +33,11 @@ float g_fieldHeight[FIELD_X + 1][FIELD_Z + 1] =
 
 void MeshField::Init()
 {
+	/*if (FileReader("Asset/terrain/heightmap01.bmp"))
+	{
+		return;
+	}*/
+
 	{
 		for (int x = 0; x <= FIELD_X; x++)
 		{
@@ -182,4 +190,143 @@ void MeshField::Draw()
 
 	//ポリゴン描画
 	Renderer::GetInstance()->GetDeviceContext()->DrawIndexed(INDEX_NUM, 0,0);
+}
+
+float MeshField::GetHeight(D3DXVECTOR3 position)
+{
+	int x, z;
+
+	x = position.x / 5.0f + 10.0f;
+	z = position.z / -5.0f + 10.0f;
+
+	D3DXVECTOR3 pos0, pos1, pos2, pos3;
+
+	pos0 = m_vertex[x][z].Position;
+	pos1 = m_vertex[x + 1][z].Position;
+	pos2 = m_vertex[x][z + 1].Position;
+	pos3 = m_vertex[x + 1][z + 1].Position;
+
+	D3DXVECTOR3 v12, v1p, c;
+
+	v12 = pos2 - pos1;
+	v1p = position - pos1;
+
+	D3DXVec3Cross(&c, &v12, &v1p);
+
+	float py;
+	D3DXVECTOR3 n;
+
+	if (c.y > 0.0f)
+	{
+		D3DXVECTOR3 v10;
+		v10 = pos0 - pos1;
+		D3DXVec3Cross(&n, &v10, &v12);
+	}
+	else
+	{
+		D3DXVECTOR3 v13;
+		v13 = pos3 - pos1;
+		D3DXVec3Cross(&n, &v12, &v13);
+	}
+
+	//高さ取得
+	py = -((position.x - pos1.x) * n.x + (position.z - pos1.z) * n.z) / n.y + pos1.y;
+
+	return py;
+}
+
+
+bool MeshField::FileReader(const char* filename)
+{
+	FILE* filePtr;
+	int error;
+	unsigned int count;
+	BITMAPFILEHEADER bitmapFileHeader;
+	BITMAPINFOHEADER bitmapInfoHeader;
+	int imageSize, i, j, k, index;
+	unsigned char* bitmapImage;
+	unsigned char height;
+
+
+	//ハイトマップをバイナリで開く
+	error = fopen_s(&filePtr, filename, "rb");
+	if (error != 0)
+	{
+		return false;
+	}
+
+	//ファイルヘッダ読み込み
+	count = fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
+	if (count != 1)
+	{
+		return false;
+	}
+
+	//ビットマップヘッダ読み込み
+	count = fread(&bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
+	if (count != 1)
+	{
+		return false;
+	}
+
+	//地形の大きさ
+	m_terrainWidth = bitmapInfoHeader.biWidth;
+	m_terrainHeight = bitmapInfoHeader.biHeight;
+
+	//画像サイズ計算
+	imageSize = m_terrainWidth * m_terrainHeight * 3;
+
+	//メモリ割り当て
+	bitmapImage = new unsigned char[imageSize] {};
+	if (!bitmapImage)
+	{
+		return false;
+	}
+
+	fseek(filePtr, bitmapFileHeader.bfOffBits, SEEK_SET);
+
+	//bmp読み込み
+	count = fread(bitmapImage, 1, imageSize, filePtr);
+	if (count != imageSize)
+	{
+		return false;
+	}
+
+	//ファイルを閉じる
+	error = fclose(filePtr);
+	if (error != 0)
+	{
+		return false;
+	}
+
+	//ハイトマップデータ用の変数を作成
+	m_heightMap = new D3DXVECTOR3[m_terrainWidth * m_terrainHeight];
+	if (!m_heightMap)
+	{
+		return false;
+	}
+
+
+	//ハイトマップに代入
+	k = 0;
+	for (j = 0; j < m_terrainHeight; j++)
+	{
+		for (i = 0; i < m_terrainWidth; i++)
+		{
+			height = bitmapImage[k];
+
+			index = (m_terrainHeight * j) + i;
+
+			m_heightMap[index].x = (float)i;
+			m_heightMap[index].y = (float)height;
+			m_heightMap[index].z = (float)j;
+
+			k += 3;
+		}
+	}
+
+	delete[] bitmapImage;
+	bitmapImage = 0;
+
+	return true;
 }

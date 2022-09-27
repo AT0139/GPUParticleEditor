@@ -14,7 +14,10 @@ public:
 	virtual void Update()override;
 	virtual void Draw()override;
 
+	float GetHeight(D3DXVECTOR3 position);
+
 private:
+	bool FileReader(const char* filename);
 
 	ID3D11Buffer* m_vertexBuffer = NULL;
 	ID3D11Buffer* m_indexBuffer = NULL;
@@ -25,4 +28,7 @@ private:
 	ID3D11VertexShader* m_vertexShader;
 	ID3D11PixelShader* m_pixelShader;
 	ID3D11InputLayout* m_vertexLayout;
+
+	int m_terrainWidth, m_terrainHeight;
+	D3DXVECTOR3* m_heightMap;
 };

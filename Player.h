@@ -23,4 +23,5 @@ private:
 	const float MOVE_SPEED = 0.1f;
 
 	int m_frame;
+	float m_blendRate;
 };

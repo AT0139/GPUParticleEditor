@@ -214,30 +214,44 @@ void AnimationModel::Unload()
 	}
 }
 
-void AnimationModel::Update(const char* animationName,int frame)
+void AnimationModel::Update(const char* animationName1, const char* animationName2, float blendRate, int frame)
 {
-	if (!m_animation[animationName]->HasAnimations())
+	if (!m_animation[animationName1]->HasAnimations())
+		return;
+	if (!m_animation[animationName2]->HasAnimations())
 		return;
 
 	//アニメーションデータからボーンマトリクス算出
-	aiAnimation* animation = m_animation[animationName]->mAnimations[0];
+	aiAnimation* animation1 = m_animation[animationName1]->mAnimations[0];
+	aiAnimation* animation2 = m_animation[animationName2]->mAnimations[0];
 
-	for (unsigned int c = 0; c < animation->mNumChannels; c++)
+	for (unsigned int c = 0; c < animation1->mNumChannels; c++)
 	{
-		aiNodeAnim* nodeAnim = animation->mChannels[c];
-		BONE* bone = &m_bone[nodeAnim->mNodeName.C_Str()];
+		aiNodeAnim* nodeAnim1 = animation1->mChannels[c];
+		BONE* bone = &m_bone[nodeAnim1->mNodeName.C_Str()];
+		
+		aiNodeAnim* nodeAnim2 = animation2->mChannels[c];
+		//BONE* bone = &m_bone[nodeAnim2->mNodeName.C_Str()];
 
 		int f;
-		f = frame % nodeAnim->mNumRotationKeys;//簡易実装
-		aiQuaternion rot = nodeAnim->mRotationKeys[f].mValue;
+		f = frame % nodeAnim1->mNumRotationKeys;//簡易実装
+		aiQuaternion rot1 = nodeAnim1->mRotationKeys[f].mValue;
 
-		f = frame % nodeAnim->mNumPositionKeys;
+		f = frame % nodeAnim2->mNumRotationKeys;//簡易実装
+		aiQuaternion rot2 = nodeAnim2->mRotationKeys[f].mValue;
+
+		f = frame % nodeAnim1->mNumPositionKeys;
 		aiVector3D pos;
-		//アニメーションデータが1より大きい場合(アニメーションデータがある)(クリーチャーになる場合はコメントアウト)
+
+		//アニメーションデータが1より大きい場合(アニメーションデータがある)
 		//if (nodeAnim->mNumPositionKeys > 1)
 		//	pos = nodeAnim->mPositionKeys[f].mValue;
+
+		aiQuaternion rot;
+		aiQuaternion::Interpolate(rot, rot1, rot2, blendRate);
 		
 		bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot, pos);
+		//bone2->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot, pos);
 	}
 
 	//再帰的にボーンマトリクスを更新

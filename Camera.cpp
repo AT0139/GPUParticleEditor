@@ -32,11 +32,11 @@ void Camera::Update()
 
 	//サードパーソンビュー
 	m_target = playerPos;
-	m_position = playerPos + playerForward * 5.0f + D3DXVECTOR3(0.0f, 2.5f, 0.0f);
+	m_position = playerPos - playerForward * 5.0f + D3DXVECTOR3(0.0f, 2.5f, 0.0f);
 
 	//サードパーソンビュー(右寄り)
 	//m_target = playerPos + playerRight;
-	//m_position = playerPos + playerForward * 5.0f + playerRight + D3DXVECTOR3(0.0f, 2.0f, 0.0f);
+	//m_position = playerPos - playerForward * 5.0f + playerRight + D3DXVECTOR3(0.0f, 2.0f, 0.0f);
 
 	////ファーストパーソンビュー
 	//m_target = playerPos + playerForward;
