@@ -2,8 +2,8 @@
 
 #include "GameObject.h"
 
-#define FIELD_X (20)
-#define FIELD_Z (20)
+#define FIELD_X (30)
+#define FIELD_Z (30)
 #define INDEX_NUM (((FIELD_Z + 2) * 2) * FIELD_X - 2)
 
 class MeshField : public GameObject
@@ -30,5 +30,5 @@ private:
 	ID3D11InputLayout* m_vertexLayout;
 
 	int m_terrainWidth, m_terrainHeight;
-	D3DXVECTOR3* m_heightMap;
+	float** m_heightMap;
 };

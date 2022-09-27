@@ -9,9 +9,11 @@ public:
 	virtual void Uninit()override;
 	virtual void Update()override;
 	virtual void Draw()override;
+	static void ResetBlendRate() { m_blendRate = 0.0f; }
 
 	std::string m_animationName;
 private:
+
 	class AnimationModel *m_model;
 	class Audio* m_shotSE;
 	class Shadow* m_shadow;
@@ -21,7 +23,8 @@ private:
 	ID3D11InputLayout* m_vertexLayout;
 	
 	const float MOVE_SPEED = 0.1f;
+	const float ADD_BLENDRATE = 0.05f;
 
 	int m_frame;
-	float m_blendRate;
+	static float m_blendRate;
 };
