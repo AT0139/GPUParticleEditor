@@ -335,9 +335,10 @@ bool MeshField::FileReader(const char* filename)
 		{
 			height = bitmapImage[k];
 
+			float temp = (float)height;
+			temp /= 5;
 
-
-			m_heightMap[j][i] = (float)height;
+			m_heightMap[j][i] = temp;
 
 			k += 3;
 		}
