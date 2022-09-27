@@ -11,6 +11,8 @@
 #include "ResourceManager.h"
 #include "MeshField.h"
 
+float Player::m_blendRate = 0.0f;
+
 void Player::Init()
 {
 	//ƒ‚ƒfƒ‹“Ç‚İ‚İ
@@ -19,7 +21,7 @@ void Player::Init()
 	m_model->LoadAnimation((char*)"asset\\model\\Akai_Run.fbx", "Run");
 	m_model->LoadAnimation((char*)"asset\\model\\Akai_WalkingBackward.fbx", "WalkingBack");
 
-	m_animationName = "Idol";
+	m_animationName = "Idle";
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
 
@@ -51,7 +53,7 @@ void Player::Uninit()
 
 void Player::Update()
 {
-	m_model->Update("Idle", "Run", m_blendRate, m_frame);
+	m_model->Update(m_animationName.c_str(), m_blendRate, m_frame);
 
 	//ROTATION
 	if (Input::GetKeyPress('Q'))
@@ -66,20 +68,25 @@ void Player::Update()
 	if (Input::GetKeyPress('W'))
 	{
 		m_position += forward * MOVE_SPEED;
-		m_blendRate += 0.05f;
+		m_animationName = "Run";
+
+		m_blendRate += ADD_BLENDRATE;
 	}
 	else if (Input::GetKeyPress('S'))
 	{
-		m_position -= forward * MOVE_SPEED;
-		m_blendRate	+= 0.05f;
+		m_position -= forward * (MOVE_SPEED / 2);
+		m_animationName = "WalkingBack";
+		m_blendRate	+= ADD_BLENDRATE;
 	}
 	else
-		m_blendRate -= 0.1f;
-
+	{
+		m_blendRate += ADD_BLENDRATE * 2;
+		m_animationName = "Idle";
+	}
 	if (Input::GetKeyPress('A'))
-		m_position += right * MOVE_SPEED;
-	if (Input::GetKeyPress('D'))
 		m_position -= right * MOVE_SPEED;
+	if (Input::GetKeyPress('D'))
+		m_position += right * MOVE_SPEED;
 
 	if (m_blendRate > 1.0f)
 		m_blendRate = 1.0f;

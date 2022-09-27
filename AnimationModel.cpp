@@ -1,7 +1,7 @@
 #include "main.h"
 #include "renderer.h"
 #include "AnimationModel.h"
-
+#include "Player.h"
 
 
 AnimationModel::AnimationModel(const char* fileName)
@@ -11,6 +11,8 @@ AnimationModel::AnimationModel(const char* fileName)
 
 void AnimationModel::Load(const char* FileName)
 {
+	m_currentAnimationName = "Idle";
+
 	const std::string modelPath(FileName);
 
 	m_aiScene = aiImportFile(FileName, aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_ConvertToLeftHanded);
@@ -214,46 +216,81 @@ void AnimationModel::Unload()
 	}
 }
 
-void AnimationModel::Update(const char* animationName1, const char* animationName2, float blendRate, int frame)
+void AnimationModel::Update(const char* animationName, float blendRate, int frame)
 {
-	if (!m_animation[animationName1]->HasAnimations())
-		return;
-	if (!m_animation[animationName2]->HasAnimations())
+	if (!m_animation[animationName]->HasAnimations())
 		return;
 
-	//アニメーションデータからボーンマトリクス算出
-	aiAnimation* animation1 = m_animation[animationName1]->mAnimations[0];
-	aiAnimation* animation2 = m_animation[animationName2]->mAnimations[0];
-
-	for (unsigned int c = 0; c < animation1->mNumChannels; c++)
+	if (m_currentAnimationName != animationName)
 	{
-		aiNodeAnim* nodeAnim1 = animation1->mChannels[c];
-		BONE* bone = &m_bone[nodeAnim1->mNodeName.C_Str()];
-		
-		aiNodeAnim* nodeAnim2 = animation2->mChannels[c];
-		//BONE* bone = &m_bone[nodeAnim2->mNodeName.C_Str()];
+		//アニメーションデータからボーンマトリクス算出
+		aiAnimation* animation1 = m_animation[m_currentAnimationName]->mAnimations[0];
+		aiAnimation* animation2 = m_animation[animationName]->mAnimations[0];
 
-		int f;
-		f = frame % nodeAnim1->mNumRotationKeys;//簡易実装
-		aiQuaternion rot1 = nodeAnim1->mRotationKeys[f].mValue;
+		for (unsigned int c = 0; c < animation1->mNumChannels; c++)
+		{
+			aiNodeAnim* nodeAnim1 = animation1->mChannels[c];
+			BONE* bone = &m_bone[nodeAnim1->mNodeName.C_Str()];
 
-		f = frame % nodeAnim2->mNumRotationKeys;//簡易実装
-		aiQuaternion rot2 = nodeAnim2->mRotationKeys[f].mValue;
+			aiNodeAnim* nodeAnim2 = animation2->mChannels[c];
+			//BONE* bone = &m_bone[nodeAnim2->mNodeName.C_Str()];
 
-		f = frame % nodeAnim1->mNumPositionKeys;
-		aiVector3D pos;
+			int f;
+			f = frame % nodeAnim1->mNumRotationKeys;//簡易実装
+			aiQuaternion rot1 = nodeAnim1->mRotationKeys[f].mValue;
 
-		//アニメーションデータが1より大きい場合(アニメーションデータがある)
-		//if (nodeAnim->mNumPositionKeys > 1)
-		//	pos = nodeAnim->mPositionKeys[f].mValue;
+			f = frame % nodeAnim2->mNumRotationKeys;//簡易実装
+			aiQuaternion rot2 = nodeAnim2->mRotationKeys[f].mValue;
 
-		aiQuaternion rot;
-		aiQuaternion::Interpolate(rot, rot1, rot2, blendRate);
-		
-		bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot, pos);
-		//bone2->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot, pos);
+			f = frame % nodeAnim1->mNumPositionKeys;
+			aiVector3D pos;
+
+			//アニメーションデータが1より大きい場合(アニメーションデータがある)
+			//if (nodeAnim->mNumPositionKeys > 1)
+			//	pos = nodeAnim->mPositionKeys[f].mValue;
+
+			aiQuaternion rot;
+			aiQuaternion::Interpolate(rot, rot1, rot2, blendRate);
+
+			bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot, pos);
+			//bone2->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot, pos);
+
+			if (blendRate >= 1.0f)
+			{
+				m_currentAnimationName = animationName;
+				Player::ResetBlendRate();
+			}
+		}
 	}
+	else
+	{
+		//アニメーションデータからボーンマトリクス算出
+		aiAnimation* animation = m_animation[m_currentAnimationName]->mAnimations[0];
 
+		for (unsigned int c = 0; c < animation->mNumChannels; c++)
+		{
+			aiNodeAnim* nodeAnim1 = animation->mChannels[c];
+			BONE* bone = &m_bone[nodeAnim1->mNodeName.C_Str()];
+
+
+			int f;
+			f = frame % nodeAnim1->mNumRotationKeys;//簡易実装
+			aiQuaternion rot = nodeAnim1->mRotationKeys[f].mValue;
+
+
+			f = frame % nodeAnim1->mNumPositionKeys;
+			aiVector3D pos;
+
+			//アニメーションデータが1より大きい場合(アニメーションデータがある)
+			//if (nodeAnim->mNumPositionKeys > 1)
+			//	pos = nodeAnim->mPositionKeys[f].mValue;
+
+			bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot, pos);
+
+			m_currentAnimationName = animationName;
+			Player::ResetBlendRate();
+		}
+	}
 	//再帰的にボーンマトリクスを更新
 	UpdateBoneMatrix(m_aiScene->mRootNode, aiMatrix4x4());
 

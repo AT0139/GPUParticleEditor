@@ -3,6 +3,7 @@
 #include "MeshField.h"
 #include "ResourceManager.h"
 
+
 #include <iostream>
 using namespace std;
 
@@ -33,17 +34,18 @@ float g_fieldHeight[FIELD_X + 1][FIELD_Z + 1] =
 
 void MeshField::Init()
 {
-	/*if (FileReader("Asset/terrain/heightmap01.bmp"))
+	if (!FileReader("Asset/terrain/heightmap01.bmp"))
 	{
 		return;
-	}*/
+	}
 
 	{
 		for (int x = 0; x <= FIELD_X; x++)
 		{
 			for (int z = 0; z <= FIELD_X; z++)
 			{
-				float y = g_fieldHeight[x][z];
+				//float y = g_fieldHeight[x][z];
+				float y = m_heightMap[x][z];
 				m_vertex[x][z].Position = D3DXVECTOR3((x - 10) * 5.0f, y, (z - 10) * -5.0f);
 				m_vertex[x][z].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 				m_vertex[x][z].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -252,6 +254,7 @@ bool MeshField::FileReader(const char* filename)
 	error = fopen_s(&filePtr, filename, "rb");
 	if (error != 0)
 	{
+		assert(error);
 		return false;
 	}
 
@@ -259,6 +262,7 @@ bool MeshField::FileReader(const char* filename)
 	count = fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
 	if (count != 1)
 	{
+		assert(count);
 		return false;
 	}
 
@@ -266,6 +270,7 @@ bool MeshField::FileReader(const char* filename)
 	count = fread(&bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
 	if (count != 1)
 	{
+		assert(count);
 		return false;
 	}
 
@@ -277,9 +282,11 @@ bool MeshField::FileReader(const char* filename)
 	imageSize = m_terrainWidth * m_terrainHeight * 3;
 
 	//メモリ割り当て
-	bitmapImage = new unsigned char[imageSize] {};
+	bitmapImage = new unsigned char[imageSize];
 	if (!bitmapImage)
 	{
+		assert(bitmapImage);
+
 		return false;
 	}
 
@@ -289,6 +296,7 @@ bool MeshField::FileReader(const char* filename)
 	count = fread(bitmapImage, 1, imageSize, filePtr);
 	if (count != imageSize)
 	{
+		assert(count);
 		return false;
 	}
 
@@ -296,13 +304,19 @@ bool MeshField::FileReader(const char* filename)
 	error = fclose(filePtr);
 	if (error != 0)
 	{
+		assert(error);
 		return false;
 	}
 
 	//ハイトマップデータ用の変数を作成
-	m_heightMap = new D3DXVECTOR3[m_terrainWidth * m_terrainHeight];
+	m_heightMap = new float*[m_terrainWidth];
+	for (int i = 0; i < m_terrainHeight; i++)
+	{
+		m_heightMap[i] = new float[m_terrainHeight];
+	}
 	if (!m_heightMap)
 	{
+		assert(m_heightMap);
 		return false;
 	}
 
@@ -315,11 +329,9 @@ bool MeshField::FileReader(const char* filename)
 		{
 			height = bitmapImage[k];
 
-			index = (m_terrainHeight * j) + i;
 
-			m_heightMap[index].x = (float)i;
-			m_heightMap[index].y = (float)height;
-			m_heightMap[index].z = (float)j;
+
+			m_heightMap[j][i] = (float)height;
 
 			k += 3;
 		}
