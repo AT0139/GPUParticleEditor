@@ -19,9 +19,9 @@ void Player::Init()
 
 	m_animationName = "Idol";
 
-	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
+	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
 
-	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
+	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "vertexLightingPS.cso");
 
 	Scene* scene = Manager::GetInstance()->GetScene();
 	//m_shotSE = scene->AddGameObject<Audio>(scene->UI);

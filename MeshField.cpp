@@ -42,6 +42,20 @@ void MeshField::Init()
 				m_vertex[x][z].TexCoord = D3DXVECTOR2(x * 0.5f, z * 0.5f);
 			}
 		}
+		for (int x = 1; x <= 19; x++)
+		{
+			for (int z = 1; z <= 19; z++)
+			{
+				D3DXVECTOR3 vx, vz, vn;
+				vx = m_vertex[x + 1][z].Position - m_vertex[x - 1][z].Position;
+				vz = m_vertex[x][z + 1].Position - m_vertex[x][z - 1].Position;
+
+				D3DXVec3Cross(&vn, &vx, &vz); //外積
+				D3DXVec3Normalize(&vn, &vn); 
+				m_vertex[x][z].Normal = vn;
+			}
+		}
+
 		//頂点バッファ生成	
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
@@ -97,12 +111,17 @@ void MeshField::Init()
 	}
 
 	//テクスチャ読み込み
-	m_texture = ResourceManager::GetInstance()->GetTextureData("asset/texture/forest.jpg");
+	//m_texture = ResourceManager::GetInstance()->GetTextureData("asset/texture/forest.jpg");
+	D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance()->GetDevice(),
+		"asset/texture/field000.jpg",
+		NULL,
+		NULL,
+		&m_texture,
+		NULL);
 	assert(m_texture);
 
-	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
-
-	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
+	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
+	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "vertexLightingPS.cso");
 
 	m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);

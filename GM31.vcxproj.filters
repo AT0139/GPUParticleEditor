@@ -182,9 +182,9 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="unlitTextureVS.hlsl" />
-    <FxCompile Include="vertexLightingPS.hlsl" />
-    <FxCompile Include="vertexLightingVS.hlsl" />
     <FxCompile Include="common.hlsl" />
     <FxCompile Include="unlitTexturePS.hlsl" />
+    <FxCompile Include="vertexLightingPS.hlsl" />
+    <FxCompile Include="vertexLightingVS.hlsl" />
   </ItemGroup>
 </Project>
