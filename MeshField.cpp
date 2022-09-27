@@ -121,13 +121,8 @@ void MeshField::Init()
 	}
 
 	//テクスチャ読み込み
-	//m_texture = ResourceManager::GetInstance()->GetTextureData("asset/texture/forest.jpg");
-	D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance()->GetDevice(),
-		"asset/texture/field000.jpg",
-		NULL,
-		NULL,
-		&m_texture,
-		NULL);
+	m_texture = ResourceManager::GetInstance()->GetTextureData("asset/texture/forest.jpg");
+
 	assert(m_texture);
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
@@ -335,9 +330,10 @@ bool MeshField::FileReader(const char* filename)
 		{
 			height = bitmapImage[k];
 
+			float temp = (float)height;
+			temp /= 5;
 
-
-			m_heightMap[j][i] = (float)height;
+			m_heightMap[j][i] = temp;
 
 			k += 3;
 		}
