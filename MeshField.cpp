@@ -34,7 +34,7 @@ float g_fieldHeight[FIELD_X + 1][FIELD_Z + 1] =
 
 void MeshField::Init()
 {
-	if (!FileReader("Asset/terrain/heightmap01.bmp"))
+	if (!FileReader("Asset/terrain/heightmap03.bmp"))
 	{
 		return;
 	}

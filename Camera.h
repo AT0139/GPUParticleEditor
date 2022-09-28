@@ -16,4 +16,6 @@ private:
 	D3DXVECTOR3 m_target;
 	D3DXMATRIX  m_viewMatrix;
 
+	float m_targetYoffset = 0.0f;
+	float m_positionYoffset = 0.0f;
 };

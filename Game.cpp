@@ -23,7 +23,7 @@ void Game::Init()
 	AddGameObject<Camera>(CAMERA);
 
 	//3Dオブジェクト
-	AddGameObject<SkyDome>(OBJECT);
+	//AddGameObject<SkyDome>(OBJECT);
 	AddGameObject<Player>(OBJECT);
 	AddGameObject<MeshField>(OBJECT);
 	AddGameObject<Stair>(OBJECT)->SetPosition(D3DXVECTOR3(10.0f, 0.0f, 10.0f));

@@ -31,8 +31,8 @@ void Camera::Update()
 
 
 	//サードパーソンビュー
-	m_target = playerPos;
-	m_position = playerPos - playerForward * 5.0f + D3DXVECTOR3(0.0f, 2.5f, 0.0f);
+	m_target = D3DXVECTOR3(playerPos.x, playerPos.y + m_targetYoffset, playerPos.z);
+	m_position = playerPos - playerForward * 5.0f + D3DXVECTOR3(0.0f, 2.5f + m_positionYoffset, 0.0f);
 
 	//サードパーソンビュー(右寄り)
 	//m_target = playerPos + playerRight;
@@ -41,6 +41,24 @@ void Camera::Update()
 	////ファーストパーソンビュー
 	//m_target = playerPos + playerForward;
 	//m_position = playerPos;
+
+	if (Input::GetKeyPress(VK_UP))
+	{
+		m_targetYoffset += 0.1f;
+	}
+	if (Input::GetKeyPress(VK_DOWN))
+	{
+		m_targetYoffset -= 0.1f;
+	}
+
+	if (Input::GetKeyPress('I'))
+	{
+		m_positionYoffset += 0.1f;
+	}
+	if (Input::GetKeyPress('K'))
+	{
+		m_positionYoffset -= 0.1f;
+	}
 }
 
 void Camera::Draw()
