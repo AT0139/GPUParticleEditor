@@ -290,7 +290,7 @@ bool MeshField::FileReader(const char* filename)
 	fseek(filePtr, bitmapFileHeader.bfOffBits, SEEK_SET);
 
 	//bmp読み込み
-	count = fread(bitmapImage, 1, imageSize, filePtr);
+	count = fread(bitmapImage, sizeof(char), imageSize, filePtr);
 	if (count != imageSize)
 	{
 		assert(count);
@@ -315,16 +315,16 @@ bool MeshField::FileReader(const char* filename)
 
 	//ハイトマップに代入
 	k = 0;
-	for (x = 0; x < m_terrainHeight; x++)
+	for (z = m_terrainHeight - 1; z >= 0; z--)
 	{
-		for (z = 0; z < m_terrainWidth; z++)
+		for (x = 0; x < m_terrainWidth; x++)
 		{
 			height = bitmapImage[k];
 
 			float temp = (float)height;
 			temp /= 5;
 
-			m_heightMap[z][m_terrainWidth - 1 - x] = temp;
+			m_heightMap[x][z] = temp;
 
 			k += 3;
 		}
