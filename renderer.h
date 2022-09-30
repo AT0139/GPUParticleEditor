@@ -58,6 +58,7 @@ private:
 	static ID3D11Buffer*			m_ProjectionBuffer;
 	static ID3D11Buffer*			m_MaterialBuffer;
 	static ID3D11Buffer*			m_LightBuffer;
+	static ID3D11Buffer* m_cameraBuffer;
 
 
 	static ID3D11DepthStencilState* m_DepthStateEnable;
@@ -82,6 +83,7 @@ public:
 	 void SetProjectionMatrix(D3DXMATRIX* ProjectionMatrix);
 	 void SetMaterial(MATERIAL Material);
 	 void SetLight(LIGHT Light);
+	 void SetCameraPosition(D3DXVECTOR3 pos);
 
 	 ID3D11Device* GetDevice( void ){ return m_Device; }
 	 ID3D11DeviceContext* GetDeviceContext( void ){ return m_DeviceContext; }

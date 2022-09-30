@@ -3,8 +3,8 @@
 #include <vector>
 #include "GameObject.h"
 
-#define FIELD_X (30)
-#define FIELD_Z (30)
+#define FIELD_X (255)
+#define FIELD_Z (255)
 #define INDEX_NUM (((FIELD_Z + 2) * 2) * FIELD_X - 2)
 
 class MeshField : public GameObject

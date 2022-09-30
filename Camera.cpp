@@ -59,6 +59,8 @@ void Camera::Update()
 	{
 		m_positionYoffset -= 1.0f;
 	}
+
+	Renderer::GetInstance()->SetCameraPosition(m_position);
 }
 
 void Camera::Draw()

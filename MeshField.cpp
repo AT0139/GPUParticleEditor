@@ -34,7 +34,7 @@ using namespace std;
 
 void MeshField::Init()
 {
-	if (!FileReader("Asset/terrain/heightmap03.bmp"))
+	if (!FileReader("Asset/terrain/heightmap01.bmp"))
 	{
 		return;
 	}
@@ -52,9 +52,9 @@ void MeshField::Init()
 				m_vertex[x][z].TexCoord = D3DXVECTOR2(x * 0.5f, z * 0.5f);
 			}
 		}
-		for (int x = 1; x <= 19; x++)
+		for (int x = 1; x <= FIELD_X - 1; x++)
 		{
-			for (int z = 1; z <= 19; z++)
+			for (int z = 1; z <= FIELD_X - 1; z++)
 			{
 				D3DXVECTOR3 vx, vz, vn;
 				vx = m_vertex[x + 1][z].Position - m_vertex[x - 1][z].Position;
@@ -244,6 +244,7 @@ bool MeshField::FileReader(const char* filename)
 	unsigned char* bitmapImage;
 	unsigned char height;
 
+	FILE* fp;
 
 	//ハイトマップをバイナリで開く
 	error = fopen_s(&filePtr, filename, "rb");
@@ -276,7 +277,7 @@ bool MeshField::FileReader(const char* filename)
 
 
 	//画像サイズ計算
-	imageSize = m_terrainWidth * m_terrainHeight * 3;
+	imageSize = m_terrainWidth * (m_terrainHeight + 3) * 3;
 
 	//メモリ割り当て
 	bitmapImage = new unsigned char[imageSize];
@@ -290,12 +291,7 @@ bool MeshField::FileReader(const char* filename)
 	fseek(filePtr, bitmapFileHeader.bfOffBits, SEEK_SET);
 
 	//bmp読み込み
-	count = fread(bitmapImage, sizeof(char), imageSize, filePtr);
-	if (count != imageSize)
-	{
-		assert(count);
-		return false;
-	}
+	count = fread(bitmapImage, sizeof(unsigned char), imageSize, filePtr);
 
 	//ファイルを閉じる
 	error = fclose(filePtr);
@@ -311,7 +307,6 @@ bool MeshField::FileReader(const char* filename)
 	{
 		m_heightMap[i].resize(m_terrainHeight);
 	}
-
 
 	//ハイトマップに代入
 	k = 0;
