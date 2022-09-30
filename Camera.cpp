@@ -44,20 +44,20 @@ void Camera::Update()
 
 	if (Input::GetKeyPress(VK_UP))
 	{
-		m_targetYoffset += 0.1f;
+		m_targetYoffset += 1.1f;
 	}
 	if (Input::GetKeyPress(VK_DOWN))
 	{
-		m_targetYoffset -= 0.1f;
+		m_targetYoffset -= 1.1f;
 	}
 
 	if (Input::GetKeyPress('I'))
 	{
-		m_positionYoffset += 0.1f;
+		m_positionYoffset += 1.0f;
 	}
 	if (Input::GetKeyPress('K'))
 	{
-		m_positionYoffset -= 0.1f;
+		m_positionYoffset -= 1.0f;
 	}
 }
 

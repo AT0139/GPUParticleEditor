@@ -1,9 +1,10 @@
 #pragma once
 
+#include <vector>
 #include "GameObject.h"
 
-#define FIELD_X (29)
-#define FIELD_Z (29)
+#define FIELD_X (30)
+#define FIELD_Z (30)
 #define INDEX_NUM (((FIELD_Z + 2) * 2) * FIELD_X - 2)
 
 class MeshField : public GameObject
@@ -30,5 +31,5 @@ private:
 	ID3D11InputLayout* m_vertexLayout;
 
 	int m_terrainWidth, m_terrainHeight;
-	float** m_heightMap;
+	std::vector<std::vector<float>> m_heightMap;
 };
