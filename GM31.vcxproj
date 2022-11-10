@@ -181,11 +181,10 @@
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="MeshField.cpp" />
     <ClCompile Include="model.cpp" />
-    <ClCompile Include="Player2.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Polygon2D.cpp" />
-    <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="SkyDome.cpp" />
@@ -209,11 +208,10 @@
     <ClInclude Include="manager.h" />
     <ClInclude Include="MeshField.h" />
     <ClInclude Include="model.h" />
-    <ClInclude Include="Player2.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Polygon2D.h" />
-    <ClInclude Include="renderer.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shadow.h" />

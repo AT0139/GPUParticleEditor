@@ -43,8 +43,8 @@ class Model
 {
 private:
 
-	ID3D11Buffer* m_VertexBuffer;
-	ID3D11Buffer* m_IndexBuffer;
+	ID3D11Buffer* m_vertexBuffer;
+	ID3D11Buffer* m_indexBuffer;
 
 	SUBSET* m_SubsetArray;
 	unsigned int	m_SubsetNum;

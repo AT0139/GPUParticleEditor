@@ -19,10 +19,10 @@ void Model::Draw()
 	// 頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
-	Renderer::GetInstance()->GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
+	Renderer::GetInstance()->GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 
 	// インデックスバッファ設定
-	Renderer::GetInstance()->GetDeviceContext()->IASetIndexBuffer(m_IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	Renderer::GetInstance()->GetDeviceContext()->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
 	// プリミティブトポロジ設定
 	Renderer::GetInstance()->GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -65,7 +65,7 @@ void Model::Load( const char *FileName )
 		ZeroMemory( &sd, sizeof(sd) );
 		sd.pSysMem = model.VertexArray;
 
-		Renderer::GetInstance()->GetDevice()->CreateBuffer( &bd, &sd, &m_VertexBuffer );
+		Renderer::GetInstance()->GetDevice()->CreateBuffer( &bd, &sd, &m_vertexBuffer );
 	}
 
 
@@ -82,7 +82,7 @@ void Model::Load( const char *FileName )
 		ZeroMemory( &sd, sizeof(sd) );
 		sd.pSysMem = model.IndexArray;
 
-		Renderer::GetInstance()->GetDevice()->CreateBuffer( &bd, &sd, &m_IndexBuffer );
+		Renderer::GetInstance()->GetDevice()->CreateBuffer( &bd, &sd, &m_indexBuffer );
 	}
 
 	// サブセット設定
@@ -123,8 +123,8 @@ void Model::Load( const char *FileName )
 
 void Model::Unload()
 {
-	m_VertexBuffer->Release();
-	m_IndexBuffer->Release();
+	m_vertexBuffer->Release();
+	m_indexBuffer->Release();
 
 	for (unsigned int i = 0; i < m_SubsetNum; i++)
 	{
