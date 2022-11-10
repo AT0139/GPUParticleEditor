@@ -178,7 +178,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="manager.cpp" />
+    <ClCompile Include="Manager.cpp" />
     <ClCompile Include="MeshField.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -205,7 +205,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="manager.h" />
+    <ClInclude Include="Manager.h" />
     <ClInclude Include="MeshField.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -215,6 +215,7 @@
     <ClInclude Include="Result.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shadow.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="SkyDome.h" />
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Title.h" />

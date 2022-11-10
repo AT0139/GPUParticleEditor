@@ -1,4 +1,4 @@
-#include "Title.h"
+﻿#include "Title.h"
 #include "Polygon2D.h"
 #include "input.h"
 #include "manager.h"
@@ -20,6 +20,6 @@ void Title::Update()
 
 	if (Input::GetKeyTrigger(VK_RETURN))
 	{
-		Manager::GetInstance()->SetScene<Game>();
+		Manager::GetInstance().SetScene<Game>();
 	}
 }

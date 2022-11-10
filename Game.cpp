@@ -1,4 +1,4 @@
-#include "main.h"
+Ôªø#include "main.h"
 #include "renderer.h"
 #include "Game.h"
 #include "Polygon2D.h"
@@ -18,10 +18,10 @@
 
 void Game::Init()
 {
-	//ÉJÉÅÉâ
+	//„Ç´„É°„É©
 	AddGameObject<Camera>(CAMERA);
 
-	//3DÉIÉuÉWÉFÉNÉg
+	//3D„Ç™„Éñ„Ç∏„Çß„ÇØ„Éà
 	//AddGameObject<SkyDome>(OBJECT);
 	AddGameObject<Player>(OBJECT);
 	AddGameObject<MeshField>(OBJECT);
@@ -31,7 +31,7 @@ void Game::Init()
 	AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(2.0f, 1.0f, 3.0f));
 	AddGameObject<Tree>(OBJECT)->SetPosition(D3DXVECTOR3(-8.0f, 2.0f, 5.0f));
 
-	//2DÉIÉuÉWÉFÉNÉg
+	//2D„Ç™„Éñ„Ç∏„Çß„ÇØ„Éà
 	//AddGameObject<Polygon2D>(UI);
 
 	//Audio* bgm = AddGameObject<Audio>(UI);
@@ -43,7 +43,7 @@ void Game::Init()
 void Game::Uninit()
 {
 	Scene::Uninit();
-	ResourceManager::GetInstance()->Release();
+	ResourceManager::GetInstance().Release();
 }
 
 void Game::Update()
@@ -52,6 +52,6 @@ void Game::Update()
 
 	if (Input::GetKeyTrigger(VK_RETURN))
 	{
-		Manager::GetInstance()->SetScene<Result>();
+		Manager::GetInstance().SetScene<Result>();
 	}
 }

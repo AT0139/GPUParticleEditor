@@ -1,4 +1,4 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "manager.h"
 #include "renderer.h"
 #include "model.h"
@@ -10,22 +10,22 @@
 #include "Explosion.h"
 #include "Player.h"
 
-Model* Bullet::m_model;	//ƒXƒ^ƒeƒBƒbƒNƒƒ“ƒo•Ï”Ä“xéŒ¾
+Model* Bullet::m_model;	//ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯ãƒ¡ãƒ³ãƒå¤‰æ•°å†åº¦å®£è¨€
 
 
 void Bullet::Init()
 {
-	m_model = ResourceManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
+	m_model = ResourceManager::GetInstance().GetModelData("asset\\model\\torus.obj");
 
-	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
+	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
-	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
+	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
 	m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
 
-	Player* player = Manager::GetScene()->GetGameObject<Player>(Manager::GetScene()->OBJECT);
+	Player* player = Manager::GetInstance().GetScene()->GetGameObject<Player>(Manager::GetInstance().GetScene()->OBJECT);
 	m_forward = player->GetForward();
 }
 
@@ -38,7 +38,7 @@ void Bullet::Uninit()
 
 void Bullet::Update()
 {	
-	Scene* scene = Manager::GetScene();
+	Scene* scene = Manager::GetInstance().GetScene();
 	
 	m_position += m_forward * MOVE_SPEED;
 
@@ -49,7 +49,7 @@ void Bullet::Update()
 	}
 
 
-	//“G“–‚½‚è”»’è
+	//æ•µå½“ãŸã‚Šåˆ¤å®š
 	std::vector<Enemy*> enemyList = scene->GetGameObjects<Enemy>(scene->OBJECT);
 
 	for (Enemy* enemy : enemyList)
@@ -73,28 +73,28 @@ void Bullet::Update()
 
 void Bullet::Draw()
 {
-	//“ü—ÍƒŒƒCƒAƒEƒgİ’è
-	Renderer::GetInstance()->GetDeviceContext()->IASetInputLayout(m_vertexLayout);
+	//å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆè¨­å®š
+	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
-	//ƒVƒF[ƒ_[İ’è
-	Renderer::GetInstance()->GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance()->GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼è¨­å®š
+	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
+	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
-	//ƒ[ƒ‹ƒhƒ}ƒgƒŠƒNƒXİ’è
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒãƒˆãƒªã‚¯ã‚¹è¨­å®š
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
 	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
 	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 	world = scale * rot * trans;
-	Renderer::GetInstance()->SetWorldMatrix(&world);
+	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	m_model->Draw();
 }
 
 void Bullet::Load()
 {
-	//ƒ‚ƒfƒ‹“Ç‚İ‚İ
-	m_model = ResourceManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
+	//ãƒ¢ãƒ‡ãƒ«èª­ã¿è¾¼ã¿
+	m_model = ResourceManager::GetInstance().GetModelData("asset\\model\\torus.obj");
 }
 
 void Bullet::Unload()

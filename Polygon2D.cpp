@@ -1,4 +1,4 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "renderer.h"
 #include "Polygon2D.h"
 
@@ -26,7 +26,7 @@ void Polygon2D::Init()
 	vertex[3].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
 
-	//’¸“_ƒoƒbƒtƒ@¶¬	
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ	
 	D3D11_BUFFER_DESC bd{};
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
@@ -36,16 +36,16 @@ void Polygon2D::Init()
 	D3D11_SUBRESOURCE_DATA sd{};
 	sd.pSysMem = vertex;
 
-	Renderer::GetInstance()->GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
+	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 
-	//ƒeƒNƒXƒ`ƒƒ“Ç‚Ýž‚Ý
-	D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance()->GetDevice(), "asset/texture/field.jpg", NULL, NULL, &m_texture, NULL);
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
+	D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance().GetDevice(), "asset/texture/field.jpg", NULL, NULL, &m_texture, NULL);
 
 	assert(m_texture);
 
-	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
+	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
-	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
+	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 }
 
 void Polygon2D::Uninit()
@@ -64,28 +64,28 @@ void Polygon2D::Update()
 
 void Polygon2D::Draw()
 {
-	//“ü—ÍƒŒƒCƒAƒEƒgÝ’è
-	Renderer::GetInstance()->GetDeviceContext()->IASetInputLayout(m_vertexLayout);
+	//å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆè¨­å®š
+	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
-	//ƒVƒF[ƒ_[Ý’è
-	Renderer::GetInstance()->GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance()->GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼è¨­å®š
+	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
+	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
-	//ƒ}ƒgƒŠƒNƒXÝ’è
-	Renderer::GetInstance()->SetWorldViewProjection2D();
+	//ãƒžãƒˆãƒªã‚¯ã‚¹è¨­å®š
+	Renderer::GetInstance().SetWorldViewProjection2D();
 
-	//’¸“_ƒoƒbƒtƒ@Ý’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡è¨­å®š
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
-	Renderer::GetInstance()->GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
+	Renderer::GetInstance().GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 
 
-	//ƒeƒNƒXƒ`ƒƒÝ’è
-	Renderer::GetInstance()->GetDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®š
+	Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
 
-	//ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWÝ’è
-	Renderer::GetInstance()->GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	//ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒˆãƒãƒ­ã‚¸è¨­å®š
+	Renderer::GetInstance().GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	//ƒ|ƒŠƒSƒ“•`‰æ
-	Renderer::GetInstance()->GetDeviceContext()->Draw(4, 0);
+	//ãƒãƒªã‚´ãƒ³æç”»
+	Renderer::GetInstance().GetDeviceContext()->Draw(4, 0);
 }

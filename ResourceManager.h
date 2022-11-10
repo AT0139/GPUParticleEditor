@@ -1,14 +1,14 @@
-#pragma once
+ï»¿#pragma once
 
-//ƒ‚ƒfƒ‹ƒf[ƒ^‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 
+#include "Singleton.h"
 #include <unordered_map>
 #include <string>
 
-class ResourceManager
+class ResourceManager : public Singleton<ResourceManager>
 {
 public:
-	static ResourceManager* GetInstance();
+	friend class Singleton<ResourceManager>;
 
 	class Model* GetModelData(std::string filePath);
 	class AnimationModel* GetAnimationModelData(std::string filePath);
@@ -19,8 +19,6 @@ public:
 private:
 	ResourceManager() {}
 	~ResourceManager();
-
-	static ResourceManager* m_singleton;
 
 	std::unordered_map <std::string, Model*> m_modelList;
 	std::unordered_map <std::string, AnimationModel*>m_animationModelList;

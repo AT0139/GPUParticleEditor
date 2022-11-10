@@ -1,4 +1,4 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "renderer.h"
 #include "MeshField.h"
 #include "ResourceManager.h"
@@ -37,13 +37,13 @@ void MeshField::Init()
 				vx = m_vertex[x + 1][z].Position - m_vertex[x - 1][z].Position;
 				vz = m_vertex[x][z + 1].Position - m_vertex[x][z - 1].Position;
 
-				D3DXVec3Cross(&vn, &vx, &vz); //ŠOÏ
+				D3DXVec3Cross(&vn, &vx, &vz); //å¤–ç©
 				D3DXVec3Normalize(&vn, &vn); 
 				m_vertex[x][z].Normal = vn;
 			}
 		}
 
-		//’¸“_ƒoƒbƒtƒ@¶¬	
+		//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ	
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
 		bd.Usage = D3D11_USAGE_DEFAULT;
@@ -55,7 +55,7 @@ void MeshField::Init()
 		ZeroMemory(&sd, sizeof(sd));
 		sd.pSysMem = m_vertex;
 
-		Renderer::GetInstance()->GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
+		Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 	}
 
 	{
@@ -94,16 +94,16 @@ void MeshField::Init()
 		ZeroMemory(&sd, sizeof(sd));
 		sd.pSysMem = index;
 
-		Renderer::GetInstance()->GetDevice()->CreateBuffer(&bd, &sd, &m_indexBuffer);
+		Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_indexBuffer);
 	}
 
-	//ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
-	m_texture = ResourceManager::GetInstance()->GetTextureData("asset/texture/forest.jpg");
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
+	m_texture = ResourceManager::GetInstance().GetTextureData("asset/texture/forest.jpg");
 
 	assert(m_texture);
 
-	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
-	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "vertexLightingPS.cso");
+	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
+	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "vertexLightingPS.cso");
 
 	m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -127,51 +127,51 @@ void MeshField::Update()
 
 void MeshField::Draw()
 {
-	//“ü—ÍƒŒƒCƒAƒEƒgİ’è
-	Renderer::GetInstance()->GetDeviceContext()->IASetInputLayout(m_vertexLayout);
+	//å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆè¨­å®š
+	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
-	//ƒVƒF[ƒ_[İ’è
-	Renderer::GetInstance()->GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance()->GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼è¨­å®š
+	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
+	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
-	//ƒ[ƒ‹ƒhƒ}ƒgƒŠƒNƒXİ’è
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒãƒˆãƒªã‚¯ã‚¹è¨­å®š
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
 	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
 	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 	world = scale * rot * trans;
-	Renderer::GetInstance()->SetWorldMatrix(&world);
+	Renderer::GetInstance().SetWorldMatrix(&world);
 
-	//’¸“_ƒoƒbƒtƒ@İ’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡è¨­å®š
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
-	Renderer::GetInstance()->GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
+	Renderer::GetInstance().GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@¶¬
-	Renderer::GetInstance()->GetDeviceContext()->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
+	Renderer::GetInstance().GetDeviceContext()->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-	//ƒ}ƒeƒŠƒAƒ‹İ’è
+	//ãƒãƒ†ãƒªã‚¢ãƒ«è¨­å®š
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	Renderer::GetInstance()->SetMaterial(material);
+	Renderer::GetInstance().SetMaterial(material);
 
-	//ƒeƒNƒXƒ`ƒƒİ’è
-	Renderer::GetInstance()->GetDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®š
+	Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
 
-	//ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWİ’è
-	Renderer::GetInstance()->GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	//ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒˆãƒãƒ­ã‚¸è¨­å®š
+	Renderer::GetInstance().GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	//ƒ|ƒŠƒSƒ“•`‰æ
-	Renderer::GetInstance()->GetDeviceContext()->DrawIndexed(INDEX_NUM, 0,0);
+	//ãƒãƒªã‚´ãƒ³æç”»
+	Renderer::GetInstance().GetDeviceContext()->DrawIndexed(INDEX_NUM, 0,0);
 }
 
 float MeshField::GetHeight(D3DXVECTOR3 position)
 {
 	int x, z;
 
-	x = position.x / 5.0f + 10.0f;
-	z = position.z / -5.0f + 10.0f;
+	x = static_cast<int>(position.x / 5.0f + 10.0f);
+	z = static_cast<int>(position.z / -5.0f + 10.0f);
 
 	D3DXVECTOR3 pos0, pos1, pos2, pos3;
 
@@ -203,7 +203,7 @@ float MeshField::GetHeight(D3DXVECTOR3 position)
 		D3DXVec3Cross(&n, &v12, &v13);
 	}
 
-	//‚‚³æ“¾
+	//é«˜ã•å–å¾—
 	py = -((position.x - pos1.x) * n.x + (position.z - pos1.z) * n.z) / n.y + pos1.y;
 
 	return py;
@@ -217,13 +217,11 @@ bool MeshField::FileReader(const char* filename)
 	unsigned int count;
 	BITMAPFILEHEADER bitmapFileHeader;
 	BITMAPINFOHEADER bitmapInfoHeader;
-	int imageSize, z, x, k, index;
+	int imageSize, z, x, k;
 	unsigned char* bitmapImage;
 	unsigned char height;
 
-	FILE* fp;
-
-	//ƒnƒCƒgƒ}ƒbƒv‚ğƒoƒCƒiƒŠ‚ÅŠJ‚­
+	//ãƒã‚¤ãƒˆãƒãƒƒãƒ—ã‚’ãƒã‚¤ãƒŠãƒªã§é–‹ã
 	error = fopen_s(&filePtr, filename, "rb");
 	if (error != 0)
 	{
@@ -231,7 +229,7 @@ bool MeshField::FileReader(const char* filename)
 		return false;
 	}
 
-	//ƒtƒ@ƒCƒ‹ƒwƒbƒ_“Ç‚İ‚İ
+	//ãƒ•ã‚¡ã‚¤ãƒ«ãƒ˜ãƒƒãƒ€èª­ã¿è¾¼ã¿
 	count = fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
 	if (count != 1)
 	{
@@ -239,7 +237,7 @@ bool MeshField::FileReader(const char* filename)
 		return false;
 	}
 
-	//ƒrƒbƒgƒ}ƒbƒvƒwƒbƒ_“Ç‚İ‚İ
+	//ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ãƒ˜ãƒƒãƒ€èª­ã¿è¾¼ã¿
 	count = fread(&bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
 	if (count != 1)
 	{
@@ -247,16 +245,16 @@ bool MeshField::FileReader(const char* filename)
 		return false;
 	}
 
-	//’nŒ`‚Ì‘å‚«‚³
+	//åœ°å½¢ã®å¤§ãã•
 	m_terrainWidth = bitmapInfoHeader.biWidth;
 	m_terrainHeight = bitmapInfoHeader.biHeight;
 
 
 
-	//‰æ‘œƒTƒCƒYŒvZ
+	//ç”»åƒã‚µã‚¤ã‚ºè¨ˆç®—
 	imageSize = m_terrainWidth * (m_terrainHeight + 3) * 3;
 
-	//ƒƒ‚ƒŠŠ„‚è“–‚Ä
+	//ãƒ¡ãƒ¢ãƒªå‰²ã‚Šå½“ã¦
 	bitmapImage = new unsigned char[imageSize];
 	if (!bitmapImage)
 	{
@@ -267,10 +265,10 @@ bool MeshField::FileReader(const char* filename)
 
 	fseek(filePtr, bitmapFileHeader.bfOffBits, SEEK_SET);
 
-	//bmp“Ç‚İ‚İ
+	//bmpèª­ã¿è¾¼ã¿
 	count = fread(bitmapImage, sizeof(unsigned char), imageSize, filePtr);
 
-	//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 	error = fclose(filePtr);
 	if (error != 0)
 	{
@@ -278,14 +276,14 @@ bool MeshField::FileReader(const char* filename)
 		return false;
 	}
 
-	//ƒnƒCƒgƒ}ƒbƒvƒf[ƒ^—p‚Ì•Ï”‚ğì¬
+	//ãƒã‚¤ãƒˆãƒãƒƒãƒ—ãƒ‡ãƒ¼ã‚¿ç”¨ã®å¤‰æ•°ã‚’ä½œæˆ
 	m_heightMap.resize(m_terrainWidth);
 	for (int i = 0; i < m_terrainWidth; i++)
 	{
 		m_heightMap[i].resize(m_terrainHeight);
 	}
 
-	//ƒnƒCƒgƒ}ƒbƒv‚É‘ã“ü
+	//ãƒã‚¤ãƒˆãƒãƒƒãƒ—ã«ä»£å…¥
 	k = 0;
 	for (z = m_terrainHeight - 1; z >= 0; z--)
 	{

@@ -1,4 +1,4 @@
-#include "Result.h"
+﻿#include "Result.h"
 #include "main.h"
 #include "Polygon2D.h"
 #include "input.h"
@@ -21,6 +21,6 @@ void Result::Update()
 
 	if (Input::GetKeyTrigger(VK_RETURN))
 	{
-		Manager::SetScene<Title>();
+		Manager::GetInstance().SetScene<Title>();
 	}
 }

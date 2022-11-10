@@ -16,16 +16,16 @@ float Player::m_blendRate = 0.0f;
 void Player::Init()
 {
 	//モデル読み込み
-	m_model = ResourceManager::GetInstance()->GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
+	m_model = ResourceManager::GetInstance().GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
 	m_model->LoadAnimation((char*)"asset\\model\\Akai_Idle.fbx", "Idle");
 	m_model->LoadAnimation((char*)"asset\\model\\Akai_Run.fbx", "Run");
 	m_model->LoadAnimation((char*)"asset\\model\\Akai_WalkingBackward.fbx", "WalkingBack");
 
 	m_animationName = "Idle";
 
-	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
+	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
 
-	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "vertexLightingPS.cso");
+	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "vertexLightingPS.cso");
 
 
 	//m_shotSE = scene->AddGameObject<Audio>(scene->UI);
@@ -93,7 +93,7 @@ void Player::Update()
 	if (m_blendRate < 0.0f)
 		m_blendRate = 0.0f;
 
-	Scene* scene = Manager::GetInstance()->GetScene();
+	Scene* scene = Manager::GetInstance().GetScene();
 	MeshField* field = scene->GetGameObject<MeshField>(scene->OBJECT);
 	m_position.y = field->GetHeight(m_position);
 
@@ -101,7 +101,7 @@ void Player::Update()
 	//SHOT
 	if (Input::GetKeyTrigger(VK_SPACE))
 	{
-		Scene* scene = Manager::GetScene();
+		Scene* scene = Manager::GetInstance().GetScene();
 		scene->AddGameObject<Bullet>(scene->OBJECT)->SetPosition(m_position);
 
 		//m_shotSE->Play();
@@ -118,11 +118,11 @@ void Player::Update()
 void Player::Draw()
 {
 	//入力レイアウト設定
-	Renderer::GetInstance()->GetDeviceContext()->IASetInputLayout(m_vertexLayout);
+	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
 	//シェーダー設定
-	Renderer::GetInstance()->GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance()->GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
+	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
 	//ワールドマトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
@@ -130,7 +130,7 @@ void Player::Draw()
 	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y + D3DX_PI, m_rotation.x, m_rotation.z);
 	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 	world = scale * rot * trans;
-	Renderer::GetInstance()->SetWorldMatrix(&world);
+	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	m_model->Draw();
 }

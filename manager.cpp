@@ -1,4 +1,4 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "renderer.h"
 #include "Scene.h"
 #include "manager.h"
@@ -8,13 +8,13 @@
 #include "Result.h"
 #include "audio.h"
 
-Manager* Manager::m_singleton = nullptr;	//ƒCƒ“ƒXƒ^ƒ“ƒX
-
-Scene* Manager::m_scene = nullptr;
+Manager::Manager()
+	: m_pScene(nullptr)
+{}
 
 void Manager::Init()
 {
-	Renderer::GetInstance()->Init();
+	Renderer::GetInstance().Init();
 	Input::Init();
 	Audio::InitMaster();
 
@@ -24,43 +24,30 @@ void Manager::Init()
 
 void Manager::Uninit()
 {	
-	m_scene->Uninit();
-	delete m_scene;
+	m_pScene->Uninit();
+	delete m_pScene;
 
 	Audio::UninitMaster();
 	Input::Uninit();
-	Renderer::GetInstance()->Uninit();
+	Renderer::GetInstance().Uninit();
 }
 
 void Manager::Update()
 {
 	Input::Update();
 
-	m_scene->Update();
+	m_pScene->Update();
 
 }
 
 void Manager::Draw()
 {
-	Renderer::GetInstance()->Begin();
+	Renderer::GetInstance().Begin();
 
-	m_scene->Draw();
+	m_pScene->Draw();
 
-	Renderer::GetInstance()->End();
+	Renderer::GetInstance().End();
 }
 
 Manager::~Manager()
-{
-	delete m_singleton;
-	m_singleton = nullptr;
-}
-
-//ƒVƒ“ƒOƒ‹ƒgƒ“—pƒCƒ“ƒXƒ^ƒ“ƒXæ“¾ŠÖ”
-Manager* Manager::GetInstance()
-{
-	if (!m_singleton)
-	{
-		m_singleton = new Manager();
-	}
-	return m_singleton;
-}
+{}

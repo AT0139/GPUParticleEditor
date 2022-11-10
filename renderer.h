@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-
+#include "Singleton.h"
 
 
 
@@ -37,61 +37,50 @@ struct LIGHT
 
 
 
-class Renderer
+class Renderer : public Singleton<Renderer>
 {
 private:
-	Renderer(){}
+	Renderer();
 	~Renderer();
 
-	static Renderer* m_singleton;
-
-	static D3D_FEATURE_LEVEL       m_FeatureLevel;
-
-	static ID3D11Device*           m_Device;
-	static ID3D11DeviceContext*    m_DeviceContext;
-	static IDXGISwapChain*         m_SwapChain;
-	static ID3D11RenderTargetView* m_RenderTargetView;
-	static ID3D11DepthStencilView* m_DepthStencilView;
-
-	static ID3D11Buffer*			m_WorldBuffer;
-	static ID3D11Buffer*			m_ViewBuffer;
-	static ID3D11Buffer*			m_ProjectionBuffer;
-	static ID3D11Buffer*			m_MaterialBuffer;
-	static ID3D11Buffer*			m_LightBuffer;
-	static ID3D11Buffer* m_cameraBuffer;
-
-
-	static ID3D11DepthStencilState* m_DepthStateEnable;
-	static ID3D11DepthStencilState* m_DepthStateDisable;
-
-
-
+	D3D_FEATURE_LEVEL m_featureLevel;
+	
+	ID3D11Device* m_pDevice;
+	ID3D11DeviceContext* m_pDeviceContext;
+	IDXGISwapChain*	m_pSwapChain;
+	ID3D11RenderTargetView* m_pRenderTargetView;
+	ID3D11DepthStencilView* m_pDepthStencilView;
+	
+	ID3D11Buffer* m_pWorldBuffer;
+	ID3D11Buffer* m_pViewBuffer;
+	ID3D11Buffer* m_pProjectionBuffer;
+	ID3D11Buffer* m_pMaterialBuffer;
+	ID3D11Buffer* m_pLightBuffer;
+	ID3D11Buffer* m_pCameraBuffer;
+	
+	ID3D11DepthStencilState* m_pDepthStateEnable;
+	ID3D11DepthStencilState* m_pDepthStateDisable;
 
 public:
-	 static Renderer* GetInstance();
+	friend class Singleton<Renderer>;
 
-	 void Init();
-	 void Uninit();
-	 void Begin();
-	 void End();
+	void Init();
+	void Uninit();
+	void Begin();
+	void End();
 
+	void SetDepthEnable(bool Enable);
+	void SetWorldViewProjection2D();
+	void SetWorldMatrix(D3DXMATRIX* WorldMatrix);
+	void SetViewMatrix(D3DXMATRIX* ViewMatrix);
+	void SetProjectionMatrix(D3DXMATRIX* ProjectionMatrix);
+	void SetMaterial(MATERIAL Material);
+	void SetLight(LIGHT Light);
+	void SetCameraPosition(D3DXVECTOR3 pos);
 
-	 void SetDepthEnable(bool Enable);
-	 void SetWorldViewProjection2D();
-	 void SetWorldMatrix(D3DXMATRIX* WorldMatrix);
-	 void SetViewMatrix(D3DXMATRIX* ViewMatrix);
-	 void SetProjectionMatrix(D3DXMATRIX* ProjectionMatrix);
-	 void SetMaterial(MATERIAL Material);
-	 void SetLight(LIGHT Light);
-	 void SetCameraPosition(D3DXVECTOR3 pos);
+	ID3D11Device* GetDevice( void ){ return m_pDevice; }
+	ID3D11DeviceContext* GetDeviceContext( void ){ return m_pDeviceContext; }
 
-	 ID3D11Device* GetDevice( void ){ return m_Device; }
-	 ID3D11DeviceContext* GetDeviceContext( void ){ return m_DeviceContext; }
-
-
-
-	 void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
-	 void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
-
-
+	void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
+	void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
 };

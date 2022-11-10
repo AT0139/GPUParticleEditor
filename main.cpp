@@ -1,9 +1,9 @@
-
+ï»¿
 #include "main.h"
 #include "manager.h"
 
 const char* CLASS_NAME = "AppClass";
-const char* WINDOW_NAME = "DX11ƒQ[ƒ€";
+const char* WINDOW_NAME = "DX11ã‚²ãƒ¼ãƒ ";
 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -56,7 +56,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		NULL);
 
 
-	Manager::GetInstance()->Init();
+	Manager::GetInstance().Init();
 
 
 
@@ -97,8 +97,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			{
 				dwExecLastTime = dwCurrentTime;
 
-				Manager::GetInstance()->Update();
-				Manager::GetInstance()->Draw();
+				Manager::GetInstance().Update();
+				Manager::GetInstance().Draw();
 			}
 		}
 	}
@@ -107,7 +107,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	UnregisterClass(CLASS_NAME, wcex.hInstance);
 
-	Manager::GetInstance()->Uninit();
+	Manager::GetInstance().Uninit();
 
 	return (int)msg.wParam;
 }

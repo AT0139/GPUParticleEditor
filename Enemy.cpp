@@ -9,10 +9,10 @@ Model* Enemy::m_model;
 
 void Enemy::Init()
 {
-	m_model = ResourceManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
+	m_model = ResourceManager::GetInstance().GetModelData("asset\\model\\torus.obj");
 
-	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
-	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
+	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
+	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
 	m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 90.0f, 0.0f);
@@ -33,11 +33,11 @@ void Enemy::Update()
 void Enemy::Draw()
 {
 	//入力レイアウト設定
-	Renderer::GetInstance()->GetDeviceContext()->IASetInputLayout(m_vertexLayout);
+	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
 	//シェーダー設定
-	Renderer::GetInstance()->GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance()->GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
+	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 	
 	//ワールドマトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
@@ -45,7 +45,7 @@ void Enemy::Draw()
 	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
 	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 	world = scale * rot * trans;
-	Renderer::GetInstance()->SetWorldMatrix(&world);
+	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	m_model->Draw();
 }
@@ -53,7 +53,7 @@ void Enemy::Draw()
 void Enemy::Load()
 {	
 	//モデル読み込み
-	m_model = ResourceManager::GetInstance()->GetModelData("asset\\model\\torus.obj");
+	m_model = ResourceManager::GetInstance().GetModelData("asset\\model\\torus.obj");
 };
 
 

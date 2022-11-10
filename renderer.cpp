@@ -1,45 +1,28 @@
-
+ï»¿
 #include "main.h"
 #include "renderer.h"
 #include <io.h>
 
-Renderer* Renderer::m_singleton = nullptr;
 
-D3D_FEATURE_LEVEL       Renderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
-
-ID3D11Device*           Renderer::m_Device = NULL;
-ID3D11DeviceContext*    Renderer::m_DeviceContext = NULL;
-IDXGISwapChain*         Renderer::m_SwapChain = NULL;
-ID3D11RenderTargetView* Renderer::m_RenderTargetView = NULL;
-ID3D11DepthStencilView* Renderer::m_DepthStencilView = NULL;
-
-ID3D11Buffer*			Renderer::m_WorldBuffer = NULL;
-ID3D11Buffer*			Renderer::m_ViewBuffer = NULL;
-ID3D11Buffer*			Renderer::m_ProjectionBuffer = NULL;
-ID3D11Buffer*			Renderer::m_MaterialBuffer = NULL;
-ID3D11Buffer*			Renderer::m_LightBuffer = NULL;
-ID3D11Buffer* Renderer::m_cameraBuffer = NULL;
-
-
-ID3D11DepthStencilState* Renderer::m_DepthStateEnable = NULL;
-ID3D11DepthStencilState* Renderer::m_DepthStateDisable = NULL;
-
+Renderer::Renderer()
+	: m_featureLevel(D3D_FEATURE_LEVEL_11_0)
+	, m_pDevice(nullptr)
+	, m_pDeviceContext(nullptr)
+	, m_pSwapChain(nullptr)
+	, m_pRenderTargetView(nullptr)
+	, m_pDepthStencilView(nullptr)
+	, m_pWorldBuffer(nullptr)
+	, m_pViewBuffer(nullptr)
+	, m_pProjectionBuffer(nullptr)
+	, m_pMaterialBuffer(nullptr)
+	, m_pLightBuffer(nullptr)
+	, m_pCameraBuffer(nullptr)
+	, m_pDepthStateEnable(nullptr)
+	, m_pDepthStateDisable(nullptr)
+{}
 
 Renderer::~Renderer()
-{
-	delete m_singleton;
-	m_singleton = nullptr;
-}
-
-Renderer* Renderer::GetInstance()
-{
-	if (!m_singleton)
-	{
-		m_singleton = new Renderer();
-	}
-	return m_singleton;
-}
-
+{}
 
 void Renderer::Init()
 {
@@ -48,7 +31,7 @@ void Renderer::Init()
 
 
 
-	// ƒfƒoƒCƒXAƒXƒƒbƒvƒ`ƒF[ƒ“ì¬
+	// ãƒ‡ãƒã‚¤ã‚¹ã€ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³ä½œæˆ
 	DXGI_SWAP_CHAIN_DESC swapChainDesc{};
 	swapChainDesc.BufferCount = 1;
 	swapChainDesc.BufferDesc.Width = SCREEN_WIDTH;
@@ -70,24 +53,24 @@ void Renderer::Init()
 										0,
 										D3D11_SDK_VERSION,
 										&swapChainDesc,
-										&m_SwapChain,
-										&m_Device,
-										&m_FeatureLevel,
-										&m_DeviceContext );
+										&m_pSwapChain,
+										&m_pDevice,
+										&m_featureLevel,
+										&m_pDeviceContext );
 
 
 
 
 
 
-	// ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgƒrƒ…[ì¬
+	// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒ“ãƒ¥ãƒ¼ä½œæˆ
 	ID3D11Texture2D* renderTarget = NULL;
-	m_SwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&renderTarget );
-	m_Device->CreateRenderTargetView( renderTarget, NULL, &m_RenderTargetView );
+	m_pSwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&renderTarget );
+	m_pDevice->CreateRenderTargetView( renderTarget, NULL, &m_pRenderTargetView );
 	renderTarget->Release();
 
 
-	// ƒfƒvƒXƒXƒeƒ“ƒVƒ‹ƒoƒbƒtƒ@ì¬
+	// ãƒ‡ãƒ—ã‚¹ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ãƒãƒƒãƒ•ã‚¡ä½œæˆ
 	ID3D11Texture2D* depthStencile = NULL;
 	D3D11_TEXTURE2D_DESC textureDesc{};
 	textureDesc.Width = swapChainDesc.BufferDesc.Width;
@@ -100,24 +83,24 @@ void Renderer::Init()
 	textureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	textureDesc.CPUAccessFlags = 0;
 	textureDesc.MiscFlags = 0;
-	m_Device->CreateTexture2D(&textureDesc, NULL, &depthStencile);
+	m_pDevice->CreateTexture2D(&textureDesc, NULL, &depthStencile);
 
-	// ƒfƒvƒXƒXƒeƒ“ƒVƒ‹ƒrƒ…[ì¬
+	// ãƒ‡ãƒ—ã‚¹ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ãƒ“ãƒ¥ãƒ¼ä½œæˆ
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
 	depthStencilViewDesc.Format = textureDesc.Format;
 	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	depthStencilViewDesc.Flags = 0;
-	m_Device->CreateDepthStencilView(depthStencile, &depthStencilViewDesc, &m_DepthStencilView);
+	m_pDevice->CreateDepthStencilView(depthStencile, &depthStencilViewDesc, &m_pDepthStencilView);
 	depthStencile->Release();
 
 
-	m_DeviceContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencilView);
+	m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetView, m_pDepthStencilView);
 
 
 
 
 
-	// ƒrƒ…[ƒ|[ƒgÝ’è
+	// ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆè¨­å®š
 	D3D11_VIEWPORT viewport;
 	viewport.Width = (FLOAT)SCREEN_WIDTH;
 	viewport.Height = (FLOAT)SCREEN_HEIGHT;
@@ -125,11 +108,11 @@ void Renderer::Init()
 	viewport.MaxDepth = 1.0f;
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	m_DeviceContext->RSSetViewports( 1, &viewport );
+	m_pDeviceContext->RSSetViewports( 1, &viewport );
 
 
 
-	// ƒ‰ƒXƒ^ƒ‰ƒCƒUƒXƒe[ƒgÝ’è
+	// ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ã‚¹ãƒ†ãƒ¼ãƒˆè¨­å®š
 	D3D11_RASTERIZER_DESC rasterizerDesc{};
 	rasterizerDesc.FillMode = D3D11_FILL_SOLID; 
 	rasterizerDesc.CullMode = D3D11_CULL_BACK; 
@@ -137,14 +120,14 @@ void Renderer::Init()
 	rasterizerDesc.MultisampleEnable = FALSE; 
 
 	ID3D11RasterizerState *rs;
-	m_Device->CreateRasterizerState( &rasterizerDesc, &rs );
+	m_pDevice->CreateRasterizerState( &rasterizerDesc, &rs );
 
-	m_DeviceContext->RSSetState( rs );
-
-
+	m_pDeviceContext->RSSetState( rs );
 
 
-	// ƒuƒŒƒ“ƒhƒXƒe[ƒgÝ’è
+
+
+	// ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆè¨­å®š
 	D3D11_BLEND_DESC blendDesc{};
 	blendDesc.AlphaToCoverageEnable = FALSE;
 	blendDesc.IndependentBlendEnable = FALSE;
@@ -159,30 +142,30 @@ void Renderer::Init()
 
 	float blendFactor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 	ID3D11BlendState* blendState = NULL;
-	m_Device->CreateBlendState( &blendDesc, &blendState );
-	m_DeviceContext->OMSetBlendState( blendState, blendFactor, 0xffffffff );
+	m_pDevice->CreateBlendState( &blendDesc, &blendState );
+	m_pDeviceContext->OMSetBlendState( blendState, blendFactor, 0xffffffff );
 
 
 
-	// ƒfƒvƒXƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒgÝ’è
+	// ãƒ‡ãƒ—ã‚¹ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆè¨­å®š
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc{};
 	depthStencilDesc.DepthEnable = TRUE;
 	depthStencilDesc.DepthWriteMask	= D3D11_DEPTH_WRITE_MASK_ALL;
 	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 	depthStencilDesc.StencilEnable = FALSE;
 
-	m_Device->CreateDepthStencilState( &depthStencilDesc, &m_DepthStateEnable );//[“x—LŒøƒXƒe[ƒg
+	m_pDevice->CreateDepthStencilState( &depthStencilDesc, &m_pDepthStateEnable );//æ·±åº¦æœ‰åŠ¹ã‚¹ãƒ†ãƒ¼ãƒˆ
 
 	//depthStencilDesc.DepthEnable = FALSE;
 	depthStencilDesc.DepthWriteMask	= D3D11_DEPTH_WRITE_MASK_ZERO;
-	m_Device->CreateDepthStencilState( &depthStencilDesc, &m_DepthStateDisable );//[“x–³ŒøƒXƒe[ƒg
+	m_pDevice->CreateDepthStencilState( &depthStencilDesc, &m_pDepthStateDisable );//æ·±åº¦ç„¡åŠ¹ã‚¹ãƒ†ãƒ¼ãƒˆ
 
-	m_DeviceContext->OMSetDepthStencilState( m_DepthStateEnable, NULL );
-
-
+	m_pDeviceContext->OMSetDepthStencilState( m_pDepthStateEnable, NULL );
 
 
-	// ƒTƒ“ƒvƒ‰[ƒXƒe[ƒgÝ’è
+
+
+	// ã‚µãƒ³ãƒ—ãƒ©ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆè¨­å®š
 	D3D11_SAMPLER_DESC samplerDesc{};
 	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -190,13 +173,13 @@ void Renderer::Init()
 	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 
 	ID3D11SamplerState* samplerState = NULL;
-	m_Device->CreateSamplerState( &samplerDesc, &samplerState );
+	m_pDevice->CreateSamplerState( &samplerDesc, &samplerState );
 
-	m_DeviceContext->PSSetSamplers( 0, 1, &samplerState );
+	m_pDeviceContext->PSSetSamplers( 0, 1, &samplerState );
 
 
 
-	// ’è”ƒoƒbƒtƒ@¶¬
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	D3D11_BUFFER_DESC bufferDesc{};
 	bufferDesc.ByteWidth = sizeof(D3DXMATRIX);
 	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -205,36 +188,36 @@ void Renderer::Init()
 	bufferDesc.MiscFlags = 0;
 	bufferDesc.StructureByteStride = sizeof(float);
 
-	m_Device->CreateBuffer( &bufferDesc, NULL, &m_WorldBuffer );
-	m_DeviceContext->VSSetConstantBuffers( 0, 1, &m_WorldBuffer);
+	m_pDevice->CreateBuffer( &bufferDesc, NULL, &m_pWorldBuffer );
+	m_pDeviceContext->VSSetConstantBuffers( 0, 1, &m_pWorldBuffer);
 
-	m_Device->CreateBuffer( &bufferDesc, NULL, &m_ViewBuffer );
-	m_DeviceContext->VSSetConstantBuffers( 1, 1, &m_ViewBuffer );
+	m_pDevice->CreateBuffer( &bufferDesc, NULL, &m_pViewBuffer );
+	m_pDeviceContext->VSSetConstantBuffers( 1, 1, &m_pViewBuffer );
 
-	m_Device->CreateBuffer( &bufferDesc, NULL, &m_ProjectionBuffer );
-	m_DeviceContext->VSSetConstantBuffers( 2, 1, &m_ProjectionBuffer );
+	m_pDevice->CreateBuffer( &bufferDesc, NULL, &m_pProjectionBuffer );
+	m_pDeviceContext->VSSetConstantBuffers( 2, 1, &m_pProjectionBuffer );
 
 
 	bufferDesc.ByteWidth = sizeof(MATERIAL);
 
-	m_Device->CreateBuffer( &bufferDesc, NULL, &m_MaterialBuffer );
-	m_DeviceContext->VSSetConstantBuffers( 3, 1, &m_MaterialBuffer );
+	m_pDevice->CreateBuffer( &bufferDesc, NULL, &m_pMaterialBuffer );
+	m_pDeviceContext->VSSetConstantBuffers( 3, 1, &m_pMaterialBuffer );
 
 
 	bufferDesc.ByteWidth = sizeof(LIGHT);
 
-	m_Device->CreateBuffer( &bufferDesc, NULL, &m_LightBuffer );
-	m_DeviceContext->VSSetConstantBuffers( 4, 1, &m_LightBuffer );
-	m_DeviceContext->PSSetConstantBuffers(4, 1, &m_LightBuffer);
+	m_pDevice->CreateBuffer( &bufferDesc, NULL, &m_pLightBuffer );
+	m_pDeviceContext->VSSetConstantBuffers( 4, 1, &m_pLightBuffer );
+	m_pDeviceContext->PSSetConstantBuffers(4, 1, &m_pLightBuffer);
 
 	bufferDesc.ByteWidth = sizeof(D3DXVECTOR4);
 
-	m_Device->CreateBuffer(&bufferDesc, NULL, &m_cameraBuffer);
-	m_DeviceContext->PSSetConstantBuffers(5, 1, &m_cameraBuffer);
+	m_pDevice->CreateBuffer(&bufferDesc, NULL, &m_pCameraBuffer);
+	m_pDeviceContext->PSSetConstantBuffers(5, 1, &m_pCameraBuffer);
 
 
 
-	// ƒ‰ƒCƒg‰Šú‰»
+	// ãƒ©ã‚¤ãƒˆåˆæœŸåŒ–
 	LIGHT light{};
 	light.Enable = true;
 	light.Direction = D3DXVECTOR4(1.0f, -1.0f, 1.0f, 0.0f);
@@ -244,7 +227,7 @@ void Renderer::Init()
 	SetLight(light);
 
 
-	// ƒ}ƒeƒŠƒAƒ‹‰Šú‰»
+	// ãƒžãƒ†ãƒªã‚¢ãƒ«åˆæœŸåŒ–
 	MATERIAL material{};
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
@@ -260,19 +243,19 @@ void Renderer::Init()
 void Renderer::Uninit()
 {
 
-	m_WorldBuffer->Release();
-	m_ViewBuffer->Release();
-	m_ProjectionBuffer->Release();
-	m_LightBuffer->Release();
-	m_MaterialBuffer->Release();
-	m_cameraBuffer->Release();
+	m_pWorldBuffer->Release();
+	m_pViewBuffer->Release();
+	m_pProjectionBuffer->Release();
+	m_pLightBuffer->Release();
+	m_pMaterialBuffer->Release();
+	m_pCameraBuffer->Release();
 
 
-	m_DeviceContext->ClearState();
-	m_RenderTargetView->Release();
-	m_SwapChain->Release();
-	m_DeviceContext->Release();
-	m_Device->Release();
+	m_pDeviceContext->ClearState();
+	m_pRenderTargetView->Release();
+	m_pSwapChain->Release();
+	m_pDeviceContext->Release();
+	m_pDevice->Release();
 
 }
 
@@ -282,15 +265,15 @@ void Renderer::Uninit()
 void Renderer::Begin()
 {
 	float clearColor[4] = { 0.0f, 0.5f, 0.5f, 1.0f };
-	m_DeviceContext->ClearRenderTargetView( m_RenderTargetView, clearColor );
-	m_DeviceContext->ClearDepthStencilView( m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	m_pDeviceContext->ClearRenderTargetView( m_pRenderTargetView, clearColor );
+	m_pDeviceContext->ClearDepthStencilView( m_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
 
 
 void Renderer::End()
 {
-	m_SwapChain->Present( 1, 0 );
+	m_pSwapChain->Present( 1, 0 );
 }
 
 
@@ -299,9 +282,9 @@ void Renderer::End()
 void Renderer::SetDepthEnable( bool Enable )
 {
 	if( Enable )
-		m_DeviceContext->OMSetDepthStencilState( m_DepthStateEnable, NULL );
+		m_pDeviceContext->OMSetDepthStencilState( m_pDepthStateEnable, NULL );
 	else
-		m_DeviceContext->OMSetDepthStencilState( m_DepthStateDisable, NULL );
+		m_pDeviceContext->OMSetDepthStencilState( m_pDepthStateDisable, NULL );
 
 }
 
@@ -311,17 +294,17 @@ void Renderer::SetWorldViewProjection2D()
 	D3DXMatrixIdentity(&world);
 	D3DXMatrixTranspose(&world, &world);
 
-	m_DeviceContext->UpdateSubresource(m_WorldBuffer, 0, NULL, &world, 0, 0);
+	m_pDeviceContext->UpdateSubresource(m_pWorldBuffer, 0, NULL, &world, 0, 0);
 
 	D3DXMATRIX view;
 	D3DXMatrixIdentity(&view);
 	D3DXMatrixTranspose(&view, &view);
-	m_DeviceContext->UpdateSubresource(m_ViewBuffer, 0, NULL, &view, 0, 0);
+	m_pDeviceContext->UpdateSubresource(m_pViewBuffer, 0, NULL, &view, 0, 0);
 
 	D3DXMATRIX projection;
 	D3DXMatrixOrthoOffCenterLH(&projection, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f);
 	D3DXMatrixTranspose(&projection, &projection);
-	m_DeviceContext->UpdateSubresource( m_ProjectionBuffer, 0, NULL, &projection, 0, 0 );
+	m_pDeviceContext->UpdateSubresource( m_pProjectionBuffer, 0, NULL, &projection, 0, 0 );
 
 }
 
@@ -330,38 +313,38 @@ void Renderer::SetWorldMatrix( D3DXMATRIX* WorldMatrix )
 {
 	D3DXMATRIX world;
 	D3DXMatrixTranspose(&world, WorldMatrix);
-	m_DeviceContext->UpdateSubresource(m_WorldBuffer, 0, NULL, &world, 0, 0);
+	m_pDeviceContext->UpdateSubresource(m_pWorldBuffer, 0, NULL, &world, 0, 0);
 }
 
 void Renderer::SetViewMatrix( D3DXMATRIX* ViewMatrix )
 {
 	D3DXMATRIX view;
 	D3DXMatrixTranspose(&view, ViewMatrix);
-	m_DeviceContext->UpdateSubresource(m_ViewBuffer, 0, NULL, &view, 0, 0);
+	m_pDeviceContext->UpdateSubresource(m_pViewBuffer, 0, NULL, &view, 0, 0);
 }
 
 void Renderer::SetProjectionMatrix( D3DXMATRIX* ProjectionMatrix )
 {
 	D3DXMATRIX projection;
 	D3DXMatrixTranspose(&projection, ProjectionMatrix);
-	m_DeviceContext->UpdateSubresource(m_ProjectionBuffer, 0, NULL, &projection, 0, 0);
+	m_pDeviceContext->UpdateSubresource(m_pProjectionBuffer, 0, NULL, &projection, 0, 0);
 }
 
 
 
 void Renderer::SetMaterial( MATERIAL Material )
 {
-	m_DeviceContext->UpdateSubresource( m_MaterialBuffer, 0, NULL, &Material, 0, 0 );
+	m_pDeviceContext->UpdateSubresource( m_pMaterialBuffer, 0, NULL, &Material, 0, 0 );
 }
 
 void Renderer::SetLight( LIGHT Light )
 {
-	m_DeviceContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
+	m_pDeviceContext->UpdateSubresource(m_pLightBuffer, 0, NULL, &Light, 0, 0);
 }
 
 void Renderer::SetCameraPosition(D3DXVECTOR3 pos)
 {
-	m_DeviceContext->UpdateSubresource(m_cameraBuffer, 0, NULL, &pos, 0, 0);
+	m_pDeviceContext->UpdateSubresource(m_pCameraBuffer, 0, NULL, &pos, 0, 0);
 }
 
 
@@ -378,7 +361,7 @@ void Renderer::CreateVertexShader( ID3D11VertexShader** VertexShader, ID3D11Inpu
 	fread(buffer, fsize, 1, file);
 	fclose(file);
 
-	m_Device->CreateVertexShader(buffer, fsize, NULL, VertexShader);
+	m_pDevice->CreateVertexShader(buffer, fsize, NULL, VertexShader);
 
 
 	D3D11_INPUT_ELEMENT_DESC layout[] =
@@ -390,7 +373,7 @@ void Renderer::CreateVertexShader( ID3D11VertexShader** VertexShader, ID3D11Inpu
 	};
 	UINT numElements = ARRAYSIZE(layout);
 
-	m_Device->CreateInputLayout(layout,
+	m_pDevice->CreateInputLayout(layout,
 		numElements,
 		buffer,
 		fsize,
@@ -412,7 +395,7 @@ void Renderer::CreatePixelShader( ID3D11PixelShader** PixelShader, const char* F
 	fread(buffer, fsize, 1, file);
 	fclose(file);
 
-	m_Device->CreatePixelShader(buffer, fsize, NULL, PixelShader);
+	m_pDevice->CreatePixelShader(buffer, fsize, NULL, PixelShader);
 
 	delete[] buffer;
 }

@@ -1,36 +1,36 @@
-#pragma once
+﻿#pragma once
 
+#include "Singleton.h"
 #include "Scene.h"
 
-class Manager
+class Manager : public Singleton<Manager>
 {
 
 public:
+	friend class Singleton<Manager>;
+
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
-	
-	static Manager* GetInstance();
-	static Scene* GetScene() { return m_scene; };
+
+	Scene* GetScene() { return m_pScene; };
 
 	template<typename T>
-	static void SetScene()
+	void SetScene()
 	{
-		if (m_scene)
+		if (m_pScene)
 		{
-			m_scene->Uninit();
-			delete m_scene;
+			m_pScene->Uninit();
+			delete m_pScene;
 		}
-		m_scene = new T();
-		m_scene->Init();
+		m_pScene = new T();
+		m_pScene->Init();
 	}
 
 private:
-	Manager() {}
+	Manager();
 	~Manager();
 
-	static class Scene* m_scene;
-
-	static Manager* m_singleton;
+	class Scene* m_pScene;
 };

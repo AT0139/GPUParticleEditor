@@ -42,17 +42,17 @@ void Tree::Init()
 	ZeroMemory(&sd, sizeof(sd));
 	sd.pSysMem = vertex;
 
-	Renderer::GetInstance()->GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
+	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 
 	//テクスチャ読み込み
 
-	//D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance()->GetDevice(), "asset/texture/explosion.png", NULL, NULL, &m_texture, NULL);
-	m_texture = ResourceManager::GetInstance()->GetTextureData("asset/texture/Tree.png");
+	//D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance().GetDevice(), "asset/texture/explosion.png", NULL, NULL, &m_texture, NULL);
+	m_texture = ResourceManager::GetInstance().GetTextureData("asset/texture/Tree.png");
 	assert(m_texture);
 
-	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
+	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
-	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
+	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
 	m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -75,17 +75,17 @@ void Tree::Update()
 
 void Tree::Draw()
 {
-	Renderer::GetInstance()->GetDeviceContext()->Unmap(m_vertexBuffer, 0);
+	Renderer::GetInstance().GetDeviceContext()->Unmap(m_vertexBuffer, 0);
 
 	//入力レイアウト設定
-	Renderer::GetInstance()->GetDeviceContext()->IASetInputLayout(m_vertexLayout);
+	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
 	//シェーダー設定
-	Renderer::GetInstance()->GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance()->GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
+	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
 	//カメラのビューマトリクス取得
-	Scene* scene = Manager::GetScene();
+	Scene* scene = Manager::GetInstance().GetScene();
 	Camera* camera = scene->GetGameObject<Camera>(scene->CAMERA);
 	D3DXMATRIX view = camera->GetViewMatrix();
 
@@ -101,25 +101,25 @@ void Tree::Draw()
 	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
 	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 	world = scale * invView * trans;
-	Renderer::GetInstance()->SetWorldMatrix(&world);
+	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
-	Renderer::GetInstance()->GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
+	Renderer::GetInstance().GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 
 	//マテリアル設定
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	Renderer::GetInstance()->SetMaterial(material);
+	Renderer::GetInstance().SetMaterial(material);
 
 	//テクスチャ設定
-	Renderer::GetInstance()->GetDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
+	Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
 
 	//プリミティブトポロジ設定
-	Renderer::GetInstance()->GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	Renderer::GetInstance().GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//ポリゴン描画
-	Renderer::GetInstance()->GetDeviceContext()->Draw(4, 0);
+	Renderer::GetInstance().GetDeviceContext()->Draw(4, 0);
 }

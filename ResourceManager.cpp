@@ -1,28 +1,15 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "renderer.h"
 #include "model.h"
 #include "AnimationModel.h"
 #include "ResourceManager.h"
 
-ResourceManager* ResourceManager::m_singleton = nullptr;
-
-
-ResourceManager* ResourceManager::GetInstance()
-{
-	if (!m_singleton)
-	{
-		m_singleton = new ResourceManager;
-	}
-	return m_singleton;
-}
-
-
 Model* ResourceManager::GetModelData(std::string filePath)
 {
-	//ƒL[‚ª‘¶Ý‚µ‚Ä‚¢‚é‚©
+	//ã‚­ãƒ¼ãŒå­˜åœ¨ã—ã¦ã„ã‚‹ã‹
 	if (m_modelList.find(filePath) == m_modelList.end())
 	{
-		//‚È‚¢ê‡ì¬
+		//ãªã„å ´åˆä½œæˆ
 		m_modelList[filePath] = new Model(filePath.c_str());
 	}
 	return m_modelList[filePath];
@@ -40,11 +27,11 @@ AnimationModel* ResourceManager::GetAnimationModelData(std::string filePath)
 
 ID3D11ShaderResourceView* ResourceManager::GetTextureData(std::string filePath)
 {
-	//ƒL[‚ª‘¶Ý‚µ‚Ä‚¢‚é‚©
+	//ã‚­ãƒ¼ãŒå­˜åœ¨ã—ã¦ã„ã‚‹ã‹
 	if (m_textureList.find(filePath) == m_textureList.end())
 	{
 		ID3D11ShaderResourceView* texture;
-		D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance()->GetDevice(),filePath.c_str(), NULL, NULL, &texture, NULL);
+		D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance().GetDevice(),filePath.c_str(), NULL, NULL, &texture, NULL);
 		m_textureList[filePath] = texture;
 	}
 
@@ -88,7 +75,4 @@ ResourceManager::~ResourceManager()
 		model.second->Unload();
 	}
 	m_animationModelList.clear();
-	
-	delete m_singleton;
-	m_singleton = nullptr;
 }
