@@ -54,4 +54,14 @@ void Game::Update()
 	{
 		Manager::GetInstance().SetScene<Result>();
 	}
+
+	ImGui::Begin("Begin1");
+	{
+		ImGui::Begin("Begin2");
+		{
+			//  これでもしっかりウィンドウは表示される。
+		}
+		ImGui::End();
+	}
+	ImGui::End();
 }

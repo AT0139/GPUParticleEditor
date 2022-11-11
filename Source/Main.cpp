@@ -1,6 +1,7 @@
 ﻿
 #include "main.h"
 #include "manager.h"
+#include "Renderer.h"
 
 const char* CLASS_NAME = "AppClass";
 const char* WINDOW_NAME = "DX11ゲーム";
@@ -15,7 +16,6 @@ HWND GetWindow()
 {
 	return g_Window;
 }
-
 
 
 
@@ -95,6 +95,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 			if((dwCurrentTime - dwExecLastTime) >= (1000 / 60))
 			{
+				ImGui_ImplDX11_NewFrame();
+				ImGui_ImplWin32_NewFrame();
+				ImGui::NewFrame();
+
 				dwExecLastTime = dwCurrentTime;
 
 				Manager::GetInstance().Update();
@@ -114,10 +118,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
+		return true;
 	switch(uMsg)
 	{
 	case WM_DESTROY:

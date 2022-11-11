@@ -235,13 +235,54 @@ void Renderer::Init()
 
 
 
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
+	// Setup Dear ImGui style
+	ImGui::StyleColorsClassic();
+	//ImGui::StyleColorsLight();
+
+	ImGui_ImplWin32_Init(GetWindow());
+	ImGui_ImplDX11_Init(m_pDevice, m_pDeviceContext);
+
+	//	Fonts
+	io.Fonts->AddFontFromFileTTF("imgui/misc/fonts/Roboto-Medium.ttf", m_ImGuiFontSize);
+
+	//style
+	ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(0.0f, 1.0f, 220.0f / 250.0f, 1.0f));
+	//	ホバー色
+	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(0.3f, 0.85f, 0.875f, 0.4f));
+
+	ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImVec4(0.0f, 1.0f, 0.9f, 0.7f));
+
+	//  ウィンドウの角丸み->多分角度
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 15.0f);
+
+	//  ウィンドウボーダーサイズ
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 10.0f);
+
+	//	ウィンドウのタイトルのアラインメント
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowTitleAlign, ImVec2(0.5f, 0.5f));
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(20.0f, 20.0f));
+
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20.0f, 3.0f));
+
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(5.0f, 10.0f));
 }
 
 
 
 void Renderer::Uninit()
 {
+	// Cleanup
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
 
 	m_pWorldBuffer->Release();
 	m_pViewBuffer->Release();
@@ -273,6 +314,8 @@ void Renderer::Begin()
 
 void Renderer::End()
 {
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	m_pSwapChain->Present( 1, 0 );
 }
 
@@ -399,5 +442,3 @@ void Renderer::CreatePixelShader( ID3D11PixelShader** PixelShader, const char* F
 
 	delete[] buffer;
 }
-
-

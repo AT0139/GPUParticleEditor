@@ -1,7 +1,9 @@
 ﻿#pragma once
 
 #include "Singleton.h"
-
+#include "imgui.h"
+#include "imgui_impl_dx11.h"
+#include "imgui_impl_win32.h"
 
 
 struct VERTEX_3D
@@ -60,6 +62,15 @@ private:
 	
 	ID3D11DepthStencilState* m_pDepthStateEnable;
 	ID3D11DepthStencilState* m_pDepthStateDisable;
+
+private:
+#ifdef _DEBUG
+	inline static bool show_demo_window = false;
+	inline static bool show_another_window = false;
+	inline static bool show_hello_world = false;
+	inline static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	inline static float m_ImGuiFontSize = 15;
+#endif // _DEBUG
 
 public:
 	friend class Singleton<Renderer>;
