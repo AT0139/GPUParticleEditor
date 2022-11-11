@@ -5,25 +5,15 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="ソース ファイル\Scene">
       <UniqueIdentifier>{056c6915-7d9c-4f88-b131-9a8c54e9b0cd}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\System">
       <UniqueIdentifier>{741cdef5-6fb9-4a4d-86b3-7d8589b53530}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="unlitTextureVS.hlsl" />
-    <FxCompile Include="common.hlsl" />
-    <FxCompile Include="unlitTexturePS.hlsl" />
-    <FxCompile Include="vertexLightingPS.hlsl" />
-    <FxCompile Include="vertexLightingVS.hlsl" />
-    <FxCompile Include="pixelLightingVS.hlsl" />
-    <FxCompile Include="pixelLightingPS.hlsl" />
+    <Filter Include="Shader">
+      <UniqueIdentifier>{6b9d3d32-c1ed-4e1b-89a8-7960c7d60b43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene.h">
@@ -181,5 +171,28 @@
     <ClCompile Include="Source\Renderer.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\common.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\pixelLightingPS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\pixelLightingVS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\unlitTexturePS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\unlitTextureVS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\vertexLightingPS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\vertexLightingVS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
