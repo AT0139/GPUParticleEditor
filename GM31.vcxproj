@@ -117,6 +117,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(projectDir)Source;$(projectDir)assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -167,61 +168,6 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AnimationModel.cpp" />
-    <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Explosion.cpp" />
-    <ClCompile Include="Field.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Item.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Manager.cpp" />
-    <ClCompile Include="MeshField.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Polygon2D.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="Result.cpp" />
-    <ClCompile Include="Shadow.cpp" />
-    <ClCompile Include="SkyDome.cpp" />
-    <ClCompile Include="Stair.cpp" />
-    <ClCompile Include="Title.cpp" />
-    <ClCompile Include="Tree.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AnimationModel.h" />
-    <ClInclude Include="Audio.h" />
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Explosion.h" />
-    <ClInclude Include="Field.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Item.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="Manager.h" />
-    <ClInclude Include="MeshField.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Polygon2D.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="Result.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Shadow.h" />
-    <ClInclude Include="Singleton.h" />
-    <ClInclude Include="SkyDome.h" />
-    <ClInclude Include="Stair.h" />
-    <ClInclude Include="Title.h" />
-    <ClInclude Include="Tree.h" />
-  </ItemGroup>
-  <ItemGroup>
     <FxCompile Include="common.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -268,6 +214,61 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\AnimationModel.h" />
+    <ClInclude Include="Source\Audio.h" />
+    <ClInclude Include="Source\Bullet.h" />
+    <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\Enemy.h" />
+    <ClInclude Include="Source\Explosion.h" />
+    <ClInclude Include="Source\Field.h" />
+    <ClInclude Include="Source\Game.h" />
+    <ClInclude Include="Source\GameObject.h" />
+    <ClInclude Include="Source\Input.h" />
+    <ClInclude Include="Source\Item.h" />
+    <ClInclude Include="Source\Main.h" />
+    <ClInclude Include="Source\Manager.h" />
+    <ClInclude Include="Source\MeshField.h" />
+    <ClInclude Include="Source\Model.h" />
+    <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\Polygon2D.h" />
+    <ClInclude Include="Source\Renderer.h" />
+    <ClInclude Include="Source\ResourceManager.h" />
+    <ClInclude Include="Source\Result.h" />
+    <ClInclude Include="Source\Scene.h" />
+    <ClInclude Include="Source\Shadow.h" />
+    <ClInclude Include="Source\Singleton.h" />
+    <ClInclude Include="Source\SkyDome.h" />
+    <ClInclude Include="Source\Stair.h" />
+    <ClInclude Include="Source\Title.h" />
+    <ClInclude Include="Source\Tree.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\AnimationModel.cpp" />
+    <ClCompile Include="Source\Audio.cpp" />
+    <ClCompile Include="Source\Bullet.cpp" />
+    <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\Enemy.cpp" />
+    <ClCompile Include="Source\Explosion.cpp" />
+    <ClCompile Include="Source\Field.cpp" />
+    <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\Input.cpp" />
+    <ClCompile Include="Source\Item.cpp" />
+    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Manager.cpp" />
+    <ClCompile Include="Source\MeshField.cpp" />
+    <ClCompile Include="Source\Model.cpp" />
+    <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Polygon2D.cpp" />
+    <ClCompile Include="Source\Renderer.cpp" />
+    <ClCompile Include="Source\ResourceManager.cpp" />
+    <ClCompile Include="Source\Result.cpp" />
+    <ClCompile Include="Source\Shadow.cpp" />
+    <ClCompile Include="Source\SkyDome.cpp" />
+    <ClCompile Include="Source\Stair.cpp" />
+    <ClCompile Include="Source\Title.cpp" />
+    <ClCompile Include="Source\Tree.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
