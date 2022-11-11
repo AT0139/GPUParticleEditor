@@ -74,7 +74,7 @@ public:
 	void SetWorldMatrix(D3DXMATRIX* WorldMatrix);
 	void SetViewMatrix(D3DXMATRIX* ViewMatrix);
 	void SetProjectionMatrix(D3DXMATRIX* ProjectionMatrix);
-	void SetMaterial(MATERIAL Material);
+	void SetMaterial(MATERIAL material);
 	void SetLight(LIGHT Light);
 	void SetCameraPosition(D3DXVECTOR3 pos);
 

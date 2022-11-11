@@ -1,5 +1,5 @@
 ﻿#include "main.h"
-#include "renderer.h"
+#include "Renderer.h"
 #include "Game.h"
 #include "Polygon2D.h"
 #include "Camera.h"
@@ -11,7 +11,7 @@
 #include "SkyDome.h"
 #include "Tree.h"
 #include "input.h"
-#include "manager.h"
+#include "Manager.h"
 #include "Result.h"
 #include "ResourceManager.h"
 #include "audio.h"
@@ -22,7 +22,7 @@ void Game::Init()
 	AddGameObject<Camera>(CAMERA);
 
 	//3Dオブジェクト
-	//AddGameObject<SkyDome>(OBJECT);
+	AddGameObject<SkyDome>(OBJECT);
 	AddGameObject<Player>(OBJECT);
 	AddGameObject<MeshField>(OBJECT);
 	AddGameObject<Stair>(OBJECT)->SetPosition(D3DXVECTOR3(10.0f, 0.0f, 10.0f));

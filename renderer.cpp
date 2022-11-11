@@ -332,9 +332,9 @@ void Renderer::SetProjectionMatrix( D3DXMATRIX* ProjectionMatrix )
 
 
 
-void Renderer::SetMaterial( MATERIAL Material )
+void Renderer::SetMaterial( MATERIAL material )
 {
-	m_pDeviceContext->UpdateSubresource( m_pMaterialBuffer, 0, NULL, &Material, 0, 0 );
+	m_pDeviceContext->UpdateSubresource( m_pMaterialBuffer, 0, NULL, &material, 0, 0 );
 }
 
 void Renderer::SetLight( LIGHT Light )

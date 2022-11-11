@@ -1,38 +1,37 @@
-#pragma once
+ï»¿#pragma once
 
 
 
-// ƒ}ƒeƒŠƒAƒ‹\‘¢‘Ì
+// ãƒãƒ†ãƒªã‚¢ãƒ«æ§‹é€ ä½“
 struct MODEL_MATERIAL
 {
-	char						Name[256];
-	MATERIAL					Material;
-	char						TextureName[256];
-	ID3D11ShaderResourceView*	Texture;
-
+	char name[256];
+	MATERIAL material;
+	char textureName[256];
+	ID3D11ShaderResourceView* pTexture;
 };
 
 
-// •`‰æƒTƒuƒZƒbƒg\‘¢‘Ì
+// æç”»ã‚µãƒ–ã‚»ãƒƒãƒˆæ§‹é€ ä½“
 struct SUBSET
 {
-	unsigned int	StartIndex;
-	unsigned int	IndexNum;
-	MODEL_MATERIAL	Material;
+	unsigned int startIndex;
+	unsigned int indexNum;
+	MODEL_MATERIAL material;
 };
 
 
-// ƒ‚ƒfƒ‹\‘¢‘Ì
+// ãƒ¢ãƒ‡ãƒ«æ§‹é€ ä½“
 struct MODEL
 {
-	VERTEX_3D		*VertexArray;
-	unsigned int	VertexNum;
+	VERTEX_3D* vertexArray;
+	unsigned int vertexNum;
 
-	unsigned int	*IndexArray;
-	unsigned int	IndexNum;
+	unsigned int* indexArray;
+	unsigned int indexNum;
 
-	SUBSET			*SubsetArray;
-	unsigned int	SubsetNum;
+	SUBSET* subsetArray;
+	unsigned int subsetNum;
 };
 
 
@@ -41,27 +40,24 @@ struct MODEL
 
 class Model
 {
+public:
+
+	Model();
+	Model(const char* fileName);
+
+	void Draw();
+
+	void Load(const char* fileName);
+	void Unload();
+
 private:
 
 	ID3D11Buffer* m_vertexBuffer;
 	ID3D11Buffer* m_indexBuffer;
 
-	SUBSET* m_SubsetArray;
-	unsigned int	m_SubsetNum;
+	SUBSET* m_pSubsetArray;
+	unsigned int m_subsetNum;
 
-
-
-	void LoadObj(const char* FileName, MODEL* Model);
-	void LoadMaterial(const char* FileName, MODEL_MATERIAL** MaterialArray, unsigned int* MaterialNum);
-
-public:
-
-	Model() {}
-	Model(const char* fileName);
-
-	void Draw();
-
-	void Load(const char* FileName);
-	void Unload();
-
+	void LoadObj(const char* fileName, MODEL* model);
+	void LoadMaterial(const char* fileName, MODEL_MATERIAL** materialArray, unsigned int* materialNum);
 };

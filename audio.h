@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <xaudio2.h>
 #include "GameObject.h"
@@ -7,15 +7,14 @@
 class Audio : public GameObject
 {
 private:
-	static IXAudio2*				m_Xaudio;
-	static IXAudio2MasteringVoice*	m_MasteringVoice;
+	static IXAudio2* m_xAudio;
+	static IXAudio2MasteringVoice* m_masteringVoice;
 
-	IXAudio2SourceVoice*	m_SourceVoice;
-	BYTE*					m_SoundData;
+	IXAudio2SourceVoice* m_pSourceVoice;
+	BYTE* m_pSoundData;
 
-	int						m_Length;
-	int						m_PlayLength;
-
+	int	m_length;
+	int	m_playLength;
 
 public:
 	static void InitMaster();
@@ -26,9 +25,7 @@ public:
 	void Update() {};
 	void Draw() {};
 
-	void Load(const char *FileName);
-	void Play(bool Loop = false);
-
-
+	void Load(const char *fileName);
+	void Play(bool isLoop = false);
 };
 

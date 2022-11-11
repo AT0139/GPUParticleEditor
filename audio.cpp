@@ -1,4 +1,4 @@
-
+ï»¿
 #include "main.h"
 #include "audio.h"
 
@@ -6,27 +6,27 @@
 
 
 
-IXAudio2*				Audio::m_Xaudio = NULL;
-IXAudio2MasteringVoice*	Audio::m_MasteringVoice = NULL;
+IXAudio2*				Audio::m_xAudio = NULL;
+IXAudio2MasteringVoice*	Audio::m_masteringVoice = NULL;
 
 
 void Audio::InitMaster()
 {
-	// COM‰Šú‰»
-	CoInitializeEx(NULL, COINIT_MULTITHREADED);
+	// COMåˆæœŸåŒ–
+	(void)CoInitializeEx(NULL, COINIT_MULTITHREADED);
 
-	// XAudio¶¬
-	XAudio2Create(&m_Xaudio, 0);
+	// XAudioç”Ÿæˆ
+	XAudio2Create(&m_xAudio, 0);
 
-	// ƒ}ƒXƒ^ƒŠƒ“ƒOƒ{ƒCƒX¶¬
-	m_Xaudio->CreateMasteringVoice(&m_MasteringVoice);
+	// ãƒã‚¹ã‚¿ãƒªãƒ³ã‚°ãƒœã‚¤ã‚¹ç”Ÿæˆ
+	m_xAudio->CreateMasteringVoice(&m_masteringVoice);
 }
 
 
 void Audio::UninitMaster()
 {
-	m_MasteringVoice->DestroyVoice();
-	m_Xaudio->Release();
+	m_masteringVoice->DestroyVoice();
+	m_xAudio->Release();
 	CoUninitialize();
 }
 
@@ -38,10 +38,10 @@ void Audio::UninitMaster()
 
 
 
-void Audio::Load(const char *FileName)
+void Audio::Load(const char *fileName)
 {
 
-	// ƒTƒEƒ“ƒhƒf[ƒ^“Ç
+	// ã‚µã‚¦ãƒ³ãƒ‰ãƒ‡ãƒ¼ã‚¿èª­è¾¼
 	WAVEFORMATEX wfx = { 0 };
 
 	{
@@ -54,7 +54,7 @@ void Audio::Load(const char *FileName)
 		LONG readlen;
 
 
-		hmmio = mmioOpen((LPSTR)FileName, &mmioinfo, MMIO_READ);
+		hmmio = mmioOpen((LPSTR)fileName, &mmioinfo, MMIO_READ);
 		assert(hmmio);
 
 		riffchunkinfo.fccType = mmioFOURCC('W', 'A', 'V', 'E');
@@ -83,60 +83,60 @@ void Audio::Load(const char *FileName)
 
 
 		buflen = datachunkinfo.cksize;
-		m_SoundData = new unsigned char[buflen];
-		readlen = mmioRead(hmmio, (HPSTR)m_SoundData, buflen);
+		m_pSoundData = new unsigned char[buflen];
+		readlen = mmioRead(hmmio, (HPSTR)m_pSoundData, buflen);
 
 
-		m_Length = readlen;
-		m_PlayLength = readlen / wfx.nBlockAlign;
+		m_length = readlen;
+		m_playLength = readlen / wfx.nBlockAlign;
 
 
 		mmioClose(hmmio, 0);
 	}
 
 
-	// ƒTƒEƒ“ƒhƒ\[ƒX¶¬
-	m_Xaudio->CreateSourceVoice(&m_SourceVoice, &wfx);
-	assert(m_SourceVoice);
+	// ã‚µã‚¦ãƒ³ãƒ‰ã‚½ãƒ¼ã‚¹ç”Ÿæˆ
+	m_xAudio->CreateSourceVoice(&m_pSourceVoice, &wfx);
+	assert(m_pSourceVoice);
 }
 
 
 void Audio::Uninit()
 {
-	m_SourceVoice->Stop();
-	m_SourceVoice->DestroyVoice();
+	m_pSourceVoice->Stop();
+	m_pSourceVoice->DestroyVoice();
 
-	delete[] m_SoundData;
+	delete[] m_pSoundData;
 }
 
 
 
 
 
-void Audio::Play(bool Loop)
+void Audio::Play(bool isLoop)
 {
-	m_SourceVoice->Stop();
-	m_SourceVoice->FlushSourceBuffers();
+	m_pSourceVoice->Stop();
+	m_pSourceVoice->FlushSourceBuffers();
 
 
-	// ƒoƒbƒtƒ@İ’è
+	// ãƒãƒƒãƒ•ã‚¡è¨­å®š
 	XAUDIO2_BUFFER bufinfo;
 
 	memset(&bufinfo, 0x00, sizeof(bufinfo));
-	bufinfo.AudioBytes = m_Length;
-	bufinfo.pAudioData = m_SoundData;
+	bufinfo.AudioBytes = m_length;
+	bufinfo.pAudioData = m_pSoundData;
 	bufinfo.PlayBegin = 0;
-	bufinfo.PlayLength = m_PlayLength;
+	bufinfo.PlayLength = m_playLength;
 
-	// ƒ‹[ƒvİ’è
-	if (Loop)
+	// ãƒ«ãƒ¼ãƒ—è¨­å®š
+	if (isLoop)
 	{
 		bufinfo.LoopBegin = 0;
-		bufinfo.LoopLength = m_PlayLength;
+		bufinfo.LoopLength = m_playLength;
 		bufinfo.LoopCount = XAUDIO2_LOOP_INFINITE;
 	}
 
-	m_SourceVoice->SubmitSourceBuffer(&bufinfo, NULL);
+	m_pSourceVoice->SubmitSourceBuffer(&bufinfo, NULL);
 
 /*
 	float outputMatrix[4] = { 0.0f , 0.0f, 1.0f , 0.0f };
@@ -145,8 +145,8 @@ void Audio::Play(bool Loop)
 */
 
 
-	// Ä¶
-	m_SourceVoice->Start();
+	// å†ç”Ÿ
+	m_pSourceVoice->Start();
 
 }
 

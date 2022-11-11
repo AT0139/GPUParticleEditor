@@ -168,19 +168,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimationModel.cpp" />
-    <ClCompile Include="audio.cpp" />
+    <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="input.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="MeshField.cpp" />
-    <ClCompile Include="model.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Polygon2D.cpp" />
@@ -194,7 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationModel.h" />
-    <ClInclude Include="audio.h" />
+    <ClInclude Include="Audio.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Enemy.h" />
@@ -202,12 +202,12 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="input.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="MeshField.h" />
-    <ClInclude Include="model.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Polygon2D.h" />

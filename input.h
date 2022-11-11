@@ -1,11 +1,11 @@
-#pragma once
+﻿#pragma once
 
 
 class Input
 {
 private:
-	static BYTE m_OldKeyState[256];
-	static BYTE m_KeyState[256];
+	static BYTE m_oldKeyState[256];
+	static BYTE m_keyState[256];
 
 public:
 	static void Init();
