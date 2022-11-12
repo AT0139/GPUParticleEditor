@@ -12,6 +12,8 @@
 #include "MeshField.h"
 
 
+static const float CAMERA_FACTOR = 60.0f;
+
 namespace MainGame
 {
 	float Player::m_blendRate = 0.0f;
@@ -57,14 +59,25 @@ namespace MainGame
 	{
 		m_model->Update(m_animationName.c_str(), m_blendRate, m_frame);
 
-		//ROTATION
-		//if (Input::GetKeyPress('Q'))
-		//	m_rotation.y -= 0.1f;
-		//if (Input::GetKeyPress('E'))
-		//	m_rotation.y += 0.1f;
-
 		D3DXVECTOR3 forward = GetForward();
 		D3DXVECTOR3 right = GetRight();
+
+		m_preMousePos = m_mousePos;
+		m_mousePos = GetMousePos();
+
+#ifdef _DEBUG
+		ImGui::Begin("General");
+		{
+			ImGui::Text("x = %d  y = %d", m_mousePos.x, m_mousePos.y);
+		}
+		ImGui::End();
+#endif
+		//マウス
+		float mouseXAcc = (m_preMousePos.x - m_mousePos.x) / CAMERA_FACTOR;
+		float mouseYAcc = (m_preMousePos.y - m_mousePos.y) / CAMERA_FACTOR;
+
+		m_rotation.y -= mouseXAcc;
+		//m_rotation.x -= mouseYAcc;
 
 		//MOVE
 		if (Input::GetKeyPress(KEY_CONFIG::MOVE_UP))
@@ -108,10 +121,6 @@ namespace MainGame
 
 			//m_shotSE->Play();
 		}
-
-		//D3DXVECTOR3 shadowPos = m_position;
-		//shadowPos.y = 0.01f;
-		//m_shadow->SetPosition(shadowPos);
 
 		m_frame++;
 

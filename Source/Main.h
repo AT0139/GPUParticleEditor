@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
@@ -31,3 +31,4 @@
 
 
 HWND GetWindow();
+POINTS GetMousePos();

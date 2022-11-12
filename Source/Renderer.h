@@ -69,8 +69,8 @@ private:
 	inline static bool show_another_window = false;
 	inline static bool show_hello_world = false;
 	inline static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-	inline static float m_ImGuiFontSize = 15;
 #endif // _DEBUG
+	inline static float m_ImGuiFontSize = 15;
 
 public:
 	friend class Singleton<Renderer>;

@@ -44,23 +44,6 @@ namespace MainGame
 		//m_target = playerPos + playerForward;
 		//m_position = playerPos;
 
-		//if (Input::GetKeyPress(KEY_CONFIG::MOVE_UP))
-		//{
-		//	m_targetYoffset += 1.1f;
-		//}
-		//if (Input::GetKeyPress(KEY_CONFIG::MOVE_DOWN))
-		//{
-		//	m_targetYoffset -= 1.1f;
-		//}
-
-		//if (Input::GetKeyPress('I'))
-		//{
-		//	m_positionYoffset += 1.0f;
-		//}
-		//if (Input::GetKeyPress('K'))
-		//{
-		//	m_positionYoffset -= 1.0f;
-		//}
 
 		Renderer::GetInstance().SetCameraPosition(m_position);
 	}
