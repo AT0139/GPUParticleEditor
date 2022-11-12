@@ -18,8 +18,8 @@ void Title::Update()
 {
 	Scene::Update();
 
-	if (Input::GetKeyTrigger(VK_RETURN))
+	if (Input::GetKeyTrigger(KEY_CONFIG::RETURN))
 	{
-		Manager::GetInstance().SetScene<Game>();
+		Manager::GetInstance().SetScene<MainGame::Game>();
 	}
 }

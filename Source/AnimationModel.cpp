@@ -258,7 +258,7 @@ void AnimationModel::Update(const char* animationName, float blendRate, int fram
 			if (blendRate >= 1.0f)
 			{
 				m_currentAnimationName = animationName;
-				Player::ResetBlendRate();
+				MainGame::Player::ResetBlendRate();
 			}
 		}
 	}
@@ -288,7 +288,7 @@ void AnimationModel::Update(const char* animationName, float blendRate, int fram
 			bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot, pos);
 
 			m_currentAnimationName = animationName;
-			Player::ResetBlendRate();
+			MainGame::Player::ResetBlendRate();
 		}
 	}
 	//再帰的にボーンマトリクスを更新

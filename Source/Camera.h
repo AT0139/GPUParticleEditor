@@ -1,21 +1,24 @@
-#pragma once
+﻿#pragma once
 
 #include "GameObject.h"
 
-class Camera : public GameObject
+namespace MainGame
 {
-public:
-	virtual void Init()override;
-	virtual void Uninit()override;
-	virtual void Update()override;
-	virtual void Draw()override;
-	
-	D3DXMATRIX GetViewMatrix() { return m_viewMatrix; }
+	class Camera : public GameObject
+	{
+	public:
+		virtual void Init()override;
+		virtual void Uninit()override;
+		virtual void Update()override;
+		virtual void Draw()override;
 
-private:
-	D3DXVECTOR3 m_target;
-	D3DXMATRIX  m_viewMatrix;
+		D3DXMATRIX GetViewMatrix() { return m_viewMatrix; }
 
-	float m_targetYoffset = 0.0f;
-	float m_positionYoffset = 0.0f;
-};
+	private:
+		D3DXVECTOR3 m_target;
+		D3DXMATRIX  m_viewMatrix;
+
+		float m_targetYoffset = 0.0f;
+		float m_positionYoffset = 0.0f;
+	};
+}

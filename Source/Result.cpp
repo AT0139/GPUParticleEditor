@@ -19,7 +19,7 @@ void Result::Update()
 {
 	Scene::Update();
 
-	if (Input::GetKeyTrigger(VK_RETURN))
+	if (Input::GetKeyTrigger(KEY_CONFIG::RETURN))
 	{
 		Manager::GetInstance().SetScene<Title>();
 	}

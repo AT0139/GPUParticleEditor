@@ -1,4 +1,4 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "renderer.h"
 #include "Explosion.h"
 #include "manager.h"
@@ -6,159 +6,162 @@
 #include "Camera.h"
 #include "ResourceManager.h"
 
-void Explosion::Init()
+namespace MainGame
 {
-	VERTEX_3D vertex[4];
-
-	vertex[0].Position = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);
-	vertex[0].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
-
-	vertex[1].Position = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-	vertex[1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[1].TexCoord = D3DXVECTOR2(1.0f, 0.0f);
-
-	vertex[2].Position = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
-	vertex[2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[2].TexCoord = D3DXVECTOR2(0.0f, 1.0f);
-
-	vertex[3].Position = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
-	vertex[3].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
-
-	//’¸“_ƒoƒbƒtƒ@¶¬	
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DYNAMIC;
-	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-	D3D11_SUBRESOURCE_DATA sd;
-	ZeroMemory(&sd, sizeof(sd));
-	sd.pSysMem = vertex;
-
-	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
-
-	//ƒeƒNƒXƒ`ƒƒ“Ç‚Ýž‚Ý
-
-	//D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance().GetDevice(), "asset/texture/explosion.png", NULL, NULL, &m_texture, NULL);
-	m_texture = ResourceManager::GetInstance().GetTextureData("asset/texture/explosion.png");
-	assert(m_texture);
-
-	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
-
-	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
-
-	m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-
-	m_count = 0;
-}
-
-void Explosion::Uninit()
-{
-	m_vertexBuffer->Release();
-	//m_texture->Release();
-
-	m_vertexLayout->Release();
-	m_vertexShader->Release();
-	m_pixelShader->Release();
-}
-
-void Explosion::Update()
-{
-	m_count++;
-
-	if (m_count >= 16)
+	void Explosion::Init()
 	{
-		SetDestroy();
-		return;
+		VERTEX_3D vertex[4];
+
+		vertex[0].Position = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);
+		vertex[0].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
+
+		vertex[1].Position = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
+		vertex[1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertex[1].TexCoord = D3DXVECTOR2(1.0f, 0.0f);
+
+		vertex[2].Position = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
+		vertex[2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertex[2].TexCoord = D3DXVECTOR2(0.0f, 1.0f);
+
+		vertex[3].Position = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
+		vertex[3].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
+
+		//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ	
+		D3D11_BUFFER_DESC bd;
+		ZeroMemory(&bd, sizeof(bd));
+		bd.Usage = D3D11_USAGE_DYNAMIC;
+		bd.ByteWidth = sizeof(VERTEX_3D) * 4;
+		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+		D3D11_SUBRESOURCE_DATA sd;
+		ZeroMemory(&sd, sizeof(sd));
+		sd.pSysMem = vertex;
+
+		Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
+
+		//ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
+
+		//D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance().GetDevice(), "asset/texture/explosion.png", NULL, NULL, &m_texture, NULL);
+		m_texture = ResourceManager::GetInstance().GetTextureData("asset/texture/explosion.png");
+		assert(m_texture);
+
+		Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
+
+		Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
+
+		m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+
+		m_count = 0;
 	}
-}
 
-void Explosion::Draw()
-{
-	//ƒeƒNƒXƒ`ƒƒÀ•WŽYo
-	float x = m_count % 4 * (1.0f / 4);
-	float y = m_count / 4 * (1.0f / 4);
+	void Explosion::Uninit()
+	{
+		m_vertexBuffer->Release();
+		//m_texture->Release();
 
-	//’¸“_ƒf[ƒ^‘‚«Š·‚¦
-	D3D11_MAPPED_SUBRESOURCE msr;
-	Renderer::GetInstance().GetDeviceContext()->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+		m_vertexLayout->Release();
+		m_vertexShader->Release();
+		m_pixelShader->Release();
+	}
 
-	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+	void Explosion::Update()
+	{
+		m_count++;
 
-	vertex[0].Position = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);
-	vertex[0].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[0].TexCoord = D3DXVECTOR2(x, y);
+		if (m_count >= 16)
+		{
+			SetDestroy();
+			return;
+		}
+	}
 
-	vertex[1].Position = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-	vertex[1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[1].TexCoord = D3DXVECTOR2(x + 0.25f, y);
+	void Explosion::Draw()
+	{
+		//ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™ç”£å‡º
+		float x = m_count % 4 * (1.0f / 4);
+		float y = m_count / 4 * (1.0f / 4);
 
-	vertex[2].Position = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
-	vertex[2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[2].TexCoord = D3DXVECTOR2(x, y + 0.25f);
+		//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿æ›¸ãæ›ãˆ
+		D3D11_MAPPED_SUBRESOURCE msr;
+		Renderer::GetInstance().GetDeviceContext()->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 
-	vertex[3].Position = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
-	vertex[3].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[3].TexCoord = D3DXVECTOR2(x + 0.25f, y + 0.25f);
+		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-	Renderer::GetInstance().GetDeviceContext()->Unmap(m_vertexBuffer,0);
+		vertex[0].Position = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);
+		vertex[0].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertex[0].TexCoord = D3DXVECTOR2(x, y);
 
-	//“ü—ÍƒŒƒCƒAƒEƒgÝ’è
-	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
+		vertex[1].Position = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
+		vertex[1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertex[1].TexCoord = D3DXVECTOR2(x + 0.25f, y);
 
-	//ƒVƒF[ƒ_[Ý’è
-	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+		vertex[2].Position = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
+		vertex[2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertex[2].TexCoord = D3DXVECTOR2(x, y + 0.25f);
 
-	//ƒJƒƒ‰‚Ìƒrƒ…[ƒ}ƒgƒŠƒNƒXŽæ“¾
-	Scene* scene = Manager::GetInstance().GetScene();
-	Camera* camera = scene->GetGameObject<Camera>(scene->CAMERA);
-	D3DXMATRIX view = camera->GetViewMatrix();
+		vertex[3].Position = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
+		vertex[3].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertex[3].TexCoord = D3DXVECTOR2(x + 0.25f, y + 0.25f);
 
-	//ƒrƒ…[‚Ì‹ts—ñ
-	D3DXMATRIX invView;
-	D3DXMatrixInverse(&invView, NULL, &view);
-	invView._41 = 0.0f;
-	invView._42 = 0.0f;
-	invView._43 = 0.0f;
+		Renderer::GetInstance().GetDeviceContext()->Unmap(m_vertexBuffer, 0);
 
-	//ƒ[ƒ‹ƒhƒ}ƒgƒŠƒNƒXÝ’è
-	D3DXMATRIX world, scale, trans;
-	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
-	world = scale * invView * trans;
-	Renderer::GetInstance().SetWorldMatrix(&world);
+		//å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆè¨­å®š
+		Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
-	//’¸“_ƒoƒbƒtƒ@Ý’è
-	UINT stride = sizeof(VERTEX_3D);
-	UINT offset = 0;
-	Renderer::GetInstance().GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
+		//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼è¨­å®š
+		Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
+		Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
-	//ƒ}ƒeƒŠƒAƒ‹Ý’è
-	MATERIAL material;
-	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	Renderer::GetInstance().SetMaterial(material);
+		//ã‚«ãƒ¡ãƒ©ã®ãƒ“ãƒ¥ãƒ¼ãƒžãƒˆãƒªã‚¯ã‚¹å–å¾—
+		Scene* scene = Manager::GetInstance().GetScene();
+		Camera* camera = scene->GetGameObject<Camera>(scene->CAMERA);
+		D3DXMATRIX view = camera->GetViewMatrix();
 
-	//ƒeƒNƒXƒ`ƒƒÝ’è
-	Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
+		//ãƒ“ãƒ¥ãƒ¼ã®é€†è¡Œåˆ—
+		D3DXMATRIX invView;
+		D3DXMatrixInverse(&invView, NULL, &view);
+		invView._41 = 0.0f;
+		invView._42 = 0.0f;
+		invView._43 = 0.0f;
 
-	//ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWÝ’è
-	Renderer::GetInstance().GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+		//ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒžãƒˆãƒªã‚¯ã‚¹è¨­å®š
+		D3DXMATRIX world, scale, trans;
+		D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
+		D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
+		world = scale * invView * trans;
+		Renderer::GetInstance().SetWorldMatrix(&world);
 
-	//ƒ|ƒŠƒSƒ“•`‰æ
-	Renderer::GetInstance().GetDeviceContext()->Draw(4, 0);
+		//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡è¨­å®š
+		UINT stride = sizeof(VERTEX_3D);
+		UINT offset = 0;
+		Renderer::GetInstance().GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
+
+		//ãƒžãƒ†ãƒªã‚¢ãƒ«è¨­å®š
+		MATERIAL material;
+		ZeroMemory(&material, sizeof(material));
+		material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		Renderer::GetInstance().SetMaterial(material);
+
+		//ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®š
+		Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
+
+		//ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒˆãƒãƒ­ã‚¸è¨­å®š
+		Renderer::GetInstance().GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+		//ãƒãƒªã‚´ãƒ³æç”»
+		Renderer::GetInstance().GetDeviceContext()->Draw(4, 0);
+	}
 }
