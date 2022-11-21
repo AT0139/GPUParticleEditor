@@ -1,24 +1,24 @@
-#pragma once
+ï»¿#pragma once
 
 #include <unordered_map>
 
-#include "assimp/cimport.h"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
-#include "assimp/matrix4x4.h"
+#include <assimp/cimport.h>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include <assimp/matrix4x4.h>
 #pragma comment (lib,"assimp.lib")
 
-//•ÏŒ`Œã’¸“_\‘¢‘Ì
+//å¤‰å½¢å¾Œé ‚ç‚¹æ§‹é€ ä½“
 struct DEFORM_VERTEX
 {
 	aiVector3D Position;
 	aiVector3D Normal;
 	int BoneNum;
-	std::string BoneName[4];	//–{—ˆ‚Íƒ{[ƒ“ƒCƒ“ƒfƒbƒNƒX‚ÅŠÇ—‚·‚×‚«
+	std::string BoneName[4];	//æœ¬æ¥ã¯ãƒœãƒ¼ãƒ³ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã§ç®¡ç†ã™ã¹ã
 	float BoneWeight[4];
 };
 
-//ƒ{[ƒ“\‘¢‘Ì
+//ãƒœãƒ¼ãƒ³æ§‹é€ ä½“
 struct BONE
 {
 	aiMatrix4x4 Matrix;
@@ -47,8 +47,8 @@ private:
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_texture;
 	std::unordered_map<std::string, const aiScene*>m_animation;
 
-	std::vector<DEFORM_VERTEX>* m_deformVertex;	//•ÏŒ`Œã’¸“_ƒf[ƒ^
-	std::unordered_map<std::string, BONE>m_bone;	//ƒ{[ƒ“ƒf[ƒ^(–¼‘O‚ÅQÆ)
+	std::vector<DEFORM_VERTEX>* m_deformVertex;	//å¤‰å½¢å¾Œé ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
+	std::unordered_map<std::string, BONE>m_bone;	//ãƒœãƒ¼ãƒ³ãƒ‡ãƒ¼ã‚¿(åå‰ã§å‚ç…§)
 
 	std::string m_currentAnimationName;
 
