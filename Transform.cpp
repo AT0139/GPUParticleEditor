@@ -1,5 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Transform.h"
+#include "Manager.h"
+#include "Camera.h"
 
 Transform::Transform(const std::shared_ptr<GameObject> pGameObject)
 	: Component(pGameObject)
@@ -39,4 +41,24 @@ D3DXMATRIX Transform::GetWorldMatrix()
 	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 
 	return scale * rot * trans;
+}
+
+D3DXMATRIX Transform::GetWorldMatrixInvView()
+{
+	//ビューの逆行列
+	Scene* scene = Manager::GetInstance().GetScene();
+	MainGame::Camera* camera = scene->GetGameObject<MainGame::Camera>(scene->CAMERA);
+	D3DXMATRIX view = camera->GetViewMatrix();
+	D3DXMATRIX invView;
+	D3DXMatrixInverse(&invView, NULL, &view);
+	invView._41 = 0.0f;
+	invView._42 = 0.0f;
+	invView._43 = 0.0f;
+
+	//ワールドマトリクス設定
+	D3DXMATRIX world, scale, trans;
+	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
+	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
+	world = scale * invView * trans;
+	return D3DXMATRIX();
 }

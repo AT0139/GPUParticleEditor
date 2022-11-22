@@ -19,6 +19,7 @@ public:
 	D3DXVECTOR3 GetForward();
 	D3DXVECTOR3 GetRight();
 	D3DXMATRIX GetWorldMatrix();
+	D3DXMATRIX GetWorldMatrixInvView();
 private:
 	D3DXVECTOR3 m_position;
 	D3DXVECTOR3 m_rotation;

@@ -4,7 +4,6 @@
 #include "manager.h"
 #include "Bullet.h"
 #include "audio.h"
-#include "Shadow.h"
 #include "Player.h"
 #include "input.h"
 #include "ResourceManager.h"

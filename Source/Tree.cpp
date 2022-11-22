@@ -56,9 +56,10 @@ namespace MainGame
 
 		Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
-		m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		m_scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
+		auto transform = GetComponent<Transform>();
+		transform->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		transform->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		transform->SetScale(D3DXVECTOR3(2.0f, 2.0f, 2.0f));
 	}
 
 	void Tree::Uninit()
@@ -99,10 +100,7 @@ namespace MainGame
 		invView._43 = 0.0f;
 
 		//ワールドマトリクス設定
-		D3DXMATRIX world, scale, trans;
-		D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-		D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
-		world = scale * invView * trans;
+		D3DXMATRIX world = GetComponent<Transform>()->GetWorldMatrixInvView();
 		Renderer::GetInstance().SetWorldMatrix(&world);
 
 		//頂点バッファ設定

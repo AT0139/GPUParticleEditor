@@ -56,9 +56,11 @@ namespace MainGame
 
 		Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
-		m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+		auto transform = GetComponent<Transform>();
+
+		transform->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		transform->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		transform->SetScale(D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 
 		m_count = 0;
 	}
@@ -125,23 +127,8 @@ namespace MainGame
 		Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
 		Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
-		//カメラのビューマトリクス取得
-		Scene* scene = Manager::GetInstance().GetScene();
-		Camera* camera = scene->GetGameObject<Camera>(scene->CAMERA);
-		D3DXMATRIX view = camera->GetViewMatrix();
-
-		//ビューの逆行列
-		D3DXMATRIX invView;
-		D3DXMatrixInverse(&invView, NULL, &view);
-		invView._41 = 0.0f;
-		invView._42 = 0.0f;
-		invView._43 = 0.0f;
-
 		//ワールドマトリクス設定
-		D3DXMATRIX world, scale, trans;
-		D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-		D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
-		world = scale * invView * trans;
+		D3DXMATRIX world = GetComponent<Transform>()->GetWorldMatrixInvView();
 		Renderer::GetInstance().SetWorldMatrix(&world);
 
 		//頂点バッファ設定
