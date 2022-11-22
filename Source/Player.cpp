@@ -1,5 +1,4 @@
-﻿#include "main.h"
-#include "renderer.h"
+﻿#include "renderer.h"
 #include "AnimationModel.h"
 #include "Scene.h"
 #include "manager.h"

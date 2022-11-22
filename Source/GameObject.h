@@ -1,44 +1,21 @@
-#pragma once
+Ôªø#pragma once
 
-class GameObject
+#include "Component.h"
+#include "Transform.h"
+
+using std::shared_ptr;
+
+class GameObject : std::enable_shared_from_this<GameObject>
 {
 public:
-	GameObject() {}
+	GameObject() { AddComponent<Transform>(); }
 	virtual ~GameObject() {}
 
-	//èÉêàâºëzä÷êî
+	//Á¥îÁ≤ã‰ªÆÊÉ≥Èñ¢Êï∞
 	virtual void Init() = 0;
 	virtual void Uninit() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
-
-	void SetPosition(D3DXVECTOR3 position) { m_position = position; }
-	void SetScale(D3DXVECTOR3 scale) { m_scale = scale; }
-	D3DXVECTOR3 GetPosition() { return m_position; }
-	D3DXVECTOR3 GetForward()
-	{
-		D3DXMATRIX rot;
-		D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
-
-		D3DXVECTOR3 forward;
-		forward.x = rot._31;
-		forward.y = rot._32;
-		forward.z = rot._33;
-
-		return forward;
-	}
-	D3DXVECTOR3 GetRight()
-	{
-		D3DXMATRIX rot;
-		D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
-
-		D3DXVECTOR3 right;
-		right.x = rot._11;
-		right.y = rot._12;
-		right.z = rot._13;
-
-		return right;
-	}
 
 	void SetDestroy() { m_destory = true; }
 	bool Destroy()
@@ -52,13 +29,39 @@ public:
 		else 
 			return false;
 	}
-	
-protected:
-	D3DXVECTOR3 m_position;
-	D3DXVECTOR3 m_rotation;
-	D3DXVECTOR3 m_scale;
 
+	template<typename T>
+	shared_ptr<T> GetComponent() const
+	{
+
+	}
+
+	template<>
+	shared_ptr<Transform> GetComponent<Transform>()const
+	{
+		assert(m_transform);
+		return m_transform;
+	}
+
+	template<typename T>
+	shared_ptr<T> AddComponent()
+	{
+		std::shared_ptr<T> ptr(new T);
+		std::type_index typeIndex = typeid(T);
+		m_componentMap[typeIndex] = ptr;
+		ptr.SetGameObject(&shared_from_this());
+	}
+
+	template<>
+	shared_ptr<Transform> AddComponent()
+	{
+		std::shared_ptr<Transform> ptr(new Transform(shared_from_this()));
+		ptr->SetGameObject(shared_from_this());
+		m_transform = ptr;
+	}
 
 private:
+	std::map<std::type_index, std::shared_ptr<Component>> m_componentMap;
+	shared_ptr<Transform> m_transform;
 	bool m_destory = false;
 };
