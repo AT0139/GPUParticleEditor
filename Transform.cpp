@@ -30,3 +30,13 @@ D3DXVECTOR3 Transform::GetRight()
 
 	return right;
 }
+
+D3DXMATRIX Transform::GetWorldMatrix()
+{
+	D3DXMATRIX world, scale, rot, trans;
+	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
+	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
+
+	return scale * rot * trans;
+}

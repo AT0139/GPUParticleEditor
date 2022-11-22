@@ -10,7 +10,8 @@ namespace MainGame
 {
 	void Camera::Init()
 	{
-		m_position = D3DXVECTOR3(0.0f, 5.0f, -5.0f);
+		auto transform = GetComponent<Transform>();
+		transform->SetPosition(D3DXVECTOR3(0.0f, 5.0f, -5.0f));
 		m_target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	}
 
@@ -20,12 +21,13 @@ namespace MainGame
 
 	void Camera::Update()
 	{
+		auto transform = GetComponent<Transform>();
 		//プレイヤーの取得
 		Scene* scene = Manager::GetInstance().GetScene();
-		Player* player = scene->GetGameObject<Player>(scene->OBJECT);
-		D3DXVECTOR3 playerPos = player->GetPosition();
-		D3DXVECTOR3 playerForward = player->GetForward();
-		D3DXVECTOR3 playerRight = player->GetRight();
+		auto playerTransform = scene->GetGameObject<Player>(scene->OBJECT)->GetComponent<Transform>();
+		D3DXVECTOR3 playerPos = playerTransform->GetPosition();
+		D3DXVECTOR3 playerForward = playerTransform->GetForward();
+		D3DXVECTOR3 playerRight = playerTransform->GetRight();
 
 		//トップビュー
 		//m_target = playerPos;
@@ -34,7 +36,7 @@ namespace MainGame
 
 		//サードパーソンビュー
 		m_target = D3DXVECTOR3(playerPos.x, playerPos.y + m_targetYoffset, playerPos.z);
-		m_position = playerPos - playerForward * 5.0f + D3DXVECTOR3(0.0f, 2.5f + m_positionYoffset, 0.0f);
+		transform->SetPosition(playerPos - playerForward * 5.0f + D3DXVECTOR3(0.0f, 2.5f + m_positionYoffset, 0.0f));
 
 		//サードパーソンビュー(右寄り)
 		//m_target = playerPos + playerRight;
@@ -45,14 +47,16 @@ namespace MainGame
 		//m_position = playerPos;
 
 
-		Renderer::GetInstance().SetCameraPosition(m_position);
+		Renderer::GetInstance().SetCameraPosition(transform->GetPosition());
 	}
 
 	void Camera::Draw()
 	{
+		auto position = GetComponent<Transform>()->GetPosition();
+
 		//ビューマトリクス設定
 		D3DXVECTOR3 up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-		D3DXMatrixLookAtLH(&m_viewMatrix, &m_position, &m_target, &up);
+		D3DXMatrixLookAtLH(&m_viewMatrix, &position, &m_target, &up);
 
 		Renderer::GetInstance().SetViewMatrix(&m_viewMatrix);
 

@@ -23,12 +23,13 @@ namespace MainGame
 
 		Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
-		m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-		m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		m_scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
+		auto transform = GetComponent<Transform>();
+		transform->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+		transform->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		transform->SetScale(D3DXVECTOR3(0.2f, 0.2f, 0.2f));
 
 		Player* player = Manager::GetInstance().GetScene()->GetGameObject<Player>(Manager::GetInstance().GetScene()->OBJECT);
-		m_forward = player->GetForward();
+		m_forward = transform->GetForward();
 	}
 
 	void Bullet::Uninit()
@@ -41,8 +42,9 @@ namespace MainGame
 	void Bullet::Update()
 	{
 		Scene* scene = Manager::GetInstance().GetScene();
+		auto transform = GetComponent<Transform>();
 
-		m_position += m_forward * MOVE_SPEED;
+		transform->SetPosition(m_forward * MOVE_SPEED);
 
 		if (m_count > DESTROY_COUNT)
 		{
@@ -56,15 +58,15 @@ namespace MainGame
 
 		for (Enemy* enemy : enemyList)
 		{
-			D3DXVECTOR3 enemyPosition = enemy->GetPosition();
-			D3DXVECTOR3 direction = m_position - enemyPosition;
+			D3DXVECTOR3 enemyPosition = enemy->GetComponent<Transform>()->GetPosition();
+			D3DXVECTOR3 direction = transform->GetPosition() - enemyPosition;
 			float length = D3DXVec3Length(&direction);
 
 			if (length < 2.0f)
 			{
 				enemy->SetDestroy();
 				SetDestroy();
-				scene->AddGameObject<Explosion>(scene->OBJECT)->SetPosition(enemyPosition);
+				scene->AddGameObject<Explosion>(scene->OBJECT)->GetComponent<Transform>()->SetPosition(enemyPosition);
 				return;
 			}
 
@@ -83,11 +85,8 @@ namespace MainGame
 		Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
 		//ワールドマトリクス設定
-		D3DXMATRIX world, scale, rot, trans;
-		D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-		D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
-		D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
-		world = scale * rot * trans;
+		auto transform = GetComponent<Transform>();
+		auto world = transform->GetWorldMatrix();
 		Renderer::GetInstance().SetWorldMatrix(&world);
 
 		m_model->Draw();

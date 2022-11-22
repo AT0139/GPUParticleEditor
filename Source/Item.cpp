@@ -1,11 +1,11 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "renderer.h"
 #include "model.h"
 #include "Item.h"
 
 void Item::Init()
 {	
-	//ƒ‚ƒfƒ‹“Ç‚İ‚İ
+	//ãƒ¢ãƒ‡ãƒ«èª­ã¿è¾¼ã¿
 	m_model = new Model();
 	m_model->Load((char*)"asset\\model\\torus.obj");
 
@@ -14,9 +14,10 @@ void Item::Init()
 
 	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
-	m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	auto transform = GetComponent<Transform>();
+	transform->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	transform->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	transform->SetScale(D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 }
 
 void Item::Uninit()
@@ -35,19 +36,15 @@ void Item::Update()
 
 void Item::Draw()
 {
-	//“ü—ÍƒŒƒCƒAƒEƒgİ’è
+	//å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆè¨­å®š
 	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
-	//ƒVƒF[ƒ_[İ’è
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼è¨­å®š
 	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
 	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
-	//ƒ[ƒ‹ƒhƒ}ƒgƒŠƒNƒXİ’è
-	D3DXMATRIX world, scale, rot, trans;
-	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
-	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
-	world = scale * rot * trans;
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒãƒˆãƒªã‚¯ã‚¹è¨­å®š
+	auto world = GetComponent<Transform>()->GetWorldMatrix();
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	m_model->Draw();

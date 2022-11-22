@@ -58,6 +58,7 @@ public:
 		std::shared_ptr<Transform> ptr(new Transform(shared_from_this()));
 		ptr->SetGameObject(shared_from_this());
 		m_transform = ptr;
+		return m_transform;
 	}
 
 private:
