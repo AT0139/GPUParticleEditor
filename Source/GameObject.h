@@ -23,14 +23,13 @@ public:
 			delete this;
 			return true;
 		}
-		else 
+		else
 			return false;
 	}
 
 	template<typename T>
 	shared_ptr<T> GetComponent() const
 	{
-
 	}
 
 	template<>
@@ -40,7 +39,7 @@ public:
 		return m_transform;
 	}
 
-	template<typename T,typename... U>
+	template<typename T, typename... U>
 	shared_ptr<T> AddComponent(U&&... param)
 	{
 		std::shared_ptr<T> ptr = shared_ptr<T>(new T(param...));

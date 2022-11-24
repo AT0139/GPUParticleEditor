@@ -63,7 +63,7 @@ D3DXMATRIX Transform::GetWorldMatrixInvView()
 	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
 	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 	world = scale * invView * trans;
-	return D3DXMATRIX();
+	return world;
 }
 
 void Transform::Update()

@@ -9,7 +9,6 @@
 #include "ResourceManager.h"
 #include "MeshField.h"
 
-
 static const float CAMERA_FACTOR = 60.0f;
 
 namespace MainGame
@@ -28,7 +27,6 @@ namespace MainGame
 		Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
 
 		Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "vertexLightingPS.cso");
-
 
 		//m_shotSE = scene->AddGameObject<Audio>(scene->UI);
 		//m_shotSE->Load("asset\\audio\\wan.wav");
@@ -127,7 +125,6 @@ namespace MainGame
 		//}
 
 		m_frame++;
-
 	}
 
 	void Player::Draw()

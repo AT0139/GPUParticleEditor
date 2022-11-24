@@ -5,7 +5,6 @@
 
 class Manager : public Singleton<Manager>
 {
-
 public:
 	friend class Singleton<Manager>;
 

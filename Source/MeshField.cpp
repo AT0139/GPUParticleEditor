@@ -3,10 +3,8 @@
 #include "MeshField.h"
 #include "ResourceManager.h"
 
-
 #include <iostream>
 using namespace std;
-
 
 namespace MainGame
 {
@@ -44,7 +42,7 @@ namespace MainGame
 				}
 			}
 
-			//頂点バッファ生成	
+			//頂点バッファ生成
 			D3D11_BUFFER_DESC bd;
 			ZeroMemory(&bd, sizeof(bd));
 			bd.Usage = D3D11_USAGE_DEFAULT;
@@ -202,7 +200,6 @@ namespace MainGame
 		return py;
 	}
 
-
 	bool MeshField::FileReader(const char* filename)
 	{
 		FILE* filePtr;
@@ -241,8 +238,6 @@ namespace MainGame
 		//地形の大きさ
 		m_terrainWidth = bitmapInfoHeader.biWidth;
 		m_terrainHeight = bitmapInfoHeader.biHeight;
-
-
 
 		//画像サイズ計算
 		imageSize = m_terrainWidth * (m_terrainHeight + 3) * 3;

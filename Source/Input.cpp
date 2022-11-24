@@ -1,5 +1,4 @@
-﻿
-#include "main.h"
+﻿#include "main.h"
 #include "input.h"
 
 #define KEY_NONE NULL
@@ -18,23 +17,19 @@ KEY_CONFIG_INFO keyConfigList[] =
 
 void Input::Init()
 {
-
-	memset( m_oldKeyState, 0, 256 );
-	memset( m_keyState, 0, 256 );
-
+	memset(m_oldKeyState, 0, 256);
+	memset(m_keyState, 0, 256);
 }
 
 void Input::Uninit()
 {
-
-
 }
 
 void Input::Update()
 {
 	BYTE buffer[KEY_NUM];
 	//前回のキー入力保存
-	memcpy( m_oldKeyState, m_keyState, KEY_NUM);
+	memcpy(m_oldKeyState, m_keyState, KEY_NUM);
 	//全キー入力取得
 	(void)GetKeyboardState(buffer);
 

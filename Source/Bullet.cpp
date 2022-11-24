@@ -9,19 +9,13 @@
 #include "input.h"
 #include "Explosion.h"
 #include "Player.h"
-
+#include "DrawModel.h"
 
 namespace MainGame
 {
-	Model* Bullet::m_model;	//スタティックメンバ変数再度宣言
-
 	Bullet::Bullet()
 	{
-		m_model = ResourceManager::GetInstance().GetModelData("asset\\model\\torus.obj");
-
-		Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
-
-		Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
+		AddComponent<DrawModel>(this)->Load("asset\\model\\torus.obj");
 
 		auto transform = GetComponent<Transform>();
 		transform->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
@@ -33,11 +27,7 @@ namespace MainGame
 	}
 
 	Bullet::~Bullet()
-	{
-		m_vertexLayout->Release();
-		m_vertexShader->Release();
-		m_pixelShader->Release();
-	}
+	{}
 
 	void Bullet::Update()
 	{
@@ -51,7 +41,6 @@ namespace MainGame
 			SetDestroy();
 			return;
 		}
-
 
 		//敵当たり判定
 		std::vector<Enemy*> enemyList = scene->GetGameObjects<Enemy>(scene->OBJECT);
@@ -69,38 +58,8 @@ namespace MainGame
 				scene->AddGameObject<Explosion>(scene->OBJECT)->GetComponent<Transform>()->SetPosition(enemyPosition);
 				return;
 			}
-
 		}
 
 		m_count++;
-	}
-
-	void Bullet::Draw()
-	{
-		//入力レイアウト設定
-		Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
-
-		//シェーダー設定
-		Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-		Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
-
-		//ワールドマトリクス設定
-		auto transform = GetComponent<Transform>();
-		auto world = transform->GetWorldMatrix();
-		Renderer::GetInstance().SetWorldMatrix(&world);
-
-		m_model->Draw();
-	}
-
-	void Bullet::Load()
-	{
-		//モデル読み込み
-		m_model = ResourceManager::GetInstance().GetModelData("asset\\model\\torus.obj");
-	}
-
-	void Bullet::Unload()
-	{
-		//m_model->Unload();
-		//delete m_model;
 	}
 }

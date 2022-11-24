@@ -33,7 +33,6 @@ namespace MainGame
 		//m_target = playerPos;
 		//m_position = playerPos + D3DXVECTOR3(0.0f, 5.0f, -5.0f);
 
-
 		//サードパーソンビュー
 		m_target = D3DXVECTOR3(playerPos.x, playerPos.y + m_targetYoffset, playerPos.z);
 		transform->SetPosition(playerPos - playerForward * 5.0f + D3DXVECTOR3(0.0f, 2.5f + m_positionYoffset, 0.0f));
@@ -45,7 +44,6 @@ namespace MainGame
 		////ファーストパーソンビュー
 		//m_target = playerPos + playerForward;
 		//m_position = playerPos;
-
 
 		Renderer::GetInstance().SetCameraPosition(transform->GetPosition());
 	}
@@ -60,7 +58,7 @@ namespace MainGame
 
 		Renderer::GetInstance().SetViewMatrix(&m_viewMatrix);
 
-		//プロジェクションマトリクス設定	
+		//プロジェクションマトリクス設定
 		D3DXMATRIX projectionMatrix;
 		D3DXMatrixPerspectiveFovLH(&projectionMatrix, 1.0f, (float)SCREEN_WIDTH / SCREEN_HEIGHT, 1.0f, 1000.0f);
 

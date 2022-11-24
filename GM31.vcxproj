@@ -199,6 +199,7 @@
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Component.h" />
+    <ClInclude Include="Source\DrawBillboard.h" />
     <ClInclude Include="Source\DrawModel.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\Explosion.h" />
@@ -206,7 +207,6 @@
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Input.h" />
-    <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\Main.h" />
     <ClInclude Include="Source\Manager.h" />
     <ClInclude Include="Source\MeshField.h" />
@@ -238,13 +238,13 @@
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\DrawBillboard.cpp" />
     <ClCompile Include="Source\DrawModel.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\Explosion.cpp" />
     <ClCompile Include="Source\Field.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\Input.cpp" />
-    <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Manager.cpp" />
     <ClCompile Include="Source\MeshField.cpp" />

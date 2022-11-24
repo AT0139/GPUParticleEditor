@@ -5,7 +5,6 @@
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 
-
 struct VERTEX_3D
 {
 	D3DXVECTOR3 Position;
@@ -13,8 +12,6 @@ struct VERTEX_3D
 	D3DXVECTOR4 Diffuse;
 	D3DXVECTOR2 TexCoord;
 };
-
-
 
 struct MATERIAL
 {
@@ -26,8 +23,6 @@ struct MATERIAL
 	float		Dummy[3];
 };
 
-
-
 struct LIGHT
 {
 	BOOL		Enable;
@@ -37,8 +32,6 @@ struct LIGHT
 	D3DXCOLOR	Ambient;
 };
 
-
-
 class Renderer : public Singleton<Renderer>
 {
 private:
@@ -46,20 +39,20 @@ private:
 	~Renderer();
 
 	D3D_FEATURE_LEVEL m_featureLevel;
-	
+
 	ID3D11Device* m_pDevice;
 	ID3D11DeviceContext* m_pDeviceContext;
-	IDXGISwapChain*	m_pSwapChain;
+	IDXGISwapChain* m_pSwapChain;
 	ID3D11RenderTargetView* m_pRenderTargetView;
 	ID3D11DepthStencilView* m_pDepthStencilView;
-	
+
 	ID3D11Buffer* m_pWorldBuffer;
 	ID3D11Buffer* m_pViewBuffer;
 	ID3D11Buffer* m_pProjectionBuffer;
 	ID3D11Buffer* m_pMaterialBuffer;
 	ID3D11Buffer* m_pLightBuffer;
 	ID3D11Buffer* m_pCameraBuffer;
-	
+
 	ID3D11DepthStencilState* m_pDepthStateEnable;
 	ID3D11DepthStencilState* m_pDepthStateDisable;
 
@@ -89,8 +82,8 @@ public:
 	void SetLight(LIGHT Light);
 	void SetCameraPosition(D3DXVECTOR3 pos);
 
-	ID3D11Device* GetDevice( void ){ return m_pDevice; }
-	ID3D11DeviceContext* GetDeviceContext( void ){ return m_pDeviceContext; }
+	ID3D11Device* GetDevice(void) { return m_pDevice; }
+	ID3D11DeviceContext* GetDeviceContext(void) { return m_pDeviceContext; }
 
 	void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
 	void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);

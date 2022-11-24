@@ -32,7 +32,7 @@ namespace MainGame
 		vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
 
-		//頂点バッファ生成	
+		//頂点バッファ生成
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
 		bd.Usage = D3D11_USAGE_DEFAULT;

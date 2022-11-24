@@ -5,10 +5,8 @@
 #pragma comment (lib, "d3dx9.lib")
 #pragma comment (lib, "d3dx11.lib")
 
-
 #define SCREEN_WIDTH	(960)
 #define SCREEN_HEIGHT	(540)
-
 
 HWND GetWindow();
 POINTS GetMousePos();

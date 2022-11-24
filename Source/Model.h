@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-
-
 // マテリアル構造体
 struct MODEL_MATERIAL
 {
@@ -11,7 +9,6 @@ struct MODEL_MATERIAL
 	ID3D11ShaderResourceView* pTexture;
 };
 
-
 // 描画サブセット構造体
 struct SUBSET
 {
@@ -19,7 +16,6 @@ struct SUBSET
 	unsigned int indexNum;
 	MODEL_MATERIAL material;
 };
-
 
 // モデル構造体
 struct MODEL
@@ -33,10 +29,6 @@ struct MODEL
 	SUBSET* subsetArray;
 	unsigned int subsetNum;
 };
-
-
-
-
 
 class Model
 {

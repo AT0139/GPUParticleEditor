@@ -36,8 +36,6 @@ struct KEY_CONFIG_INFO
 	BYTE keyCode[KEY_CODE_NUM];
 };
 
-
-
 class Input
 {
 public:
@@ -49,7 +47,7 @@ public:
 	static bool GetKeyTrigger(KEY_CONFIG key);
 
 private:
-	static bool CheckKey(KEY_CONFIG keyConfigList ,KEY_STATE keyState);
+	static bool CheckKey(KEY_CONFIG keyConfigList, KEY_STATE keyState);
 
 	static KEY_STATE m_oldKeyState[KEY_NUM];
 	static KEY_STATE m_keyState[KEY_NUM];

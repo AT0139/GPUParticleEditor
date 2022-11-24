@@ -15,7 +15,6 @@ public:
 	D3DXVECTOR3 GetRotation() { return m_rotation; }
 	D3DXVECTOR3 GetScale() { return m_scale; }
 
-
 	void SetPosition(D3DXVECTOR3 position) { m_position = position; }
 	void SetRotation(D3DXVECTOR3 rotation) { m_rotation = rotation; }
 	void SetScale(D3DXVECTOR3 scale) { m_scale = scale; }

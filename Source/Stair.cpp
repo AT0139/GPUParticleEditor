@@ -5,7 +5,6 @@
 #include "Stair.h"
 #include "DrawModel.h"
 
-
 Stair::Stair()
 {
 	AddComponent<DrawModel>(this)->Load("asset\\model\\upstair.obj");
@@ -22,5 +21,4 @@ Stair::~Stair()
 
 void Stair::Update()
 {
-
 }

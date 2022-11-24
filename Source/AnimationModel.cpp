@@ -3,7 +3,6 @@
 #include "AnimationModel.h"
 #include "Player.h"
 
-
 AnimationModel::AnimationModel(const char* fileName)
 {
 	Load(fileName);
@@ -26,8 +25,6 @@ void AnimationModel::Load(const char* FileName)
 
 	//再帰的にボーン生成
 	CreateBone(m_aiScene->mRootNode);
-
-
 
 	for (unsigned int m = 0; m < m_aiScene->mNumMeshes; m++)
 	{
@@ -152,7 +149,7 @@ void AnimationModel::Load(const char* FileName)
 							(const unsigned char*)m_aiScene->mTextures[id]->pcData,
 							m_aiScene->mTextures[id]->mWidth,
 							NULL, NULL, &texture, NULL);
-						
+
 						m_texture[path.data] = texture;
 					}
 				}
@@ -161,7 +158,7 @@ void AnimationModel::Load(const char* FileName)
 					if (m_texture[path.data] == NULL)
 					{
 						ID3D11ShaderResourceView* texture;
-				
+
 						char temp[1024] = { "asset/model/" };
 						(void)strcat(temp, path.data);
 
@@ -272,11 +269,9 @@ void AnimationModel::Update(const char* animationName, float blendRate, int fram
 			aiNodeAnim* nodeAnim1 = animation->mChannels[c];
 			BONE* bone = &m_bone[nodeAnim1->mNodeName.C_Str()];
 
-
 			int f;
 			f = frame % nodeAnim1->mNumRotationKeys;//簡易実装
 			aiQuaternion rot = nodeAnim1->mRotationKeys[f].mValue;
-
 
 			f = frame % nodeAnim1->mNumPositionKeys;
 			aiVector3D pos;
@@ -440,7 +435,7 @@ void AnimationModel::Draw()
 
 	//マテリアル設定 FBXから取り出していないのでついか　現在定数
 	MATERIAL material;
-	ZeroMemory(&material,sizeof(material));
+	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	Renderer::GetInstance().SetMaterial(material);
@@ -472,7 +467,6 @@ void AnimationModel::Draw()
 
 		//ポリゴン描画
 		Renderer::GetInstance().GetDeviceContext()->DrawIndexed(mesh->mNumFaces * 3, 0, 0);
-
 	}
 }
 

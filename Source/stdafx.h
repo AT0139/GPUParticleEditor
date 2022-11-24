@@ -6,7 +6,6 @@
 #define NOMINMAX
 #include <windows.h>
 
-
 #include <assert.h>
 
 #include <string>
