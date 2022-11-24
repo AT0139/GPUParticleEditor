@@ -1,41 +1,33 @@
-﻿#include "main.h"
-#include "renderer.h"
-#include "model.h"
-#include "Item.h"
+﻿#include "DrawModel.h"
+#include "Renderer.h"
+#include "Model.h"
+#include "ResourceManager.h"
+#include "GameObject.h"
 
-Item::Item()
-{	
-	//モデル読み込み
-	m_model = new Model();
-	m_model->Load((char*)"asset\\model\\torus.obj");
-
-
+DrawModel::DrawModel(GameObject* pGameObject)
+	: Component(pGameObject)
+	, m_model(nullptr)
+{
 	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
 	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
-
-	auto transform = GetComponent<Transform>();
-	transform->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
-	transform->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	transform->SetScale(D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 }
 
-Item::~Item()
+DrawModel::~DrawModel()
 {
-	//m_model->Unload();
-	//delete m_model;
-
 	m_vertexLayout->Release();
 	m_vertexShader->Release();
 	m_pixelShader->Release();
 }
 
-void Item::Update()
+void DrawModel::Update()
 {
 }
 
-void Item::Draw()
+void DrawModel::Draw()
 {
+	assert(m_model);
+
 	//入力レイアウト設定
 	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
@@ -43,10 +35,14 @@ void Item::Draw()
 	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
 	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
-	//ワールドマトリクス設定
-	auto world = GetComponent<Transform>()->GetWorldMatrix();
+	////ワールドマトリクス設定
+	D3DXMATRIX world = GetGameObject()->GetComponent<Transform>()->GetWorldMatrix();
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	m_model->Draw();
+}
 
+void DrawModel::Load(const char* filePath)
+{
+	m_model = ResourceManager::GetInstance().GetModelData(filePath);
 }

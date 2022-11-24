@@ -7,7 +7,7 @@
 
 Model* Enemy::m_model;
 
-void Enemy::Init()
+Enemy::Enemy()
 {
 	m_model = ResourceManager::GetInstance().GetModelData("asset\\model\\torus.obj");
 
@@ -20,7 +20,7 @@ void Enemy::Init()
 	transform->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
 }
 
-void Enemy::Uninit()
+Enemy::~Enemy()
 {
 	m_vertexLayout->Release();
 	m_vertexShader->Release();

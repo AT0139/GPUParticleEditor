@@ -65,3 +65,11 @@ D3DXMATRIX Transform::GetWorldMatrixInvView()
 	world = scale * invView * trans;
 	return D3DXMATRIX();
 }
+
+void Transform::Update()
+{
+}
+
+void Transform::Draw()
+{
+}

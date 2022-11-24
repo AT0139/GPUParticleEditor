@@ -1,15 +1,18 @@
 ﻿#pragma once
 
-#include "GameObject.h"
+#include "Component.h"
 
-class SkyDome :public GameObject 
+class DrawModel : public Component
 {
 public:
-	SkyDome();
-	~SkyDome();
+	DrawModel(GameObject* pGameObject);
+	~DrawModel();
+
+	// Component を介して継承されました
 	virtual void Update() override;
 	virtual void Draw() override;
 
+	void Load(const char* filePath);
 private:
 	class Model* m_model;
 

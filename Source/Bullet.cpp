@@ -15,7 +15,7 @@ namespace MainGame
 {
 	Model* Bullet::m_model;	//スタティックメンバ変数再度宣言
 
-	void Bullet::Init()
+	Bullet::Bullet()
 	{
 		m_model = ResourceManager::GetInstance().GetModelData("asset\\model\\torus.obj");
 
@@ -32,7 +32,7 @@ namespace MainGame
 		m_forward = transform->GetForward();
 	}
 
-	void Bullet::Uninit()
+	Bullet::~Bullet()
 	{
 		m_vertexLayout->Release();
 		m_vertexShader->Release();

@@ -8,7 +8,7 @@
 
 namespace MainGame
 {
-	void Tree::Init()
+	Tree::Tree()
 	{
 		VERTEX_3D vertex[4];
 
@@ -62,7 +62,7 @@ namespace MainGame
 		transform->SetScale(D3DXVECTOR3(2.0f, 2.0f, 2.0f));
 	}
 
-	void Tree::Uninit()
+	Tree::~Tree()
 	{
 		m_vertexBuffer->Release();
 		//m_texture->Release();

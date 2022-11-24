@@ -3,7 +3,7 @@
 #include "Field.h"
 #include "ResourceManager.h"
 
-void Field::Init()
+Field::Field()
 {
 	VERTEX_3D vertex[4];
 
@@ -55,7 +55,7 @@ void Field::Init()
 	transform->SetScale(D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 }
 
-void Field::Uninit()
+Field::~Field()
 {
 	m_vertexBuffer->Release();
 	m_texture->Release();

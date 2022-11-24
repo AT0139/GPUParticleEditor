@@ -2,7 +2,7 @@
 #include "renderer.h"
 #include "Polygon2D.h"
 
-void Polygon2D::Init()
+Polygon2D::Polygon2D()
 {
 	VERTEX_3D vertex[4];
 
@@ -48,7 +48,7 @@ void Polygon2D::Init()
 	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 }
 
-void Polygon2D::Uninit()
+Polygon2D::~Polygon2D()
 {
 	m_vertexBuffer->Release();
 	m_texture->Release();

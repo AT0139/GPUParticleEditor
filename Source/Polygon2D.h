@@ -1,12 +1,12 @@
-#pragma once
+﻿#pragma once
 
 #include "GameObject.h"
 
 class Polygon2D : public GameObject
 {
 public:
-	virtual void Init()override;
-	virtual void Uninit()override;
+	Polygon2D();
+	~Polygon2D();
 	virtual void Update()override;
 	virtual void Draw()override;
 

@@ -12,8 +12,8 @@ namespace MainGame
 	class MeshField : public GameObject
 	{
 	public:
-		virtual void Init()override;
-		virtual void Uninit()override;
+		MeshField();
+		~MeshField();
 		virtual void Update()override;
 		virtual void Draw()override;
 

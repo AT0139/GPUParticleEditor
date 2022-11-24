@@ -10,7 +10,7 @@ using namespace std;
 
 namespace MainGame
 {
-	void MeshField::Init()
+	MeshField::MeshField()
 	{
 		if (!FileReader("Asset/terrain/heightmap01.bmp"))
 		{
@@ -107,7 +107,7 @@ namespace MainGame
 		Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "vertexLightingPS.cso");
 	}
 
-	void MeshField::Uninit()
+	MeshField::~MeshField()
 	{
 		m_vertexBuffer->Release();
 		m_indexBuffer->Release();

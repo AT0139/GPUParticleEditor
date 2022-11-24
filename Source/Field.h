@@ -1,12 +1,12 @@
-#pragma once
+﻿#pragma once
 
 #include "GameObject.h"
 
 class Field : public GameObject
 {
 public:
-	virtual void Init()override;
-	virtual void Uninit()override;
+	Field();
+	~Field();
 	virtual void Update()override;
 	virtual void Draw()override;
 

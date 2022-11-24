@@ -7,8 +7,8 @@ namespace MainGame
 	class Camera : public GameObject
 	{
 	public:
-		virtual void Init()override;
-		virtual void Uninit()override;
+		Camera();
+		~Camera();
 		virtual void Update()override;
 		virtual void Draw()override;
 

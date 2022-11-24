@@ -27,7 +27,7 @@ namespace MainGame
 		AddGameObject<SkyDome>(OBJECT);
 		AddGameObject<Player>(OBJECT);
 		AddGameObject<MeshField>(OBJECT);
-		AddGameObject<Stair>(OBJECT)->GetComponent<Transform>()->SetPosition(D3DXVECTOR3(10.0f, 0.0f, 10.0f));
+		AddGameObject<Stair>(OBJECT)->GetComponent<Transform>()->SetPosition(D3DXVECTOR3(10.0f, 5.0f, 10.0f));
 		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(D3DXVECTOR3(-2.0f, 1.0f, 3.0f));
 		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 3.0f));
 		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(D3DXVECTOR3(2.0f, 1.0f, 3.0f));

@@ -15,7 +15,7 @@ static const float CAMERA_FACTOR = 60.0f;
 namespace MainGame
 {
 	float Player::m_blendRate = 0.0f;
-	void Player::Init()
+	Player::Player()
 	{
 		//モデル読み込み
 		m_model = ResourceManager::GetInstance().GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
@@ -40,7 +40,7 @@ namespace MainGame
 		GetComponent<Transform>()->SetScale(D3DXVECTOR3(0.008f, 0.008f, 0.008f));
 	}
 
-	void Player::Uninit()
+	Player::~Player()
 	{
 		//m_model->Unload();
 		//delete m_model;

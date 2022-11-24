@@ -12,8 +12,6 @@ public:
 	virtual ~GameObject() {}
 
 	//純粋仮想関数
-	virtual void Init() = 0;
-	virtual void Uninit() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
@@ -22,7 +20,6 @@ public:
 	{
 		if (m_destory)
 		{
-			Uninit();
 			delete this;
 			return true;
 		}
@@ -43,17 +40,18 @@ public:
 		return m_transform;
 	}
 
-	template<typename T>
-	shared_ptr<T> AddComponent()
+	template<typename T,typename... U>
+	shared_ptr<T> AddComponent(U&&... param)
 	{
-		std::shared_ptr<T> ptr(new T);
+		std::shared_ptr<T> ptr = shared_ptr<T>(new T(param...));
 		std::type_index typeIndex = typeid(T);
 		m_componentMap[typeIndex] = ptr;
-		ptr.SetGameObject(this);
+		ptr->SetGameObject(this);
+		return ptr;
 	}
 
 	template<>
-	shared_ptr<Transform> AddComponent()
+	shared_ptr<Transform> AddComponent<Transform>()
 	{
 		std::shared_ptr<Transform> ptr(new Transform(this));
 		ptr->SetGameObject(this);
@@ -61,9 +59,22 @@ public:
 		return m_transform;
 	}
 
+	void ComponentUpdate()
+	{
+		for (auto comp : m_componentMap)
+		{
+			comp.second->Update();
+		}
+	}
+	void ComponentDraw()
+	{
+		for (auto comp : m_componentMap)
+		{
+			comp.second->Draw();
+		}
+	}
+
 private:
-
-
 	std::map<std::type_index, std::shared_ptr<Component>> m_componentMap;
 	shared_ptr<Transform> m_transform;
 	bool m_destory = false;

@@ -3,7 +3,7 @@
 #include "model.h"
 #include "SkyDome.h"
 
-void SkyDome::Init()
+SkyDome::SkyDome()
 {
 	//モデル読み込み
 	m_model = new Model();
@@ -20,7 +20,7 @@ void SkyDome::Init()
 	transform->SetScale(D3DXVECTOR3(150.0f, 150.0f, 150.0f));
 }
 
-void SkyDome::Uninit()
+SkyDome::~SkyDome()
 {
 	//m_model->Unload();
 	//delete m_model;

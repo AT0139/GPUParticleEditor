@@ -8,7 +8,7 @@
 
 namespace MainGame
 {
-	void Explosion::Init()
+	Explosion::Explosion()
 	{
 		VERTEX_3D vertex[4];
 
@@ -65,7 +65,7 @@ namespace MainGame
 		m_count = 0;
 	}
 
-	void Explosion::Uninit()
+	Explosion::~Explosion()
 	{
 		m_vertexBuffer->Release();
 		//m_texture->Release();

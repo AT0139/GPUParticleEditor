@@ -7,6 +7,10 @@ public:
 	Transform(GameObject* pGameObject);
 	~Transform() {}
 
+	// Component を介して継承されました
+	virtual void Update() override;
+	virtual void Draw() override;
+
 	D3DXVECTOR3 GetPosition() { return m_position; }
 	D3DXVECTOR3 GetRotation() { return m_rotation; }
 	D3DXVECTOR3 GetScale() { return m_scale; }

@@ -1,12 +1,12 @@
-#pragma once
+﻿#pragma once
 
 #include"GameObject.h"
 
 class Item :public GameObject
 {
 public:
-	virtual void Init() override;
-	virtual void Uninit() override;
+	Item();
+	~Item();
 	virtual void Update() override;
 	virtual void Draw() override;
 private:

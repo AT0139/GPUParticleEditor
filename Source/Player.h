@@ -7,8 +7,8 @@ namespace MainGame
 	class Player :public GameObject
 	{
 	public:
-		virtual void Init()override;
-		virtual void Uninit()override;
+		Player();
+		~Player();
 		virtual void Update()override;
 		virtual void Draw()override;
 		static void ResetBlendRate() { m_blendRate = 0.0f; }

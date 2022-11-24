@@ -7,8 +7,8 @@ namespace MainGame
 	class Tree : public GameObject
 	{
 	public:
-		virtual void Init()override;
-		virtual void Uninit()override;
+		Tree();
+		~Tree();
 		virtual void Update()override;
 		virtual void Draw()override;
 
