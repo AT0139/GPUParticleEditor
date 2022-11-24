@@ -32,7 +32,7 @@ namespace MainGame
 		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(D3DXVECTOR3(-2.0f, 5.0f, 3.0f));
 		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(D3DXVECTOR3(0.0f, 5.0f, 3.0f));
 		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(D3DXVECTOR3(2.0f, 5.0f, 3.0f));
-		AddGameObject<Tree>(OBJECT)->GetComponent<Transform>()->SetPosition(D3DXVECTOR3(-8.0f, 2.0f, 5.0f));
+		AddGameObject<Tree>(OBJECT)->GetComponent<Transform>()->SetPosition(D3DXVECTOR3(-0.0f, 5.0f, 0.0f));
 
 		//2Dオブジェクト
 		//AddGameObject<Polygon2D>(UI);

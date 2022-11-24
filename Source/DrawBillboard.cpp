@@ -45,8 +45,7 @@ DrawBillboard::DrawBillboard(GameObject* pGameObject)
 	ZeroMemory(&sd, sizeof(sd));
 	sd.pSysMem = vertex;
 
-	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
-
+	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer); 
 	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
 	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
@@ -63,12 +62,15 @@ DrawBillboard::~DrawBillboard()
 
 void DrawBillboard::Update()
 {
-	m_count++;
-
-	if (m_count >= 16)
+	if (m_isAnimation)
 	{
-		GetGameObject()->SetDestroy();
-		return;
+		m_count++;
+
+		if (m_count >= 16)
+		{
+			GetGameObject()->SetDestroy();
+			return;
+		}
 	}
 }
 

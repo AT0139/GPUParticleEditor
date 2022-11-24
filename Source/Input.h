@@ -9,7 +9,7 @@ enum class KEY_CONFIG
 	MOVE_DOWN,
 	MOVE_LEFT,
 	MOVE_RIGHT,
-
+	JUMP,
 	RETURN,
 
 	MAX
