@@ -5,7 +5,7 @@
 
 using std::shared_ptr;
 
-class GameObject : std::enable_shared_from_this<GameObject>
+class GameObject
 {
 public:
 	GameObject() { AddComponent<Transform>(); }
@@ -49,19 +49,21 @@ public:
 		std::shared_ptr<T> ptr(new T);
 		std::type_index typeIndex = typeid(T);
 		m_componentMap[typeIndex] = ptr;
-		ptr.SetGameObject(&shared_from_this());
+		ptr.SetGameObject(this);
 	}
 
 	template<>
 	shared_ptr<Transform> AddComponent()
 	{
-		std::shared_ptr<Transform> ptr(new Transform(shared_from_this()));
-		ptr->SetGameObject(shared_from_this());
+		std::shared_ptr<Transform> ptr(new Transform(this));
+		ptr->SetGameObject(this);
 		m_transform = ptr;
 		return m_transform;
 	}
 
 private:
+
+
 	std::map<std::type_index, std::shared_ptr<Component>> m_componentMap;
 	shared_ptr<Transform> m_transform;
 	bool m_destory = false;

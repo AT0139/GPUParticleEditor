@@ -4,7 +4,7 @@
 class Transform : public Component
 {
 public:
-	Transform(const std::shared_ptr<GameObject> pGameObject);
+	Transform(GameObject* pGameObject);
 	~Transform() {}
 
 	D3DXVECTOR3 GetPosition() { return m_position; }

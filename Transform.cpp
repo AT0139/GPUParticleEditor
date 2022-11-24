@@ -3,8 +3,11 @@
 #include "Manager.h"
 #include "Camera.h"
 
-Transform::Transform(const std::shared_ptr<GameObject> pGameObject)
+Transform::Transform(GameObject* pGameObject)
 	: Component(pGameObject)
+	, m_position(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+	, m_rotation(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+	, m_scale(D3DXVECTOR3(1.0f, 1.0f, 1.0f))
 {}
 
 D3DXVECTOR3 Transform::GetForward()

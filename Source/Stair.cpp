@@ -46,11 +46,7 @@ void Stair::Draw()
 	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
 	////ワールドマトリクス設定
-	D3DXMATRIX world, scale, rot, trans;
-	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
-	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
-	world = scale * rot * trans;
+	D3DXMATRIX world = GetComponent<Transform>()->GetWorldMatrix();
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	m_model->Draw();

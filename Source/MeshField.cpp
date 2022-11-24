@@ -105,10 +105,6 @@ namespace MainGame
 
 		Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
 		Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "vertexLightingPS.cso");
-
-		m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	}
 
 	void MeshField::Uninit()
@@ -136,11 +132,7 @@ namespace MainGame
 		Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
 		//ワールドマトリクス設定
-		D3DXMATRIX world, scale, rot, trans;
-		D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-		D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
-		D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
-		world = scale * rot * trans;
+		D3DXMATRIX world = GetComponent<Transform>()->GetWorldMatrix();
 		Renderer::GetInstance().SetWorldMatrix(&world);
 
 		//頂点バッファ設定
