@@ -33,7 +33,7 @@ DrawBillboard::DrawBillboard(GameObject* pGameObject)
 	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
 
-	//頂点バッファ生成	
+	//頂点バッファ生成
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DYNAMIC;
@@ -45,7 +45,7 @@ DrawBillboard::DrawBillboard(GameObject* pGameObject)
 	ZeroMemory(&sd, sizeof(sd));
 	sd.pSysMem = vertex;
 
-	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer); 
+	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
 	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
@@ -84,7 +84,6 @@ void DrawBillboard::Draw()
 	//テクスチャ座標産出
 	if (m_isAnimation)
 	{
-
 		x = m_count % m_xNum * m_xAdd;
 		y = m_count / m_xNum * m_yAdd;
 	}

@@ -216,6 +216,7 @@
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\ResourceManager.h" />
     <ClInclude Include="Source\Result.h" />
+    <ClInclude Include="Source\Rigidbody.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\Singleton.h" />
     <ClInclude Include="Source\SkyDome.h" />
@@ -254,6 +255,7 @@
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\ResourceManager.cpp" />
     <ClCompile Include="Source\Result.cpp" />
+    <ClCompile Include="Source\Rigidbody.cpp" />
     <ClCompile Include="Source\SkyDome.cpp" />
     <ClCompile Include="Source\Stair.cpp" />
     <ClCompile Include="Source\stdafx.cpp">
