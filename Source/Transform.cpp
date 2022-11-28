@@ -46,6 +46,16 @@ D3DXMATRIX Transform::GetWorldMatrix()
 	return scale * rot * trans;
 }
 
+D3DXMATRIX Transform::GetPrevWorldMatrix()
+{
+	D3DXMATRIX world, scale, rot, trans;
+	D3DXMatrixScaling(&scale, m_prevScale.x, m_prevScale.y, m_prevScale.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_prevRotation.y, m_prevRotation.x, m_prevRotation.z);
+	D3DXMatrixTranslation(&trans, m_prevPosition.x, m_prevPosition.y, m_prevPosition.z);
+
+	return scale * rot * trans;
+}
+
 D3DXMATRIX Transform::GetWorldMatrixInvView()
 {
 	//ビューの逆行列
@@ -68,6 +78,9 @@ D3DXMATRIX Transform::GetWorldMatrixInvView()
 
 void Transform::Update()
 {
+	m_prevPosition = m_position;
+	m_prevRotation = m_rotation;
+	m_prevScale = m_prevScale;
 }
 
 void Transform::Draw()

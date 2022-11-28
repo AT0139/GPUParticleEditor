@@ -198,6 +198,8 @@
     <ClInclude Include="Source\Audio.h" />
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\CollisionComponent.h" />
+    <ClInclude Include="Source\CollisionManager.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\DrawBillboard.h" />
     <ClInclude Include="Source\DrawModel.h" />
@@ -220,11 +222,13 @@
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\Singleton.h" />
     <ClInclude Include="Source\SkyDome.h" />
+    <ClInclude Include="Source\SphereCollision.h" />
     <ClInclude Include="Source\Stair.h" />
     <ClInclude Include="Source\stdafx.h" />
     <ClInclude Include="Source\Title.h" />
     <ClInclude Include="Source\Transform.h" />
     <ClInclude Include="Source\Tree.h" />
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\backends\imgui_impl_dx11.cpp" />
@@ -238,6 +242,8 @@
     <ClCompile Include="Source\Audio.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\CollisionComponent.cpp" />
+    <ClCompile Include="Source\CollisionManager.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\DrawBillboard.cpp" />
     <ClCompile Include="Source\DrawModel.cpp" />
@@ -245,6 +251,7 @@
     <ClCompile Include="Source\Explosion.cpp" />
     <ClCompile Include="Source\Field.cpp" />
     <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Manager.cpp" />
@@ -257,6 +264,7 @@
     <ClCompile Include="Source\Result.cpp" />
     <ClCompile Include="Source\Rigidbody.cpp" />
     <ClCompile Include="Source\SkyDome.cpp" />
+    <ClCompile Include="Source\SphereCollision.cpp" />
     <ClCompile Include="Source\Stair.cpp" />
     <ClCompile Include="Source\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

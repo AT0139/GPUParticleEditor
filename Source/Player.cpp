@@ -8,6 +8,8 @@
 #include "input.h"
 #include "ResourceManager.h"
 #include "MeshField.h"
+#include "SphereCollision.h"
+#include "Rigidbody.h"
 
 static const float CAMERA_FACTOR = 60.0f;
 
@@ -16,6 +18,9 @@ namespace MainGame
 	float Player::m_blendRate = 0.0f;
 	Player::Player()
 	{
+		AddComponent<SphereCollision>();
+		AddComponent<Rigidbody>(this);
+
 		//モデル読み込み
 		m_model = ResourceManager::GetInstance().GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
 		m_model->LoadAnimation((char*)"asset\\model\\Akai_Idle.fbx", "Idle");

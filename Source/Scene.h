@@ -39,6 +39,7 @@ public:
 		{
 			for (GameObject* object : m_gameObjects[i])
 			{
+				object->TransformUpdate();
 				object->Update();
 				object->ComponentUpdate();
 			}
@@ -92,6 +93,11 @@ public:
 			}
 		}
 		return objects;
+	}
+
+	std::list<GameObject*>& GetAllObject()
+	{
+		return m_gameObjects[OBJECT];
 	}
 
 protected:

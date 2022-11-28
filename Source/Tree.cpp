@@ -10,7 +10,6 @@ namespace MainGame
 {
 	Tree::Tree()
 	{
-	
 		AddComponent<DrawBillboard>(this)->Load("asset/texture/Tree.png");
 
 		auto transform = GetComponent<Transform>();

@@ -2,6 +2,8 @@
 
 #include "Component.h"
 #include "Transform.h"
+#include "CollisionComponent.h"
+#include "SphereCollision.h"
 
 using std::shared_ptr;
 
@@ -30,6 +32,14 @@ public:
 	template<typename T>
 	shared_ptr<T> GetComponent() const
 	{
+		auto ptr = SearchComponent(std::type_index(typeid(T)));
+		if (ptr)
+		{
+			auto pRet = std::dynamic_pointer_cast<T>(ptr);
+			if (pRet)
+				return pRet;
+		}
+		return nullptr;
 	}
 
 	template<>
@@ -37,6 +47,15 @@ public:
 	{
 		assert(m_transform);
 		return m_transform;
+	}
+
+	template<>
+	shared_ptr<CollisionComponent> GetComponent<CollisionComponent>()const
+	{
+		if (!m_collision)
+			return nullptr;
+
+		return m_collision;
 	}
 
 	template<typename T, typename... U>
@@ -58,6 +77,16 @@ public:
 		return m_transform;
 	}
 
+	template<>
+	shared_ptr<SphereCollision> AddComponent<SphereCollision>()
+	{
+		std::shared_ptr<SphereCollision> ptr(new SphereCollision(this));
+		ptr->SetGameObject(this);
+		m_collision = ptr;
+		return ptr;
+	}
+
+
 	void ComponentUpdate()
 	{
 		for (auto comp : m_componentMap)
@@ -73,8 +102,15 @@ public:
 		}
 	}
 
+	void TransformUpdate()
+	{
+		m_transform->Update();
+	}
 private:
+	shared_ptr<Component> SearchComponent(std::type_index index)const;
+
 	std::map<std::type_index, std::shared_ptr<Component>> m_componentMap;
 	shared_ptr<Transform> m_transform;
+	shared_ptr<CollisionComponent> m_collision;
 	bool m_destory = false;
 };
