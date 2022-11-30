@@ -19,7 +19,7 @@ namespace MainGame
 	Player::Player()
 	{
 		AddComponent<SphereCollision>();
-		AddComponent<Rigidbody>(this);
+		AddComponent<Rigidbody>();
 
 		//モデル読み込み
 		m_model = ResourceManager::GetInstance().GetAnimationModelData("asset\\model\\Akai_Idle.fbx");

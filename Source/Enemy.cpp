@@ -13,7 +13,7 @@ Enemy::Enemy()
 {
 	AddComponent<DrawModel>(this)->Load("asset\\model\\torus.obj");
 	AddComponent<SphereCollision>();
-	rigid = AddComponent<Rigidbody>(this);
+	rigid = AddComponent<Rigidbody>();
 
 
 	auto transform = GetComponent<Transform>();
@@ -34,7 +34,7 @@ void Enemy::Update()
 		{
 			rigid->AddForce(D3DXVECTOR3(1.0f, 0.0f, 0.0f));
 		}
-
+	
 	}
 	ImGui::End();
 }

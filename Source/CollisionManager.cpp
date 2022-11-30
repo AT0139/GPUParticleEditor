@@ -5,6 +5,7 @@
 
 void CollisionManager::Update()
 {
+	m_collisionVector.clear();
 	auto& objects = Manager::GetInstance().GetScene()->GetAllObject();
 	for (auto& obj : objects)
 	{
@@ -22,6 +23,12 @@ void CollisionManager::Update()
 	{
 		Collision(i);
 	}
+
+	
+	for (auto obj : m_collisionVector)
+	{
+		obj.collision->CollisionReset();
+	}
 }
 
 void CollisionManager::Collision(int index)
@@ -32,6 +39,9 @@ void CollisionManager::Collision(int index)
 	{
 		if (rec == col)
 			continue;
+
+		//? ここに除外するオブジェクトを追加
+
 
 		col.collision->CollisionBridge(rec.collision);
 	}

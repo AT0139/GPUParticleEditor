@@ -200,6 +200,7 @@
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\CollisionComponent.h" />
     <ClInclude Include="Source\CollisionManager.h" />
+    <ClInclude Include="Source\CollisionUtility.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\DrawBillboard.h" />
     <ClInclude Include="Source\DrawModel.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\CollisionComponent.cpp" />
     <ClCompile Include="Source\CollisionManager.cpp" />
+    <ClCompile Include="Source\CollisionUtility.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\DrawBillboard.cpp" />
     <ClCompile Include="Source\DrawModel.cpp" />

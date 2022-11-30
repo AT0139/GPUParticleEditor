@@ -17,13 +17,18 @@ public:
 	float GetBounciness() { return m_bounciness; }
 
 	void SetVelocity(D3DXVECTOR3 velocity);
+	void SetVelocityZero();
+	void SetGravity(D3DXVECTOR3 gravity);
+	void SetGravityZero();
 	void SetMass(float mass);
 
 	void AddForce(D3DXVECTOR3 force);
 private:
 	D3DXVECTOR3 m_velocity;
+	D3DXVECTOR3 m_gravity;
 	float m_mass; //質量
 	D3DXVECTOR3 m_force;
 	float m_friction;
 	float m_bounciness;
+
 };

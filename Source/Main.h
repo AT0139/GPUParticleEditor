@@ -7,6 +7,7 @@
 
 #define SCREEN_WIDTH	(960)
 #define SCREEN_HEIGHT	(540)
+#define FPS (60)
 
 HWND GetWindow();
 POINTS GetMousePos();

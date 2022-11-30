@@ -8,7 +8,32 @@ Transform::Transform(GameObject* pGameObject)
 	, m_position(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 	, m_rotation(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 	, m_scale(D3DXVECTOR3(1.0f, 1.0f, 1.0f))
+	, m_prevChangeed(false)
 {}
+
+void Transform::SetWorldPosition(D3DXVECTOR3 position)
+{
+	SetPosition(position);
+}
+
+void Transform::SetToPrev()
+{
+	if (m_prevScale != m_scale)
+	{
+		m_prevChangeed = true;
+		m_prevScale = m_scale;
+	}
+	if (m_prevPosition != m_position)
+	{
+		m_prevChangeed = true;
+		m_prevPosition = m_position;
+	}
+	if (m_prevRotation != m_rotation)
+	{
+		m_prevChangeed = true;
+		m_prevRotation = m_rotation;
+	}
+}
 
 D3DXVECTOR3 Transform::GetForward()
 {
@@ -85,4 +110,24 @@ void Transform::Update()
 
 void Transform::Draw()
 {
+}
+
+D3DXVECTOR3 Transform::GetWorldPosition()
+{
+	D3DXVECTOR3 pos;
+	auto world = GetWorldMatrix();
+	pos.x = world._41;
+	pos.y = world._42;
+	pos.z = world._43;
+	return pos;
+}
+
+D3DXVECTOR3 Transform::GetPrevWorldPosition()
+{
+	D3DXVECTOR3 pos;
+	auto world = GetPrevWorldMatrix();
+	pos.x = world._41;
+	pos.y = world._42;
+	pos.z = world._43;
+	return pos;
 }

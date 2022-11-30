@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include "Transform.h"
+#include "Rigidbody.h"
 #include "CollisionComponent.h"
 #include "SphereCollision.h"
 
@@ -50,6 +51,13 @@ public:
 	}
 
 	template<>
+	shared_ptr<Rigidbody> GetComponent<Rigidbody>()const
+	{
+		assert(m_rigidbody);
+		return m_rigidbody;
+	}
+
+	template<>
 	shared_ptr<CollisionComponent> GetComponent<CollisionComponent>()const
 	{
 		if (!m_collision)
@@ -75,6 +83,15 @@ public:
 		ptr->SetGameObject(this);
 		m_transform = ptr;
 		return m_transform;
+	}
+
+	template<>
+	shared_ptr<Rigidbody> AddComponent<Rigidbody>()
+	{
+		std::shared_ptr<Rigidbody> ptr(new Rigidbody(this));
+		ptr->SetGameObject(this);
+		m_rigidbody = ptr;
+		return m_rigidbody;
 	}
 
 	template<>
@@ -112,5 +129,6 @@ private:
 	std::map<std::type_index, std::shared_ptr<Component>> m_componentMap;
 	shared_ptr<Transform> m_transform;
 	shared_ptr<CollisionComponent> m_collision;
+	shared_ptr<Rigidbody> m_rigidbody;
 	bool m_destory = false;
 };
