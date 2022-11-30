@@ -105,6 +105,21 @@ D3DXVECTOR3 CollisionComponent::Slide(const D3DXVECTOR3& Vec, const D3DXVECTOR3&
 	return (Vec - Contact);
 }
 
+bool CollisionComponent::IsHitObject(GameObject* obj)
+{
+	if (!m_hitObjects.empty())
+	{
+		for (auto object : m_hitObjects)
+		{
+			if (object == obj)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 void CollisionComponent::CollisionReset()
 {
 	m_hitObjects.clear();

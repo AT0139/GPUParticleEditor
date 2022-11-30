@@ -38,7 +38,7 @@ void Rigidbody::Update()
 	pos += m_velocity;
 	pos += m_gravity;
 
-	transform->SetWorldPosition(pos);
+	transform->SetPosition(pos);
 }
 
 void Rigidbody::SetVelocity(D3DXVECTOR3 velocity)

@@ -41,10 +41,9 @@ void CollisionManager::Collision(int index)
 			continue;
 
 		//? ここに除外するオブジェクトを追加
-
+		if (col.collision->IsHitObject(rec.collision->GetGameObject()))
+			continue;
 
 		col.collision->CollisionBridge(rec.collision);
 	}
 }
-
-

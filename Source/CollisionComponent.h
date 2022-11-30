@@ -37,7 +37,8 @@ public:
 	virtual void CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent) = 0;
 	virtual void HitTest(SphereCollision& opponent) = 0;
 	virtual void GetHitNormal(SphereCollision& DestColl, D3DXVECTOR3& Ret) = 0;
-
+	
+	bool IsHitObject(GameObject* obj);
 	void CollisionReset();
 
 	template<typename SrcType, typename DestType>
