@@ -39,9 +39,10 @@ public:
 		{
 			for (GameObject* object : m_gameObjects[i])
 			{
-				object->TransformUpdate();
 				object->Update();
 				object->ComponentUpdate();
+				object->TransformUpdate();
+				object->RigidbodyUpdate();
 			}
 
 			m_gameObjects[i].remove_if([](GameObject* object) {return object->Destroy(); });

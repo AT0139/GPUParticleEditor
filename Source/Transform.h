@@ -17,7 +17,7 @@ public:
 	D3DXVECTOR3 GetPrevWorldPosition();
 	D3DXVECTOR3 GetRotation() { return m_rotation; }
 	D3DXVECTOR3 GetScale() { return m_scale; }
-	D3DXVECTOR3 GetVelocity() { return m_position - m_prevPosition; }
+	D3DXVECTOR3 GetVelocity();
 
 	void SetPosition(D3DXVECTOR3 position) { m_position = position; }
 	void SetWorldPosition(D3DXVECTOR3 position);

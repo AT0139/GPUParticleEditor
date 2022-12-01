@@ -103,9 +103,7 @@ D3DXMATRIX Transform::GetWorldMatrixInvView()
 
 void Transform::Update()
 {
-	m_prevPosition = m_position;
-	m_prevRotation = m_rotation;
-	m_prevScale = m_prevScale;
+	SetToPrev();
 }
 
 void Transform::Draw()
@@ -130,4 +128,11 @@ D3DXVECTOR3 Transform::GetPrevWorldPosition()
 	pos.y = world._42;
 	pos.z = world._43;
 	return pos;
+}
+
+D3DXVECTOR3 Transform::GetVelocity()
+{
+	D3DXVECTOR3 velo = m_position - m_prevPosition;
+	velo /= FPS;
+	return velo;
 }

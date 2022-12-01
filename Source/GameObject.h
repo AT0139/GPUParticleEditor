@@ -123,6 +123,11 @@ public:
 	{
 		m_transform->Update();
 	}
+	void RigidbodyUpdate()
+	{
+		if (m_rigidbody)
+			m_rigidbody->Update();
+	}
 private:
 	shared_ptr<Component> SearchComponent(std::type_index index)const;
 

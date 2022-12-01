@@ -64,7 +64,7 @@ public:
 		if (!DestColl.IsStaticObject())
 		{
 			//もし相手がFixでなければ相手の衝突相手の登録
-			//DestColl.AddHitObject(*GetGameObject());
+			DestColl.AddHitObject(*GetGameObject());
 			if (DestColl.GetHitAction() != HitAction::None)
 			{
 				//事後処理が有効なら衝突前まで戻る

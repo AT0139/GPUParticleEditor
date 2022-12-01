@@ -19,7 +19,7 @@ namespace MainGame
 	Player::Player()
 	{
 		AddComponent<SphereCollision>();
-		AddComponent<Rigidbody>();
+		m_rigid =AddComponent<Rigidbody>();
 
 		//モデル読み込み
 		m_model = ResourceManager::GetInstance().GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
@@ -84,16 +84,18 @@ namespace MainGame
 		}
 		//!MOVE
 		{
+			D3DXVECTOR3 velo = D3DXVECTOR3(0, 0, 0);
 			if (Input::GetKeyPress(KEY_CONFIG::MOVE_UP))
 			{
-				pos += forward * MOVE_SPEED;
+				velo += forward * MOVE_SPEED;
+				//pos += forward * MOVE_SPEED;
 				m_animationName = "Run";
 
 				m_blendRate += ADD_BLENDRATE;
 			}
 			else if (Input::GetKeyPress(KEY_CONFIG::MOVE_DOWN))
 			{
-				pos -= forward * (MOVE_SPEED / 2);
+				velo -= forward * (MOVE_SPEED / 2);
 				m_animationName = "WalkingBack";
 				m_blendRate += ADD_BLENDRATE;
 			}
@@ -103,9 +105,9 @@ namespace MainGame
 				m_animationName = "Idle";
 			}
 			if (Input::GetKeyPress(KEY_CONFIG::MOVE_LEFT))
-				pos -= right * MOVE_SPEED;
+				velo -= right * MOVE_SPEED;
 			if (Input::GetKeyPress(KEY_CONFIG::MOVE_RIGHT))
-				pos += right * MOVE_SPEED;
+				velo += right * MOVE_SPEED;
 
 			if (m_blendRate > 1.0f)
 				m_blendRate = 1.0f;
@@ -115,8 +117,8 @@ namespace MainGame
 			Scene* scene = Manager::GetInstance().GetScene();
 			MeshField* field = scene->GetGameObject<MeshField>(scene->OBJECT);
 			pos.y = field->GetHeight(pos);
+			m_rigid->SetVelocity(velo);
 		}
-
 		transform->SetPosition(pos);
 		transform->SetRotation(rot);
 

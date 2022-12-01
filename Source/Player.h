@@ -15,6 +15,7 @@ namespace MainGame
 
 		std::string m_animationName;
 	private:
+		std::shared_ptr<Rigidbody> m_rigid;
 
 		class AnimationModel* m_model;
 		class Audio* m_shotSE;
