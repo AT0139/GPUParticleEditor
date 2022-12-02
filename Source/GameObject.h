@@ -128,10 +128,13 @@ public:
 		if (m_rigidbody)
 			m_rigidbody->Update();
 	}
+
 private:
 	shared_ptr<Component> SearchComponent(std::type_index index)const;
 
-	std::map<std::type_index, std::shared_ptr<Component>> m_componentMap;
+	std::unordered_map<std::type_index, std::shared_ptr<Component>> m_componentMap;
+
+	
 	shared_ptr<Transform> m_transform;
 	shared_ptr<CollisionComponent> m_collision;
 	shared_ptr<Rigidbody> m_rigidbody;
