@@ -8,6 +8,13 @@
 
 using std::shared_ptr;
 
+enum class TAG
+{
+	NONE,
+	PLAYER,
+	ENEMY,
+};
+
 class GameObject
 {
 public:
@@ -131,12 +138,17 @@ public:
 
 	virtual void OnCollision(GameObject* collision) {};
 
+	TAG GetTag() { return m_tag; }
+
+protected:
+	TAG m_tag;
+
 private:
 	shared_ptr<Component> SearchComponent(std::type_index index)const;
 
 	std::unordered_map<std::type_index, std::shared_ptr<Component>> m_componentMap;
 
-	
+
 	shared_ptr<Transform> m_transform;
 	shared_ptr<CollisionComponent> m_collision;
 	shared_ptr<Rigidbody> m_rigidbody;

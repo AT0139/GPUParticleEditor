@@ -21,6 +21,7 @@ Enemy::Enemy()
 	transform->SetRotation(D3DXVECTOR3(0.0f, 90.0f, 0.0f));
 	transform->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
 
+	m_tag = TAG::ENEMY;
 }
 
 Enemy::~Enemy()

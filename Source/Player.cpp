@@ -41,6 +41,8 @@ namespace MainGame
 		//m_shadow->SetScale(D3DXVECTOR3(2.0f, 1.0f, 2.0f));
 
 		GetComponent<Transform>()->SetScale(D3DXVECTOR3(0.008f, 0.008f, 0.008f));
+
+		m_tag = TAG::PLAYER;
 	}
 
 	Player::~Player()
@@ -152,7 +154,6 @@ namespace MainGame
 
 	void Player::OnCollision(GameObject* collision)
 	{
-	}
 
-	
+	}
 }
