@@ -10,6 +10,7 @@ Transform::Transform(GameObject* pGameObject)
 	, m_scale(D3DXVECTOR3(1.0f, 1.0f, 1.0f))
 	, m_prevChangeed(false)
 	, m_collisionScale(m_scale)
+	, m_isCalcCollisionWorldMatrix(false)
 {}
 
 void Transform::SetWorldPosition(D3DXVECTOR3 position)
@@ -69,17 +70,23 @@ D3DXMATRIX Transform::GetWorldMatrix()
 	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
 	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 
+
 	return scale * rot * trans;
 }
 
 D3DXMATRIX Transform::GetCollisionScaleWorldMatrix()
 {
+	if (m_isCalcCollisionWorldMatrix)
+		return m_collisionWorldMatrix;
+
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_collisionScale.x, m_collisionScale.y, m_collisionScale.z);
 	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
 	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 
-	return scale * rot * trans;
+	m_collisionWorldMatrix = scale * rot * trans;
+	m_isCalcCollisionWorldMatrix = true;
+	return m_collisionWorldMatrix;
 }
 
 D3DXMATRIX Transform::GetPrevWorldMatrix()
@@ -115,6 +122,7 @@ D3DXMATRIX Transform::GetWorldMatrixInvView()
 void Transform::Update()
 {
 	SetToPrev();
+	m_isCalcCollisionWorldMatrix = false;
 }
 
 void Transform::Draw()
@@ -146,4 +154,43 @@ D3DXVECTOR3 Transform::GetVelocity()
 	D3DXVECTOR3 velo = m_position - m_prevPosition;
 	velo /= FPS;
 	return velo;
+}
+
+D3DXVECTOR3 Transform::GetXAxis()
+{
+	D3DXMATRIX world = GetCollisionScaleWorldMatrix();
+
+	D3DXVECTOR3 v;
+	v.x = world._11;
+	v.y = world._12;
+	v.z = world._13;
+
+	//todo : サイズ考慮
+	return v;
+}
+
+D3DXVECTOR3 Transform::GetYAxis()
+{
+	D3DXMATRIX world = GetCollisionScaleWorldMatrix();
+
+	D3DXVECTOR3 v;
+	v.x = world._21;
+	v.y = world._22;
+	v.z = world._23;
+
+	//todo : サイズ考慮
+	return v;
+}
+
+D3DXVECTOR3 Transform::GetZAxis()
+{
+	D3DXMATRIX world = GetCollisionScaleWorldMatrix();
+
+	D3DXVECTOR3 v;
+	v.x = world._31;
+	v.y = world._32;
+	v.z = world._33;
+
+	//todo : サイズ考慮
+	return v;
 }

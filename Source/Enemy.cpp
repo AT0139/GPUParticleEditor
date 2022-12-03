@@ -4,7 +4,7 @@
 #include "ResourceManager.h"
 #include "Enemy.h"
 #include "DrawModel.h"
-#include "SphereCollision.h"
+#include "OBBCollision.h"
 #include "Rigidbody.h"
 #include "AABBCollision.h"
 
@@ -13,7 +13,7 @@ shared_ptr<Rigidbody> rigid;
 Enemy::Enemy()
 {
 	AddComponent<DrawModel>(this)->Load("asset\\model\\torus.obj");
-	AddComponent<SphereCollision>();
+	AddComponent<OBBCollision>();
 	rigid = AddComponent<Rigidbody>();
 
 

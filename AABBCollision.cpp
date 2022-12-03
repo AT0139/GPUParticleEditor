@@ -68,6 +68,10 @@ void AABBCollision::HitTest(AABBCollision& opponent)
 	}
 }
 
+void AABBCollision::HitTest(OBBCollision& opponent)
+{
+}
+
 AABBInfo AABBCollision::GetAABBInfo()
 {
 	AABBInfo aabb;

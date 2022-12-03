@@ -86,3 +86,11 @@ void SphereCollision::HitTest(AABBCollision& opponent)
 		CollisonAfter(this, &opponent);
 	}
 }
+
+void SphereCollision::HitTest(OBBCollision& opponent)
+{
+	if (CollisionUtility::ObbSphere(opponent.GetOBBInfo(), GetSphereInfo()))
+	{
+		CollisonAfter(this, &opponent);
+	}
+}

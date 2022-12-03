@@ -6,6 +6,7 @@
 #include "CollisionComponent.h"
 #include "SphereCollision.h"
 #include "AABBCollision.h"
+#include "OBBCollision.h"
 
 using std::shared_ptr;
 
@@ -119,6 +120,14 @@ public:
 		return ptr;
 	}
 
+	template<>
+	shared_ptr<OBBCollision> AddComponent<OBBCollision>()
+	{
+		std::shared_ptr<OBBCollision> ptr(new OBBCollision(this));
+		ptr->SetGameObject(this);
+		m_collision = ptr;
+		return ptr;
+	}
 
 	void ComponentUpdate()
 	{

@@ -18,6 +18,9 @@ public:
 	D3DXVECTOR3 GetRotation() { return m_rotation; }
 	D3DXVECTOR3 GetScale() { return m_scale; }
 	D3DXVECTOR3 GetVelocity();
+	D3DXVECTOR3 GetXAxis();
+	D3DXVECTOR3 GetYAxis();
+	D3DXVECTOR3 GetZAxis();
 
 	void SetPosition(D3DXVECTOR3 position) { m_position = position; }
 	void SetWorldPosition(D3DXVECTOR3 position);
@@ -40,6 +43,9 @@ private:
 	D3DXVECTOR3 m_scale;
 	D3DXVECTOR3 m_collisionScale;
 	D3DXVECTOR3 m_prevScale;
+
+	D3DXMATRIX m_collisionWorldMatrix;
+	bool m_isCalcCollisionWorldMatrix;
 
 	bool m_prevChangeed;
 };

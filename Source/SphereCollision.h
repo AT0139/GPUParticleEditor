@@ -20,6 +20,7 @@ public:
 	virtual void CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent) override;
 	virtual void HitTest(SphereCollision& opponent) override;
 	virtual void HitTest(AABBCollision& opponent) override;
+	virtual void HitTest(OBBCollision& opponent) override;
 
 private:
 	float m_radius;

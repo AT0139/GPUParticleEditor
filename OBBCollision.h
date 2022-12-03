@@ -18,8 +18,10 @@ public:
 	virtual void CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent) override;
 	virtual void HitTest(SphereCollision& opponent) override;
 	virtual void HitTest(AABBCollision& opponent) override;
+	virtual void HitTest(OBBCollision& opponent) override;
 
-	AABBInfo GetAABBInfo();
+	OBBInfo GetOBBInfo();
+
 private:
 	D3DXVECTOR3 m_collisionScale;
 #ifdef _DEBUG

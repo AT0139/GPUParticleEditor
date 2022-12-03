@@ -9,7 +9,7 @@
 #include "ResourceManager.h"
 #include "MeshField.h"
 #include "SphereCollision.h"
-#include "AABBCollision.h"
+#include "OBBCollision.h"
 #include "Rigidbody.h"
 
 static const float CAMERA_FACTOR = 60.0f;
@@ -19,7 +19,7 @@ namespace MainGame
 	float Player::m_blendRate = 0.0f;
 	Player::Player()
 	{
-		AddComponent<AABBCollision>()->SetCollisionScale(D3DXVECTOR3(2.0f,2.0f,2.0f));
+		AddComponent<OBBCollision>()->SetCollisionScale(D3DXVECTOR3(2.0f,2.0f,2.0f));
 		m_rigid = AddComponent<Rigidbody>();
 
 		//モデル読み込み

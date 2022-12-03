@@ -5,6 +5,7 @@
 
 class SphereCollision;
 class AABBCollision;
+class OBBCollision;
 
 struct SphereInfo
 {
@@ -15,6 +16,13 @@ struct SphereInfo
 struct AABBInfo
 {
 	D3DXVECTOR3 center;
+	D3DXVECTOR3 scaleHalf;
+};
+
+struct OBBInfo
+{
+	D3DXVECTOR3 center;
+	D3DXVECTOR3 X,Y,Z;
 	D3DXVECTOR3 scaleHalf;
 };
 
@@ -33,7 +41,9 @@ public:
 	virtual void CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent) = 0;
 	virtual void HitTest(SphereCollision& opponent) = 0;
 	virtual void HitTest(AABBCollision& opponent) = 0;
-	
+	virtual void HitTest(OBBCollision& opponent) = 0;
+
+
 	bool IsHitObject(GameObject* obj);
 	void CollisionReset();
 
