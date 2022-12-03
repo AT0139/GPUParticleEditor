@@ -23,11 +23,13 @@ public:
 	void SetWorldPosition(D3DXVECTOR3 position);
 	void SetRotation(D3DXVECTOR3 rotation) { m_rotation = rotation; }
 	void SetScale(D3DXVECTOR3 scale) { m_scale = scale; }
+	void SetCollisionScale(D3DXVECTOR3 scale) { m_collisionScale = scale; }
 	void SetToPrev();	
 
 	D3DXVECTOR3 GetForward();
 	D3DXVECTOR3 GetRight();
 	D3DXMATRIX GetWorldMatrix();
+	D3DXMATRIX GetCollisionScaleWorldMatrix();
 	D3DXMATRIX GetPrevWorldMatrix();
 	D3DXMATRIX GetWorldMatrixInvView();
 private:
@@ -36,6 +38,7 @@ private:
 	D3DXVECTOR3 m_rotation;
 	D3DXVECTOR3 m_prevRotation;
 	D3DXVECTOR3 m_scale;
+	D3DXVECTOR3 m_collisionScale;
 	D3DXVECTOR3 m_prevScale;
 
 	bool m_prevChangeed;

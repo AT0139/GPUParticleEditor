@@ -6,7 +6,6 @@
 CollisionComponent::CollisionComponent(GameObject* pGameObject)
 	: Component(pGameObject)
 	, m_isStaticObject(false)
-	, m_hitAction(HitAction::Auto)
 {}
 
 bool CollisionComponent::IsHitObject(GameObject* obj)

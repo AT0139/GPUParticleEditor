@@ -1,12 +1,22 @@
 ﻿#include "SphereCollision.h"
 #include "GameObject.h"
-#include "Utility.h"
 #include "Main.h"
 #include "CollisionUtility.h"
+#include "Renderer.h"
+
 
 SphereCollision::SphereCollision(GameObject* pGameObject)
 	: CollisionComponent(pGameObject)
-{}
+	, m_radius(1.0f)
+{
+#ifdef _DEBUG
+	m_model = GetGameObject()->AddComponent<DrawModel>(GetGameObject());
+	m_model->Load("asset\\model\\Sphere.obj");
+	m_model->SetRasterizerState(RASTERIZER::WIRE_FRAME);
+	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(D3DXVECTOR3(m_radius, m_radius, m_radius));
+	m_model->SetCollisionDraw(true);
+#endif // _DEBUG
+}
 
 void SphereCollision::Update()
 {
@@ -14,6 +24,7 @@ void SphereCollision::Update()
 
 void SphereCollision::Draw()
 {
+
 }
 
 SphereInfo SphereCollision::GetSphereInfo()
@@ -21,7 +32,7 @@ SphereInfo SphereCollision::GetSphereInfo()
 	SphereInfo sphere;
 
 	sphere.center = GetGameObject()->GetComponent<Transform>()->GetPosition();
-	sphere.radius = 1;
+	sphere.radius = m_radius;
 
 	return sphere;
 }
@@ -31,9 +42,17 @@ SphereInfo SphereCollision::GetPrevSphereInfo()
 	SphereInfo sphere;
 
 	sphere.center = GetGameObject()->GetComponent<Transform>()->GetPrevPosition();
-	sphere.radius = 1;
+	sphere.radius = m_radius;
 
 	return sphere;
+}
+
+void SphereCollision::SetRadius(float rad)
+{
+	m_radius = rad;
+#ifdef _DEBUG
+	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(D3DXVECTOR3(m_radius, m_radius, m_radius));
+#endif // _DEBUG
 }
 
 void SphereCollision::HitTest(SphereCollision& opponent)
@@ -56,10 +75,15 @@ void SphereCollision::HitTest(SphereCollision& opponent)
 		myGameObj->OnCollision(oppGameObj);
 		oppGameObj->OnCollision(oppGameObj);
 	}
+	
 }
 
 void SphereCollision::CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent)
 {
 	//ダブルディスパッチ
 	opponent->HitTest(*this);
+}
+
+void SphereCollision::HitTest(AABBCollision& opponent)
+{
 }

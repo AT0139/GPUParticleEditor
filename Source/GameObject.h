@@ -5,6 +5,7 @@
 #include "Rigidbody.h"
 #include "CollisionComponent.h"
 #include "SphereCollision.h"
+#include "AABBCollision.h"
 
 using std::shared_ptr;
 
@@ -77,8 +78,7 @@ public:
 	shared_ptr<T> AddComponent(U&&... param)
 	{
 		std::shared_ptr<T> ptr = shared_ptr<T>(new T(param...));
-		std::type_index typeIndex = typeid(T);
-		m_componentMap[typeIndex] = ptr;
+		m_componentList.push_back(ptr);
 		ptr->SetGameObject(this);
 		return ptr;
 	}
@@ -110,19 +110,28 @@ public:
 		return ptr;
 	}
 
+	template<>
+	shared_ptr<AABBCollision> AddComponent<AABBCollision>()
+	{
+		std::shared_ptr<AABBCollision> ptr(new AABBCollision(this));
+		ptr->SetGameObject(this);
+		m_collision = ptr;
+		return ptr;
+	}
+
 
 	void ComponentUpdate()
 	{
-		for (auto comp : m_componentMap)
+		for (auto comp : m_componentList)
 		{
-			comp.second->Update();
+			comp->Update();
 		}
 	}
 	void ComponentDraw()
 	{
-		for (auto comp : m_componentMap)
+		for (auto comp : m_componentList)
 		{
-			comp.second->Draw();
+			comp->Draw();
 		}
 	}
 
@@ -144,9 +153,20 @@ protected:
 	TAG m_tag;
 
 private:
-	shared_ptr<Component> SearchComponent(std::type_index index)const;
+	template<typename T>
+	shared_ptr<Component> SearchComponent(std::type_index index)const
+	{
+		for (auto comp : m_componentList)
+		{
+			if (typeid(comp) == typeid(T))
+			{
+				return comp;
+			}
+		}
+		return nullptr;
+	}
 
-	std::unordered_map<std::type_index, std::shared_ptr<Component>> m_componentMap;
+	std::list<std::shared_ptr<Component>> m_componentList;
 
 
 	shared_ptr<Transform> m_transform;

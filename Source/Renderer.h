@@ -1,9 +1,12 @@
 ﻿#pragma once
 
 #include "Singleton.h"
-#include "imgui.h"
-#include "imgui_impl_dx11.h"
-#include "imgui_impl_win32.h"
+
+enum class RASTERIZER
+{
+	DEFAULT,
+	WIRE_FRAME,
+};
 
 struct VERTEX_3D
 {
@@ -56,6 +59,9 @@ private:
 	ID3D11DepthStencilState* m_pDepthStateEnable;
 	ID3D11DepthStencilState* m_pDepthStateDisable;
 
+	ID3D11RasterizerState* m_rasterizerState;
+	ID3D11RasterizerState* m_wireFrameRasterizerState;
+
 private:
 #ifdef _DEBUG
 	inline static bool show_demo_window = false;
@@ -81,6 +87,7 @@ public:
 	void SetMaterial(MATERIAL material);
 	void SetLight(LIGHT Light);
 	void SetCameraPosition(D3DXVECTOR3 pos);
+	void SetRasterizerState(RASTERIZER state);
 
 	ID3D11Device* GetDevice(void) { return m_pDevice; }
 	ID3D11DeviceContext* GetDeviceContext(void) { return m_pDeviceContext; }

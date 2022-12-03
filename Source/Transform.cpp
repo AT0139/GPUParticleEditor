@@ -9,6 +9,7 @@ Transform::Transform(GameObject* pGameObject)
 	, m_rotation(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 	, m_scale(D3DXVECTOR3(1.0f, 1.0f, 1.0f))
 	, m_prevChangeed(false)
+	, m_collisionScale(m_scale)
 {}
 
 void Transform::SetWorldPosition(D3DXVECTOR3 position)
@@ -65,6 +66,16 @@ D3DXMATRIX Transform::GetWorldMatrix()
 {
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
+	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
+
+	return scale * rot * trans;
+}
+
+D3DXMATRIX Transform::GetCollisionScaleWorldMatrix()
+{
+	D3DXMATRIX world, scale, rot, trans;
+	D3DXMatrixScaling(&scale, m_collisionScale.x, m_collisionScale.y, m_collisionScale.z);
 	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
 	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 

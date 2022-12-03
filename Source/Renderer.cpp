@@ -101,10 +101,16 @@ void Renderer::Init()
 	rasterizerDesc.DepthClipEnable = TRUE;
 	rasterizerDesc.MultisampleEnable = FALSE;
 
-	ID3D11RasterizerState* rs;
-	m_pDevice->CreateRasterizerState(&rasterizerDesc, &rs);
+	m_pDevice->CreateRasterizerState(&rasterizerDesc, &m_rasterizerState);
 
-	m_pDeviceContext->RSSetState(rs);
+	rasterizerDesc.FillMode = D3D11_FILL_WIREFRAME;
+	rasterizerDesc.CullMode = D3D11_CULL_BACK;
+	rasterizerDesc.DepthClipEnable = TRUE;
+	rasterizerDesc.MultisampleEnable = FALSE;
+
+	m_pDevice->CreateRasterizerState(&rasterizerDesc, &m_wireFrameRasterizerState);
+
+	m_pDeviceContext->RSSetState(m_rasterizerState);
 
 	// ブレンドステート設定
 	D3D11_BLEND_DESC blendDesc{};
@@ -215,7 +221,7 @@ void Renderer::Init()
 	// Setup Dear ImGui style
 	ImGui::StyleColorsClassic();
 	//ImGui::StyleColorsLight();
-
+	
 	ImGui_ImplWin32_Init(GetWindow());
 	ImGui_ImplDX11_Init(m_pDevice, m_pDeviceContext);
 
@@ -341,6 +347,22 @@ void Renderer::SetLight(LIGHT Light)
 void Renderer::SetCameraPosition(D3DXVECTOR3 pos)
 {
 	m_pDeviceContext->UpdateSubresource(m_pCameraBuffer, 0, NULL, &pos, 0, 0);
+}
+
+void Renderer::SetRasterizerState(RASTERIZER state)
+{
+	switch (state)
+	{
+	case RASTERIZER::DEFAULT:
+		m_pDeviceContext->RSSetState(m_rasterizerState);
+		break;
+	case RASTERIZER::WIRE_FRAME:
+		m_pDeviceContext->RSSetState(m_wireFrameRasterizerState);
+		break;
+	default:
+		break;
+	}
+
 }
 
 void Renderer::CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName)

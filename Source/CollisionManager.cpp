@@ -39,7 +39,7 @@ void CollisionManager::Collision(int index)
 		if (rec == col)
 			continue;
 
-		//? ここに除外するオブジェクトを追加
+		//ここに除外するオブジェクトを追加
 		if (col.collision->IsHitObject(rec.collision->GetGameObject()))
 			continue;
 

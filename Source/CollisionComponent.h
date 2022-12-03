@@ -1,8 +1,10 @@
 ﻿#pragma once
 
 #include "Component.h"
+#include "DrawModel.h"
 
 class SphereCollision;
+class AABBCollision;
 
 struct SphereInfo
 {
@@ -10,12 +12,10 @@ struct SphereInfo
 	float radius;
 };
 
-enum class HitAction
+struct AABBInfo
 {
-	None,
-	Slide,
-	Auto,
-	Stop,
+	D3DXVECTOR3 center;
+	D3DXVECTOR3 scaleHalf;
 };
 
 class CollisionComponent : public Component
@@ -32,6 +32,7 @@ public:
 
 	virtual void CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent) = 0;
 	virtual void HitTest(SphereCollision& opponent) = 0;
+	virtual void HitTest(AABBCollision& opponent) = 0;
 	
 	bool IsHitObject(GameObject* obj);
 	void CollisionReset();
@@ -40,9 +41,6 @@ protected:
 	void AddHitObject(GameObject& obj) { m_hitObjects.push_back(&obj); }
 
 private:
-	HitAction GetHitAction()const { return m_hitAction; }
-
 	std::vector<GameObject*> m_hitObjects;
 	bool m_isStaticObject;
-	HitAction m_hitAction;
 };

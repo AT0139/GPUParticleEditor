@@ -1,5 +1,5 @@
-﻿#include "DrawModel.h"
-#include "Renderer.h"
+﻿#include "Renderer.h"
+#include "DrawModel.h"
 #include "Model.h"
 #include "ResourceManager.h"
 #include "GameObject.h"
@@ -7,6 +7,8 @@
 DrawModel::DrawModel(GameObject* pGameObject)
 	: Component(pGameObject)
 	, m_model(nullptr)
+	, m_rasterizerState(RASTERIZER::DEFAULT)
+	, m_isCollision(false)
 {
 	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
@@ -28,6 +30,9 @@ void DrawModel::Draw()
 {
 	assert(m_model);
 
+	if (m_rasterizerState == RASTERIZER::WIRE_FRAME)
+		Renderer::GetInstance().SetRasterizerState(RASTERIZER::WIRE_FRAME);
+
 	//入力レイアウト設定
 	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
@@ -36,10 +41,17 @@ void DrawModel::Draw()
 	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
 	////ワールドマトリクス設定
-	D3DXMATRIX world = GetGameObject()->GetComponent<Transform>()->GetWorldMatrix();
+	D3DXMATRIX world;
+	if (m_isCollision)
+		world = GetGameObject()->GetComponent<Transform>()->GetCollisionScaleWorldMatrix();
+	else
+		world = GetGameObject()->GetComponent<Transform>()->GetWorldMatrix();
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	m_model->Draw();
+
+	if (m_rasterizerState == RASTERIZER::WIRE_FRAME)
+		Renderer::GetInstance().SetRasterizerState(RASTERIZER::DEFAULT);
 }
 
 void DrawModel::Load(const char* filePath)
