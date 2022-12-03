@@ -70,6 +70,10 @@ void AABBCollision::HitTest(AABBCollision& opponent)
 
 void AABBCollision::HitTest(OBBCollision& opponent)
 {
+	if (CollisionUtility::ObbAabb(opponent.GetOBBInfo(), GetAABBInfo()))
+	{
+		CollisonAfter(this, &opponent);
+	}
 }
 
 AABBInfo AABBCollision::GetAABBInfo()

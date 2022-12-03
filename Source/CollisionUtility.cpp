@@ -82,6 +82,18 @@ bool CollisionUtility::ObbSphere(OBBInfo obb, SphereInfo sphere)
 	return (fabs(lenX) < obbLenX + sphere.radius && fabs(lenZ) < obbLenZ + sphere.radius);
 }
 
+bool CollisionUtility::ObbAabb(OBBInfo obb, AABBInfo aabb)
+{
+	OBBInfo obb2;
+	obb2.center = aabb.center;
+	obb2.scaleHalf = aabb.scaleHalf;
+	obb2.X = D3DXVECTOR3(1, 0, 0);
+	obb2.Y = D3DXVECTOR3(0, 1, 0);
+	obb2.Z = D3DXVECTOR3(0, 0, 1);
+
+	return 	ObbObb(obb, obb2);
+}
+
 bool CollisionUtility::AABBSphere(AABBInfo box, SphereInfo sphere)
 {
 	D3DXVECTOR3 boxMin = box.center - box.scaleHalf;

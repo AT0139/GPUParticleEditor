@@ -12,6 +12,7 @@ public:
 
 	static bool ObbObb(OBBInfo box1, OBBInfo box2);
 	static bool ObbSphere(OBBInfo obb, SphereInfo sphere);
+	static bool ObbAabb(OBBInfo obb, AABBInfo aabb);
 
 private:
 };
