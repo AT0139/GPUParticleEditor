@@ -28,4 +28,3 @@ void CollisionComponent::CollisionReset()
 {
 	m_hitObjects.clear();
 }
-

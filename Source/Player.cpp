@@ -19,7 +19,7 @@ namespace MainGame
 	Player::Player()
 	{
 		AddComponent<SphereCollision>();
-		m_rigid =AddComponent<Rigidbody>();
+		m_rigid = AddComponent<Rigidbody>();
 
 		//モデル読み込み
 		m_model = ResourceManager::GetInstance().GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
@@ -149,4 +149,10 @@ namespace MainGame
 
 		m_model->Draw();
 	}
+
+	void Player::OnCollision(GameObject* collision)
+	{
+	}
+
+	
 }

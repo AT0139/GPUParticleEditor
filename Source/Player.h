@@ -11,8 +11,9 @@ namespace MainGame
 		~Player();
 		virtual void Update()override;
 		virtual void Draw()override;
-		static void ResetBlendRate() { m_blendRate = 0.0f; }
+		void OnCollision(GameObject* collision)override;
 
+		static void ResetBlendRate() { m_blendRate = 0.0f; }
 		std::string m_animationName;
 	private:
 		std::shared_ptr<Rigidbody> m_rigid;

@@ -5,12 +5,6 @@
 struct CollisionInfo
 {
 	shared_ptr<CollisionComponent> collision;
-	float m_minX;
-	float m_maxX;
-	float m_minY;
-	float m_maxY;
-	float m_minZ;
-	float m_maxZ;
 
 	bool operator==(const CollisionInfo& info)const
 	{

@@ -36,8 +36,10 @@ public:
 	bool IsHitObject(GameObject* obj);
 	void CollisionReset();
 
-private:
+protected:
 	void AddHitObject(GameObject& obj) { m_hitObjects.push_back(&obj); }
+
+private:
 	HitAction GetHitAction()const { return m_hitAction; }
 
 	std::vector<GameObject*> m_hitObjects;

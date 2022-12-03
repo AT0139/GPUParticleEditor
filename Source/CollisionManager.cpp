@@ -24,7 +24,6 @@ void CollisionManager::Update()
 		Collision(i);
 	}
 
-	
 	for (auto obj : m_collisionVector)
 	{
 		obj.collision->CollisionReset();

@@ -129,6 +129,8 @@ public:
 			m_rigidbody->Update();
 	}
 
+	virtual void OnCollision(GameObject* collision) {};
+
 private:
 	shared_ptr<Component> SearchComponent(std::type_index index)const;
 
