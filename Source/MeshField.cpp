@@ -220,7 +220,7 @@ namespace MainGame
 		}
 
 		//ファイルヘッダ読み込み
-		count = fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
+		count = (unsigned int)fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
 		if (count != 1)
 		{
 			assert(count);
@@ -228,7 +228,7 @@ namespace MainGame
 		}
 
 		//ビットマップヘッダ読み込み
-		count = fread(&bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
+		count = (unsigned int)fread(&bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
 		if (count != 1)
 		{
 			assert(count);
@@ -254,7 +254,7 @@ namespace MainGame
 		fseek(filePtr, bitmapFileHeader.bfOffBits, SEEK_SET);
 
 		//bmp読み込み
-		count = fread(bitmapImage, sizeof(unsigned char), imageSize, filePtr);
+		count = (unsigned int)fread(bitmapImage, sizeof(unsigned char), imageSize, filePtr);
 
 		//ファイルを閉じる
 		error = fclose(filePtr);
