@@ -160,6 +160,9 @@
     <ClInclude Include="imgui\ImGuizmo.h">
       <Filter>ソース ファイル\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="OBBCollision.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Tree.cpp">
@@ -280,6 +283,9 @@
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClCompile>
     <ClCompile Include="AABBCollision.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="OBBCollision.cpp">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClCompile>
   </ItemGroup>

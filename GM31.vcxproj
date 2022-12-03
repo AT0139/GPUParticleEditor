@@ -199,6 +199,7 @@
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\ImGuizmo.h" />
     <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="OBBCollision.h" />
     <ClInclude Include="Source\AnimationModel.h" />
     <ClInclude Include="Source\Audio.h" />
     <ClInclude Include="Source\Bullet.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="OBBCollision.cpp" />
     <ClCompile Include="Source\AnimationModel.cpp" />
     <ClCompile Include="Source\Audio.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
