@@ -55,6 +55,12 @@ void SphereCollision::SetRadius(float rad)
 #endif // _DEBUG
 }
 
+void SphereCollision::CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent)
+{
+	//ダブルディスパッチ
+	opponent->HitTest(*this);
+}
+
 void SphereCollision::HitTest(SphereCollision& opponent)
 {
 	auto mySphere = GetSphereInfo();
@@ -63,27 +69,20 @@ void SphereCollision::HitTest(SphereCollision& opponent)
 	if (CollisionUtility::SphereSphere(mySphere, oppSphere))
 	{
 		//当たっている
-		auto myGameObj = this->GetGameObject();
-		auto oppGameObj = opponent.GetGameObject();
-
-		//衝突相手の登録
-		AddHitObject(*oppGameObj);
-		if (!opponent.IsStaticObject())
-			opponent.AddHitObject(*myGameObj);
-
-		//衝突関数の呼び出し
-		myGameObj->OnCollision(oppGameObj);
-		oppGameObj->OnCollision(oppGameObj);
+		CollisonAfter(this, &opponent);
 	}
 	
 }
 
-void SphereCollision::CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent)
-{
-	//ダブルディスパッチ
-	opponent->HitTest(*this);
-}
 
 void SphereCollision::HitTest(AABBCollision& opponent)
 {
+	auto mySphere = GetSphereInfo();
+	auto oppAABB = opponent.GetAABBInfo();
+
+	if (CollisionUtility::AABBSphere(oppAABB, mySphere))
+	{
+		//当たっている
+		CollisonAfter(this, &opponent);
+	}
 }

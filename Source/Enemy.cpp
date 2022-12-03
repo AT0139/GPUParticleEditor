@@ -13,7 +13,7 @@ shared_ptr<Rigidbody> rigid;
 Enemy::Enemy()
 {
 	AddComponent<DrawModel>(this)->Load("asset\\model\\torus.obj");
-	AddComponent<AABBCollision>();
+	AddComponent<SphereCollision>();
 	rigid = AddComponent<Rigidbody>();
 
 

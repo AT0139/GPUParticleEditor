@@ -83,7 +83,8 @@ namespace MainGame
 			float mouseYAcc = (m_preMousePos.y - m_mousePos.y) / CAMERA_FACTOR;
 
 			rot.y -= mouseXAcc;
-			//todo : m_rotation.x -= mouseYAcc;
+			//todo : マウスでカメラ回転上下
+			//m_rotation.x -= mouseYAcc;
 		}
 		//!MOVE
 		{

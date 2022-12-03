@@ -46,6 +46,14 @@ void AABBCollision::CollisionBridge(const std::shared_ptr<CollisionComponent>& o
 
 void AABBCollision::HitTest(SphereCollision& opponent)
 {
+	auto oppSphere = opponent.GetSphereInfo();
+	auto myAABB = GetAABBInfo();
+
+	if (CollisionUtility::AABBSphere(myAABB, oppSphere))
+	{
+		//当たっている
+		CollisonAfter(this, &opponent);
+	}
 }
 
 void AABBCollision::HitTest(AABBCollision& opponent)
@@ -56,17 +64,7 @@ void AABBCollision::HitTest(AABBCollision& opponent)
 	if (CollisionUtility::AabbAabb(myAabb, oppAabb))
 	{
 		//当たっている
-		auto myGameObj = this->GetGameObject();
-		auto oppGameObj = opponent.GetGameObject();
-
-		//衝突相手の登録
-		AddHitObject(*oppGameObj);
-		if (!opponent.IsStaticObject())
-			opponent.AddHitObject(*myGameObj);
-
-		//衝突関数の呼び出し
-		myGameObj->OnCollision(oppGameObj);
-		oppGameObj->OnCollision(oppGameObj);
+		CollisonAfter(this, &opponent);
 	}
 }
 
