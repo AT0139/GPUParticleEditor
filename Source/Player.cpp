@@ -1,13 +1,10 @@
 ﻿#include "renderer.h"
 #include "AnimationModel.h"
-#include "Scene.h"
-#include "manager.h"
 #include "Bullet.h"
 #include "audio.h"
 #include "Player.h"
 #include "input.h"
 #include "ResourceManager.h"
-#include "MeshField.h"
 #include "SphereCollision.h"
 #include "OBBCollision.h"
 #include "Rigidbody.h"
@@ -21,6 +18,7 @@ namespace MainGame
 	{
 		AddComponent<OBBCollision>()->SetCollisionScale(D3DXVECTOR3(2.0f,2.0f,2.0f));
 		m_rigid = AddComponent<Rigidbody>();
+		m_rigid->SetMass(2.0f);
 
 		//モデル読み込み
 		m_model = ResourceManager::GetInstance().GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
@@ -118,9 +116,6 @@ namespace MainGame
 			if (m_blendRate < 0.0f)
 				m_blendRate = 0.0f;
 
-			Scene* scene = Manager::GetInstance().GetScene();
-			MeshField* field = scene->GetGameObject<MeshField>(scene->OBJECT);
-			pos.y = field->GetHeight(pos);
 			m_rigid->SetVelocity(velo);
 		}
 		transform->SetPosition(pos);

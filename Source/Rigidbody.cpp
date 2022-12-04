@@ -1,6 +1,10 @@
 ﻿#include "Rigidbody.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "Scene.h"
+#include "Manager.h"
+#include "MeshField.h"
+
 
 static const float GRAVITY = 1.0f;
 
@@ -8,7 +12,8 @@ Rigidbody::Rigidbody(GameObject* pGameObject)
 	: Component(pGameObject)
 	, m_mass(1)
 	, m_friction(0.1f)
-	, m_bounciness(0.5f)
+	, m_bounciness(0.0f)
+	, m_gravity(D3DXVECTOR3(0.0f,-0.01f,0.0f))
 {}
 
 Rigidbody::~Rigidbody()
@@ -38,6 +43,9 @@ void Rigidbody::Update()
 	pos += m_velocity;
 	pos += m_gravity;
 
+	auto scene = Manager::GetInstance().GetScene();
+	MainGame::MeshField* field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
+	pos.y = field->GetHeight(pos);
 	transform->SetPosition(pos);
 }
 
@@ -59,6 +67,11 @@ void Rigidbody::SetGravity(D3DXVECTOR3 gravity)
 void Rigidbody::SetGravityZero()
 {
 	SetGravity(D3DXVECTOR3(0, 0, 0));
+}
+
+void Rigidbody::SetMass(float mass)
+{
+	m_mass = mass;
 }
 
 void Rigidbody::AddForce(D3DXVECTOR3 force)
