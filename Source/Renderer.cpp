@@ -200,7 +200,7 @@ void Renderer::Init()
 	LIGHT light{};
 	light.Enable = true;
 	light.Direction = Vector4(1.0f, -1.0f, 1.0f, 0.0f);
-	D3DXVec4Normalize(&light.Direction, &light.Direction);
+	light.Direction = XMVector4Normalize(light.Direction);
 	light.Ambient = Color(0.2f, 0.2f, 0.2f, 1.0f);
 	light.Diffuse = Color(2.0f, 2.0f, 2.0f, 1.0f);
 	SetLight(light);
@@ -298,38 +298,35 @@ void Renderer::SetWorldViewProjection2D()
 {
 	Matrix world = XMMatrixIdentity();
 	
-	D3DXMatrixTranspose(&world, &world);
+	world = XMMatrixTranspose(world);
 
 	m_pDeviceContext->UpdateSubresource(m_pWorldBuffer, 0, NULL, &world, 0, 0);
 
 	Matrix view = XMMatrixIdentity();
-	D3DXMatrixTranspose(&view, &view);
+	view = XMMatrixTranspose(view);
 	m_pDeviceContext->UpdateSubresource(m_pViewBuffer, 0, NULL, &view, 0, 0);
 
 	Matrix projection;
-	D3DXMatrixOrthoOffCenterLH(&projection, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f);
-	D3DXMatrixTranspose(&projection, &projection);
+	projection = XMMatrixOrthographicOffCenterLH(0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f);
+	projection = XMMatrixTranspose(projection);
 	m_pDeviceContext->UpdateSubresource(m_pProjectionBuffer, 0, NULL, &projection, 0, 0);
 }
 
 void Renderer::SetWorldMatrix(Matrix* WorldMatrix)
 {
-	Matrix world;
-	D3DXMatrixTranspose(&world, WorldMatrix);
+	Matrix world = XMMatrixTranspose(*WorldMatrix);
 	m_pDeviceContext->UpdateSubresource(m_pWorldBuffer, 0, NULL, &world, 0, 0);
 }
 
 void Renderer::SetViewMatrix(Matrix* ViewMatrix)
 {
-	Matrix view;
-	D3DXMatrixTranspose(&view, ViewMatrix);
+	Matrix view = XMMatrixTranspose(*ViewMatrix);
 	m_pDeviceContext->UpdateSubresource(m_pViewBuffer, 0, NULL, &view, 0, 0);
 }
 
 void Renderer::SetProjectionMatrix(Matrix* ProjectionMatrix)
 {
-	Matrix projection;
-	D3DXMatrixTranspose(&projection, ProjectionMatrix);
+	Matrix projection = XMMatrixTranspose(*ProjectionMatrix);
 	m_pDeviceContext->UpdateSubresource(m_pProjectionBuffer, 0, NULL, &projection, 0, 0);
 }
 

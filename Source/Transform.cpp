@@ -31,7 +31,7 @@ void Transform::SetRotation(Quaternion quat)
 
 void Transform::AddQuaternion(Quaternion quat)
 {
-	XMStoreFloat4(&m_quaternion, XMQuaternionMultiply(m_quaternion, quat));
+	m_quaternion = XMQuaternionMultiply(m_quaternion, quat);
 	m_changed = true;
 	m_collisionChanged = true;
 }

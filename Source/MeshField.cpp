@@ -36,8 +36,8 @@ namespace MainGame
 					vx = m_vertex[x + 1][z].Position - m_vertex[x - 1][z].Position;
 					vz = m_vertex[x][z + 1].Position - m_vertex[x][z - 1].Position;
 
-					D3DXVec3Cross(&vn, &vx, &vz); //外積
-					D3DXVec3Normalize(&vn, &vn);
+					vn = XMVector3Cross(vx, vz); //外積
+					vn = XMVector3NormalizeEst(vn);
 					m_vertex[x][z].Normal = vn;
 				}
 			}
@@ -176,7 +176,7 @@ namespace MainGame
 		v12 = pos2 - pos1;
 		v1p = position - pos1;
 
-		D3DXVec3Cross(&c, &v12, &v1p);
+		c = XMVector3Cross(v12, v1p);
 
 		float py;
 		Vector3 n;
@@ -185,13 +185,13 @@ namespace MainGame
 		{
 			Vector3 v10;
 			v10 = pos0 - pos1;
-			D3DXVec3Cross(&n, &v10, &v12);
+			n = XMVector3Cross(v10, v12);
 		}
 		else
 		{
 			Vector3 v13;
 			v13 = pos3 - pos1;
-			D3DXVec3Cross(&n, &v12, &v13);
+			n = XMVector3Cross(v12, v13);
 		}
 
 		//高さ取得

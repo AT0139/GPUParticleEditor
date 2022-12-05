@@ -49,7 +49,7 @@ namespace MainGame
 		{
 			Vector3 enemyPosition = enemy->GetComponent<Transform>()->GetPosition();
 			Vector3 direction = transform->GetPosition() - enemyPosition;
-			float length = D3DXVec3Length(&direction);
+			float length = Utility::VECtoFloat(XMVector3LengthEst(direction));
 
 			if (length < 2.0f)
 			{

@@ -25,7 +25,7 @@ void Rigidbody::Update()
 	auto pos = transform->GetWorldPosition();
 
 	//力の計算
-	if (D3DXVec3Length(&m_force) > 0)
+	if (Utility::VECtoFloat(XMVector3LengthEst(m_force)) > 0)
 	{
 		//移動力の計算
 		Vector3 force = m_force / m_mass;

@@ -59,8 +59,7 @@ namespace MainGame
 		Renderer::GetInstance().SetViewMatrix(&m_viewMatrix);
 
 		//プロジェクションマトリクス設定
-		Matrix projectionMatrix;
-		D3DXMatrixPerspectiveFovLH(&projectionMatrix, 1.0f, (float)SCREEN_WIDTH / SCREEN_HEIGHT, 1.0f, 1000.0f);
+		Matrix projectionMatrix = XMMatrixPerspectiveFovLH(1.0f, (float)SCREEN_WIDTH / SCREEN_HEIGHT, 1.0f, 1000.0f);
 
 		Renderer::GetInstance().SetProjectionMatrix(&projectionMatrix);
 	}

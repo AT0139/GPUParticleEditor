@@ -82,7 +82,7 @@ namespace MainGame
 			float mouseYAcc = (m_preMousePos.y - m_mousePos.y) / CAMERA_FACTOR;
 
 			auto yAxiz = Vector3(0.0f, 1.0f, 0.0f);
-			D3DXQuaternionRotationAxis(&rot, &yAxiz, -mouseXAcc);
+			rot = XMQuaternionRotationAxis(yAxiz, -mouseXAcc);
 			//todo : マウスでカメラ回転上下
 			//m_rotation.x -= mouseYAcc;
 		}

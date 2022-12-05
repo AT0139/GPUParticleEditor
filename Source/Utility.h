@@ -26,4 +26,11 @@ namespace Utility
 		}
 		return nullptr;
 	}
+
+	float VECtoFloat(XMVECTOR vec)
+	{
+		float tmp;
+		XMStoreFloat(&tmp, vec);
+		return tmp;
+	}
 }

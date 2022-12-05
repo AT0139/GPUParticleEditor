@@ -3,6 +3,7 @@
 namespace extensions
 {
 	using namespace DirectX;
+
 	struct XMFLOAT3 : DirectX::XMFLOAT3
 	{
 		using DirectX::XMFLOAT3::XMFLOAT3;
@@ -13,6 +14,13 @@ namespace extensions
 			XMVECTOR vec = XMLoadFloat3(&my);
 			return vec;
 		}
+
+		XMFLOAT3 operator = (const XMVECTOR& other)
+		{
+			XMStoreFloat3((DirectX::XMFLOAT3*)this, other);
+			return *this;
+		}
+
 	};
 
 	struct XMFLOAT4 : DirectX::XMFLOAT4
@@ -24,6 +32,11 @@ namespace extensions
 			DirectX::XMFLOAT4 my = *this;
 			XMVECTOR vec = XMLoadFloat4(&my);
 			return vec;
+		}
+		XMFLOAT4 operator = (const XMVECTOR& other)
+		{
+			XMStoreFloat4((DirectX::XMFLOAT4*)this, other);
+			return *this;
 		}
 	};
 }
