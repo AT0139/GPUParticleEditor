@@ -148,22 +148,22 @@
     <ClInclude Include="Source\SphereCollision.h">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Utility.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\CollisionUtility.h">
-      <Filter>ソース ファイル\Component\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="AABBCollision.h">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClInclude>
     <ClInclude Include="imgui\ImGuizmo.h">
       <Filter>ソース ファイル\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="OBBCollision.h">
+    <ClInclude Include="Source\AABBCollision.h">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Structures.h">
+    <ClInclude Include="Source\OBBCollision.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utility.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Structures.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
@@ -285,10 +285,10 @@
     <ClCompile Include="Source\CollisionUtility.cpp">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="AABBCollision.cpp">
+    <ClCompile Include="Source\AABBCollision.cpp">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="OBBCollision.cpp">
+    <ClCompile Include="Source\OBBCollision.cpp">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClCompile>
   </ItemGroup>

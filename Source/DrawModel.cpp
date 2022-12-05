@@ -41,7 +41,7 @@ void DrawModel::Draw()
 	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
 	////ワールドマトリクス設定
-	D3DXMATRIX world;
+	Matrix world;
 	if (m_isCollision)
 		world = GetGameObject()->GetComponent<Transform>()->GetCollisionScaleWorldMatrix();
 	else

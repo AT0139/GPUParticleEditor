@@ -30,7 +30,7 @@ void AABBCollision::Draw()
 {
 }
 
-void AABBCollision::SetCollisionScale(D3DXVECTOR3 scale)
+void AABBCollision::SetCollisionScale(Vector3 scale)
 {
 	m_collisionScale = scale * 0.5f;
 #ifdef _DEBUG

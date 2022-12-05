@@ -36,10 +36,10 @@ void AnimationModel::Load(const char* FileName)
 
 			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
 			{
-				vertex[v].Position = D3DXVECTOR3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z);
-				vertex[v].Normal = D3DXVECTOR3(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z);
-				vertex[v].TexCoord = D3DXVECTOR2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
-				vertex[v].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+				vertex[v].Position = Vector3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z);
+				vertex[v].Normal = Vector3(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z);
+				vertex[v].TexCoord = Vector2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
+				vertex[v].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 			}
 
 			D3D11_BUFFER_DESC bd;
@@ -422,7 +422,7 @@ void AnimationModel::Update(const char* animationName, float blendRate, int fram
 			vertex[v].TexCoord.x = mesh->mTextureCoords[0][v].x;
 			vertex[v].TexCoord.y = mesh->mTextureCoords[0][v].y;
 
-			vertex[v].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[v].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 		Renderer::GetInstance().GetDeviceContext()->Unmap(m_vertexBuffer[m], 0);
 	}
@@ -436,8 +436,8 @@ void AnimationModel::Draw()
 	//マテリアル設定 FBXから取り出していないのでついか　現在定数
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Ambient = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	Renderer::GetInstance().SetMaterial(material);
 
 	for (unsigned int m = 0; m < m_aiScene->mNumMeshes; m++)

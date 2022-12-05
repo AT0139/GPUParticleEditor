@@ -36,10 +36,10 @@ namespace MainGame
 
 		//m_shadow = scene->AddGameObject<Shadow>(scene->OBJECT);
 		//m_shadow->SetPosition(m_position);
-		//m_shadow->SetScale(D3DXVECTOR3(2.0f, 1.0f, 2.0f));
+		//m_shadow->SetScale(Vector3(2.0f, 1.0f, 2.0f));
 
 		auto tranform = GetComponent<Transform>();
-		tranform->SetScale(D3DXVECTOR3(0.008f, 0.008f, 0.008f));
+		tranform->SetScale(Vector3(0.008f, 0.008f, 0.008f));
 		
 		m_tag = TAG::PLAYER;
 	}
@@ -59,12 +59,12 @@ namespace MainGame
 		auto transform = GetComponent<Transform>();
 		m_model->Update(m_animationName.c_str(), m_blendRate, m_frame);
 
-		D3DXVECTOR3 forward = transform->GetForward();
-		D3DXVECTOR3 right = transform->GetRight();
+		Vector3 forward = transform->GetForward();
+		Vector3 right = transform->GetRight();
 
-		D3DXVECTOR3 pos = transform->GetPosition();
-		D3DXQUATERNION myQuat = transform->GetRotation();
-		D3DXQUATERNION rot;
+		Vector3 pos = transform->GetPosition();
+		Quaternion myQuat = transform->GetRotation();
+		Quaternion rot;
 
 		//!マウス
 		{
@@ -81,14 +81,14 @@ namespace MainGame
 			float mouseXAcc = (m_preMousePos.x - m_mousePos.x) / CAMERA_FACTOR;
 			float mouseYAcc = (m_preMousePos.y - m_mousePos.y) / CAMERA_FACTOR;
 
-			auto yAxiz = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+			auto yAxiz = Vector3(0.0f, 1.0f, 0.0f);
 			D3DXQuaternionRotationAxis(&rot, &yAxiz, -mouseXAcc);
 			//todo : マウスでカメラ回転上下
 			//m_rotation.x -= mouseYAcc;
 		}
 		//!MOVE
 		{
-			D3DXVECTOR3 velo = D3DXVECTOR3(0, 0, 0);
+			Vector3 velo = Vector3(0, 0, 0);
 			if (Input::GetKeyPress(KEY_CONFIG::MOVE_UP))
 			{
 				velo += forward * MOVE_SPEED;
@@ -145,7 +145,7 @@ namespace MainGame
 		Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
 		//ワールドマトリクス設定
-		D3DXMATRIX world = GetComponent<Transform>()->GetWorldMatrix();
+		Matrix world = GetComponent<Transform>()->GetWorldMatrix();
 		Renderer::GetInstance().SetWorldMatrix(&world);
 
 		m_model->Draw();

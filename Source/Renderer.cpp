@@ -164,7 +164,7 @@ void Renderer::Init()
 
 	// 定数バッファ生成
 	D3D11_BUFFER_DESC bufferDesc{};
-	bufferDesc.ByteWidth = sizeof(D3DXMATRIX);
+	bufferDesc.ByteWidth = sizeof(Matrix);
 	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	bufferDesc.CPUAccessFlags = 0;
@@ -191,7 +191,7 @@ void Renderer::Init()
 	m_pDeviceContext->VSSetConstantBuffers(4, 1, &m_pLightBuffer);
 	m_pDeviceContext->PSSetConstantBuffers(4, 1, &m_pLightBuffer);
 
-	bufferDesc.ByteWidth = sizeof(D3DXVECTOR4);
+	bufferDesc.ByteWidth = sizeof(Vector4);
 
 	m_pDevice->CreateBuffer(&bufferDesc, NULL, &m_pCameraBuffer);
 	m_pDeviceContext->PSSetConstantBuffers(5, 1, &m_pCameraBuffer);
@@ -199,16 +199,16 @@ void Renderer::Init()
 	// ライト初期化
 	LIGHT light{};
 	light.Enable = true;
-	light.Direction = D3DXVECTOR4(1.0f, -1.0f, 1.0f, 0.0f);
+	light.Direction = Vector4(1.0f, -1.0f, 1.0f, 0.0f);
 	D3DXVec4Normalize(&light.Direction, &light.Direction);
-	light.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.0f);
-	light.Diffuse = D3DXCOLOR(2.0f, 2.0f, 2.0f, 1.0f);
+	light.Ambient = Color(0.2f, 0.2f, 0.2f, 1.0f);
+	light.Diffuse = Color(2.0f, 2.0f, 2.0f, 1.0f);
 	SetLight(light);
 
 	// マテリアル初期化
 	MATERIAL material{};
-	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Ambient = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 
 	// Setup Dear ImGui context
@@ -296,40 +296,39 @@ void Renderer::SetDepthEnable(bool Enable)
 
 void Renderer::SetWorldViewProjection2D()
 {
-	D3DXMATRIX world;
-	D3DXMatrixIdentity(&world);
+	Matrix world = XMMatrixIdentity();
+	
 	D3DXMatrixTranspose(&world, &world);
 
 	m_pDeviceContext->UpdateSubresource(m_pWorldBuffer, 0, NULL, &world, 0, 0);
 
-	D3DXMATRIX view;
-	D3DXMatrixIdentity(&view);
+	Matrix view = XMMatrixIdentity();
 	D3DXMatrixTranspose(&view, &view);
 	m_pDeviceContext->UpdateSubresource(m_pViewBuffer, 0, NULL, &view, 0, 0);
 
-	D3DXMATRIX projection;
+	Matrix projection;
 	D3DXMatrixOrthoOffCenterLH(&projection, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f);
 	D3DXMatrixTranspose(&projection, &projection);
 	m_pDeviceContext->UpdateSubresource(m_pProjectionBuffer, 0, NULL, &projection, 0, 0);
 }
 
-void Renderer::SetWorldMatrix(D3DXMATRIX* WorldMatrix)
+void Renderer::SetWorldMatrix(Matrix* WorldMatrix)
 {
-	D3DXMATRIX world;
+	Matrix world;
 	D3DXMatrixTranspose(&world, WorldMatrix);
 	m_pDeviceContext->UpdateSubresource(m_pWorldBuffer, 0, NULL, &world, 0, 0);
 }
 
-void Renderer::SetViewMatrix(D3DXMATRIX* ViewMatrix)
+void Renderer::SetViewMatrix(Matrix* ViewMatrix)
 {
-	D3DXMATRIX view;
+	Matrix view;
 	D3DXMatrixTranspose(&view, ViewMatrix);
 	m_pDeviceContext->UpdateSubresource(m_pViewBuffer, 0, NULL, &view, 0, 0);
 }
 
-void Renderer::SetProjectionMatrix(D3DXMATRIX* ProjectionMatrix)
+void Renderer::SetProjectionMatrix(Matrix* ProjectionMatrix)
 {
-	D3DXMATRIX projection;
+	Matrix projection;
 	D3DXMatrixTranspose(&projection, ProjectionMatrix);
 	m_pDeviceContext->UpdateSubresource(m_pProjectionBuffer, 0, NULL, &projection, 0, 0);
 }
@@ -344,7 +343,7 @@ void Renderer::SetLight(LIGHT Light)
 	m_pDeviceContext->UpdateSubresource(m_pLightBuffer, 0, NULL, &Light, 0, 0);
 }
 
-void Renderer::SetCameraPosition(D3DXVECTOR3 pos)
+void Renderer::SetCameraPosition(Vector3 pos)
 {
 	m_pDeviceContext->UpdateSubresource(m_pCameraBuffer, 0, NULL, &pos, 0, 0);
 }

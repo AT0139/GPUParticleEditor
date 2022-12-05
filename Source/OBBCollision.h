@@ -21,12 +21,12 @@ public:
 
 	OBBInfo GetOBBInfo();
 
-	void SetCollisionScale(D3DXVECTOR3 scale);
+	void SetCollisionScale(Vector3 scale);
 	void SetCollisionScale(float scale);
 
 
 private:
-	D3DXVECTOR3 m_collisionScale;
+	Vector3 m_collisionScale;
 #ifdef _DEBUG
 	std::shared_ptr<DrawModel> m_model;
 #endif 

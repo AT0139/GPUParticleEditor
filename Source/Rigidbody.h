@@ -12,22 +12,22 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override {}
 
-	D3DXVECTOR3 GetVelocity() { return m_velocity; }
+	Vector3 GetVelocity() { return m_velocity; }
 	float GetMass() { return m_mass; }
 	float GetBounciness() { return m_bounciness; }
 
-	void SetVelocity(D3DXVECTOR3 velocity);
+	void SetVelocity(Vector3 velocity);
 	void SetVelocityZero();
-	void SetGravity(D3DXVECTOR3 gravity);
+	void SetGravity(Vector3 gravity);
 	void SetGravityZero();
 	void SetMass(float mass);
 
-	void AddForce(D3DXVECTOR3 force);
+	void AddForce(Vector3 force);
 private:
-	D3DXVECTOR3 m_velocity;
-	D3DXVECTOR3 m_gravity;
+	Vector3 m_velocity;
+	Vector3 m_gravity;
 	float m_mass; //質量
-	D3DXVECTOR3 m_force;
+	Vector3 m_force;
 	float m_friction;
 	float m_bounciness;
 

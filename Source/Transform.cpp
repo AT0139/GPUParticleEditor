@@ -5,9 +5,9 @@
 
 Transform::Transform(GameObject* pGameObject)
 	: Component(pGameObject)
-	, m_position(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
-	, m_quaternion(D3DXQUATERNION(0.0f, 0.0f, 0.0f,0.0f))
-	, m_scale(D3DXVECTOR3(1.0f, 1.0f, 1.0f))
+	, m_position(Vector3(0.0f, 0.0f, 0.0f))
+	, m_quaternion(Quaternion(0.0f, 0.0f, 0.0f,0.0f))
+	, m_scale(Vector3(1.0f, 1.0f, 1.0f))
 	, m_changed(true)
 	, m_prevChanged(true)
 	, m_collisionScale(m_scale)
@@ -15,34 +15,34 @@ Transform::Transform(GameObject* pGameObject)
 	, m_parent(nullptr)
 {}
 
-void Transform::SetPosition(D3DXVECTOR3 position)
+void Transform::SetPosition(Vector3 position)
 {
 	m_position = position;
 	m_changed = true;
 	m_collisionChanged = true;
 }
 
-void Transform::SetRotation(D3DXQUATERNION quat)
+void Transform::SetRotation(Quaternion quat)
 {
 	m_quaternion = quat;
 	m_changed = true;
 	m_collisionChanged = true;
 }
 
-void Transform::AddQuaternion(D3DXQUATERNION quat)
+void Transform::AddQuaternion(Quaternion quat)
 {
-	D3DXQuaternionMultiply(&m_quaternion, &m_quaternion, &quat);
+	XMStoreFloat4(&m_quaternion, XMQuaternionMultiply(m_quaternion, quat));
 	m_changed = true;
 	m_collisionChanged = true;
 }
 
-void Transform::SetScale(D3DXVECTOR3 scale)
+void Transform::SetScale(Vector3 scale)
 {
 	m_scale = scale;
 	m_changed = true;
 }
 
-void Transform::SetCollisionScale(D3DXVECTOR3 scale)
+void Transform::SetCollisionScale(Vector3 scale)
 {
 	m_collisionScale = scale;
 	m_collisionChanged = true;
@@ -67,41 +67,43 @@ void Transform::SetToPrev()
 	}
 }
 
-D3DXVECTOR3 Transform::GetForward()
+Vector3 Transform::GetForward()
 {
-	D3DXMATRIX rot;
-	D3DXMatrixRotationQuaternion(&rot, &m_quaternion);
-
-	D3DXVECTOR3 forward;
-	forward.x = rot._31;
-	forward.y = rot._32;
-	forward.z = rot._33;
+	Matrix rot;
+	XMFLOAT4X4 tmp;
+	rot = XMMatrixRotationQuaternion(m_quaternion);
+	XMStoreFloat4x4(&tmp, rot);
+	Vector3 forward;
+	forward.x = tmp._31;
+	forward.y = tmp._32;
+	forward.z = tmp._33;
 
 	return forward;
 }
 
-D3DXVECTOR3 Transform::GetRight()
+Vector3 Transform::GetRight()
 {
-	D3DXMATRIX rot;
-	D3DXMatrixRotationQuaternion(&rot, &m_quaternion);
-
-	D3DXVECTOR3 right;
-	right.x = rot._11;
-	right.y = rot._12;
-	right.z = rot._13;
+	Matrix rot;
+	XMFLOAT4X4 tmp;
+	rot = XMMatrixRotationQuaternion(m_quaternion);
+	XMStoreFloat4x4(&tmp, rot);
+	Vector3 right;
+	right.x = tmp._11;
+	right.y = tmp._12;
+	right.z = tmp._13;
 
 	return right;
 }
 
-D3DXMATRIX Transform::GetWorldMatrix()
+Matrix Transform::GetWorldMatrix()
 {
 	auto parent = GetParent();
 	if (m_changed || parent)
 	{
-		D3DXMATRIX world, scale, rot, trans;
-		D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-		D3DXMatrixRotationQuaternion(&rot, &m_quaternion);
-		D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
+		Matrix world, scale, rot, trans;
+		scale = XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
+		rot = XMMatrixRotationQuaternion(m_quaternion);
+		trans = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
 		m_worldMatrix = scale * rot * trans;
 
 		m_changed = false;
@@ -119,46 +121,49 @@ D3DXMATRIX Transform::GetWorldMatrix()
 	return m_worldMatrix;
 }
 
-D3DXMATRIX Transform::GetCollisionScaleWorldMatrix()
+Matrix Transform::GetCollisionScaleWorldMatrix()
 {
 	if (m_collisionChanged)
 	{
-		D3DXMATRIX world, scale, rot, trans;
-		D3DXMatrixScaling(&scale, m_collisionScale.x, m_collisionScale.y, m_collisionScale.z);
-		D3DXMatrixRotationQuaternion(&rot, &m_quaternion);
-		D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
+		Matrix world, scale, rot, trans;
+		scale = XMMatrixScaling(m_collisionScale.x, m_collisionScale.y, m_collisionScale.z);
+		XMMatrixRotationQuaternion(m_quaternion);
+		trans = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
 		m_collisionWorldMatrix = scale * rot * trans;
 	}
 	m_collisionChanged = false;
 	return m_collisionWorldMatrix;
 }
 
-D3DXMATRIX Transform::GetPrevWorldMatrix()
+Matrix Transform::GetPrevWorldMatrix()
 {
-	D3DXMATRIX world, scale, rot, trans;
-	D3DXMatrixScaling(&scale, m_prevScale.x, m_prevScale.y, m_prevScale.z);
-	D3DXMatrixRotationQuaternion(&rot, &m_prevQuaternion);
-	D3DXMatrixTranslation(&trans, m_prevPosition.x, m_prevPosition.y, m_prevPosition.z);
+	Matrix world, scale, rot, trans;
+	scale = XMMatrixScaling(m_prevScale.x, m_prevScale.y, m_prevScale.z);
+	XMMatrixRotationQuaternion(m_prevQuaternion);
+	trans = XMMatrixTranslation(m_prevPosition.x, m_prevPosition.y, m_prevPosition.z);
 
 	return scale * rot * trans;
 }
 
-D3DXMATRIX Transform::GetWorldMatrixInvView()
+Matrix Transform::GetWorldMatrixInvView()
 {
 	//ビューの逆行列
 	Scene* scene = Manager::GetInstance().GetScene();
 	MainGame::Camera* camera = scene->GetGameObject<MainGame::Camera>(scene->CAMERA);
-	D3DXMATRIX view = camera->GetViewMatrix();
-	D3DXMATRIX invView;
-	D3DXMatrixInverse(&invView, NULL, &view);
-	invView._41 = 0.0f;
-	invView._42 = 0.0f;
-	invView._43 = 0.0f;
+	Matrix view = camera->GetViewMatrix();
+	Matrix invView =  XMMatrixInverse(NULL, view);
+
+	XMFLOAT4X4 tmp;
+	XMStoreFloat4x4(&tmp, invView);
+	tmp._41 = 0.0f;
+	tmp._42 = 0.0f;
+	tmp._43 = 0.0f;
+	invView = XMLoadFloat4x4(&tmp);
 
 	//ワールドマトリクス設定
-	D3DXMATRIX world, scale, trans;
-	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
+	Matrix world, scale, trans;
+	scale = XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
+	trans = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
 	world = scale * invView * trans;
 	return world;
 }
@@ -189,67 +194,79 @@ void Transform::Draw()
 {
 }
 
-D3DXVECTOR3 Transform::GetWorldPosition()
+Vector3 Transform::GetWorldPosition()
 {
-	D3DXVECTOR3 pos;
+	Vector3 pos;
+	XMFLOAT4X4 tmp;
 	auto world = GetWorldMatrix();
-	pos.x = world._41;
-	pos.y = world._42;
-	pos.z = world._43;
+	XMStoreFloat4x4(&tmp, world);
+	pos.x = tmp._41;
+	pos.y = tmp._42;
+	pos.z = tmp._43;
 	return pos;
 }
 
-D3DXVECTOR3 Transform::GetPrevWorldPosition()
+Vector3 Transform::GetPrevWorldPosition()
 {
-	D3DXVECTOR3 pos;
+	Vector3 pos;
+	XMFLOAT4X4 tmp;
 	auto world = GetPrevWorldMatrix();
-	pos.x = world._41;
-	pos.y = world._42;
-	pos.z = world._43;
+	XMStoreFloat4x4(&tmp, world);
+	pos.x = tmp._41;
+	pos.y = tmp._42;
+	pos.z = tmp._43;
 	return pos;
 }
 
-D3DXVECTOR3 Transform::GetVelocity()
+Vector3 Transform::GetVelocity()
 {
-	D3DXVECTOR3 velo = m_position - m_prevPosition;
+	Vector3 velo = m_position - m_prevPosition;
 	velo /= FPS;
 	return velo;
 }
 
-D3DXVECTOR3 Transform::GetXAxis()
+Vector3 Transform::GetXAxis()
 {
-	D3DXMATRIX world = GetCollisionScaleWorldMatrix();
+	Matrix world = GetCollisionScaleWorldMatrix();
+	Vector3 v;
+	XMFLOAT4X4 tmp;
+	XMStoreFloat4x4(&tmp, world);
 
-	D3DXVECTOR3 v;
-	v.x = world._11;
-	v.y = world._12;
-	v.z = world._13;
+	v.x = tmp._11;
+	v.y = tmp._12;
+	v.z = tmp._13;
 
 	//todo : サイズ考慮
 	return v;
 }
 
-D3DXVECTOR3 Transform::GetYAxis()
+Vector3 Transform::GetYAxis()
 {
-	D3DXMATRIX world = GetCollisionScaleWorldMatrix();
+	Matrix world = GetCollisionScaleWorldMatrix();
 
-	D3DXVECTOR3 v;
-	v.x = world._21;
-	v.y = world._22;
-	v.z = world._23;
+	Vector3 v;
+	XMFLOAT4X4 tmp;
+	XMStoreFloat4x4(&tmp, world);
+
+	v.x = tmp._21;
+	v.y = tmp._22;
+	v.z = tmp._23;
 
 	//todo : サイズ考慮
 	return v;
 }
 
-D3DXVECTOR3 Transform::GetZAxis()
+Vector3 Transform::GetZAxis()
 {
-	D3DXMATRIX world = GetCollisionScaleWorldMatrix();
+	Matrix world = GetCollisionScaleWorldMatrix();
 
-	D3DXVECTOR3 v;
-	v.x = world._31;
-	v.y = world._32;
-	v.z = world._33;
+	Vector3 v;
+	XMFLOAT4X4 tmp;
+	XMStoreFloat4x4(&tmp, world);
+
+	v.x = tmp._31;
+	v.y = tmp._32;
+	v.z = tmp._33;
 
 	//todo : サイズ考慮
 	return v;

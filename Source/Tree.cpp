@@ -13,9 +13,9 @@ namespace MainGame
 		AddComponent<DrawBillboard>(this)->Load("asset/texture/Tree.png");
 
 		auto transform = GetComponent<Transform>();
-		transform->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-		transform->SetRotation(D3DXQUATERNION(0.0f, 0.0f, 0.0f, 0.0f));
-		transform->SetScale(D3DXVECTOR3(2.0f, 2.0f, 2.0f));
+		transform->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		transform->SetRotation(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
+		transform->SetScale(Vector3(2.0f, 2.0f, 2.0f));
 	}
 
 	Tree::~Tree()

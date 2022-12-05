@@ -132,9 +132,9 @@ void Model::LoadObj(const char* FileName, MODEL* Model)
 	strcpy(dir, FileName);
 	PathRemoveFileSpec(dir);
 
-	D3DXVECTOR3* positionArray;
-	D3DXVECTOR3* normalArray;
-	D3DXVECTOR2* texcoordArray;
+	Vector3* positionArray;
+	Vector3* normalArray;
+	Vector2* texcoordArray;
 
 	unsigned int	positionNum = 0;
 	unsigned int	normalNum = 0;
@@ -200,9 +200,9 @@ void Model::LoadObj(const char* FileName, MODEL* Model)
 	}
 
 	//メモリ確保
-	positionArray = new D3DXVECTOR3[positionNum];
-	normalArray = new D3DXVECTOR3[normalNum];
-	texcoordArray = new D3DXVECTOR2[texcoordNum];
+	positionArray = new Vector3[positionNum];
+	normalArray = new Vector3[normalNum];
+	texcoordArray = new Vector2[texcoordNum];
 
 	Model->vertexArray = new VERTEX_3D[vertexNum];
 	Model->vertexNum = vertexNum;
@@ -214,9 +214,9 @@ void Model::LoadObj(const char* FileName, MODEL* Model)
 	Model->subsetNum = subsetNum;
 
 	//要素読込
-	D3DXVECTOR3* position = positionArray;
-	D3DXVECTOR3* normal = normalArray;
-	D3DXVECTOR2* texcoord = texcoordArray;
+	Vector3* position = positionArray;
+	Vector3* normal = normalArray;
+	Vector2* texcoord = texcoordArray;
 
 	unsigned int vc = 0;
 	unsigned int ic = 0;
@@ -316,7 +316,7 @@ void Model::LoadObj(const char* FileName, MODEL* Model)
 				s = strtok(NULL, "/");
 				Model->vertexArray[vc].Normal = normalArray[atoi(s) - 1];
 
-				Model->vertexArray[vc].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+				Model->vertexArray[vc].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 
 				Model->indexArray[ic] = vc;
 				ic++;

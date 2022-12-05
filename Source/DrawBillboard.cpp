@@ -13,25 +13,25 @@ DrawBillboard::DrawBillboard(GameObject* pGameObject)
 {
 	VERTEX_3D vertex[4];
 
-	vertex[0].Position = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);
-	vertex[0].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
+	vertex[0].Position = Vector3(-1.0f, 1.0f, 0.0f);
+	vertex[0].Normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[0].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[0].TexCoord = Vector2(0.0f, 0.0f);
 
-	vertex[1].Position = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-	vertex[1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[1].TexCoord = D3DXVECTOR2(1.0f, 0.0f);
+	vertex[1].Position = Vector3(1.0f, 1.0f, 0.0f);
+	vertex[1].Normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[1].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[1].TexCoord = Vector2(1.0f, 0.0f);
 
-	vertex[2].Position = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
-	vertex[2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[2].TexCoord = D3DXVECTOR2(0.0f, 1.0f);
+	vertex[2].Position = Vector3(-1.0f, -1.0f, 0.0f);
+	vertex[2].Normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[2].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[2].TexCoord = Vector2(0.0f, 1.0f);
 
-	vertex[3].Position = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
-	vertex[3].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
+	vertex[3].Position = Vector3(1.0f, -1.0f, 0.0f);
+	vertex[3].Normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[3].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[3].TexCoord = Vector2(1.0f, 1.0f);
 
 	//頂点バッファ生成
 	D3D11_BUFFER_DESC bd;
@@ -94,25 +94,25 @@ void DrawBillboard::Draw()
 
 	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-	vertex[0].Position = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);
-	vertex[0].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[0].TexCoord = D3DXVECTOR2(x, y);
+	vertex[0].Position = Vector3(-1.0f, 1.0f, 0.0f);
+	vertex[0].Normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[0].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[0].TexCoord = Vector2(x, y);
 
-	vertex[1].Position = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-	vertex[1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[1].TexCoord = D3DXVECTOR2(x + m_xAdd, y);
+	vertex[1].Position = Vector3(1.0f, 1.0f, 0.0f);
+	vertex[1].Normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[1].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[1].TexCoord = Vector2(x + m_xAdd, y);
 
-	vertex[2].Position = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
-	vertex[2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[2].TexCoord = D3DXVECTOR2(x, y + m_yAdd);
+	vertex[2].Position = Vector3(-1.0f, -1.0f, 0.0f);
+	vertex[2].Normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[2].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[2].TexCoord = Vector2(x, y + m_yAdd);
 
-	vertex[3].Position = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
-	vertex[3].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[3].TexCoord = D3DXVECTOR2(x + m_xAdd, y + m_yAdd);
+	vertex[3].Position = Vector3(1.0f, -1.0f, 0.0f);
+	vertex[3].Normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[3].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[3].TexCoord = Vector2(x + m_xAdd, y + m_yAdd);
 
 	Renderer::GetInstance().GetDeviceContext()->Unmap(m_vertexBuffer, 0);
 
@@ -124,7 +124,7 @@ void DrawBillboard::Draw()
 	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
 	//ワールドマトリクス設定
-	D3DXMATRIX world = GetGameObject()->GetComponent<Transform>()->GetWorldMatrixInvView();
+	Matrix world = GetGameObject()->GetComponent<Transform>()->GetWorldMatrixInvView();
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	//頂点バッファ設定
@@ -135,7 +135,7 @@ void DrawBillboard::Draw()
 	//マテリアル設定
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	Renderer::GetInstance().SetMaterial(material);
 
 	//テクスチャ設定

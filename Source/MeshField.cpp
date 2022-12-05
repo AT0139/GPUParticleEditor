@@ -22,17 +22,17 @@ namespace MainGame
 				{
 					//float y = g_fieldHeight[x][z];
 					float y = m_heightMap[x][z];
-					m_vertex[x][z].Position = D3DXVECTOR3((x - 10) * 5.0f, y, (z - 10) * -5.0f);
-					m_vertex[x][z].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-					m_vertex[x][z].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-					m_vertex[x][z].TexCoord = D3DXVECTOR2(x * 0.5f, z * 0.5f);
+					m_vertex[x][z].Position = Vector3((x - 10) * 5.0f, y, (z - 10) * -5.0f);
+					m_vertex[x][z].Normal = Vector3(0.0f, 1.0f, 0.0f);
+					m_vertex[x][z].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+					m_vertex[x][z].TexCoord = Vector2(x * 0.5f, z * 0.5f);
 				}
 			}
 			for (int x = 1; x <= FIELD_X - 1; x++)
 			{
 				for (int z = 1; z <= FIELD_Z - 1; z++)
 				{
-					D3DXVECTOR3 vx, vz, vn;
+					Vector3 vx, vz, vn;
 					vx = m_vertex[x + 1][z].Position - m_vertex[x - 1][z].Position;
 					vz = m_vertex[x][z + 1].Position - m_vertex[x][z - 1].Position;
 
@@ -130,7 +130,7 @@ namespace MainGame
 		Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
 		//ワールドマトリクス設定
-		D3DXMATRIX world = GetComponent<Transform>()->GetWorldMatrix();
+		Matrix world = GetComponent<Transform>()->GetWorldMatrix();
 		Renderer::GetInstance().SetWorldMatrix(&world);
 
 		//頂点バッファ設定
@@ -144,7 +144,7 @@ namespace MainGame
 		//マテリアル設定
 		MATERIAL material;
 		ZeroMemory(&material, sizeof(material));
-		material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		material.Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 		Renderer::GetInstance().SetMaterial(material);
 
 		//テクスチャ設定
@@ -157,21 +157,21 @@ namespace MainGame
 		Renderer::GetInstance().GetDeviceContext()->DrawIndexed(INDEX_NUM, 0, 0);
 	}
 
-	float MeshField::GetHeight(D3DXVECTOR3 position)
+	float MeshField::GetHeight(Vector3 position)
 	{
 		int x, z;
 
 		x = static_cast<int>(position.x / 5.0f + 10.0f);
 		z = static_cast<int>(position.z / -5.0f + 10.0f);
 
-		D3DXVECTOR3 pos0, pos1, pos2, pos3;
+		Vector3 pos0, pos1, pos2, pos3;
 
 		pos0 = m_vertex[x][z].Position;
 		pos1 = m_vertex[x + 1][z].Position;
 		pos2 = m_vertex[x][z + 1].Position;
 		pos3 = m_vertex[x + 1][z + 1].Position;
 
-		D3DXVECTOR3 v12, v1p, c;
+		Vector3 v12, v1p, c;
 
 		v12 = pos2 - pos1;
 		v1p = position - pos1;
@@ -179,17 +179,17 @@ namespace MainGame
 		D3DXVec3Cross(&c, &v12, &v1p);
 
 		float py;
-		D3DXVECTOR3 n;
+		Vector3 n;
 
 		if (c.y > 0.0f)
 		{
-			D3DXVECTOR3 v10;
+			Vector3 v10;
 			v10 = pos0 - pos1;
 			D3DXVec3Cross(&n, &v10, &v12);
 		}
 		else
 		{
-			D3DXVECTOR3 v13;
+			Vector3 v13;
 			v13 = pos3 - pos1;
 			D3DXVec3Cross(&n, &v12, &v13);
 		}

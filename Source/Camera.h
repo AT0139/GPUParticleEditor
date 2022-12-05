@@ -12,11 +12,11 @@ namespace MainGame
 		virtual void Update()override;
 		virtual void Draw()override;
 
-		D3DXMATRIX GetViewMatrix() { return m_viewMatrix; }
+		Matrix GetViewMatrix() { return m_viewMatrix; }
 
 	private:
-		D3DXVECTOR3 m_target;
-		D3DXMATRIX  m_viewMatrix;
+		Vector3 m_target;
+		Matrix  m_viewMatrix;
 
 		float m_targetYoffset = 0.0f;
 		float m_positionYoffset = 0.0f;

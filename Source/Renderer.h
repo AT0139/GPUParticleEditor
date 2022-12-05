@@ -10,10 +10,10 @@ enum class RASTERIZER
 
 struct MATERIAL
 {
-	D3DXCOLOR	Ambient;
-	D3DXCOLOR	Diffuse;
-	D3DXCOLOR	Specular;
-	D3DXCOLOR	Emission;
+	Color	Ambient;
+	Color	Diffuse;
+	Color	Specular;
+	Color	Emission;
 	float		Shininess;
 	float		Dummy[3];
 };
@@ -22,9 +22,9 @@ struct LIGHT
 {
 	BOOL		Enable;
 	BOOL		Dummy[3];
-	D3DXVECTOR4	Direction;
-	D3DXCOLOR	Diffuse;
-	D3DXCOLOR	Ambient;
+	Vector4	Direction;
+	Color	Diffuse;
+	Color	Ambient;
 };
 
 class Renderer : public Singleton<Renderer>
@@ -73,12 +73,12 @@ public:
 
 	void SetDepthEnable(bool Enable);
 	void SetWorldViewProjection2D();
-	void SetWorldMatrix(D3DXMATRIX* WorldMatrix);
-	void SetViewMatrix(D3DXMATRIX* ViewMatrix);
-	void SetProjectionMatrix(D3DXMATRIX* ProjectionMatrix);
+	void SetWorldMatrix(Matrix* WorldMatrix);
+	void SetViewMatrix(Matrix* ViewMatrix);
+	void SetProjectionMatrix(Matrix* ProjectionMatrix);
 	void SetMaterial(MATERIAL material);
 	void SetLight(LIGHT Light);
-	void SetCameraPosition(D3DXVECTOR3 pos);
+	void SetCameraPosition(Vector3 pos);
 	void SetRasterizerState(RASTERIZER state);
 
 	ID3D11Device* GetDevice(void) { return m_pDevice; }

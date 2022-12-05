@@ -3,10 +3,10 @@
 
 struct VERTEX_3D
 {
-	D3DXVECTOR3 Position;
-	D3DXVECTOR3 Normal;
-	D3DXVECTOR4 Diffuse;
-	D3DXVECTOR2 TexCoord;
+	Vector3 Position;
+	Vector3 Normal;
+	Vector4 Diffuse;
+	Vector2 TexCoord;
 };
 
 

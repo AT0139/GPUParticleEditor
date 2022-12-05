@@ -11,46 +11,46 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
-	D3DXVECTOR3 GetPosition() { return m_position; }
-	D3DXVECTOR3 GetPrevPosition() { return m_prevPosition; }
-	D3DXVECTOR3 GetWorldPosition();
-	D3DXVECTOR3 GetPrevWorldPosition();
-	D3DXQUATERNION GetRotation() { return m_quaternion; }
-	D3DXVECTOR3 GetScale() { return m_scale; }
-	D3DXVECTOR3 GetVelocity();
-	D3DXVECTOR3 GetXAxis();
-	D3DXVECTOR3 GetYAxis();
-	D3DXVECTOR3 GetZAxis();
+	Vector3 GetPosition() { return m_position; }
+	Vector3 GetPrevPosition() { return m_prevPosition; }
+	Vector3 GetWorldPosition();
+	Vector3 GetPrevWorldPosition();
+	Quaternion GetRotation() { return m_quaternion; }
+	Vector3 GetScale() { return m_scale; }
+	Vector3 GetVelocity();
+	Vector3 GetXAxis();
+	Vector3 GetYAxis();
+	Vector3 GetZAxis();
 
-	void SetPosition(D3DXVECTOR3 position);
-	void SetRotation(D3DXQUATERNION rotation);
-	void AddQuaternion(D3DXQUATERNION quat);
-	void SetScale(D3DXVECTOR3 scale);
-	void SetCollisionScale(D3DXVECTOR3 scale);
+	void SetPosition(Vector3 position);
+	void SetRotation(Quaternion rotation);
+	void AddQuaternion(Quaternion quat);
+	void SetScale(Vector3 scale);
+	void SetCollisionScale(Vector3 scale);
 	void SetToPrev();	
 
-	D3DXVECTOR3 GetForward();
-	D3DXVECTOR3 GetRight();
-	D3DXMATRIX GetWorldMatrix();
-	D3DXMATRIX GetCollisionScaleWorldMatrix();
-	D3DXMATRIX GetPrevWorldMatrix();
-	D3DXMATRIX GetWorldMatrixInvView();
+	Vector3 GetForward();
+	Vector3 GetRight();
+	Matrix GetWorldMatrix();
+	Matrix GetCollisionScaleWorldMatrix();
+	Matrix GetPrevWorldMatrix();
+	Matrix GetWorldMatrixInvView();
 
 	GameObject* GetParent();
 	void SetParent(GameObject* parent);
 
 private:
-	D3DXVECTOR3 m_position;
-	D3DXVECTOR3 m_prevPosition;
-	D3DXQUATERNION m_quaternion;
-	D3DXQUATERNION m_prevQuaternion;
-	D3DXVECTOR3 m_scale;
-	D3DXVECTOR3 m_prevScale;
-	D3DXVECTOR3 m_collisionScale;
+	Vector3 m_position;
+	Vector3 m_prevPosition;
+	Quaternion m_quaternion;
+	Quaternion m_prevQuaternion;
+	Vector3 m_scale;
+	Vector3 m_prevScale;
+	Vector3 m_collisionScale;
 
-	D3DXMATRIX m_worldMatrix;
+	Matrix m_worldMatrix;
 
-	D3DXMATRIX m_collisionWorldMatrix;
+	Matrix m_collisionWorldMatrix;
 	bool m_collisionChanged;
 
 	GameObject* m_parent;

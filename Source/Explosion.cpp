@@ -15,9 +15,9 @@ namespace MainGame
 
 		auto transform = GetComponent<Transform>();
 
-		transform->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-		transform->SetRotation(D3DXQUATERNION(0.0f, 0.0f, 0.0f, 0.0f));
-		transform->SetScale(D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+		transform->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		transform->SetRotation(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
+		transform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 	}
 
 	Explosion::~Explosion()

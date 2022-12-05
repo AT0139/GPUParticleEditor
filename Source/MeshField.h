@@ -17,7 +17,7 @@ namespace MainGame
 		virtual void Update()override;
 		virtual void Draw()override;
 
-		float GetHeight(D3DXVECTOR3 position);
+		float GetHeight(Vector3 position);
 
 	private:
 		bool FileReader(const char* filename);

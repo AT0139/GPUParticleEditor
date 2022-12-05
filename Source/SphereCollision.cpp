@@ -13,7 +13,7 @@ SphereCollision::SphereCollision(GameObject* pGameObject)
 	m_model = GetGameObject()->AddComponent<DrawModel>(GetGameObject());
 	m_model->Load("asset\\model\\Sphere.obj");
 	m_model->SetRasterizerState(RASTERIZER::WIRE_FRAME);
-	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(D3DXVECTOR3(m_radius, m_radius, m_radius));
+	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(Vector3(m_radius, m_radius, m_radius));
 	m_model->SetCollisionDraw(true);
 #endif // _DEBUG
 }
@@ -51,7 +51,7 @@ void SphereCollision::SetRadius(float rad)
 {
 	m_radius = rad;
 #ifdef _DEBUG
-	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(D3DXVECTOR3(m_radius, m_radius, m_radius));
+	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(Vector3(m_radius, m_radius, m_radius));
 #endif // _DEBUG
 }
 

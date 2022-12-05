@@ -23,6 +23,7 @@
 //#include <d3dx9.h>
 //#include <d3dx11.h>
 #include <DirectXMath.h>
+//#include <WICTextureLoader.h>
 
 #pragma warning(pop)
 
@@ -30,5 +31,7 @@
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 
-#include "Utility.h"
+using namespace DirectX;
+
 #include "Structures.h"
+#include "Utility.h"

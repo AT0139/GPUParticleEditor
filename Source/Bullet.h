@@ -16,7 +16,7 @@ namespace MainGame
 		const float MOVE_SPEED = 0.3f;
 		const int DESTROY_COUNT = 60;
 
-		D3DXVECTOR3 m_forward;
+		Vector3 m_forward;
 
 		int m_count;
 	};

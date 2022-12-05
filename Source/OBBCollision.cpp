@@ -73,7 +73,7 @@ OBBInfo OBBCollision::GetOBBInfo()
 }
 
 
-void OBBCollision::SetCollisionScale(D3DXVECTOR3 scale)
+void OBBCollision::SetCollisionScale(Vector3 scale)
 {
 	m_collisionScale = scale * 0.5f;
 #ifdef _DEBUG
@@ -83,7 +83,7 @@ void OBBCollision::SetCollisionScale(D3DXVECTOR3 scale)
 
 void OBBCollision::SetCollisionScale(float scale)
 {
-	D3DXVECTOR3 sc = D3DXVECTOR3(scale, scale, scale);
+	Vector3 sc = Vector3(scale, scale, scale);
 	m_collisionScale = sc * 0.5f;
 #ifdef _DEBUG
 	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(m_collisionScale);

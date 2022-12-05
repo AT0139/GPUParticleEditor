@@ -9,21 +9,21 @@ class OBBCollision;
 
 struct SphereInfo
 {
-	D3DXVECTOR3 center;
+	Vector3 center;
 	float radius;
 };
 
 struct AABBInfo
 {
-	D3DXVECTOR3 center;
-	D3DXVECTOR3 scaleHalf;
+	Vector3 center;
+	Vector3 scaleHalf;
 };
 
 struct OBBInfo
 {
-	D3DXVECTOR3 center;
-	D3DXVECTOR3 X,Y,Z;
-	D3DXVECTOR3 scaleHalf;
+	Vector3 center;
+	Vector3 X,Y,Z;
+	Vector3 scaleHalf;
 };
 
 class CollisionComponent : public Component

@@ -18,9 +18,9 @@ namespace MainGame
 		AddComponent<DrawModel>(this)->Load("asset\\model\\torus.obj");
 
 		auto transform = GetComponent<Transform>();
-		transform->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
-		transform->SetRotation(D3DXQUATERNION(0.0f, 0.0f, 0.0f, 0.0f));
-		transform->SetScale(D3DXVECTOR3(0.2f, 0.2f, 0.2f));
+		transform->SetPosition(Vector3(0.0f, 1.0f, 0.0f));
+		transform->SetRotation(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
+		transform->SetScale(Vector3(0.2f, 0.2f, 0.2f));
 
 		Player* player = Manager::GetInstance().GetScene()->GetGameObject<Player>(Manager::GetInstance().GetScene()->OBJECT);
 		m_forward = transform->GetForward();
@@ -47,8 +47,8 @@ namespace MainGame
 
 		for (Enemy* enemy : enemyList)
 		{
-			D3DXVECTOR3 enemyPosition = enemy->GetComponent<Transform>()->GetPosition();
-			D3DXVECTOR3 direction = transform->GetPosition() - enemyPosition;
+			Vector3 enemyPosition = enemy->GetComponent<Transform>()->GetPosition();
+			Vector3 direction = transform->GetPosition() - enemyPosition;
 			float length = D3DXVec3Length(&direction);
 
 			if (length < 2.0f)

@@ -7,25 +7,25 @@ Field::Field()
 {
 	VERTEX_3D vertex[4];
 
-	vertex[0].Position = D3DXVECTOR3(-10.0f, 0.0f, 10.0f);
-	vertex[0].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
+	vertex[0].Position = Vector3(-10.0f, 0.0f, 10.0f);
+	vertex[0].Normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[0].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[0].TexCoord = Vector2(0.0f, 0.0f);
 
-	vertex[1].Position = D3DXVECTOR3(10.0f, 0.0f, 10.0f);
-	vertex[1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[1].TexCoord = D3DXVECTOR2(10.0f, 0.0f);
+	vertex[1].Position = Vector3(10.0f, 0.0f, 10.0f);
+	vertex[1].Normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[1].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[1].TexCoord = Vector2(10.0f, 0.0f);
 
-	vertex[2].Position = D3DXVECTOR3(-10.0f, 0.0f, -10.0f);
-	vertex[2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[2].TexCoord = D3DXVECTOR2(0.0f, 10.0f);
+	vertex[2].Position = Vector3(-10.0f, 0.0f, -10.0f);
+	vertex[2].Normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[2].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[2].TexCoord = Vector2(0.0f, 10.0f);
 
-	vertex[3].Position = D3DXVECTOR3(10.0f, 0.0f, -10.0f);
-	vertex[3].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[3].TexCoord = D3DXVECTOR2(10.0f, 10.0f);
+	vertex[3].Position = Vector3(10.0f, 0.0f, -10.0f);
+	vertex[3].Normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[3].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[3].TexCoord = Vector2(10.0f, 10.0f);
 
 	//頂点バッファ生成
 	D3D11_BUFFER_DESC bd;
@@ -50,9 +50,9 @@ Field::Field()
 	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
 	auto transform = GetComponent<Transform>();
-	transform->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	transform->SetRotation(D3DXQUATERNION(0.0f, 0.0f, 0.0f,0.0f));
-	transform->SetScale(D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	transform->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+	transform->SetRotation(Quaternion(0.0f, 0.0f, 0.0f,0.0f));
+	transform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 }
 
 Field::~Field()
@@ -79,7 +79,7 @@ void Field::Draw()
 	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
 	//ワールドマトリクス設定
-	D3DXMATRIX world = GetComponent<Transform>()->GetWorldMatrix();
+	Matrix world = GetComponent<Transform>()->GetWorldMatrix();
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	//頂点バッファ設定
@@ -90,7 +90,7 @@ void Field::Draw()
 	//マテリアル設定
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	Renderer::GetInstance().SetMaterial(material);
 
 	//テクスチャ設定
