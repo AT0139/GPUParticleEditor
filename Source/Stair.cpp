@@ -11,7 +11,7 @@ Stair::Stair()
 
 	auto transform = GetComponent<Transform>();
 	transform->SetPosition(D3DXVECTOR3(0.0f, 5.0f, 0.0f));
-	transform->SetRotation(D3DXVECTOR3(0.0f, D3DX_PI + 1.0f, 0.0f));
+	transform->SetRotation(D3DXQUATERNION(0.0f, 0.0f, 0.0f, 0.0f));
 	transform->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
 }
 

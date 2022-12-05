@@ -163,6 +163,9 @@
     <ClInclude Include="OBBCollision.h">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="Structures.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Tree.cpp">

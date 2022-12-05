@@ -19,7 +19,7 @@ namespace MainGame
 
 		auto transform = GetComponent<Transform>();
 		transform->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
-		transform->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		transform->SetRotation(D3DXQUATERNION(0.0f, 0.0f, 0.0f, 0.0f));
 		transform->SetScale(D3DXVECTOR3(0.2f, 0.2f, 0.2f));
 
 		Player* player = Manager::GetInstance().GetScene()->GetGameObject<Player>(Manager::GetInstance().GetScene()->OBJECT);

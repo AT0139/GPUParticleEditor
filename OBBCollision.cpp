@@ -29,14 +29,6 @@ void OBBCollision::Draw()
 {
 }
 
-void OBBCollision::SetCollisionScale(D3DXVECTOR3 scale)
-{
-	m_collisionScale = scale * 0.5f;
-#ifdef _DEBUG
-	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(m_collisionScale);
-#endif // _DEBUG
-}
-
 void OBBCollision::CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent)
 {
 	//ダブルディスパッチ
@@ -78,4 +70,22 @@ OBBInfo OBBCollision::GetOBBInfo()
 	obb.scaleHalf = m_collisionScale;
 
 	return obb;
+}
+
+
+void OBBCollision::SetCollisionScale(D3DXVECTOR3 scale)
+{
+	m_collisionScale = scale * 0.5f;
+#ifdef _DEBUG
+	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(m_collisionScale);
+#endif // _DEBUG
+}
+
+void OBBCollision::SetCollisionScale(float scale)
+{
+	D3DXVECTOR3 sc = D3DXVECTOR3(scale, scale, scale);
+	m_collisionScale = sc * 0.5f;
+#ifdef _DEBUG
+	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(m_collisionScale);
+#endif // _DEBUG
 }

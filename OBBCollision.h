@@ -12,7 +12,6 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
-	void SetCollisionScale(D3DXVECTOR3 scale);
 
 	// CollisionComponent を介して継承されました
 	virtual void CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent) override;
@@ -21,6 +20,10 @@ public:
 	virtual void HitTest(OBBCollision& opponent) override;
 
 	OBBInfo GetOBBInfo();
+
+	void SetCollisionScale(D3DXVECTOR3 scale);
+	void SetCollisionScale(float scale);
+
 
 private:
 	D3DXVECTOR3 m_collisionScale;

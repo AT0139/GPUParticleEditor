@@ -6,7 +6,6 @@
 #include "input.h"
 #include "ResourceManager.h"
 #include "SphereCollision.h"
-#include "OBBCollision.h"
 #include "Rigidbody.h"
 
 static const float CAMERA_FACTOR = 60.0f;
@@ -16,7 +15,7 @@ namespace MainGame
 	float Player::m_blendRate = 0.0f;
 	Player::Player()
 	{
-		AddComponent<OBBCollision>()->SetCollisionScale(D3DXVECTOR3(2.0f,2.0f,2.0f));
+		AddComponent<OBBCollision>()->SetCollisionScale(1.0f);
 		m_rigid = AddComponent<Rigidbody>();
 		m_rigid->SetMass(2.0f);
 
@@ -39,8 +38,9 @@ namespace MainGame
 		//m_shadow->SetPosition(m_position);
 		//m_shadow->SetScale(D3DXVECTOR3(2.0f, 1.0f, 2.0f));
 
-		GetComponent<Transform>()->SetScale(D3DXVECTOR3(0.008f, 0.008f, 0.008f));
-
+		auto tranform = GetComponent<Transform>();
+		tranform->SetScale(D3DXVECTOR3(0.008f, 0.008f, 0.008f));
+		
 		m_tag = TAG::PLAYER;
 	}
 
@@ -63,7 +63,8 @@ namespace MainGame
 		D3DXVECTOR3 right = transform->GetRight();
 
 		D3DXVECTOR3 pos = transform->GetPosition();
-		D3DXVECTOR3 rot = transform->GetRotation();
+		D3DXQUATERNION myQuat = transform->GetRotation();
+		D3DXQUATERNION rot;
 
 		//!マウス
 		{
@@ -80,7 +81,8 @@ namespace MainGame
 			float mouseXAcc = (m_preMousePos.x - m_mousePos.x) / CAMERA_FACTOR;
 			float mouseYAcc = (m_preMousePos.y - m_mousePos.y) / CAMERA_FACTOR;
 
-			rot.y -= mouseXAcc;
+			auto yAxiz = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+			D3DXQuaternionRotationAxis(&rot, &yAxiz, -mouseXAcc);
 			//todo : マウスでカメラ回転上下
 			//m_rotation.x -= mouseYAcc;
 		}
@@ -119,7 +121,7 @@ namespace MainGame
 			m_rigid->SetVelocity(velo);
 		}
 		transform->SetPosition(pos);
-		transform->SetRotation(rot);
+		transform->AddQuaternion(rot);
 
 		//SHOT
 		//if (Input::GetKeyTrigger(KEY_CONFIG::RETURN))

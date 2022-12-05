@@ -6,41 +6,71 @@
 Transform::Transform(GameObject* pGameObject)
 	: Component(pGameObject)
 	, m_position(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
-	, m_rotation(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+	, m_quaternion(D3DXQUATERNION(0.0f, 0.0f, 0.0f,0.0f))
 	, m_scale(D3DXVECTOR3(1.0f, 1.0f, 1.0f))
-	, m_prevChangeed(false)
+	, m_changed(true)
+	, m_prevChanged(true)
 	, m_collisionScale(m_scale)
-	, m_isCalcCollisionWorldMatrix(false)
+	, m_collisionChanged(true)
+	, m_parent(nullptr)
 {}
 
-void Transform::SetWorldPosition(D3DXVECTOR3 position)
+void Transform::SetPosition(D3DXVECTOR3 position)
 {
-	SetPosition(position);
+	m_position = position;
+	m_changed = true;
+	m_collisionChanged = true;
+}
+
+void Transform::SetRotation(D3DXQUATERNION quat)
+{
+	m_quaternion = quat;
+	m_changed = true;
+	m_collisionChanged = true;
+}
+
+void Transform::AddQuaternion(D3DXQUATERNION quat)
+{
+	D3DXQuaternionMultiply(&m_quaternion, &m_quaternion, &quat);
+	m_changed = true;
+	m_collisionChanged = true;
+}
+
+void Transform::SetScale(D3DXVECTOR3 scale)
+{
+	m_scale = scale;
+	m_changed = true;
+}
+
+void Transform::SetCollisionScale(D3DXVECTOR3 scale)
+{
+	m_collisionScale = scale;
+	m_collisionChanged = true;
 }
 
 void Transform::SetToPrev()
 {
 	if (m_prevScale != m_scale)
 	{
-		m_prevChangeed = true;
+		m_prevChanged = true;
 		m_prevScale = m_scale;
 	}
 	if (m_prevPosition != m_position)
 	{
-		m_prevChangeed = true;
+		m_prevChanged = true;
 		m_prevPosition = m_position;
 	}
-	if (m_prevRotation != m_rotation)
+	if (m_prevQuaternion != m_quaternion)
 	{
-		m_prevChangeed = true;
-		m_prevRotation = m_rotation;
+		m_prevChanged = true;
+		m_prevQuaternion = m_quaternion;
 	}
 }
 
 D3DXVECTOR3 Transform::GetForward()
 {
 	D3DXMATRIX rot;
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
+	D3DXMatrixRotationQuaternion(&rot, &m_quaternion);
 
 	D3DXVECTOR3 forward;
 	forward.x = rot._31;
@@ -53,7 +83,7 @@ D3DXVECTOR3 Transform::GetForward()
 D3DXVECTOR3 Transform::GetRight()
 {
 	D3DXMATRIX rot;
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
+	D3DXMatrixRotationQuaternion(&rot, &m_quaternion);
 
 	D3DXVECTOR3 right;
 	right.x = rot._11;
@@ -65,27 +95,41 @@ D3DXVECTOR3 Transform::GetRight()
 
 D3DXMATRIX Transform::GetWorldMatrix()
 {
-	D3DXMATRIX world, scale, rot, trans;
-	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
-	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
+	auto parent = GetParent();
+	if (m_changed || parent)
+	{
+		D3DXMATRIX world, scale, rot, trans;
+		D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
+		D3DXMatrixRotationQuaternion(&rot, &m_quaternion);
+		D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
+		m_worldMatrix = scale * rot * trans;
+
+		m_changed = false;
+
+		if (parent)
+		{
+			auto parentWorld = parent->GetComponent<Transform>()->GetWorldMatrix();
+			
+		}
+	}
+
+	
 
 
-	return scale * rot * trans;
+	return m_worldMatrix;
 }
 
 D3DXMATRIX Transform::GetCollisionScaleWorldMatrix()
 {
-	if (m_isCalcCollisionWorldMatrix)
-		return m_collisionWorldMatrix;
-
-	D3DXMATRIX world, scale, rot, trans;
-	D3DXMatrixScaling(&scale, m_collisionScale.x, m_collisionScale.y, m_collisionScale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
-	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
-
-	m_collisionWorldMatrix = scale * rot * trans;
-	m_isCalcCollisionWorldMatrix = true;
+	if (m_collisionChanged)
+	{
+		D3DXMATRIX world, scale, rot, trans;
+		D3DXMatrixScaling(&scale, m_collisionScale.x, m_collisionScale.y, m_collisionScale.z);
+		D3DXMatrixRotationQuaternion(&rot, &m_quaternion);
+		D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
+		m_collisionWorldMatrix = scale * rot * trans;
+	}
+	m_collisionChanged = false;
 	return m_collisionWorldMatrix;
 }
 
@@ -93,7 +137,7 @@ D3DXMATRIX Transform::GetPrevWorldMatrix()
 {
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_prevScale.x, m_prevScale.y, m_prevScale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_prevRotation.y, m_prevRotation.x, m_prevRotation.z);
+	D3DXMatrixRotationQuaternion(&rot, &m_prevQuaternion);
 	D3DXMatrixTranslation(&trans, m_prevPosition.x, m_prevPosition.y, m_prevPosition.z);
 
 	return scale * rot * trans;
@@ -119,10 +163,26 @@ D3DXMATRIX Transform::GetWorldMatrixInvView()
 	return world;
 }
 
+GameObject* Transform::GetParent()
+{
+	return m_parent;
+}
+
+void Transform::SetParent(GameObject* parent)
+{
+	if (m_parent == parent)
+		return;
+
+	if (parent)
+	{
+		m_parent = parent;
+	}
+}
+
 void Transform::Update()
 {
 	SetToPrev();
-	m_isCalcCollisionWorldMatrix = false;
+	m_collisionChanged = false;
 }
 
 void Transform::Draw()

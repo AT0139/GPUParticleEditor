@@ -43,7 +43,6 @@ public:
 	virtual void HitTest(AABBCollision& opponent) = 0;
 	virtual void HitTest(OBBCollision& opponent) = 0;
 
-
 	bool IsHitObject(GameObject* obj);
 	void CollisionReset();
 
