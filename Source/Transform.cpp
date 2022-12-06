@@ -126,15 +126,23 @@ Matrix Transform::GetWorldMatrix()
 
 Matrix Transform::GetCollisionScaleWorldMatrix()
 {
-	if (m_collisionChanged)
+	auto parent = GetParent();
+	if (m_collisionChanged || parent)
 	{
 		Matrix scale, rot, trans;
 		scale = XMMatrixScaling(m_collisionScale.x, m_collisionScale.y, m_collisionScale.z);
 		rot = XMMatrixRotationQuaternion(m_quaternion);
 		trans = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
 		m_collisionWorldMatrix = scale * rot * trans;
+		m_collisionChanged = false;
+
+		if (parent)
+		{
+			auto parentWorld = parent->GetComponent<Transform>()->GetWorldMatrix();
+			parentWorld.ScaleIdentity();
+			m_worldMatrix = m_collisionWorldMatrix * parentWorld;
+		}
 	}
-	m_collisionChanged = false;
 	return m_collisionWorldMatrix;
 }
 

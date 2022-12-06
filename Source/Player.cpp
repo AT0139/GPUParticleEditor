@@ -7,6 +7,9 @@
 #include "ResourceManager.h"
 #include "SphereCollision.h"
 #include "Rigidbody.h"
+#include "Stair.h"
+#include "Manager.h"
+
 
 static const float CAMERA_FACTOR = 60.0f;
 
@@ -42,6 +45,10 @@ namespace MainGame
 		tranform->SetScale(Vector3(0.008f, 0.008f, 0.008f));
 		
 		m_tag = TAG::PLAYER;
+
+		auto scene = Manager::GetInstance().GetScene();
+		auto stair = scene->AddGameObject<Stair>(scene->OBJECT);
+		stair->GetComponent<Transform>()->SetParent(this);
 	}
 
 	Player::~Player()
