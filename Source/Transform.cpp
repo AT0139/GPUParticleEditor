@@ -6,18 +6,20 @@
 Transform::Transform(GameObject* pGameObject)
 	: Component(pGameObject)
 	, m_position(Vector3(0.0f, 0.0f, 0.0f))
-	, m_quaternion(Quaternion(0.0f, 0.0f, 0.0f,0.0f))
+	, m_quaternion(XMQuaternionIdentity())
 	, m_scale(Vector3(1.0f, 1.0f, 1.0f))
 	, m_changed(true)
 	, m_prevChanged(true)
 	, m_collisionScale(m_scale)
 	, m_collisionChanged(true)
 	, m_parent(nullptr)
+	, m_pivot(m_position)
 {}
 
 void Transform::SetPosition(Vector3 position)
 {
 	m_position = position;
+	m_pivot = position;
 	m_changed = true;
 	m_collisionChanged = true;
 }
@@ -31,9 +33,13 @@ void Transform::SetRotation(Quaternion quat)
 
 void Transform::AddQuaternion(Quaternion quat)
 {
-	m_quaternion = XMQuaternionMultiply(m_quaternion, quat);
-	m_changed = true;
-	m_collisionChanged = true;
+	
+	if (!XMVector3Equal(Vector3(0.0f, 0.0f, 0.0f), quat))
+	{
+		m_quaternion = XMQuaternionMultiply(m_quaternion, quat);
+		m_changed = true;
+		m_collisionChanged = true;
+	}
 }
 
 void Transform::SetScale(Vector3 scale)
@@ -100,12 +106,11 @@ Matrix Transform::GetWorldMatrix()
 	auto parent = GetParent();
 	if (m_changed || parent)
 	{
-		Matrix world, scale, rot, trans;
+		Matrix scale, rot, trans;
 		scale = XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
 		rot = XMMatrixRotationQuaternion(m_quaternion);
 		trans = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
 		m_worldMatrix = scale * rot * trans;
-
 		m_changed = false;
 
 		if (parent)
@@ -115,9 +120,6 @@ Matrix Transform::GetWorldMatrix()
 		}
 	}
 
-	
-
-
 	return m_worldMatrix;
 }
 
@@ -125,7 +127,7 @@ Matrix Transform::GetCollisionScaleWorldMatrix()
 {
 	if (m_collisionChanged)
 	{
-		Matrix world, scale, rot, trans;
+		Matrix scale, rot, trans;
 		scale = XMMatrixScaling(m_collisionScale.x, m_collisionScale.y, m_collisionScale.z);
 		rot = XMMatrixRotationQuaternion(m_quaternion);
 		trans = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
@@ -137,7 +139,7 @@ Matrix Transform::GetCollisionScaleWorldMatrix()
 
 Matrix Transform::GetPrevWorldMatrix()
 {
-	Matrix world, scale, rot, trans;
+	Matrix scale, rot, trans;
 	scale = XMMatrixScaling(m_prevScale.x, m_prevScale.y, m_prevScale.z);
 	rot = XMMatrixRotationQuaternion(m_prevQuaternion);
 	trans = XMMatrixTranslation(m_prevPosition.x, m_prevPosition.y, m_prevPosition.z);

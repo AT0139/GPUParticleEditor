@@ -63,30 +63,23 @@ namespace MainGame
 		Vector3 right = transform->GetRight();
 
 		Vector3 pos = transform->GetPosition();
-		Quaternion myQuat = transform->GetRotation();
 		Quaternion rot;
 
-		//!マウス
+		//マウス
 		{
 			m_preMousePos = m_mousePos;
 			m_mousePos = GetMousePos();
 
-#ifdef _DEBUG
-			ImGui::Begin("General");
-			{
-				ImGui::Text("x = %d  y = %d", m_mousePos.x, m_mousePos.y);
-			}
-			ImGui::End();
-#endif
 			float mouseXAcc = (m_preMousePos.x - m_mousePos.x) / CAMERA_FACTOR;
 			float mouseYAcc = (m_preMousePos.y - m_mousePos.y) / CAMERA_FACTOR;
 
 			auto yAxiz = Vector3(0.0f, 1.0f, 0.0f);
-			rot = XMQuaternionRotationAxis(yAxiz, -mouseXAcc);
+			rot = XMQuaternionRotationAxis(yAxiz, XMConvertToRadians(-mouseXAcc * 20.0f));
+
 			//todo : マウスでカメラ回転上下
 			//m_rotation.x -= mouseYAcc;
 		}
-		//!MOVE
+		//MOVE
 		{
 			Vector3 velo = Vector3(0, 0, 0);
 			if (Input::GetKeyPress(KEY_CONFIG::MOVE_UP))
@@ -123,14 +116,14 @@ namespace MainGame
 		transform->SetPosition(pos);
 		transform->AddQuaternion(rot);
 
-		//SHOT
-		//if (Input::GetKeyTrigger(KEY_CONFIG::RETURN))
-		//{
-		//	Scene* scene = Manager::GetInstance().GetScene();
-		//	scene->AddGameObject<Bullet>(scene->OBJECT)->GetComponent<Transform>()->SetPosition(m_position);
-
-		//	//m_shotSE->Play();
-		//}
+#ifdef _DEBUG
+		ImGui::Begin("General");
+		{
+			ImGui::Text("x = %d  y = %d", m_mousePos.x, m_mousePos.y);
+			ImGui::Text("x = %d  y = %d", rot.x,rot.y);
+		}
+		ImGui::End();
+#endif
 
 		m_frame++;
 	}

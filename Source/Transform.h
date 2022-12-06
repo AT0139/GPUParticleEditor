@@ -47,6 +47,7 @@ private:
 	Vector3 m_scale;
 	Vector3 m_prevScale;
 	Vector3 m_collisionScale;
+	Vector3 m_pivot;
 
 	Matrix m_worldMatrix;
 

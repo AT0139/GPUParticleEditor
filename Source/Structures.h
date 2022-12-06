@@ -82,6 +82,11 @@ namespace extensions
 	{
 		using DirectX::XMFLOAT4::XMFLOAT4;
 
+		XMFLOAT4(const XMVECTOR& vec)
+		{
+			XMStoreFloat4((XMFLOAT4*)this, vec);
+		}
+
 		operator XMVECTOR()const
 		{
 			DirectX::XMFLOAT4 my = *this;
@@ -91,6 +96,38 @@ namespace extensions
 		XMFLOAT4 operator = (const XMVECTOR& other)
 		{
 			XMStoreFloat4((DirectX::XMFLOAT4*)this, other);
+			return *this;
+		}
+
+		XMFLOAT4 operator + (const XMFLOAT4 val)const
+		{
+			return XMVectorAdd(*this, val);
+		}
+
+		XMFLOAT4 operator += (const XMFLOAT4 val)
+		{
+			*this = *this + val;
+			return *this;
+		}
+
+		XMFLOAT4 operator * (float val)const
+		{
+			XMFLOAT4 temp(val, val, val,val);
+			return XMVectorMultiply(*this, temp);
+		}
+		XMFLOAT4 operator * (XMFLOAT4 val)const
+		{
+			XMFLOAT4 temp(val);
+			return XMVectorMultiply(*this, temp);
+		}
+		XMFLOAT4 operator *= (float val)
+		{
+			*this = *this * val;
+			return *this;
+		}
+		XMFLOAT4 operator *= (XMFLOAT4 val)
+		{
+			*this = *this * val;
 			return *this;
 		}
 
