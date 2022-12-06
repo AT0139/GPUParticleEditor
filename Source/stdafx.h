@@ -33,5 +33,5 @@
 
 using namespace DirectX;
 
-#include "Structures.h"
 #include "Utility.h"
+#include "Structures.h"

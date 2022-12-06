@@ -116,7 +116,8 @@ Matrix Transform::GetWorldMatrix()
 		if (parent)
 		{
 			auto parentWorld = parent->GetComponent<Transform>()->GetWorldMatrix();
-			
+			parentWorld.ScaleIdentity();
+			m_worldMatrix = m_worldMatrix * parentWorld;
 		}
 	}
 
