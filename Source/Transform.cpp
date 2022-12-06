@@ -127,7 +127,7 @@ Matrix Transform::GetCollisionScaleWorldMatrix()
 	{
 		Matrix world, scale, rot, trans;
 		scale = XMMatrixScaling(m_collisionScale.x, m_collisionScale.y, m_collisionScale.z);
-		XMMatrixRotationQuaternion(m_quaternion);
+		rot = XMMatrixRotationQuaternion(m_quaternion);
 		trans = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
 		m_collisionWorldMatrix = scale * rot * trans;
 	}
@@ -139,7 +139,7 @@ Matrix Transform::GetPrevWorldMatrix()
 {
 	Matrix world, scale, rot, trans;
 	scale = XMMatrixScaling(m_prevScale.x, m_prevScale.y, m_prevScale.z);
-	XMMatrixRotationQuaternion(m_prevQuaternion);
+	rot = XMMatrixRotationQuaternion(m_prevQuaternion);
 	trans = XMMatrixTranslation(m_prevPosition.x, m_prevPosition.y, m_prevPosition.z);
 
 	return scale * rot * trans;

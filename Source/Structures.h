@@ -8,6 +8,11 @@ namespace extensions
 	{
 		using DirectX::XMFLOAT3::XMFLOAT3;
 
+		XMFLOAT3(const XMVECTOR& vec)
+		{
+			XMStoreFloat3((XMFLOAT3*)this, vec);
+		}
+
 		operator XMVECTOR()const
 		{
 			DirectX::XMFLOAT3 my = *this;
@@ -21,6 +26,56 @@ namespace extensions
 			return *this;
 		}
 
+		XMFLOAT3 operator + (const XMFLOAT3 val)const
+		{
+			return XMVectorAdd(*this, val);
+		}
+
+		XMFLOAT3 operator += (const XMFLOAT3 val)
+		{
+			*this = *this + val;
+			return *this;
+		}
+
+		XMFLOAT3 operator - (const XMFLOAT3 val)const
+		{
+			return XMVectorSubtract(*this, val);
+		}
+
+		XMFLOAT3 operator -= (const XMFLOAT3 val)
+		{
+			*this = *this - val;
+			return *this;
+		}
+
+		XMFLOAT3 operator * (float val)const
+		{
+			XMFLOAT3 temp(val, val, val);
+			return XMVectorMultiply(*this, temp);
+		}
+
+		XMFLOAT3 operator *= (float val)
+		{
+			*this = *this * val;
+			return *this;
+		}
+
+		XMFLOAT3 operator / (float val)const
+		{
+			XMFLOAT3 temp(XMVectorReciprocal(XMFLOAT3(val, val, val)));
+			return XMVectorMultiply(*this, temp);
+		}
+
+		XMFLOAT3 operator /= (float val)
+		{
+			*this = *this / val;
+			return *this;
+		}
+
+		bool operator != (const XMFLOAT3 vec)
+		{
+			return !XMVector3Equal(*this, vec);
+		}
 	};
 
 	struct XMFLOAT4 : DirectX::XMFLOAT4
@@ -37,6 +92,13 @@ namespace extensions
 		{
 			XMStoreFloat4((DirectX::XMFLOAT4*)this, other);
 			return *this;
+		}
+
+
+
+		bool operator != (const XMFLOAT4 vec)
+		{
+			return !XMVector4Equal(*this, vec);
 		}
 	};
 }
@@ -67,3 +129,4 @@ struct Color
 	explicit Color(_In_reads_(4) const float* pArray) noexcept : r(pArray[0]), g(pArray[1]), b(pArray[2]), a(pArray[3]) {}
 };
 
+namespace DirextX = extensions;
