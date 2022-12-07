@@ -5,7 +5,6 @@
 #include "Manager.h"
 #include "MeshField.h"
 
-
 static const float GRAVITY = 1.0f;
 
 Rigidbody::Rigidbody(GameObject* pGameObject)
@@ -13,7 +12,7 @@ Rigidbody::Rigidbody(GameObject* pGameObject)
 	, m_mass(1)
 	, m_friction(0.1f)
 	, m_bounciness(0.0f)
-	, m_gravity(Vector3(0.0f,-0.01f,0.0f))
+	, m_gravity(Vector3(0.0f, -0.01f, 0.0f))
 {}
 
 Rigidbody::~Rigidbody()
@@ -31,7 +30,6 @@ void Rigidbody::Update()
 		Vector3 force = m_force / m_mass;
 		m_velocity += force;
 		m_force = Vector3(0.0f, 0.0f, 0.0f);
-		
 	}
 
 	//摩擦

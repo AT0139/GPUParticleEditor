@@ -51,7 +51,7 @@ Field::Field()
 
 	auto transform = GetComponent<Transform>();
 	transform->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-	transform->SetRotation(Quaternion(0.0f, 0.0f, 0.0f,0.0f));
+	transform->SetRotation(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
 	transform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 }
 

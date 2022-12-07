@@ -4,10 +4,9 @@
 #include "DrawModel.h"
 #include "Renderer.h"
 
-
 AABBCollision::AABBCollision(GameObject* pGameObject)
 	: CollisionComponent(pGameObject)
-	, m_collisionScale(1.0f,1.0f,1.0)
+	, m_collisionScale(1.0f, 1.0f, 1.0)
 {
 #ifdef _DEBUG
 	//todo: AABB可視化を軸平行に(回転しないように)

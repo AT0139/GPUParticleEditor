@@ -2,7 +2,6 @@
 
 bool CollisionUtility::SphereSphere(SphereInfo sphere1, SphereInfo sphere2)
 {
-
 	Vector3 dir = sphere1.center - sphere2.center;
 
 	float rad = sphere1.radius + sphere2.radius;
@@ -34,7 +33,7 @@ bool getSeparatingPlane(const Vector3& RPos, const XMVECTOR& Plane, const OBBInf
 
 	//todo : 正常なら消す
 	return (fabs(Utility::VECtoFloat(XMVector3Dot(RPos, Plane)))) >
-			(fabs(Utility::VECtoFloat(XMVector3Dot(x1, Plane))) +
+		(fabs(Utility::VECtoFloat(XMVector3Dot(x1, Plane))) +
 			fabs(Utility::VECtoFloat(XMVector3Dot(y1, Plane))) +
 			fabs(Utility::VECtoFloat(XMVector3Dot(z1, Plane))) +
 			fabs(Utility::VECtoFloat(XMVector3Dot(x2, Plane))) +
@@ -105,5 +104,5 @@ bool CollisionUtility::AABBSphere(AABBInfo box, SphereInfo sphere)
 	nearPoint.z = std::max(boxMin.z, std::min(sphere.center.z, boxMax.z));
 
 	auto dir = nearPoint - sphere.center;
-	return Utility::VECtoFloat(XMVector3LengthEst(dir))< sphere.radius;
+	return Utility::VECtoFloat(XMVector3LengthEst(dir)) < sphere.radius;
 }

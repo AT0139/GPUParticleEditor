@@ -27,7 +27,7 @@ public:
 	void AddQuaternion(Quaternion quat);
 	void SetScale(Vector3 scale);
 	void SetCollisionScale(Vector3 scale);
-	void SetToPrev();	
+	void SetToPrev();
 
 	Vector3 GetForward();
 	Vector3 GetRight();

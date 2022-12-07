@@ -55,7 +55,7 @@ namespace MainGame
 		//ビューマトリクス設定
 		Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
 		m_viewMatrix = XMMatrixLookAtLH(position, m_target, up);
-		
+
 		Renderer::GetInstance().SetViewMatrix(&m_viewMatrix);
 
 		//プロジェクションマトリクス設定

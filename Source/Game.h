@@ -3,9 +3,7 @@
 #include "scene.h"
 #include "CollisionManager.h"
 
-
 class CollisionManager;
-
 
 namespace MainGame
 {

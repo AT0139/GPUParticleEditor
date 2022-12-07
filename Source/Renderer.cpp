@@ -221,7 +221,7 @@ void Renderer::Init()
 	// Setup Dear ImGui style
 	ImGui::StyleColorsClassic();
 	//ImGui::StyleColorsLight();
-	
+
 	ImGui_ImplWin32_Init(GetWindow());
 	ImGui_ImplDX11_Init(m_pDevice, m_pDeviceContext);
 
@@ -297,7 +297,7 @@ void Renderer::SetDepthEnable(bool Enable)
 void Renderer::SetWorldViewProjection2D()
 {
 	Matrix world = XMMatrixIdentity();
-	
+
 	world = XMMatrixTranspose(world);
 
 	m_pDeviceContext->UpdateSubresource(m_pWorldBuffer, 0, NULL, &world, 0, 0);
@@ -358,7 +358,6 @@ void Renderer::SetRasterizerState(RASTERIZER state)
 	default:
 		break;
 	}
-
 }
 
 void Renderer::CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName)

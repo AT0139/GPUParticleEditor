@@ -22,7 +22,7 @@ struct AABBInfo
 struct OBBInfo
 {
 	Vector3 center;
-	Vector3 X,Y,Z;
+	Vector3 X, Y, Z;
 	Vector3 scaleHalf;
 };
 

@@ -5,7 +5,7 @@
 namespace extensions
 {
 	using namespace DirectX;
-
+	struct XMFLOAT4X4;
 	struct XMFLOAT3 : DirectX::XMFLOAT3
 	{
 		using DirectX::XMFLOAT3::XMFLOAT3;
@@ -53,7 +53,7 @@ namespace extensions
 		XMFLOAT4X4(const XMFLOAT4& quat);
 
 		operator XMMATRIX()const;
-	
+
 		XMFLOAT4X4 operator * (XMFLOAT4X4 val)const;
 		XMFLOAT3 TransInMatrix()const;
 		XMFLOAT4 QuaternionInMatrix()const;
@@ -70,7 +70,6 @@ using Vector4 = extensions::XMFLOAT4;
 using Quaternion = extensions::XMFLOAT4;
 using Matrix = extensions::XMFLOAT4X4;
 //using Color = XMFLOAT4;
-
 
 struct Color
 {
@@ -103,6 +102,5 @@ inline float VecLength(const Vector3& vec)
 {
 	return ((Vector3)XMVector3Length(vec)).x;
 }
-
 
 namespace DirextX = extensions;

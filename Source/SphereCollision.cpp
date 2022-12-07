@@ -4,7 +4,6 @@
 #include "CollisionUtility.h"
 #include "Renderer.h"
 
-
 SphereCollision::SphereCollision(GameObject* pGameObject)
 	: CollisionComponent(pGameObject)
 	, m_radius(1.0f)
@@ -24,7 +23,6 @@ void SphereCollision::Update()
 
 void SphereCollision::Draw()
 {
-
 }
 
 SphereInfo SphereCollision::GetSphereInfo()
@@ -71,9 +69,7 @@ void SphereCollision::HitTest(SphereCollision& opponent)
 		//当たっている
 		CollisonAfter(this, &opponent);
 	}
-	
 }
-
 
 void SphereCollision::HitTest(AABBCollision& opponent)
 {

@@ -107,7 +107,7 @@ void Model::Load(const char* FileName)
 
 			wchar_t wFilename[256];
 			const char* name = model.subsetArray[i].material.textureName;
-			mbsrtowcs(wFilename, &name , 256, 0);
+			mbsrtowcs(wFilename, &name, 256, 0);
 
 			std::unique_ptr<ScratchImage> image(new ScratchImage);
 			//外部ファイルから読み込み

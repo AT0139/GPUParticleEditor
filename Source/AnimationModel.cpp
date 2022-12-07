@@ -146,7 +146,7 @@ void AnimationModel::Load(const char* FileName)
 
 						int id = atoi(&path.data[1]);
 						GetMetadataFromWICMemory((const unsigned char*)m_aiScene->mTextures[id]->pcData,
-							m_aiScene->mTextures[id]->mWidth,WIC_FLAGS_NONE, meta);
+							m_aiScene->mTextures[id]->mWidth, WIC_FLAGS_NONE, meta);
 
 						std::unique_ptr<ScratchImage> image(new ScratchImage);
 

@@ -14,7 +14,6 @@ struct CollisionInfo
 		}
 		return false;
 	}
-
 };
 
 class CollisionManager

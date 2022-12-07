@@ -4,7 +4,6 @@
 #include "DrawModel.h"
 #include "Renderer.h"
 
-
 OBBCollision::OBBCollision(GameObject* pGameObject)
 	: CollisionComponent(pGameObject)
 	, m_collisionScale(1.0f, 1.0f, 1.0)
@@ -71,7 +70,6 @@ OBBInfo OBBCollision::GetOBBInfo()
 
 	return obb;
 }
-
 
 void OBBCollision::SetCollisionScale(Vector3 scale)
 {

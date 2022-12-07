@@ -177,7 +177,6 @@ private:
 
 	std::list<std::shared_ptr<Component>> m_componentList;
 
-
 	shared_ptr<Transform> m_transform;
 	shared_ptr<CollisionComponent> m_collision;
 	shared_ptr<Rigidbody> m_rigidbody;

@@ -10,7 +10,6 @@
 #include "Stair.h"
 #include "Manager.h"
 
-
 static const float CAMERA_FACTOR = 60.0f;
 
 namespace MainGame
@@ -20,14 +19,14 @@ namespace MainGame
 	{
 		AddComponent<OBBCollision>()->SetCollisionScale(1.0f);
 		m_rigid = AddComponent<Rigidbody>();
-		m_rigid->SetMass(2.0f);
+		m_rigid->SetMass(1);
 
 		//モデル読み込み
 		m_model = ResourceManager::GetInstance().GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
 		m_model->LoadAnimation((char*)"asset\\model\\Akai_Idle.fbx", "Idle");
 		m_model->LoadAnimation((char*)"asset\\model\\Akai_Run.fbx", "Run");
 		m_model->LoadAnimation((char*)"asset\\model\\Akai_WalkingBackward.fbx", "WalkingBack");
-		
+
 		m_animationName = "Idle";
 
 		Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
@@ -43,12 +42,13 @@ namespace MainGame
 
 		auto tranform = GetComponent<Transform>();
 		tranform->SetScale(Vector3(0.008f, 0.008f, 0.008f));
-		
+
 		m_tag = TAG::PLAYER;
 
 		auto scene = Manager::GetInstance().GetScene();
-		auto stair = scene->AddGameObject<Stair>(scene->OBJECT);
-		stair->GetComponent<Transform>()->SetParent(this);
+		//auto gameObj = scene->AddGameObject<GameObject>(scene->OBJECT);
+		//gameObj->AddComponent<SphereCollision>();
+		//gameObj->GetComponent<Transform>()->SetParent(this);
 	}
 
 	Player::~Player()
@@ -127,7 +127,7 @@ namespace MainGame
 		ImGui::Begin("General");
 		{
 			ImGui::Text("x = %d  y = %d", m_mousePos.x, m_mousePos.y);
-			ImGui::Text("x = %d  y = %d", rot.x,rot.y);
+			ImGui::Text("x = %d  y = %d", rot.x, rot.y);
 		}
 		ImGui::End();
 #endif
@@ -156,7 +156,6 @@ namespace MainGame
 		ImGui::Begin("General");
 		{
 			ImGui::Text("Coll!");
-
 		}
 		ImGui::End();
 	}

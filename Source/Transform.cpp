@@ -33,7 +33,6 @@ void Transform::SetRotation(Quaternion quat)
 
 void Transform::AddQuaternion(Quaternion quat)
 {
-	
 	if (!XMVector3Equal(Vector3(0.0f, 0.0f, 0.0f), quat))
 	{
 		m_quaternion = XMQuaternionMultiply(m_quaternion, quat);
@@ -148,12 +147,22 @@ Matrix Transform::GetCollisionScaleWorldMatrix()
 
 Matrix Transform::GetPrevWorldMatrix()
 {
+	auto parent = GetParent();
+
 	Matrix scale, rot, trans;
 	scale = XMMatrixScaling(m_prevScale.x, m_prevScale.y, m_prevScale.z);
 	rot = XMMatrixRotationQuaternion(m_prevQuaternion);
 	trans = XMMatrixTranslation(m_prevPosition.x, m_prevPosition.y, m_prevPosition.z);
 
-	return scale * rot * trans;
+	auto world = scale * rot * trans;
+	if (parent)
+	{
+		auto parentWorld = parent->GetComponent<Transform>()->GetWorldMatrix();
+		parentWorld.ScaleIdentity();
+		m_worldMatrix = world * parentWorld;
+	}
+
+	return world;
 }
 
 Matrix Transform::GetWorldMatrixInvView()
@@ -162,7 +171,7 @@ Matrix Transform::GetWorldMatrixInvView()
 	Scene* scene = Manager::GetInstance().GetScene();
 	MainGame::Camera* camera = scene->GetGameObject<MainGame::Camera>(scene->CAMERA);
 	Matrix view = camera->GetViewMatrix();
-	Matrix invView =  XMMatrixInverse(NULL, view);
+	Matrix invView = XMMatrixInverse(NULL, view);
 
 	XMFLOAT4X4 tmp;
 	XMStoreFloat4x4(&tmp, invView);
@@ -200,6 +209,15 @@ void Transform::SetParent(GameObject* parent)
 		quatSpan = XMQuaternionInverse(quatSpan);
 		Matrix parentQuatMatrix(quatSpan);
 		posSpan *= parentQuatMatrix;
+
+		Matrix mat = GetWorldMatrix() * parentWorld;
+		Vector3 scale, pos;
+		Quaternion quat;
+		mat.Division(scale, quat, pos);
+		SetScale(scale);
+		SetRotation(quat);
+		SetPosition(posSpan);
+		SetToPrev();
 	}
 }
 

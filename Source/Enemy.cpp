@@ -7,8 +7,6 @@
 #include "SphereCollision.h"
 #include "Rigidbody.h"
 
-
-
 Enemy::Enemy()
 {
 	AddComponent<DrawModel>(this)->Load("asset\\model\\torus.obj");
@@ -19,7 +17,7 @@ Enemy::Enemy()
 	transform->SetPosition(Vector3(0.0f, 1.0f, 0.0f));
 	transform->SetRotation(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
 	transform->SetScale(Vector3(0.5f, 0.5f, 0.5f));
-	
+
 	m_tag = TAG::ENEMY;
 }
 

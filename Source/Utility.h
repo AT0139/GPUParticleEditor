@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-
 namespace Utility
 {
 	template<typename T>

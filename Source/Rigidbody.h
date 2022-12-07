@@ -30,5 +30,4 @@ private:
 	Vector3 m_force;
 	float m_friction;
 	float m_bounciness;
-
 };

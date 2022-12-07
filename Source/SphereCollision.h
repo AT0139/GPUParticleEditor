@@ -26,5 +26,5 @@ private:
 	float m_radius;
 #ifdef _DEBUG
 	std::shared_ptr<DrawModel> m_model;
-#endif 
+#endif
 };

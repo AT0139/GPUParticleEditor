@@ -10,7 +10,7 @@ CollisionComponent::CollisionComponent(GameObject* pGameObject)
 
 bool CollisionComponent::IsHitObject(GameObject* obj)
 {
-	if (!m_hitObjects.empty())	
+	if (!m_hitObjects.empty())
 	{
 		for (auto object : m_hitObjects)
 		{
@@ -53,7 +53,7 @@ void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionCompon
 	//前回位置に戻す
 	//myTransform->SetPosition(myTransform->GetPrevPosition());
 	//oppTransform->SetPosition(oppTransform->GetPrevPosition());
-	Vector3 myForce = ((myMass - oppRigidbody->GetBounciness() * oppMass) * myRigidbody->GetVelocity() + (1 + oppRigidbody->GetBounciness())*oppMass * oppRigidbody->GetVelocity()) / (oppMass + myMass);
+	Vector3 myForce = ((myMass - oppRigidbody->GetBounciness() * oppMass) * myRigidbody->GetVelocity() + (1 + oppRigidbody->GetBounciness()) * oppMass * oppRigidbody->GetVelocity()) / (oppMass + myMass);
 	Vector3 oppForce = ((1 + myRigidbody->GetBounciness()) * myMass * myRigidbody->GetVelocity() + (oppMass - myRigidbody->GetBounciness() * myMass) * oppRigidbody->GetVelocity()) / (oppMass + myMass);
 	myForce *= 0.5f;
 	oppForce *= 0.5f;
