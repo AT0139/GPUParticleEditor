@@ -30,7 +30,18 @@ ID3D11ShaderResourceView* ResourceManager::GetTextureData(std::string filePath)
 	if (m_textureList.find(filePath) == m_textureList.end())
 	{
 		ID3D11ShaderResourceView* texture;
-		D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance().GetDevice(), filePath.c_str(), NULL, NULL, &texture, NULL);
+		TexMetadata meta;
+		std::unique_ptr<ScratchImage> image(new ScratchImage);
+		wchar_t wFilename[256];
+		auto name = filePath.c_str();
+		mbsrtowcs(wFilename, &name, 256, 0);
+		//外部ファイルから読み込み
+		GetMetadataFromWICFile(wFilename, WIC_FLAGS_NONE, meta);
+		HRESULT hr = LoadFromWICFile(wFilename, WIC_FLAGS_NONE, &meta, *image);
+
+		assert(SUCCEEDED(hr));
+		CreateShaderResourceView(Renderer::GetInstance().GetDevice(), image->GetImages(), image->GetImageCount(), meta, &texture);
+
 		m_textureList[filePath] = texture;
 	}
 

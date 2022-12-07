@@ -20,10 +20,10 @@
 #pragma warning(disable:4005)
 
 #include <d3d11.h>
-#include <d3dx9.h>
-#include <d3dx11.h>
+//#include <d3dx9.h>
+//#include <d3dx11.h>
 #include <DirectXMath.h>
-//#include "DirectXTex.h"
+#include <DirectXTex.h>
 
 #pragma warning(pop)
 

@@ -39,7 +39,14 @@ Polygon2D::Polygon2D()
 	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 
 	//テクスチャ読み込み
-	D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance().GetDevice(), "asset/texture/field.jpg", NULL, NULL, &m_texture, NULL);
+	TexMetadata meta;
+	std::unique_ptr<ScratchImage> image(new ScratchImage);
+	//外部ファイルから読み込み
+	GetMetadataFromWICFile(L"asset/texture/field.jpg", WIC_FLAGS_NONE, meta);
+	HRESULT hr = LoadFromWICFile(L"asset/texture/field.jpg", WIC_FLAGS_NONE, &meta, *image);
+
+	assert(SUCCEEDED(hr));
+	CreateShaderResourceView(Renderer::GetInstance().GetDevice(), image->GetImages(), image->GetImageCount(), meta, &m_texture);
 
 	assert(m_texture);
 

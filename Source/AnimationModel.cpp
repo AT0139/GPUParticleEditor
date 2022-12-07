@@ -142,14 +142,19 @@ void AnimationModel::Load(const char* FileName)
 					if (m_texture[path.data] == NULL)
 					{
 						ID3D11ShaderResourceView* texture;
+						TexMetadata meta;
+
 						int id = atoi(&path.data[1]);
+						GetMetadataFromWICMemory((const unsigned char*)m_aiScene->mTextures[id]->pcData,
+							m_aiScene->mTextures[id]->mWidth,WIC_FLAGS_NONE, meta);
 
-						D3DX11CreateShaderResourceViewFromMemory(
-							Renderer::GetInstance().GetDevice(),
-							(const unsigned char*)m_aiScene->mTextures[id]->pcData,
-							m_aiScene->mTextures[id]->mWidth,
-							NULL, NULL, &texture, NULL);
+						std::unique_ptr<ScratchImage> image(new ScratchImage);
 
+						HRESULT hr = LoadFromWICMemory((const unsigned char*)m_aiScene->mTextures[id]->pcData,
+							m_aiScene->mTextures[id]->mWidth, WIC_FLAGS_NONE, &meta, *image);
+
+						assert(SUCCEEDED(hr));
+						CreateShaderResourceView(Renderer::GetInstance().GetDevice(), image->GetImages(), image->GetImageCount(), meta, &texture);
 						m_texture[path.data] = texture;
 					}
 				}
@@ -158,17 +163,20 @@ void AnimationModel::Load(const char* FileName)
 					if (m_texture[path.data] == NULL)
 					{
 						ID3D11ShaderResourceView* texture;
+						TexMetadata meta;
 
-						char temp[1024] = { "asset/model/" };
-						(void)strcat(temp, path.data);
+						char temp[256] = { "asset/model/" };
+						strcat(temp, path.data);
+						wchar_t wFilename[256];
+						mbsrtowcs(wFilename, (const char**)temp, 256, 0);
 
+						std::unique_ptr<ScratchImage> image(new ScratchImage);
 						//外部ファイルから読み込み
-						D3DX11CreateShaderResourceViewFromFile(
-							Renderer::GetInstance().GetDevice(),
-							temp,
-							NULL, NULL, &texture, NULL
-						);
+						GetMetadataFromWICFile(wFilename, WIC_FLAGS_NONE, meta);
+						HRESULT hr = LoadFromWICFile(wFilename, WIC_FLAGS_NONE, &meta, *image);
 
+						assert(SUCCEEDED(hr));
+						CreateShaderResourceView(Renderer::GetInstance().GetDevice(), image->GetImages(), image->GetImageCount(), meta, &texture);
 						m_texture[temp] = texture;
 					}
 				}

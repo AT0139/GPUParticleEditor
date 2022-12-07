@@ -96,12 +96,26 @@ void Model::Load(const char* FileName)
 
 			m_pSubsetArray[i].material.pTexture = NULL;
 
-			D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance().GetDevice(),
-				model.subsetArray[i].material.textureName,
-				NULL,
-				NULL,
-				&m_pSubsetArray[i].material.pTexture,
-				NULL);
+			//D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance().GetDevice(),
+			//	model.subsetArray[i].material.textureName,
+			//	NULL,
+			//	NULL,
+			//	&m_pSubsetArray[i].material.pTexture,
+			//	NULL);
+
+			TexMetadata meta;
+
+			wchar_t wFilename[256];
+			const char* name = model.subsetArray[i].material.textureName;
+			mbsrtowcs(wFilename, &name , 256, 0);
+
+			std::unique_ptr<ScratchImage> image(new ScratchImage);
+			//外部ファイルから読み込み
+			GetMetadataFromWICFile(wFilename, WIC_FLAGS_NONE, meta);
+			HRESULT hr = LoadFromWICFile(wFilename, WIC_FLAGS_NONE, &meta, *image);
+
+			assert(SUCCEEDED(hr));
+			CreateShaderResourceView(Renderer::GetInstance().GetDevice(), image->GetImages(), image->GetImageCount(), meta, &m_pSubsetArray[i].material.pTexture);
 
 			assert(m_pSubsetArray[i].material.pTexture);
 		}

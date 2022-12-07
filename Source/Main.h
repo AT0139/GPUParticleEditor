@@ -2,8 +2,8 @@
 
 #pragma comment (lib, "winmm.lib")
 #pragma comment (lib, "d3d11.lib")
-#pragma comment (lib, "d3dx9.lib")
-#pragma comment (lib, "d3dx11.lib")
+//#pragma comment (lib, "d3dx9.lib")
+//#pragma comment (lib, "d3dx11.lib")
 
 
 #define SCREEN_WIDTH	(960)
