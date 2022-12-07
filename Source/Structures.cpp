@@ -50,6 +50,17 @@ namespace extensions
 		*this = *this * val;
 		return *this;
 	}
+
+	XMFLOAT3 XMFLOAT3::operator* (const XMFLOAT4X4 mat)const
+	{
+		return(Vector3)XMVector3Transform(*this, mat);
+	}
+
+	XMFLOAT3 XMFLOAT3::operator*=(const XMFLOAT4X4 mat)
+	{
+		*this = *this * mat;
+		return *this;
+	}
 	XMFLOAT3 XMFLOAT3::operator/(float val) const
 	{
 		XMFLOAT3 temp(XMVectorReciprocal(XMFLOAT3(val, val, val)));
@@ -118,6 +129,10 @@ namespace extensions
 	{
 		XMStoreFloat4x4((XMFLOAT4X4*)this, vec);
 	}
+	XMFLOAT4X4::XMFLOAT4X4(const XMFLOAT4& quat)
+	{
+		*this = XMMatrixRotationQuaternion(quat);
+	}
 	XMFLOAT4X4::operator XMMATRIX() const
 	{
 		DirectX::XMFLOAT4X4 my = *this;
@@ -128,6 +143,21 @@ namespace extensions
 	{
 		XMFLOAT4X4 temp(val);
 		return XMMatrixMultiply(*this, temp);
+	}
+	XMFLOAT3 XMFLOAT4X4::TransInMatrix() const
+	{
+		XMFLOAT3 pos;
+		pos.x = _41;
+		pos.y = _42;
+		pos.z = _43;
+		return pos;
+	}
+	XMFLOAT4 XMFLOAT4X4::QuaternionInMatrix() const
+	{
+		XMFLOAT3 scale, pos;
+		XMFLOAT4 quat;
+		Division(scale, quat, pos);
+		return quat;
 	}
 	XMFLOAT4X4& XMFLOAT4X4::ScaleIdentity()
 	{

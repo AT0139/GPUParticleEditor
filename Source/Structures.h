@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 //todo : 整理
+
 namespace extensions
 {
 	using namespace DirectX;
@@ -19,7 +20,9 @@ namespace extensions
 		XMFLOAT3 operator- (const XMFLOAT3 val)const;
 		XMFLOAT3 operator-= (const XMFLOAT3 val);
 		XMFLOAT3 operator* (float val)const;
+		XMFLOAT3 operator* (const XMFLOAT4X4 mat)const;
 		XMFLOAT3 operator*= (float val);
+		XMFLOAT3 operator*= (const XMFLOAT4X4 mat);
 		XMFLOAT3 operator/ (float val)const;
 		XMFLOAT3 operator/= (float val);
 		bool operator != (const XMFLOAT3 vec);
@@ -47,10 +50,13 @@ namespace extensions
 		using DirectX::XMFLOAT4X4::XMFLOAT4X4;
 
 		XMFLOAT4X4(const XMMATRIX& vec);
+		XMFLOAT4X4(const XMFLOAT4& quat);
 
 		operator XMMATRIX()const;
 	
 		XMFLOAT4X4 operator * (XMFLOAT4X4 val)const;
+		XMFLOAT3 TransInMatrix()const;
+		XMFLOAT4 QuaternionInMatrix()const;
 		//スケールを1に
 		XMFLOAT4X4& ScaleIdentity();
 		void Division(XMFLOAT3& scale, XMFLOAT4& quat, XMFLOAT3& pos)const;
@@ -64,6 +70,7 @@ using Vector4 = extensions::XMFLOAT4;
 using Quaternion = extensions::XMFLOAT4;
 using Matrix = extensions::XMFLOAT4X4;
 //using Color = XMFLOAT4;
+
 
 struct Color
 {
@@ -96,5 +103,6 @@ inline float VecLength(const Vector3& vec)
 {
 	return ((Vector3)XMVector3Length(vec)).x;
 }
+
 
 namespace DirextX = extensions;

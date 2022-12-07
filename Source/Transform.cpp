@@ -191,8 +191,28 @@ void Transform::SetParent(GameObject* parent)
 
 	if (parent)
 	{
+		ResetParent();
 		m_parent = parent;
+		Matrix parentWorld = parent->GetComponent<Transform>()->GetWorldMatrix();
+		parentWorld.ScaleIdentity();
+		auto posSpan = GetPosition() - parentWorld.TransInMatrix();
+		auto quatSpan = parentWorld.QuaternionInMatrix();
+		quatSpan = XMQuaternionInverse(quatSpan);
+		Matrix parentQuatMatrix(quatSpan);
+		posSpan *= parentQuatMatrix;
 	}
+}
+
+void Transform::ResetParent()
+{
+	auto parent = GetParent();
+	if (parent)
+	{
+		auto pos = GetWorldPosition();
+		SetPosition(pos);
+		SetToPrev();
+	}
+	m_parent = nullptr;
 }
 
 void Transform::Update()

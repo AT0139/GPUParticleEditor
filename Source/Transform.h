@@ -38,6 +38,7 @@ public:
 
 	GameObject* GetParent();
 	void SetParent(GameObject* parent);
+	void ResetParent();
 
 private:
 	Vector3 m_position;
