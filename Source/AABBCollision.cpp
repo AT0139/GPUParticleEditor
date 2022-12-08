@@ -6,7 +6,6 @@
 
 AABBCollision::AABBCollision(GameObject* pGameObject)
 	: CollisionComponent(pGameObject)
-	, m_collisionScale(1.0f, 1.0f, 1.0)
 {
 #ifdef _DEBUG
 	//todo: AABB可視化を軸平行に(回転しないように)
@@ -29,11 +28,11 @@ void AABBCollision::Draw()
 {
 }
 
-void AABBCollision::SetCollisionScale(Vector3 scale)
+void AABBCollision::SetScale(Vector3 scale)
 {
-	m_collisionScale = scale * 0.5f;
+	auto sc = scale * 0.5f;
 #ifdef _DEBUG
-	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(m_collisionScale);
+	SetCollisionScale(sc);
 #endif // _DEBUG
 }
 
@@ -80,6 +79,6 @@ AABBInfo AABBCollision::GetAABBInfo()
 	AABBInfo aabb;
 	auto transform = GetGameObject()->GetComponent<Transform>();
 	aabb.center = transform->GetPosition();
-	aabb.scaleHalf = m_collisionScale;
+	aabb.scaleHalf = GetCollisionScale();
 	return aabb;
 }

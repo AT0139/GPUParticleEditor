@@ -12,7 +12,7 @@ SphereCollision::SphereCollision(GameObject* pGameObject)
 	m_model = GetGameObject()->AddComponent<DrawModel>(GetGameObject());
 	m_model->Load("asset\\model\\Sphere.obj");
 	m_model->SetRasterizerState(RASTERIZER::WIRE_FRAME);
-	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(Vector3(m_radius, m_radius, m_radius));
+	SetCollisionScale(Vector3(m_radius, m_radius, m_radius));
 	m_model->SetCollisionDraw(true);
 #endif // _DEBUG
 }
@@ -29,7 +29,7 @@ SphereInfo SphereCollision::GetSphereInfo()
 {
 	SphereInfo sphere;
 
-	sphere.center = GetGameObject()->GetComponent<Transform>()->GetPosition();
+	sphere.center = GetGameObject()->GetComponent<Transform>()->GetWorldPosition();
 	sphere.radius = m_radius;
 
 	return sphere;
@@ -48,9 +48,7 @@ SphereInfo SphereCollision::GetPrevSphereInfo()
 void SphereCollision::SetRadius(float rad)
 {
 	m_radius = rad;
-#ifdef _DEBUG
-	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(Vector3(m_radius, m_radius, m_radius));
-#endif // _DEBUG
+	SetCollisionScale(Vector3(m_radius, m_radius, m_radius));
 }
 
 void SphereCollision::CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent)

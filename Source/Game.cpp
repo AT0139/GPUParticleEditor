@@ -16,6 +16,7 @@
 #include "ResourceManager.h"
 #include "audio.h"
 #include "Explosion.h"
+#include "BlankObject.h"
 
 namespace MainGame
 {
@@ -33,6 +34,7 @@ namespace MainGame
 		//AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 4.0f, 3.0f));
 		//AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(2.0f, 4.0f, 3.0f));
 		AddGameObject<Tree>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(-5.0f, 5.0f, 0.0f));
+		
 
 		//2Dオブジェクト
 		//AddGameObject<Polygon2D>(UI);

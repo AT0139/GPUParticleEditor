@@ -47,11 +47,13 @@ public:
 	void CollisionReset();
 
 	void AddHitObject(GameObject& obj) { m_hitObjects.push_back(&obj); }
-
+	Vector3 GetCollisionScale() { return m_collisionScale; }
 protected:
 	void CollisonAfter(CollisionComponent* col1, CollisionComponent* col2);
+	void SetCollisionScale(Vector3 scale) { m_collisionScale = scale;}
 
 private:
 	std::vector<GameObject*> m_hitObjects;
 	bool m_isStaticObject;
+	Vector3 m_collisionScale;
 };

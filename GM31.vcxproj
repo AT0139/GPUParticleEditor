@@ -205,6 +205,7 @@
     <ClInclude Include="Source\AABBCollision.h" />
     <ClInclude Include="Source\AnimationModel.h" />
     <ClInclude Include="Source\Audio.h" />
+    <ClInclude Include="Source\BlankObject.h" />
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\CollisionComponent.h" />
@@ -253,6 +254,7 @@
     <ClCompile Include="Source\AABBCollision.cpp" />
     <ClCompile Include="Source\AnimationModel.cpp" />
     <ClCompile Include="Source\Audio.cpp" />
+    <ClCompile Include="Source\BlankObject.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\CollisionComponent.cpp" />

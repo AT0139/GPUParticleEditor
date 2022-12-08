@@ -13,6 +13,8 @@ Rigidbody::Rigidbody(GameObject* pGameObject)
 	, m_friction(0.1f)
 	, m_bounciness(0.0f)
 	, m_gravity(Vector3(0.0f, -0.01f, 0.0f))
+	, m_isTrigger(false)
+	, m_isKinematic(false)
 {}
 
 Rigidbody::~Rigidbody()
@@ -20,31 +22,35 @@ Rigidbody::~Rigidbody()
 
 void Rigidbody::Update()
 {
-	auto transform = GetGameObject()->GetComponent<Transform>();
-	auto pos = transform->GetWorldPosition();
-
-	//力の計算
-	if (Utility::VECtoFloat(XMVector3LengthEst(m_force)) > 0)
+	//Transformのみの操作の場合摩擦、重力処理を行わない
+	if (!m_isKinematic)
 	{
-		//移動力の計算
-		Vector3 force = m_force / m_mass;
-		m_velocity += force;
-		m_force = Vector3(0.0f, 0.0f, 0.0f);
+		auto transform = GetGameObject()->GetComponent<Transform>();
+		auto pos = transform->GetWorldPosition();
+
+		//力の計算
+		if (Utility::VECtoFloat(XMVector3LengthEst(m_force)) > 0)
+		{
+			//移動力の計算
+			Vector3 force = m_force / m_mass;
+			m_velocity += force;
+			m_force = Vector3(0.0f, 0.0f, 0.0f);
+		}
+
+		//摩擦
+		Vector3 fricForce = m_velocity * -1;
+		fricForce *= m_friction;
+		Vector3 fricAcc = fricForce * m_mass;
+		m_velocity += fricAcc;
+
+		pos += m_velocity;
+		pos += m_gravity;
+
+		auto scene = Manager::GetInstance().GetScene();
+		MainGame::MeshField* field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
+		pos.y = field->GetHeight(pos);
+		transform->SetPosition(pos);
 	}
-
-	//摩擦
-	Vector3 fricForce = m_velocity * -1;
-	fricForce *= m_friction;
-	Vector3 fricAcc = fricForce * m_mass;
-	m_velocity += fricAcc;
-
-	pos += m_velocity;
-	pos += m_gravity;
-
-	auto scene = Manager::GetInstance().GetScene();
-	MainGame::MeshField* field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
-	pos.y = field->GetHeight(pos);
-	transform->SetPosition(pos);
 }
 
 void Rigidbody::SetVelocity(Vector3 velocity)

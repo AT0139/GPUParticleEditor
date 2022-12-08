@@ -12,7 +12,7 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
-	void SetCollisionScale(Vector3 scale);
+	void SetScale(Vector3 scale);
 
 	// CollisionComponent を介して継承されました
 	virtual void CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent) override;
@@ -22,7 +22,6 @@ public:
 
 	AABBInfo GetAABBInfo();
 private:
-	Vector3 m_collisionScale;
 #ifdef _DEBUG
 	std::shared_ptr<DrawModel> m_model;
 #endif

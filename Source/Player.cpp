@@ -5,10 +5,10 @@
 #include "Player.h"
 #include "input.h"
 #include "ResourceManager.h"
-#include "SphereCollision.h"
 #include "Rigidbody.h"
-#include "Stair.h"
 #include "Manager.h"
+#include "BlankObject.h"
+#include "Stair.h"
 
 static const float CAMERA_FACTOR = 60.0f;
 
@@ -17,9 +17,8 @@ namespace MainGame
 	float Player::m_blendRate = 0.0f;
 	Player::Player()
 	{
-		AddComponent<OBBCollision>()->SetCollisionScale(1.0f);
 		m_rigid = AddComponent<Rigidbody>();
-		m_rigid->SetMass(1);
+		AddComponent<SphereCollision>()->SetRadius(0.5f);
 
 		//モデル読み込み
 		m_model = ResourceManager::GetInstance().GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
@@ -45,10 +44,16 @@ namespace MainGame
 
 		m_tag = TAG::PLAYER;
 
+		//当たり判定用子オブジェクト
 		auto scene = Manager::GetInstance().GetScene();
-		//auto gameObj = scene->AddGameObject<GameObject>(scene->OBJECT);
-		//gameObj->AddComponent<SphereCollision>();
-		//gameObj->GetComponent<Transform>()->SetParent(this);
+		auto obj = scene->AddGameObject<BlankObject>(scene->OBJECT);
+		auto objRigid = obj->AddComponent<Rigidbody>();
+		objRigid->SetIsTrigger(true);
+		objRigid->SetIsKinematic(true);
+		obj->AddComponent<SphereCollision>()->SetRadius(0.1f);
+		auto objTrans = obj->GetComponent<Transform>();
+		objTrans->SetParent(this);
+		objTrans->SetPosition(Vector3(1.0f,0.0f,0.0f));
 	}
 
 	Player::~Player()
@@ -156,6 +161,15 @@ namespace MainGame
 		ImGui::Begin("General");
 		{
 			ImGui::Text("Coll!");
+		}
+		ImGui::End();
+	}
+
+	void Player::OnTrigger(GameObject* collision)
+	{
+		ImGui::Begin("General");
+		{
+			ImGui::Text("Trigger!");
 		}
 		ImGui::End();
 	}

@@ -155,6 +155,7 @@ public:
 	}
 
 	virtual void OnCollision(GameObject* collision) {};
+	virtual void OnTrigger(GameObject* collision) {};
 
 	TAG GetTag() { return m_tag; }
 

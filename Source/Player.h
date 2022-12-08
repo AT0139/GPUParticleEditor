@@ -12,6 +12,8 @@ namespace MainGame
 		virtual void Update()override;
 		virtual void Draw()override;
 		void OnCollision(GameObject* collision)override;
+		void OnTrigger(GameObject* collision)override;
+
 
 		static void ResetBlendRate() { m_blendRate = 0.0f; }
 		std::string m_animationName;

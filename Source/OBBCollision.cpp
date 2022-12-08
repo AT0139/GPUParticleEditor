@@ -6,7 +6,6 @@
 
 OBBCollision::OBBCollision(GameObject* pGameObject)
 	: CollisionComponent(pGameObject)
-	, m_collisionScale(1.0f, 1.0f, 1.0)
 {
 #ifdef _DEBUG
 	m_model = GetGameObject()->AddComponent<DrawModel>(GetGameObject());
@@ -66,24 +65,20 @@ OBBInfo OBBCollision::GetOBBInfo()
 	obb.X = transform->GetXAxis();
 	obb.Y = transform->GetYAxis();
 	obb.Z = transform->GetZAxis();
-	obb.scaleHalf = m_collisionScale;
+	obb.scaleHalf = GetCollisionScale();
 
 	return obb;
 }
 
-void OBBCollision::SetCollisionScale(Vector3 scale)
+void OBBCollision::SetScale(Vector3 scale)
 {
-	m_collisionScale = scale * 0.5f;
-#ifdef _DEBUG
-	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(m_collisionScale);
-#endif // _DEBUG
+	auto temp = scale * 0.5f;
+	SetCollisionScale(temp);
 }
 
-void OBBCollision::SetCollisionScale(float scale)
+void OBBCollision::SetScale(float scale)
 {
 	Vector3 sc = Vector3(scale, scale, scale);
-	m_collisionScale = sc * 0.5f;
-#ifdef _DEBUG
-	GetGameObject()->GetComponent<Transform>()->SetCollisionScale(m_collisionScale);
-#endif // _DEBUG
+	auto temp = sc * 0.5f;
+	SetCollisionScale(temp);
 }

@@ -10,8 +10,6 @@ Transform::Transform(GameObject* pGameObject)
 	, m_scale(Vector3(1.0f, 1.0f, 1.0f))
 	, m_changed(true)
 	, m_prevChanged(true)
-	, m_collisionScale(m_scale)
-	, m_collisionChanged(true)
 	, m_parent(nullptr)
 	, m_pivot(m_position)
 {}
@@ -21,14 +19,12 @@ void Transform::SetPosition(Vector3 position)
 	m_position = position;
 	m_pivot = position;
 	m_changed = true;
-	m_collisionChanged = true;
 }
 
 void Transform::SetRotation(Quaternion quat)
 {
 	m_quaternion = quat;
 	m_changed = true;
-	m_collisionChanged = true;
 }
 
 void Transform::AddQuaternion(Quaternion quat)
@@ -37,7 +33,6 @@ void Transform::AddQuaternion(Quaternion quat)
 	{
 		m_quaternion = XMQuaternionMultiply(m_quaternion, quat);
 		m_changed = true;
-		m_collisionChanged = true;
 	}
 }
 
@@ -45,12 +40,6 @@ void Transform::SetScale(Vector3 scale)
 {
 	m_scale = scale;
 	m_changed = true;
-}
-
-void Transform::SetCollisionScale(Vector3 scale)
-{
-	m_collisionScale = scale;
-	m_collisionChanged = true;
 }
 
 void Transform::SetToPrev()
@@ -123,26 +112,26 @@ Matrix Transform::GetWorldMatrix()
 	return m_worldMatrix;
 }
 
-Matrix Transform::GetCollisionScaleWorldMatrix()
+Matrix Transform::GetWorldMatrix(Vector3 scale)
 {
 	auto parent = GetParent();
-	if (m_collisionChanged || parent)
-	{
-		Matrix scale, rot, trans;
-		scale = XMMatrixScaling(m_collisionScale.x, m_collisionScale.y, m_collisionScale.z);
-		rot = XMMatrixRotationQuaternion(m_quaternion);
-		trans = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
-		m_collisionWorldMatrix = scale * rot * trans;
-		m_collisionChanged = false;
+	Matrix world;
 
-		if (parent)
-		{
-			auto parentWorld = parent->GetComponent<Transform>()->GetWorldMatrix();
-			parentWorld.ScaleIdentity();
-			m_worldMatrix = m_collisionWorldMatrix * parentWorld;
-		}
+	Matrix sc, rot, trans;
+	sc = XMMatrixScaling(scale.x, scale.y, scale.z);
+	rot = XMMatrixRotationQuaternion(m_quaternion);
+	trans = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
+	world = sc * rot * trans;
+	if (parent)
+	{
+		auto parentWorld = parent->GetComponent<Transform>()->GetWorldMatrix();
+		parentWorld.ScaleIdentity();
+		world = world * parentWorld;
+
+		return world;
 	}
-	return m_collisionWorldMatrix;
+
+	return world;
 }
 
 Matrix Transform::GetPrevWorldMatrix()
@@ -236,7 +225,6 @@ void Transform::ResetParent()
 void Transform::Update()
 {
 	SetToPrev();
-	m_collisionChanged = false;
 }
 
 void Transform::Draw()
@@ -247,6 +235,7 @@ Vector3 Transform::GetWorldPosition()
 {
 	Vector3 pos;
 	XMFLOAT4X4 tmp;
+
 	auto world = GetWorldMatrix();
 	XMStoreFloat4x4(&tmp, world);
 	pos.x = tmp._41;
@@ -276,7 +265,7 @@ Vector3 Transform::GetVelocity()
 
 Vector3 Transform::GetXAxis()
 {
-	Matrix world = GetCollisionScaleWorldMatrix();
+	Matrix world = GetWorldMatrix();
 	Vector3 v;
 	XMFLOAT4X4 tmp;
 	XMStoreFloat4x4(&tmp, world);
@@ -291,7 +280,7 @@ Vector3 Transform::GetXAxis()
 
 Vector3 Transform::GetYAxis()
 {
-	Matrix world = GetCollisionScaleWorldMatrix();
+	Matrix world = GetWorldMatrix();
 
 	Vector3 v;
 	XMFLOAT4X4 tmp;
@@ -307,7 +296,7 @@ Vector3 Transform::GetYAxis()
 
 Vector3 Transform::GetZAxis()
 {
-	Matrix world = GetCollisionScaleWorldMatrix();
+	Matrix world = GetWorldMatrix();
 
 	Vector3 v;
 	XMFLOAT4X4 tmp;

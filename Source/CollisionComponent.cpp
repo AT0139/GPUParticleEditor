@@ -6,6 +6,7 @@
 CollisionComponent::CollisionComponent(GameObject* pGameObject)
 	: Component(pGameObject)
 	, m_isStaticObject(false)
+	, m_collisionScale(Vector3(1.0f,1.0f,1.0f))
 {}
 
 bool CollisionComponent::IsHitObject(GameObject* obj)
@@ -43,21 +44,39 @@ void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionCompon
 
 	//衝突相手の登録
 	AddHitObject(*oppGameObj);
-	if (!col2->IsStaticObject())
-		col2->AddHitObject(*myGameObj);
+	col2->AddHitObject(*myGameObj);
 
-	//衝突関数の呼び出し
-	myGameObj->OnCollision(oppGameObj);
-	oppGameObj->OnCollision(oppGameObj);
+	if (!myRigidbody->GetIsTrigger())
+	{
+		//反発
+		Vector3 myForce = ((myMass - oppRigidbody->GetBounciness() * oppMass) * myRigidbody->GetVelocity() + (1 + oppRigidbody->GetBounciness()) * oppMass * oppRigidbody->GetVelocity()) / (oppMass + myMass);
+		myForce *= 0.5f;
+		myRigidbody->AddForce(myForce);
 
-	//前回位置に戻す
-	//myTransform->SetPosition(myTransform->GetPrevPosition());
-	//oppTransform->SetPosition(oppTransform->GetPrevPosition());
-	Vector3 myForce = ((myMass - oppRigidbody->GetBounciness() * oppMass) * myRigidbody->GetVelocity() + (1 + oppRigidbody->GetBounciness()) * oppMass * oppRigidbody->GetVelocity()) / (oppMass + myMass);
-	Vector3 oppForce = ((1 + myRigidbody->GetBounciness()) * myMass * myRigidbody->GetVelocity() + (oppMass - myRigidbody->GetBounciness() * myMass) * oppRigidbody->GetVelocity()) / (oppMass + myMass);
-	myForce *= 0.5f;
-	oppForce *= 0.5f;
+		//衝突関数の呼び出し
+		oppGameObj->OnCollision(myGameObj);
+	}
+	else
+	{
+		//衝突関数の呼び出し
+		oppGameObj->OnTrigger(myGameObj);
+	}
 
-	myRigidbody->AddForce(myForce);
-	oppRigidbody->AddForce(oppForce);
+	if (!oppRigidbody->GetIsTrigger())
+	{
+		oppGameObj->OnCollision(oppGameObj);
+		Vector3 oppForce = ((1 + myRigidbody->GetBounciness()) * myMass * myRigidbody->GetVelocity() + (oppMass - myRigidbody->GetBounciness() * myMass) * oppRigidbody->GetVelocity()) / (oppMass + myMass);
+		oppForce *= 0.5f;
+
+		oppRigidbody->AddForce(oppForce);
+
+		//衝突関数の呼び出し
+		myGameObj->OnCollision(oppGameObj);
+
+	}
+	else
+	{
+		//衝突関数の呼び出し
+		myGameObj->OnTrigger(oppGameObj);
+	}
 }

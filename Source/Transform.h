@@ -26,13 +26,12 @@ public:
 	void SetRotation(Quaternion rotation);
 	void AddQuaternion(Quaternion quat);
 	void SetScale(Vector3 scale);
-	void SetCollisionScale(Vector3 scale);
 	void SetToPrev();
 
 	Vector3 GetForward();
 	Vector3 GetRight();
 	Matrix GetWorldMatrix();
-	Matrix GetCollisionScaleWorldMatrix();
+	Matrix GetWorldMatrix(Vector3 scale);
 	Matrix GetPrevWorldMatrix();
 	Matrix GetWorldMatrixInvView();
 
@@ -47,13 +46,9 @@ private:
 	Quaternion m_prevQuaternion;
 	Vector3 m_scale;
 	Vector3 m_prevScale;
-	Vector3 m_collisionScale;
 	Vector3 m_pivot;
 
 	Matrix m_worldMatrix;
-
-	Matrix m_collisionWorldMatrix;
-	bool m_collisionChanged;
 
 	GameObject* m_parent;
 

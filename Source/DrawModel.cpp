@@ -43,9 +43,13 @@ void DrawModel::Draw()
 	////ワールドマトリクス設定
 	Matrix world;
 	if (m_isCollision)
-		world = GetGameObject()->GetComponent<Transform>()->GetCollisionScaleWorldMatrix();
+	{
+		auto scale = GetGameObject()->GetComponent<CollisionComponent>()->GetCollisionScale();
+		world = GetGameObject()->GetComponent<Transform>()->GetWorldMatrix(scale);
+	}
 	else
 		world = GetGameObject()->GetComponent<Transform>()->GetWorldMatrix();
+
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	m_model->Draw();
