@@ -36,5 +36,7 @@ namespace MainGame
 
 		POINTS m_mousePos;
 		POINTS m_preMousePos;
+
+		GameObject* m_haveObject;
 	};
 }

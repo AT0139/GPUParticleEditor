@@ -24,6 +24,18 @@ bool CollisionComponent::IsHitObject(GameObject* obj)
 	return false;
 }
 
+bool CollisionComponent::IsParent(GameObject* obj)
+{
+	GameObject* parent = GetGameObject()->GetComponent<Transform>()->GetParent();
+	while (parent != nullptr)
+	{
+		if (parent == obj)
+			return true;
+		parent = parent->GetComponent<Transform>()->GetParent();
+	}
+	return false;
+}
+
 void CollisionComponent::CollisionReset()
 {
 	m_hitObjects.clear();
@@ -46,13 +58,20 @@ void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionCompon
 	AddHitObject(*oppGameObj);
 	col2->AddHitObject(*myGameObj);
 
-	if (!myRigidbody->GetIsTrigger())
+
+	if (!myRigidbody->GetIsTrigger() && !oppRigidbody->GetIsTrigger())
 	{
 		//反発
 		Vector3 myForce = ((myMass - oppRigidbody->GetBounciness() * oppMass) * myRigidbody->GetVelocity() + (1 + oppRigidbody->GetBounciness()) * oppMass * oppRigidbody->GetVelocity()) / (oppMass + myMass);
 		myForce *= 0.5f;
 		myRigidbody->AddForce(myForce);
 
+		Vector3 oppForce = ((1 + myRigidbody->GetBounciness()) * myMass * myRigidbody->GetVelocity() + (oppMass - myRigidbody->GetBounciness() * myMass) * oppRigidbody->GetVelocity()) / (oppMass + myMass);
+		oppForce *= 0.5f;
+		oppRigidbody->AddForce(oppForce);
+	}
+	if (!myRigidbody->GetIsTrigger())
+	{
 		//衝突関数の呼び出し
 		oppGameObj->OnCollision(myGameObj);
 	}
@@ -64,15 +83,8 @@ void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionCompon
 
 	if (!oppRigidbody->GetIsTrigger())
 	{
-		oppGameObj->OnCollision(oppGameObj);
-		Vector3 oppForce = ((1 + myRigidbody->GetBounciness()) * myMass * myRigidbody->GetVelocity() + (oppMass - myRigidbody->GetBounciness() * myMass) * oppRigidbody->GetVelocity()) / (oppMass + myMass);
-		oppForce *= 0.5f;
-
-		oppRigidbody->AddForce(oppForce);
-
 		//衝突関数の呼び出し
 		myGameObj->OnCollision(oppGameObj);
-
 	}
 	else
 	{

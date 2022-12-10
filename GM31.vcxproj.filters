@@ -169,6 +169,9 @@
     <ClInclude Include="Source\BlankObject.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CapsuleCollision.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Tree.cpp">
@@ -299,6 +302,9 @@
     </ClCompile>
     <ClCompile Include="Source\BlankObject.cpp">
       <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CapsuleCollision.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

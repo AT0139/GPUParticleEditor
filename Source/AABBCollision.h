@@ -19,6 +19,7 @@ public:
 	virtual void HitTest(SphereCollision& opponent) override;
 	virtual void HitTest(AABBCollision& opponent) override;
 	virtual void HitTest(OBBCollision& opponent) override;
+	virtual void HitTest(CapsuleCollision& opponent) override;
 
 	AABBInfo GetAABBInfo();
 private:

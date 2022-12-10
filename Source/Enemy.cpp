@@ -11,7 +11,7 @@ Enemy::Enemy()
 {
 	AddComponent<DrawModel>(this)->Load("asset\\model\\torus.obj");
 	AddComponent<AABBCollision>()->SetScale(Vector3(0.7f, 0.7f, 0.7f));
-	AddComponent<Rigidbody>()->SetIsTrigger(true);
+	AddComponent<Rigidbody>();
 
 	auto transform = GetComponent<Transform>();
 	transform->SetPosition(Vector3(0.0f, 1.0f, 0.0f));
@@ -26,4 +26,10 @@ Enemy::~Enemy()
 
 void Enemy::Update()
 {
+	ImGui::Begin("General");
+	{
+		ImGui::Text("x = %f y = %f z = %f", GetComponent<Transform>()->GetPosition().x,GetComponent<Transform>()->GetPosition().y, GetComponent<Transform>()->GetPosition().z);
+
+	}
+	ImGui::End();
 }

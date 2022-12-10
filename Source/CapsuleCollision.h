@@ -2,30 +2,33 @@
 
 #include "CollisionComponent.h"
 
-class SphereCollision : public CollisionComponent
+//todo:作成
+class CapsuleCollision	 : public CollisionComponent
 {
 public:
-	SphereCollision(GameObject* pGameObject);
-	~SphereCollision() {}
+	CapsuleCollision(GameObject* pGameObject);
+	~CapsuleCollision();
 
-	// Component を介して継承されました
+	//Component を介して継承されました
 	virtual void Update() override;
 	virtual void Draw() override;
 
-	SphereInfo GetSphereInfo();
-	SphereInfo GetPrevSphereInfo();
-	void SetRadius(float rad);
-
-	// CollisionComponent を介して継承されました
+	//CollisionComponent を介して継承されました
 	virtual void CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent) override;
 	virtual void HitTest(SphereCollision& opponent) override;
 	virtual void HitTest(AABBCollision& opponent) override;
 	virtual void HitTest(OBBCollision& opponent) override;
 	virtual void HitTest(CapsuleCollision& opponent) override;
 
+	CapsuleInfo GetCapsuleInfo();
+
+	void SetRadius(float rad);
+
 private:
 	float m_radius;
+
 #ifdef _DEBUG
 	std::shared_ptr<DrawModel> m_model;
 #endif
+
 };

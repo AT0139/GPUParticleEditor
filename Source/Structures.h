@@ -15,7 +15,7 @@ namespace extensions
 		operator XMVECTOR()const;
 
 		XMFLOAT3 operator= (const XMVECTOR& other);
-		XMFLOAT3 operator+ (const XMFLOAT3 val)const;
+		//XMFLOAT3 operator+ (const XMFLOAT3 val)const;
 		XMFLOAT3 operator+= (const XMFLOAT3 val);
 		XMFLOAT3 operator- (const XMFLOAT3 val)const;
 		XMFLOAT3 operator-= (const XMFLOAT3 val);

@@ -22,10 +22,10 @@ namespace extensions
 		return *this;
 	}
 
-	XMFLOAT3 XMFLOAT3::operator+(const XMFLOAT3 val) const
-	{
-		return XMVectorAdd(*this, val);
-	}
+	//XMFLOAT3 XMFLOAT3::operator+(const XMFLOAT3 val) const
+	//{
+	//	return XMVectorAdd(*this, val);
+	//}
 	XMFLOAT3 XMFLOAT3::operator+=(const XMFLOAT3 val)
 	{
 		*this = *this + val;

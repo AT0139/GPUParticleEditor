@@ -82,3 +82,7 @@ void OBBCollision::SetScale(float scale)
 	auto temp = sc * 0.5f;
 	SetCollisionScale(temp);
 }
+
+void OBBCollision::HitTest(CapsuleCollision& opponent)
+{
+}

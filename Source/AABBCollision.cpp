@@ -82,3 +82,7 @@ AABBInfo AABBCollision::GetAABBInfo()
 	aabb.scaleHalf = GetCollisionScale();
 	return aabb;
 }
+
+void AABBCollision::HitTest(CapsuleCollision& opponent)
+{
+}

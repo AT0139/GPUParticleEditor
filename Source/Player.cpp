@@ -16,8 +16,10 @@ namespace MainGame
 {
 	float Player::m_blendRate = 0.0f;
 	Player::Player()
+		: m_haveObject(nullptr)
 	{
 		m_rigid = AddComponent<Rigidbody>();
+		m_rigid->SetMass(2.0f);
 		AddComponent<SphereCollision>()->SetRadius(0.5f);
 
 		//モデル読み込み
@@ -53,10 +55,10 @@ namespace MainGame
 		obj->AddComponent<SphereCollision>()->SetRadius(0.1f);
 		auto objTrans = obj->GetComponent<Transform>();
 		objTrans->SetParent(this);
-		objTrans->SetPosition(Vector3(1.0f,0.0f,0.0f));
+		objTrans->SetPosition(Vector3(0.0f,0.0f,1.0f));
 	}
 
-	Player::~Player()
+	Player::~Player()	
 	{
 		//m_model->Unload();
 		//delete m_model;
@@ -125,18 +127,16 @@ namespace MainGame
 
 			m_rigid->SetVelocity(velo);
 		}
-		transform->SetPosition(pos);
 		transform->AddQuaternion(rot);
 
 #ifdef _DEBUG
 		ImGui::Begin("General");
 		{
 			ImGui::Text("x = %d  y = %d", m_mousePos.x, m_mousePos.y);
-			ImGui::Text("x = %d  y = %d", rot.x, rot.y);
+			ImGui::Text("x = %f  y = %f", rot.x, rot.y);
 		}
 		ImGui::End();
 #endif
-
 		m_frame++;
 	}
 
@@ -158,19 +158,18 @@ namespace MainGame
 
 	void Player::OnCollision(GameObject* collision)
 	{
-		ImGui::Begin("General");
+		if (m_haveObject == nullptr)
 		{
-			ImGui::Text("Coll!");
+			auto colTrans = collision->GetComponent<Transform>();
+			m_haveObject = collision;
+			colTrans->SetParent(this);
+			colTrans->SetPosition(Vector3(0.0f, 1.0f, 1.0f));
+			collision->GetComponent<Rigidbody>()->SetIsKinematic(true);
 		}
-		ImGui::End();
 	}
 
 	void Player::OnTrigger(GameObject* collision)
 	{
-		ImGui::Begin("General");
-		{
-			ImGui::Text("Trigger!");
-		}
-		ImGui::End();
+
 	}
 }

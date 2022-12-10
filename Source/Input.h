@@ -10,7 +10,9 @@ enum class KEY_CONFIG
 	MOVE_LEFT,
 	MOVE_RIGHT,
 	JUMP,
+	ACTION,
 	RETURN,
+
 
 	MAX
 };

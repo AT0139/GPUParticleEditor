@@ -6,6 +6,13 @@
 class SphereCollision;
 class AABBCollision;
 class OBBCollision;
+class CapsuleCollision;
+
+struct LineInfo
+{
+	Vector3 start;
+	Vector3 end;
+};
 
 struct SphereInfo
 {
@@ -26,6 +33,12 @@ struct OBBInfo
 	Vector3 scaleHalf;
 };
 
+struct CapsuleInfo
+{
+	LineInfo line;
+	float radius;
+};
+
 class CollisionComponent : public Component
 {
 public:
@@ -42,8 +55,10 @@ public:
 	virtual void HitTest(SphereCollision& opponent) = 0;
 	virtual void HitTest(AABBCollision& opponent) = 0;
 	virtual void HitTest(OBBCollision& opponent) = 0;
+	virtual void HitTest(CapsuleCollision& opponent) = 0;
 
 	bool IsHitObject(GameObject* obj);
+	bool IsParent(GameObject* obj);
 	void CollisionReset();
 
 	void AddHitObject(GameObject& obj) { m_hitObjects.push_back(&obj); }

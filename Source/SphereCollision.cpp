@@ -88,3 +88,7 @@ void SphereCollision::HitTest(OBBCollision& opponent)
 		CollisonAfter(this, &opponent);
 	}
 }
+
+void SphereCollision::HitTest(CapsuleCollision& opponent)
+{
+}
