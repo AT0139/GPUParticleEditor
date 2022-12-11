@@ -72,13 +72,11 @@ namespace MainGame
 	{
 		auto transform = GetComponent<Transform>();
 		m_model->Update(m_animationName.c_str(), m_blendRate, m_frame);
+		m_frame++;
 
-		Vector3 forward = transform->GetForward();
-		Vector3 right = transform->GetRight();
+		Move();
 
-		Vector3 pos = transform->GetPosition();
 		Quaternion rot;
-
 		//マウス
 		{
 			m_preMousePos = m_mousePos;
@@ -93,6 +91,61 @@ namespace MainGame
 			//todo : マウスでカメラ回転上下
 			//m_rotation.x -= mouseYAcc;
 		}
+		transform->AddQuaternion(rot);
+
+		if (m_haveObject != nullptr)
+		{
+			if (Input::GetKeyRelease(KEY_CONFIG::ACTION))
+			{
+				auto haveTrans = m_haveObject->GetComponent<Transform>();
+				haveTrans->ResetParent();
+				auto haveRigid = m_haveObject->GetComponent<Rigidbody>();
+				//
+				haveRigid->SetIsKinematic(false);
+				auto forward = this->GetComponent<Transform>()->GetForward();
+				//力を前方向に
+				haveRigid->AddForce(forward * 1);
+			}
+		}
+	}
+
+	void Player::Draw()
+	{
+		//入力レイアウト設定
+		Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
+
+		//シェーダー設定
+		Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
+		Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+
+		//ワールドマトリクス設定
+		Matrix world = GetComponent<Transform>()->GetWorldMatrix();
+		Renderer::GetInstance().SetWorldMatrix(&world);
+
+		m_model->Draw();
+	}
+
+	void Player::OnCollision(GameObject* collision)
+	{
+		if (m_haveObject == nullptr)
+		{
+			auto colTrans = collision->GetComponent<Transform>();
+			m_haveObject = collision;
+			colTrans->SetParent(this);
+			colTrans->SetPosition(Vector3(0.0f, 1.0f, 1.0f));
+			collision->GetComponent<Rigidbody>()->SetIsKinematic(true);
+		}
+	}
+
+	void Player::OnTrigger(GameObject* collision)
+	{
+
+	}
+	void Player::Move()
+	{
+		auto transform = GetComponent<Transform>();
+		Vector3 forward = transform->GetForward();
+		Vector3 right = transform->GetRight();
 		//MOVE
 		{
 			Vector3 velo = Vector3(0, 0, 0);
@@ -127,49 +180,6 @@ namespace MainGame
 
 			m_rigid->SetVelocity(velo);
 		}
-		transform->AddQuaternion(rot);
-
-#ifdef _DEBUG
-		ImGui::Begin("General");
-		{
-			ImGui::Text("x = %d  y = %d", m_mousePos.x, m_mousePos.y);
-			ImGui::Text("x = %f  y = %f", rot.x, rot.y);
-		}
-		ImGui::End();
-#endif
-		m_frame++;
-	}
-
-	void Player::Draw()
-	{
-		//入力レイアウト設定
-		Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
-
-		//シェーダー設定
-		Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-		Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
-
-		//ワールドマトリクス設定
-		Matrix world = GetComponent<Transform>()->GetWorldMatrix();
-		Renderer::GetInstance().SetWorldMatrix(&world);
-
-		m_model->Draw();
-	}
-
-	void Player::OnCollision(GameObject* collision)
-	{
-		if (m_haveObject == nullptr)
-		{
-			auto colTrans = collision->GetComponent<Transform>();
-			m_haveObject = collision;
-			colTrans->SetParent(this);
-			colTrans->SetPosition(Vector3(0.0f, 1.0f, 1.0f));
-			collision->GetComponent<Rigidbody>()->SetIsKinematic(true);
-		}
-	}
-
-	void Player::OnTrigger(GameObject* collision)
-	{
 
 	}
 }

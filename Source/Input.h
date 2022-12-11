@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#define KEY_CODE_NUM 4
 #define KEY_NUM 256
+#define KEY_CONFIG_ASSIGN_NUM 4
 
 enum class KEY_CONFIG
 {
@@ -9,6 +9,7 @@ enum class KEY_CONFIG
 	MOVE_DOWN,
 	MOVE_LEFT,
 	MOVE_RIGHT,
+
 	JUMP,
 	ACTION,
 	RETURN,
@@ -28,14 +29,14 @@ enum class KEY_STATE
 	TRIGGER,
 	PRESS,
 	RELEASE,
-	NONE
+	NONE,
 };
 
 struct KEY_CONFIG_INFO
 {
 	KEY_CONFIG keyConfigList;
 	KEY_TYPE type;
-	BYTE keyCode[KEY_CODE_NUM];
+	BYTE keyCode[KEY_CONFIG_ASSIGN_NUM];
 };
 
 class Input
@@ -47,6 +48,7 @@ public:
 
 	static bool GetKeyPress(KEY_CONFIG key);
 	static bool GetKeyTrigger(KEY_CONFIG key);
+	static bool GetKeyRelease(KEY_CONFIG key);
 
 private:
 	static bool CheckKey(KEY_CONFIG keyConfigList, KEY_STATE keyState);

@@ -18,6 +18,8 @@ namespace MainGame
 		static void ResetBlendRate() { m_blendRate = 0.0f; }
 		std::string m_animationName;
 	private:
+		void Move();
+
 		std::shared_ptr<Rigidbody> m_rigid;
 
 		class AnimationModel* m_model;

@@ -3,8 +3,8 @@
 
 #define KEY_NONE NULL
 
-KEY_STATE Input::m_oldKeyState[256];
-KEY_STATE Input::m_keyState[256];
+KEY_STATE Input::m_oldKeyState[KEY_NUM];
+KEY_STATE Input::m_keyState[KEY_NUM];
 
 KEY_CONFIG_INFO keyConfigList[] =
 {
@@ -13,14 +13,17 @@ KEY_CONFIG_INFO keyConfigList[] =
 	{KEY_CONFIG::MOVE_LEFT ,	KEY_TYPE::OR,	'A',		KEY_NONE,KEY_NONE,KEY_NONE},
 	{KEY_CONFIG::MOVE_RIGHT,	KEY_TYPE::OR,	'D',		KEY_NONE,KEY_NONE,KEY_NONE},
 	{KEY_CONFIG::JUMP      ,	KEY_TYPE::OR,	VK_SPACE,	KEY_NONE,KEY_NONE,KEY_NONE},
-	{KEY_CONFIG::ACTION      ,	KEY_TYPE::OR,	'E',		KEY_NONE,KEY_NONE,KEY_NONE},
+	{KEY_CONFIG::ACTION    ,	KEY_TYPE::OR,	'E',		KEY_NONE,KEY_NONE,KEY_NONE},
 	{KEY_CONFIG::RETURN	   ,	KEY_TYPE::OR,	VK_RETURN,	KEY_NONE,KEY_NONE,KEY_NONE},
 };
 
 void Input::Init()
 {
-	memset(m_oldKeyState, 0, 256);
-	memset(m_keyState, 0, 256);
+	for (int i = 0; i < KEY_NUM; i++)
+	{
+		m_oldKeyState[i] = KEY_STATE::NONE;
+		m_keyState[i] = KEY_STATE::NONE;
+	}
 }
 
 void Input::Uninit()
@@ -31,7 +34,10 @@ void Input::Update()
 {
 	BYTE buffer[KEY_NUM];
 	//前回のキー入力保存
-	memcpy(m_oldKeyState, m_keyState, KEY_NUM);
+	for (int i = 0; i < KEY_NUM; i++)
+	{
+		m_oldKeyState[i] = m_keyState[i];
+	}
 	//全キー入力取得
 	(void)GetKeyboardState(buffer);
 
@@ -67,18 +73,28 @@ bool Input::GetKeyTrigger(KEY_CONFIG key)
 	return CheckKey(key, KEY_STATE::TRIGGER);
 }
 
+bool Input::GetKeyRelease(KEY_CONFIG key)
+{
+	return CheckKey(key, KEY_STATE::RELEASE);
+}
+
 bool Input::CheckKey(KEY_CONFIG keyConfig, KEY_STATE keyState)
 {
-	for (int i = 0; i < KEY_CODE_NUM; i++)
+	for (int i = 0; i < KEY_CONFIG_ASSIGN_NUM; i++)
 	{
 		auto config = keyConfigList[static_cast<int>(keyConfig)];
+
+		if (config.keyCode[i] == KEY_NONE)
+		{
+			return false;
+		}
+
 		if (config.type == KEY_TYPE::OR)
 		{
 			if (m_keyState[config.keyCode[i]] == keyState)
 			{
 				return true;
 			}
-			return false;
 		}
 		else
 		{
@@ -90,5 +106,5 @@ bool Input::CheckKey(KEY_CONFIG keyConfig, KEY_STATE keyState)
 		}
 	}
 
-	return true;
+	return false;
 }

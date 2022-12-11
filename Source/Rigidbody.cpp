@@ -12,7 +12,7 @@ Rigidbody::Rigidbody(GameObject* pGameObject)
 	, m_mass(1)
 	, m_friction(0.1f)
 	, m_bounciness(0.0f)
-	, m_gravity(Vector3(0.0f, -0.01f, 0.0f))
+	, m_gravity(Vector3(0.0f, -0.098f, 0.0f))
 	, m_isTrigger(false)
 	, m_isKinematic(false)
 {}
@@ -48,7 +48,14 @@ void Rigidbody::Update()
 
 		auto scene = Manager::GetInstance().GetScene();
 		MainGame::MeshField* field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
-		pos.y = field->GetHeight(pos);
+
+		float fieldHeight = field->GetHeight(pos);
+		if (pos.y < fieldHeight)
+		{
+			pos.y = fieldHeight;
+		}
+
+
 		transform->SetPosition(pos);
 	}
 }
