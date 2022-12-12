@@ -411,34 +411,34 @@ void Model::LoadMaterial(const char* FileName, MODEL_MATERIAL** MaterialArray, u
 			(void)fscanf(file, "%s", materialArray[mc].name);
 			strcpy(materialArray[mc].textureName, "");
 
-			materialArray[mc].material.Emission.r = 0.0f;
-			materialArray[mc].material.Emission.g = 0.0f;
-			materialArray[mc].material.Emission.b = 0.0f;
-			materialArray[mc].material.Emission.a = 0.0f;
+			materialArray[mc].material.Emission.x = 0.0f;
+			materialArray[mc].material.Emission.y = 0.0f;
+			materialArray[mc].material.Emission.z = 0.0f;
+			materialArray[mc].material.Emission.w = 0.0f;
 		}
 		else if (strcmp(str, "Ka") == 0)
 		{
 			//アンビエント
-			(void)fscanf(file, "%f", &materialArray[mc].material.Ambient.r);
-			(void)fscanf(file, "%f", &materialArray[mc].material.Ambient.g);
-			(void)fscanf(file, "%f", &materialArray[mc].material.Ambient.b);
-			materialArray[mc].material.Ambient.a = 1.0f;
+			(void)fscanf(file, "%f", &materialArray[mc].material.Ambient.x);
+			(void)fscanf(file, "%f", &materialArray[mc].material.Ambient.y);
+			(void)fscanf(file, "%f", &materialArray[mc].material.Ambient.z);
+			materialArray[mc].material.Ambient.w = 1.0f;				 
 		}
 		else if (strcmp(str, "Kd") == 0)
 		{
 			//ディフューズ
-			(void)fscanf(file, "%f", &materialArray[mc].material.Diffuse.r);
-			(void)fscanf(file, "%f", &materialArray[mc].material.Diffuse.g);
-			(void)fscanf(file, "%f", &materialArray[mc].material.Diffuse.b);
-			materialArray[mc].material.Diffuse.a = 1.0f;
+			(void)fscanf(file, "%f", &materialArray[mc].material.Diffuse.x);
+			(void)fscanf(file, "%f", &materialArray[mc].material.Diffuse.y);
+			(void)fscanf(file, "%f", &materialArray[mc].material.Diffuse.z);
+			materialArray[mc].material.Diffuse.w = 1.0f;				 
 		}
 		else if (strcmp(str, "Ks") == 0)
 		{
 			//スペキュラ
-			(void)fscanf(file, "%f", &materialArray[mc].material.Specular.r);
-			(void)fscanf(file, "%f", &materialArray[mc].material.Specular.g);
-			(void)fscanf(file, "%f", &materialArray[mc].material.Specular.b);
-			materialArray[mc].material.Specular.a = 1.0f;
+			(void)fscanf(file, "%f", &materialArray[mc].material.Specular.x);
+			(void)fscanf(file, "%f", &materialArray[mc].material.Specular.y);
+			(void)fscanf(file, "%f", &materialArray[mc].material.Specular.z);
+			materialArray[mc].material.Specular.w = 1.0f;				  
 		}
 		else if (strcmp(str, "Ns") == 0)
 		{
@@ -448,7 +448,7 @@ void Model::LoadMaterial(const char* FileName, MODEL_MATERIAL** MaterialArray, u
 		else if (strcmp(str, "d") == 0)
 		{
 			//アルファ
-			(void)fscanf(file, "%f", &materialArray[mc].material.Diffuse.a);
+			(void)fscanf(file, "%f", &materialArray[mc].material.Diffuse.w);
 		}
 		else if (strcmp(str, "map_Kd") == 0)
 		{

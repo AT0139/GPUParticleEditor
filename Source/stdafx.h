@@ -32,6 +32,7 @@
 #include "imgui_impl_win32.h"
 
 using namespace DirectX;
+using namespace DirectX::SimpleMath;
 
 #include "Utility.h"
 #include "Structures.h"

@@ -23,4 +23,23 @@ namespace Utility
 		XMStoreFloat(&tmp, vec);
 		return tmp;
 	}
+
+	inline Matrix ScaleIdentity(Matrix& mat)
+	{
+		Vector3 scale, position;
+		Quaternion quat;
+		mat.Decompose(scale, quat, position);
+		scale = Vector3(1.0f, 1.0f, 1.0f);
+		auto matrix = XMMatrixAffineTransformation(scale, Vector3(0.0f, 0.0f, 0.0f), quat, position);
+		return matrix;
+	}
+
+	inline Vector3 TransInMatrix(Matrix& mat)
+	{
+		XMFLOAT3 pos;
+		pos.x = mat._41;
+		pos.y = mat._42;
+		pos.z = mat._43;
+		return pos;
+	}
 }

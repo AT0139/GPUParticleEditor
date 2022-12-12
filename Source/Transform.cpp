@@ -104,7 +104,7 @@ Matrix Transform::GetWorldMatrix()
 		if (parent)
 		{
 			auto parentWorld = parent->GetComponent<Transform>()->GetWorldMatrix();
-			parentWorld.ScaleIdentity();
+			parentWorld = Utility::ScaleIdentity(parentWorld);
 			m_worldMatrix = m_worldMatrix * parentWorld;
 		}
 	}
@@ -125,7 +125,7 @@ Matrix Transform::GetWorldMatrix(Vector3 scale)
 	if (parent)
 	{
 		auto parentWorld = parent->GetComponent<Transform>()->GetWorldMatrix();
-		parentWorld.ScaleIdentity();
+		parentWorld = Utility::ScaleIdentity(parentWorld);
 		world = world * parentWorld;
 
 		return world;
@@ -147,7 +147,7 @@ Matrix Transform::GetPrevWorldMatrix()
 	if (parent)
 	{
 		auto parentWorld = parent->GetComponent<Transform>()->GetWorldMatrix();
-		parentWorld.ScaleIdentity();
+		parentWorld = Utility::ScaleIdentity(parentWorld);
 		m_worldMatrix = world * parentWorld;
 	}
 
@@ -192,17 +192,20 @@ void Transform::SetParent(GameObject* parent)
 		ResetParent();
 		m_parent = parent;
 		Matrix parentWorld = parent->GetComponent<Transform>()->GetWorldMatrix();
-		parentWorld.ScaleIdentity();
-		auto posSpan = GetPosition() - parentWorld.TransInMatrix();
-		auto quatSpan = parentWorld.QuaternionInMatrix();
-		quatSpan = XMQuaternionInverse(quatSpan);
-		Matrix parentQuatMatrix(quatSpan);
-		posSpan *= parentQuatMatrix;
-
+		parentWorld = Utility::ScaleIdentity(parentWorld);
+		auto posSpan = GetPosition() - Utility::TransInMatrix(parentWorld);
+		Quaternion quatSpan;
+		Vector3 temp;
+		parentWorld.Decompose(temp, quatSpan, temp);
+		
+		quatSpan.Inverse(quatSpan);
+		Matrix parentQuatMatrix;
+		parentQuatMatrix.CreateFromQuaternion(quatSpan);
+		posSpan = Vector3::Transform(posSpan, parentQuatMatrix);
 		Matrix mat = GetWorldMatrix() * parentWorld;
 		Vector3 scale, pos;
 		Quaternion quat;
-		mat.Division(scale, quat, pos);
+		mat.Decompose(scale, quat, pos);
 		SetScale(scale);
 		SetRotation(quat);
 		SetPosition(posSpan);
