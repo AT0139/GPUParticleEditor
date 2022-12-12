@@ -142,19 +142,14 @@ void AnimationModel::Load(const char* FileName)
 					if (m_texture[path.data] == NULL)
 					{
 						ID3D11ShaderResourceView* texture;
-						TexMetadata meta;
 
 						int id = atoi(&path.data[1]);
-						GetMetadataFromWICMemory((const unsigned char*)m_aiScene->mTextures[id]->pcData,
-							m_aiScene->mTextures[id]->mWidth, WIC_FLAGS_NONE, meta);
 
-						std::unique_ptr<ScratchImage> image(new ScratchImage);
-
-						HRESULT hr = LoadFromWICMemory((const unsigned char*)m_aiScene->mTextures[id]->pcData,
-							m_aiScene->mTextures[id]->mWidth, WIC_FLAGS_NONE, &meta, *image);
+						HRESULT hr = CreateWICTextureFromMemory(Renderer::GetInstance().GetDevice(),(uint8_t*)m_aiScene->mTextures[id]->pcData, (size_t)m_aiScene->mTextures[id]->mWidth,
+							nullptr, &texture);
 
 						assert(SUCCEEDED(hr));
-						CreateShaderResourceView(Renderer::GetInstance().GetDevice(), image->GetImages(), image->GetImageCount(), meta, &texture);
+						
 						m_texture[path.data] = texture;
 					}
 				}
@@ -163,20 +158,17 @@ void AnimationModel::Load(const char* FileName)
 					if (m_texture[path.data] == NULL)
 					{
 						ID3D11ShaderResourceView* texture;
-						TexMetadata meta;
 
 						char temp[256] = { "asset/model/" };
 						strcat(temp, path.data);
 						wchar_t wFilename[256];
 						mbsrtowcs(wFilename, (const char**)temp, 256, 0);
 
-						std::unique_ptr<ScratchImage> image(new ScratchImage);
 						//外部ファイルから読み込み
-						GetMetadataFromWICFile(wFilename, WIC_FLAGS_NONE, meta);
-						HRESULT hr = LoadFromWICFile(wFilename, WIC_FLAGS_NONE, &meta, *image);
+						HRESULT hr = CreateWICTextureFromFile(Renderer::GetInstance().GetDevice(), wFilename, nullptr, &texture);
 
 						assert(SUCCEEDED(hr));
-						CreateShaderResourceView(Renderer::GetInstance().GetDevice(), image->GetImages(), image->GetImageCount(), meta, &texture);
+						
 						m_texture[temp] = texture;
 					}
 				}

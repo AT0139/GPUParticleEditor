@@ -20,15 +20,6 @@
 #pragma warning(disable:4005)
 
 #include <d3d11.h>
-//#include <d3dx9.h>
-//#include <d3dx11.h>
-#include <DirectXMath.h>
-
-#ifdef _DEBUG
-#pragma comment(lib, "DirectXTK_Debug.lib")
-#else
-#pragma comment(lib, "DirectXTK.lib")
-#endif
 
 #include "SpriteBatch.h"
 #include "WICTextureLoader.h"
