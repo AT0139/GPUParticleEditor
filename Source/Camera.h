@@ -16,9 +16,16 @@ namespace MainGame
 
 	private:
 		Vector3 m_target;
+		Vector3 m_cameraPos;
 		Matrix  m_viewMatrix;
 
-		float m_targetYoffset = 0.0f;
+		float m_targetYoffset = 2.0f;
 		float m_positionYoffset = 0.0f;
+
+		POINTS m_mousePos;
+		POINTS m_preMousePos;
+
+		float m_theta;
+		float m_delta;
 	};
 }

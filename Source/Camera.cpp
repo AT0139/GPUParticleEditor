@@ -6,6 +6,9 @@
 #include "Scene.h"
 #include "Player.h"
 
+static const float CAMERA_FACTOR = 60.0f;
+static const float CAMERA_DISTANCE = 10.0f;
+
 namespace MainGame
 {
 	Camera::Camera()
@@ -13,6 +16,8 @@ namespace MainGame
 		auto transform = GetComponent<Transform>();
 		transform->SetPosition(Vector3(0.0f, 5.0f, -5.0f));
 		m_target = Vector3(0.0f, 0.0f, 0.0f);
+		m_theta = 4.57f;
+		m_delta = 0.43f;
 	}
 
 	Camera::~Camera()
@@ -22,39 +27,41 @@ namespace MainGame
 	void Camera::Update()
 	{
 		auto transform = GetComponent<Transform>();
+		auto cameraPos = transform->GetPosition();
 		//プレイヤーの取得
 		Scene* scene = Manager::GetInstance().GetScene();
 		auto playerTransform = scene->GetGameObject<Player>(scene->OBJECT)->GetComponent<Transform>();
 		Vector3 playerPos = playerTransform->GetPosition();
-		Vector3 playerForward = playerTransform->GetForward();
-		Vector3 playerRight = playerTransform->GetRight();
+		m_cameraPos = GetComponent<Transform>()->GetPosition();
 
-		//トップビュー
-		//m_target = playerPos;
-		//m_position = playerPos + Vector3(0.0f, 5.0f, -5.0f);
+		m_target = playerPos;
 
-		//サードパーソンビュー
-		m_target = Vector3(playerPos.x, playerPos.y + m_targetYoffset, playerPos.z);
-		transform->SetPosition(playerPos - playerForward * 5.0f + Vector3(0.0f, 2.5f + m_positionYoffset, 0.0f));
+		m_preMousePos = m_mousePos;
+		m_mousePos = GetMousePos();
 
-		//サードパーソンビュー(右寄り)
-		//m_target = playerPos + playerRight;
-		//m_position = playerPos - playerForward * 5.0f + playerRight + Vector3(0.0f, 2.0f, 0.0f);
+		//マウス加速度
+		float mouseXAcc = (m_preMousePos.x - m_mousePos.x) / CAMERA_FACTOR;
+		float mouseYAcc = (m_preMousePos.y - m_mousePos.y) / CAMERA_FACTOR;
 
-		////ファーストパーソンビュー
-		//m_target = playerPos + playerForward;
-		//m_position = playerPos;
+		//todo : マウスでカメラ回転上下
+		//m_rotation.x -= mouseYAcc;
 
-		Renderer::GetInstance().SetCameraPosition(transform->GetPosition());
+		m_theta += mouseXAcc;
+		m_delta += mouseYAcc;
+
+		m_cameraPos.x = m_target.x + CAMERA_DISTANCE * cos(m_delta) * cos(m_theta);
+		m_cameraPos.y = m_target.y + CAMERA_DISTANCE * sin(m_delta);
+		m_cameraPos.z = m_target.z + CAMERA_DISTANCE * cos(m_delta) * sin(m_theta);
+
+
+		Renderer::GetInstance().SetCameraPosition(m_cameraPos);
 	}
 
 	void Camera::Draw()
 	{
-		auto position = GetComponent<Transform>()->GetPosition();
-
 		//ビューマトリクス設定
 		Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
-		m_viewMatrix = XMMatrixLookAtLH(position, m_target, up);
+		m_viewMatrix = XMMatrixLookAtLH(m_cameraPos, m_target, up);
 
 		Renderer::GetInstance().SetViewMatrix(&m_viewMatrix);
 

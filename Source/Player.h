@@ -36,9 +36,6 @@ namespace MainGame
 		int m_frame;
 		static float m_blendRate;
 
-		POINTS m_mousePos;
-		POINTS m_preMousePos;
-
 		GameObject* m_haveObject;
 	};
 }

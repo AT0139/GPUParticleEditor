@@ -10,8 +10,6 @@
 #include "BlankObject.h"
 #include "Stair.h"
 
-static const float CAMERA_FACTOR = 60.0f;
-
 namespace MainGame
 {
 	float Player::m_blendRate = 0.0f;
@@ -75,23 +73,6 @@ namespace MainGame
 		m_frame++;
 
 		Move();
-
-		Quaternion rot;
-		//マウス
-		{
-			m_preMousePos = m_mousePos;
-			m_mousePos = GetMousePos();
-
-			float mouseXAcc = (m_preMousePos.x - m_mousePos.x) / CAMERA_FACTOR;
-			float mouseYAcc = (m_preMousePos.y - m_mousePos.y) / CAMERA_FACTOR;
-
-			auto yAxiz = Vector3(0.0f, 1.0f, 0.0f);
-			rot = XMQuaternionRotationAxis(yAxiz, XMConvertToRadians(-mouseXAcc * 20.0f));
-
-			//todo : マウスでカメラ回転上下
-			//m_rotation.x -= mouseYAcc;
-		}
-		transform->AddQuaternion(rot);
 
 		if (m_haveObject != nullptr)
 		{

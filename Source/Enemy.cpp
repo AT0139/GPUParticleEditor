@@ -26,10 +26,4 @@ Enemy::~Enemy()
 
 void Enemy::Update()
 {
-	ImGui::Begin("General");
-	{
-		ImGui::Text("x = %f y = %f z = %f", GetComponent<Transform>()->GetPosition().x,GetComponent<Transform>()->GetPosition().y, GetComponent<Transform>()->GetPosition().z);
-
-	}
-	ImGui::End();
 }

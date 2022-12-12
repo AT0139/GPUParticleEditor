@@ -49,6 +49,7 @@ void Rigidbody::Update()
 		auto scene = Manager::GetInstance().GetScene();
 		MainGame::MeshField* field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
 
+		//フィールド以下には行かないように
 		float fieldHeight = field->GetHeight(pos);
 		if (pos.y < fieldHeight)
 		{
