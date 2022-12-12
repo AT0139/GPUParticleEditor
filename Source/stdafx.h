@@ -23,7 +23,16 @@
 //#include <d3dx9.h>
 //#include <d3dx11.h>
 #include <DirectXMath.h>
-#include <DirectXTex.h>
+
+#ifdef _DEBUG
+#pragma comment(lib, "DirectXTK_Debug.lib")
+#else
+#pragma comment(lib, "DirectXTK.lib")
+#endif
+
+#include "SpriteBatch.h"
+#include "WICTextureLoader.h"
+#include "SimpleMath.h"
 
 #pragma warning(pop)
 

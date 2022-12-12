@@ -135,7 +135,7 @@ namespace MainGame
 			velo += forward * MOVE_SPEED;
 			m_animationName = "Run";
 			
-			transform->(forward);
+			//transform->(forward);
 			m_blendRate += ADD_BLENDRATE;
 		}
 		else if (Input::GetKeyPress(KEY_CONFIG::MOVE_DOWN))
