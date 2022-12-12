@@ -83,6 +83,7 @@ namespace MainGame
 				auto forward = this->GetComponent<Transform>()->GetForward();
 				//力を前方向に
 				haveRigid->AddForce(-forward * 1);
+				m_haveObject = nullptr;
 			}
 		}
 	}

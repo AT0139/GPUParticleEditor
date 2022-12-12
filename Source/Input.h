@@ -12,8 +12,11 @@ enum class KEY_CONFIG
 
 	JUMP,
 	ACTION,
-	RETURN,
 
+	MOUSE_L,
+	MOUSE_R,
+
+	RETURN,
 
 	MAX
 };

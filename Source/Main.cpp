@@ -129,8 +129,28 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_MOUSEMOVE:
 		g_mousePoint = MAKEPOINTS(lParam);
-
 		break;
+
+	case WM_LBUTTONDOWN:
+		//マウス左ボタン押した
+		break;
+	case WM_LBUTTONUP:
+		//マウス左ボタン離した
+		break;
+
+	case WM_RBUTTONDOWN:
+		//マウス右ボタン押した
+		break;
+	case WM_RBUTTONUP:
+		//マウス右ボタン離した
+		break;
+	case WM_MBUTTONDOWN:
+		//マウスホイール押した
+		break;
+	case WM_MBUTTONUP:
+		//マウスホイール離した
+		break;
+
 
 	default:
 		break;

@@ -5,18 +5,27 @@
 #include "input.h"
 #include "Scene.h"
 #include "Player.h"
+#include "MeshField.h"
 
 static const float CAMERA_FACTOR = 60.0f;
 static const float CAMERA_DISTANCE = 10.0f;
+
+static const float DELTA_MIN = 2.0f;
+static const float DELTA_MAX = 4.0f;
+
+static const float FIELD_Y_OFFSET = 1.0f;
 
 namespace MainGame
 {
 	Camera::Camera()
 	{
-		auto transform = GetComponent<Transform>();
 		m_target = Vector3(0.0f, 0.0f, 0.0f);
 		m_theta = 4.57f;
 		m_delta = 0.43f;
+
+		m_cameraPos.x = m_target.x + CAMERA_DISTANCE * cos(m_delta) * cos(m_theta);
+		m_cameraPos.y = m_target.y + CAMERA_DISTANCE * sin(m_delta);
+		m_cameraPos.z = m_target.z + CAMERA_DISTANCE * cos(m_delta) * sin(m_theta);
 	}
 
 	Camera::~Camera()
@@ -25,33 +34,51 @@ namespace MainGame
 
 	void Camera::Update()
 	{
-		auto transform = GetComponent<Transform>();
 		//プレイヤーの取得
 		Scene* scene = Manager::GetInstance().GetScene();
 		Vector3 playerPos = scene->GetGameObject<Player>(scene->OBJECT)->GetComponent<Transform>()->GetPosition();
 
-		m_cameraPos = GetComponent<Transform>()->GetPosition();
 		m_target = playerPos;
 
 		//マウス位置取得
 		m_preMousePos = m_mousePos;
 		m_mousePos = GetMousePos();
+		if (Input::GetKeyPress(KEY_CONFIG::MOUSE_R))
+		{
+			//マウス加速度
+			float mouseXAcc = (m_preMousePos.x - m_mousePos.x) / CAMERA_FACTOR;
+			float mouseYAcc = (m_preMousePos.y - m_mousePos.y) / CAMERA_FACTOR;
 
-		//マウス加速度
-		float mouseXAcc = (m_preMousePos.x - m_mousePos.x) / CAMERA_FACTOR;
-		float mouseYAcc = (m_preMousePos.y - m_mousePos.y) / CAMERA_FACTOR;
+			m_theta += mouseXAcc;
+			m_delta += mouseYAcc;
 
-		m_theta += mouseXAcc;
-		m_delta += mouseYAcc;
+			if (m_delta <= DELTA_MIN)
+				m_delta = DELTA_MIN;
 
+			if (m_delta >= DELTA_MAX)
+				m_delta = DELTA_MAX;
+		}
 		m_cameraPos.x = m_target.x + CAMERA_DISTANCE * cos(m_delta) * cos(m_theta);
 		m_cameraPos.y = m_target.y + CAMERA_DISTANCE * sin(m_delta);
 		m_cameraPos.z = m_target.z + CAMERA_DISTANCE * cos(m_delta) * sin(m_theta);
 
-		transform->SetPosition(m_cameraPos);
+		//フィールドにめりこまないように
+		MainGame::MeshField* field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
+		float fieldHeight = field->GetHeight(m_cameraPos);
+		if (m_cameraPos.y  < fieldHeight + FIELD_Y_OFFSET)
+		{
+			m_cameraPos.y = fieldHeight + FIELD_Y_OFFSET;
+		}
 
 		Renderer::GetInstance().SetCameraPosition(m_cameraPos);
+
+		ImGui::Begin("General");
+		{
+			ImGui::Text("theta = %f,delta = %f", m_theta, m_delta);
+		}
+		ImGui::End();
 	}
+
 
 	void Camera::Draw()
 	{
