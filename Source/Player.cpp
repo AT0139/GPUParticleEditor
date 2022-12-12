@@ -1,6 +1,5 @@
 ﻿#include "renderer.h"
 #include "AnimationModel.h"
-#include "Bullet.h"
 #include "audio.h"
 #include "Player.h"
 #include "input.h"
@@ -8,7 +7,8 @@
 #include "Rigidbody.h"
 #include "Manager.h"
 #include "BlankObject.h"
-#include "Stair.h"
+#include "Camera.h"
+
 
 namespace MainGame
 {
@@ -58,9 +58,6 @@ namespace MainGame
 
 	Player::~Player()	
 	{
-		//m_model->Unload();
-		//delete m_model;
-
 		m_vertexLayout->Release();
 		m_vertexShader->Release();
 		m_pixelShader->Release();
@@ -81,7 +78,7 @@ namespace MainGame
 				auto haveTrans = m_haveObject->GetComponent<Transform>();
 				haveTrans->ResetParent();
 				auto haveRigid = m_haveObject->GetComponent<Rigidbody>();
-				//
+
 				haveRigid->SetIsKinematic(false);
 				auto forward = this->GetComponent<Transform>()->GetForward();
 				//力を前方向に
@@ -124,43 +121,47 @@ namespace MainGame
 	}
 	void Player::Move()
 	{
+		auto scene = Manager::GetInstance().GetScene();
+		auto camera = scene->GetGameObject<Camera>(scene->CAMERA);
+
 		auto transform = GetComponent<Transform>();
-		Vector3 forward = transform->GetForward();
-		Vector3 right = transform->GetRight();
+		Vector3 forward = camera->GetCamaraForward();	//カメラ向き
+		forward.y = 0.0f;
+
 		//MOVE
+		Vector3 velo = Vector3(0, 0, 0);
+		if (Input::GetKeyPress(KEY_CONFIG::MOVE_UP))
 		{
-			Vector3 velo = Vector3(0, 0, 0);
-			if (Input::GetKeyPress(KEY_CONFIG::MOVE_UP))
-			{
-				velo += forward * MOVE_SPEED;
-				//pos += forward * MOVE_SPEED;
-				m_animationName = "Run";
-
-				m_blendRate += ADD_BLENDRATE;
-			}
-			else if (Input::GetKeyPress(KEY_CONFIG::MOVE_DOWN))
-			{
-				velo -= forward * (MOVE_SPEED / 2);
-				m_animationName = "WalkingBack";
-				m_blendRate += ADD_BLENDRATE;
-			}
-			else
-			{
-				m_blendRate += ADD_BLENDRATE * 2;
-				m_animationName = "Idle";
-			}
-			if (Input::GetKeyPress(KEY_CONFIG::MOVE_LEFT))
-				velo -= right * MOVE_SPEED;
-			if (Input::GetKeyPress(KEY_CONFIG::MOVE_RIGHT))
-				velo += right * MOVE_SPEED;
-
-			if (m_blendRate > 1.0f)
-				m_blendRate = 1.0f;
-			if (m_blendRate < 0.0f)
-				m_blendRate = 0.0f;
-
-			m_rigid->SetVelocity(velo);
+			velo += forward * MOVE_SPEED;
+			m_animationName = "Run";
+			
+			transform->(forward);
+			m_blendRate += ADD_BLENDRATE;
 		}
+		else if (Input::GetKeyPress(KEY_CONFIG::MOVE_DOWN))
+		{
+			velo -= forward * (MOVE_SPEED / 2);
+			m_animationName = "WalkingBack";
+			m_blendRate += ADD_BLENDRATE;
+		}
+		else
+		{
+			m_blendRate += ADD_BLENDRATE * 2;
+
+			m_animationName = "Idle";
+		}
+		if (Input::GetKeyPress(KEY_CONFIG::MOVE_LEFT))
+			//velo -= right * MOVE_SPEED;
+		if (Input::GetKeyPress(KEY_CONFIG::MOVE_RIGHT))
+			//velo += right * MOVE_SPEED;
+
+		if (m_blendRate > 1.0f)
+			m_blendRate = 1.0f;
+		if (m_blendRate < 0.0f)
+			m_blendRate = 0.0f;
+
+		m_rigid->SetVelocity(velo);
+
 
 	}
 }

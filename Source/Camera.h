@@ -13,6 +13,7 @@ namespace MainGame
 		virtual void Draw()override;
 
 		Matrix GetViewMatrix() { return m_viewMatrix; }
+		Vector3 GetCamaraForward();
 
 	private:
 		Vector3 m_target;

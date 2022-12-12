@@ -27,24 +27,21 @@ namespace MainGame
 	void Camera::Update()
 	{
 		auto transform = GetComponent<Transform>();
-		auto cameraPos = transform->GetPosition();
+
 		//プレイヤーの取得
 		Scene* scene = Manager::GetInstance().GetScene();
-		auto playerTransform = scene->GetGameObject<Player>(scene->OBJECT)->GetComponent<Transform>();
-		Vector3 playerPos = playerTransform->GetPosition();
-		m_cameraPos = GetComponent<Transform>()->GetPosition();
+		Vector3 playerPos = scene->GetGameObject<Player>(scene->OBJECT)->GetComponent<Transform>()->GetPosition();
 
+		m_cameraPos = GetComponent<Transform>()->GetPosition();
 		m_target = playerPos;
 
+		//マウス位置取得
 		m_preMousePos = m_mousePos;
 		m_mousePos = GetMousePos();
 
 		//マウス加速度
 		float mouseXAcc = (m_preMousePos.x - m_mousePos.x) / CAMERA_FACTOR;
 		float mouseYAcc = (m_preMousePos.y - m_mousePos.y) / CAMERA_FACTOR;
-
-		//todo : マウスでカメラ回転上下
-		//m_rotation.x -= mouseYAcc;
 
 		m_theta += mouseXAcc;
 		m_delta += mouseYAcc;
@@ -69,5 +66,10 @@ namespace MainGame
 		Matrix projectionMatrix = XMMatrixPerspectiveFovLH(1.0f, (float)SCREEN_WIDTH / SCREEN_HEIGHT, 1.0f, 1000.0f);
 
 		Renderer::GetInstance().SetProjectionMatrix(&projectionMatrix);
+	}
+	Vector3 Camera::GetCamaraForward()
+	{
+		Vector3 forward = m_target - m_cameraPos;
+		return XMVector3Normalize(forward);
 	}
 }
