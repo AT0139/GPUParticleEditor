@@ -53,7 +53,7 @@ namespace MainGame
 		obj->AddComponent<SphereCollision>()->SetRadius(0.1f);
 		auto objTrans = obj->GetComponent<Transform>();
 		objTrans->SetParent(this);
-		objTrans->SetPosition(Vector3(0.0f,0.0f,1.0f));
+		objTrans->SetPosition(-tranform->GetForward()* 1.0f);
 	}
 
 	Player::~Player()	
@@ -82,7 +82,7 @@ namespace MainGame
 				haveRigid->SetIsKinematic(false);
 				auto forward = this->GetComponent<Transform>()->GetForward();
 				//力を前方向に
-				haveRigid->AddForce(forward * 1);
+				haveRigid->AddForce(-forward * 1);
 			}
 		}
 	}
@@ -110,7 +110,7 @@ namespace MainGame
 			auto colTrans = collision->GetComponent<Transform>();
 			m_haveObject = collision;
 			colTrans->SetParent(this);
-			colTrans->SetPosition(Vector3(0.0f, 1.0f, 1.0f));
+			colTrans->SetPosition(Vector3(0.0f, 1.0f, -1.0f));
 			collision->GetComponent<Rigidbody>()->SetIsKinematic(true);
 		}
 	}
@@ -125,24 +125,28 @@ namespace MainGame
 		auto camera = scene->GetGameObject<Camera>(scene->CAMERA);
 
 		auto transform = GetComponent<Transform>();
-		Vector3 forward = camera->GetCamaraForward();	//カメラ向き
-		forward.y = 0.0f;
+		Vector3 cameraForward = camera->GetCamaraForward();	//カメラ向き
+		Vector3 cameraRight = camera->GetCamaraRight();	//カメラ向き
+
+		cameraForward.y = 0.0f;
+		cameraRight.y = 0.0f;
 
 		//MOVE
 		Vector3 velo = Vector3(0, 0, 0);
 		if (Input::GetKeyPress(KEY_CONFIG::MOVE_UP))
 		{
-			velo += forward * MOVE_SPEED;
+			velo += cameraForward * MOVE_SPEED;
 			m_animationName = "Run";
 			
-			//transform->(forward);
+			transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
 			m_blendRate += ADD_BLENDRATE;
 		}
 		else if (Input::GetKeyPress(KEY_CONFIG::MOVE_DOWN))
 		{
-			velo -= forward * (MOVE_SPEED / 2);
+			velo -= cameraForward * (MOVE_SPEED / 2);
 			m_animationName = "WalkingBack";
 			m_blendRate += ADD_BLENDRATE;
+			transform->SetQuaternion(-Quaternion::LookRotation(cameraForward, Vector3::Up));
 		}
 		else
 		{
@@ -151,9 +155,15 @@ namespace MainGame
 			m_animationName = "Idle";
 		}
 		if (Input::GetKeyPress(KEY_CONFIG::MOVE_LEFT))
-			//velo -= right * MOVE_SPEED;
+		{
+			velo -= cameraRight * MOVE_SPEED;
+			transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
+		}
 		if (Input::GetKeyPress(KEY_CONFIG::MOVE_RIGHT))
-			//velo += right * MOVE_SPEED;
+		{
+			velo += cameraRight * MOVE_SPEED;
+			transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
+		}
 
 		if (m_blendRate > 1.0f)
 			m_blendRate = 1.0f;

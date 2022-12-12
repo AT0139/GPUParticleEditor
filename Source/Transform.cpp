@@ -21,7 +21,7 @@ void Transform::SetPosition(Vector3 position)
 	m_changed = true;
 }
 
-void Transform::SetRotation(Quaternion quat)
+void Transform::SetQuaternion(Quaternion quat)
 {
 	m_quaternion = quat;
 	m_changed = true;
@@ -207,7 +207,7 @@ void Transform::SetParent(GameObject* parent)
 		Quaternion quat;
 		mat.Decompose(scale, quat, pos);
 		SetScale(scale);
-		SetRotation(quat);
+		SetQuaternion(quat);
 		SetPosition(posSpan);
 		SetToPrev();
 	}

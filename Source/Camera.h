@@ -14,6 +14,7 @@ namespace MainGame
 
 		Matrix GetViewMatrix() { return m_viewMatrix; }
 		Vector3 GetCamaraForward();
+		Vector3 GetCamaraRight();
 
 	private:
 		Vector3 m_target;

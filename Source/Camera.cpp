@@ -14,7 +14,6 @@ namespace MainGame
 	Camera::Camera()
 	{
 		auto transform = GetComponent<Transform>();
-		transform->SetPosition(Vector3(0.0f, 5.0f, -5.0f));
 		m_target = Vector3(0.0f, 0.0f, 0.0f);
 		m_theta = 4.57f;
 		m_delta = 0.43f;
@@ -27,7 +26,6 @@ namespace MainGame
 	void Camera::Update()
 	{
 		auto transform = GetComponent<Transform>();
-
 		//プレイヤーの取得
 		Scene* scene = Manager::GetInstance().GetScene();
 		Vector3 playerPos = scene->GetGameObject<Player>(scene->OBJECT)->GetComponent<Transform>()->GetPosition();
@@ -50,6 +48,7 @@ namespace MainGame
 		m_cameraPos.y = m_target.y + CAMERA_DISTANCE * sin(m_delta);
 		m_cameraPos.z = m_target.z + CAMERA_DISTANCE * cos(m_delta) * sin(m_theta);
 
+		transform->SetPosition(m_cameraPos);
 
 		Renderer::GetInstance().SetCameraPosition(m_cameraPos);
 	}
@@ -57,8 +56,7 @@ namespace MainGame
 	void Camera::Draw()
 	{
 		//ビューマトリクス設定
-		Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
-		m_viewMatrix = XMMatrixLookAtLH(m_cameraPos, m_target, up);
+		m_viewMatrix = XMMatrixLookAtLH(m_cameraPos, m_target, Vector3::Up);
 
 		Renderer::GetInstance().SetViewMatrix(&m_viewMatrix);
 
@@ -70,6 +68,18 @@ namespace MainGame
 	Vector3 Camera::GetCamaraForward()
 	{
 		Vector3 forward = m_target - m_cameraPos;
+		forward.y = 0.0f;
 		return XMVector3Normalize(forward);
+	}
+	Vector3 Camera::GetCamaraRight()
+	{
+		Vector3 forward = m_target - m_cameraPos;
+
+		Vector3 right;
+		right.x = forward.z;
+		right.y = 0.0f;
+		right.z = -forward.x;
+		
+		return XMVector3Normalize(right);
 	}
 }
