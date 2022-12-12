@@ -71,12 +71,6 @@ namespace MainGame
 		}
 
 		Renderer::GetInstance().SetCameraPosition(m_cameraPos);
-
-		ImGui::Begin("General");
-		{
-			ImGui::Text("theta = %f,delta = %f", m_theta, m_delta);
-		}
-		ImGui::End();
 	}
 
 
