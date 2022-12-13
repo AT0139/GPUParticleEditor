@@ -92,3 +92,26 @@ void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionCompon
 		myGameObj->OnTrigger(oppGameObj);
 	}
 }
+
+PlaneInfo AABBInfo::GetPlane(GameObject* gameObject)
+{
+
+	//面のベクトル
+	Vector3 point0 = center;
+	float MakedHalfX = scaleHalf.x;
+	float MakedHalfY = scaleHalf.y;
+	//2つ目は-0.5,-0.5,0の点をワールド変換したもの
+	Vector3 point1(-MakedHalfX, -MakedHalfY, 0);
+	auto matrix = gameObject->GetComponent<Transform>()->GetWorldMatrix();
+	point1 = XMVector3Transform(point1, matrix);
+	//3つ目は-0.5,0.5,0の点をワールド変換したもの
+	Vector3 point2(MakedHalfX, -MakedHalfY, 0);
+	point2 = XMVector3Transform(point2, matrix);
+	//3点を使って面を作成
+	PlaneInfo ret;
+	ret.normal = point1 - point0;
+	ret.normal.Dot(point2 - point0);
+	ret.normal.Normalize();
+	ret.dotVal = ret.normal.Dot(point0);
+	return ret;
+}

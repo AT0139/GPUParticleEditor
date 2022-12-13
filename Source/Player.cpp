@@ -18,7 +18,7 @@ namespace MainGame
 	{
 		m_rigid = AddComponent<Rigidbody>();
 		m_rigid->SetMass(2.0f);
-		AddComponent<SphereCollision>()->SetRadius(0.5f);
+		AddComponent<OBBCollision>()->SetScale(0.5f);
 
 		//モデル読み込み
 		m_model = ResourceManager::GetInstance().GetAnimationModelData("asset\\model\\Akai_Idle.fbx");

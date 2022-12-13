@@ -7,8 +7,8 @@
 #include "Player.h"
 #include "MeshField.h"
 
-static const float CAMERA_FACTOR = 60.0f;
-static const float CAMERA_DISTANCE = 10.0f;
+static const float CAMERA_FACTOR = 120.0f;
+static const float CAMERA_DISTANCE = 5.0f;
 
 static const float DELTA_MIN = 2.0f;
 static const float DELTA_MAX = 4.0f;

@@ -35,10 +35,10 @@ void CapsuleCollision::CollisionBridge(const std::shared_ptr<CollisionComponent>
 
 void CapsuleCollision::HitTest(CapsuleCollision& opponent)
 {
-	if (CollisionUtility::CapsuleCapsule(GetCapsuleInfo(), opponent.GetCapsuleInfo()))
-	{
-		CollisonAfter(this, &opponent);
-	}
+	//if (CollisionUtility::CapsuleCapsule(GetCapsuleInfo(), opponent.GetCapsuleInfo()))
+	//{
+	//	CollisonAfter(this, &opponent);
+	//}
 }
 
 void CapsuleCollision::HitTest(SphereCollision& opponent)
@@ -80,4 +80,24 @@ void CapsuleCollision::SetRadius(float rad)
 {
 	m_radius = rad;
 
+}
+
+Vector3 CapsuleCollision::GetHitNormal(SphereCollision& opponent)
+{
+	return Vector3();
+}
+
+Vector3 CapsuleCollision::GetHitNormal(AABBCollision& opponent)
+{
+	return Vector3();
+}
+
+Vector3 CapsuleCollision::GetHitNormal(OBBCollision& opponent)
+{
+	return Vector3();
+}
+
+Vector3 CapsuleCollision::GetHitNormal(CapsuleCollision& opponent)
+{
+	return Vector3();
 }

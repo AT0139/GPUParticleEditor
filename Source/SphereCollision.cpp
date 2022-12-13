@@ -83,7 +83,7 @@ void SphereCollision::HitTest(AABBCollision& opponent)
 
 void SphereCollision::HitTest(OBBCollision& opponent)
 {
-	if (CollisionUtility::ObbSphere(opponent.GetOBBInfo(), GetSphereInfo()))
+	if (CollisionUtility::ObbSphere(opponent.GetOBBInfo(), GetSphereInfo(),Vector3(0,0,0)))
 	{
 		CollisonAfter(this, &opponent);
 	}
@@ -91,4 +91,42 @@ void SphereCollision::HitTest(OBBCollision& opponent)
 
 void SphereCollision::HitTest(CapsuleCollision& opponent)
 {
+}
+
+Vector3 SphereCollision::GetHitNormal(SphereCollision& opponent)
+{
+	SphereInfo sphere= GetSphereInfo();
+	SphereInfo oppSphere = opponent.GetSphereInfo();
+	//接点へのベクトル
+	Vector3 normal = sphere.center - oppSphere.center;
+	normal.Normalize();
+
+	return normal;
+}
+
+Vector3 SphereCollision::GetHitNormal(AABBCollision& opponent)
+{
+	SphereInfo sp = GetSphereInfo();
+	AABBInfo aabb = opponent.GetAABBInfo();
+	PlaneInfo ret = aabb.GetPlane(opponent.GetGameObject());
+	Vector3 returnNormal = ret.normal;
+	returnNormal.Normalize();
+	return returnNormal;
+}
+
+Vector3 SphereCollision::GetHitNormal(OBBCollision& opponent)
+{
+	SphereInfo sp = GetSphereInfo();
+	OBBInfo obb = opponent.GetOBBInfo();
+	Vector3 normal;
+	CollisionUtility::ObbSphere(obb,sp, normal);
+	//接点へのベクトル
+	normal -= sp.center;
+	normal.Normalize();
+	return normal;
+}
+
+Vector3 SphereCollision::GetHitNormal(CapsuleCollision& opponent)
+{
+	return Vector3(0, 0, 0);
 }

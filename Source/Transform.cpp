@@ -6,7 +6,7 @@
 Transform::Transform(GameObject* pGameObject)
 	: Component(pGameObject)
 	, m_position(Vector3(0.0f, 0.0f, 0.0f))
-	, m_quaternion(XMQuaternionIdentity())
+	, m_quaternion(Quaternion::Identity)
 	, m_scale(Vector3(1.0f, 1.0f, 1.0f))
 	, m_changed(true)
 	, m_prevChanged(true)

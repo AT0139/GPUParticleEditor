@@ -35,7 +35,7 @@ void OBBCollision::CollisionBridge(const std::shared_ptr<CollisionComponent>& op
 
 void OBBCollision::HitTest(SphereCollision& opponent)
 {
-	if (CollisionUtility::ObbSphere(GetOBBInfo(), opponent.GetSphereInfo()))
+	if (CollisionUtility::ObbSphere(GetOBBInfo(), opponent.GetSphereInfo(),Vector3(0,0,0)))
 	{
 		CollisonAfter(this, &opponent);
 	}
@@ -81,6 +81,46 @@ void OBBCollision::SetScale(float scale)
 	Vector3 sc = Vector3(scale, scale, scale);
 	auto temp = sc * 0.5f;
 	SetCollisionScale(temp);
+}
+
+Vector3 OBBCollision::GetHitNormal(SphereCollision& opponent)
+{
+	SphereInfo sp = opponent.GetSphereInfo();
+	OBBInfo obb = GetOBBInfo();
+	Vector3 normal;
+	CollisionUtility::ObbSphere(obb, sp, normal);
+	//接点へのベクトル
+	normal = sp.center - normal;
+	normal.Normalize();
+	return normal;
+}
+
+Vector3 OBBCollision::GetHitNormal(AABBCollision& opponent)
+{
+	OBBInfo obb = GetOBBInfo();
+	AABBInfo aabb = opponent.GetAABBInfo();
+	//Rectのベクトル
+	Vector3 ret = aabb.GetPlane(opponent.GetGameObject()).normal;
+	ret.Normalize();
+	return ret;
+}
+
+Vector3 OBBCollision::GetHitNormal(OBBCollision& opponent)
+{
+	OBBInfo obb = GetOBBInfo();
+	OBBInfo obb2 = opponent.GetOBBInfo();
+	Vector3 normal;
+	//SrcのOBBとDestの最近接点を得る
+	CollisionUtility::ClosestPtPointOBB(obb.center, obb2, normal);
+	//接点へのベクトル
+	Vector3 ret = normal - obb.center;
+	ret.Normalize();
+	return ret;
+}
+
+Vector3 OBBCollision::GetHitNormal(CapsuleCollision& opponent)
+{
+	return Vector3();
 }
 
 void OBBCollision::HitTest(CapsuleCollision& opponent)

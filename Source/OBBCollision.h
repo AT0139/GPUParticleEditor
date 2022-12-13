@@ -19,6 +19,11 @@ public:
 	virtual void HitTest(OBBCollision& opponent) override;
 	virtual void HitTest(CapsuleCollision& opponent) override;
 
+	virtual Vector3 GetHitNormal(SphereCollision& opponent) override;
+	virtual Vector3 GetHitNormal(AABBCollision& opponent) override;
+	virtual Vector3 GetHitNormal(OBBCollision& opponent) override;
+	virtual Vector3 GetHitNormal(CapsuleCollision& opponent) override;
+
 	OBBInfo GetOBBInfo();
 
 	void SetScale(Vector3 scale);

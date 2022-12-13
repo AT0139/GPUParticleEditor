@@ -20,16 +20,24 @@ struct SphereInfo
 	float radius;
 };
 
+struct PlaneInfo
+{
+	Vector3 normal;
+	float dotVal;
+};
+
 struct AABBInfo
 {
 	Vector3 center;
 	Vector3 scaleHalf;
+
+	PlaneInfo GetPlane(GameObject* gameObject);
 };
 
 struct OBBInfo
 {
 	Vector3 center;
-	Vector3 X, Y, Z;
+	Vector3 X,Y,Z;
 	Vector3 scaleHalf;
 };
 
@@ -38,6 +46,7 @@ struct CapsuleInfo
 	LineInfo line;
 	float radius;
 };
+
 
 class CollisionComponent : public Component
 {
@@ -56,6 +65,11 @@ public:
 	virtual void HitTest(AABBCollision& opponent) = 0;
 	virtual void HitTest(OBBCollision& opponent) = 0;
 	virtual void HitTest(CapsuleCollision& opponent) = 0;
+
+	virtual Vector3 GetHitNormal(SphereCollision& opponent) = 0;
+	virtual Vector3 GetHitNormal(AABBCollision& opponent) = 0;
+	virtual Vector3 GetHitNormal(OBBCollision& opponent) = 0;
+	virtual Vector3 GetHitNormal(CapsuleCollision& opponent) = 0;
 
 	bool IsHitObject(GameObject* obj);
 	bool IsParent(GameObject* obj);
