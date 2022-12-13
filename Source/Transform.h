@@ -23,6 +23,7 @@ public:
 	Vector3 GetZAxis();
 
 	void SetPosition(Vector3 position);
+	void SetWorldPosition(Vector3 position);
 	void SetQuaternion(Quaternion rotation);
 	void AddQuaternion(Quaternion quat);
 	void SetScale(Vector3 scale);

@@ -65,7 +65,7 @@ void SphereCollision::HitTest(SphereCollision& opponent)
 	if (CollisionUtility::SphereSphere(mySphere, oppSphere))
 	{
 		//当たっている
-		CollisonAfter(this, &opponent);
+		AfterCollisionTemplate(this, &opponent);
 	}
 }
 
@@ -77,7 +77,7 @@ void SphereCollision::HitTest(AABBCollision& opponent)
 	if (CollisionUtility::AABBSphere(oppAABB, mySphere))
 	{
 		//当たっている
-		CollisonAfter(this, &opponent);
+		AfterCollisionTemplate(this, &opponent);
 	}
 }
 
@@ -85,7 +85,7 @@ void SphereCollision::HitTest(OBBCollision& opponent)
 {
 	if (CollisionUtility::ObbSphere(opponent.GetOBBInfo(), GetSphereInfo(),Vector3(0,0,0)))
 	{
-		CollisonAfter(this, &opponent);
+		AfterCollisionTemplate(this, &opponent);
 	}
 }
 

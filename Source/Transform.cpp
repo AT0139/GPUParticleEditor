@@ -21,6 +21,23 @@ void Transform::SetPosition(Vector3 position)
 	m_changed = true;
 }
 
+void Transform::SetWorldPosition(Vector3 position)
+{
+	auto setPos = position;
+	auto parent = GetParent();
+	if (parent) {
+		auto parentWorld = parent->GetComponent<Transform>()->GetWorldMatrix();
+		Quaternion quat;
+		Vector3 temp,parentPos;
+		parentWorld.Decompose(temp, quat, parentPos);
+		setPos -= parentPos;
+		quat.Inverse(quat);
+		Matrix parQtMat = Matrix::CreateFromQuaternion(quat);
+		setPos = XMVector3Transform(setPos, parQtMat);
+	}
+	SetPosition(setPos);
+}
+
 void Transform::SetQuaternion(Quaternion quat)
 {
 	m_quaternion = quat;

@@ -49,8 +49,7 @@ void AABBCollision::HitTest(SphereCollision& opponent)
 
 	if (CollisionUtility::AABBSphere(myAABB, oppSphere))
 	{
-		//当たっている
-		CollisonAfter(this, &opponent);
+		AfterCollisionTemplate(this, &opponent);
 	}
 }
 
@@ -61,8 +60,7 @@ void AABBCollision::HitTest(AABBCollision& opponent)
 
 	if (CollisionUtility::AabbAabb(myAabb, oppAabb))
 	{
-		//当たっている
-		CollisonAfter(this, &opponent);
+		AfterCollisionTemplate(this, &opponent);
 	}
 }
 
@@ -70,7 +68,7 @@ void AABBCollision::HitTest(OBBCollision& opponent)
 {
 	if (CollisionUtility::ObbAabb(opponent.GetOBBInfo(), GetAABBInfo()))
 	{
-		CollisonAfter(this, &opponent);
+		AfterCollisionTemplate(this, &opponent);
 	}
 }
 

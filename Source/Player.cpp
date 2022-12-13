@@ -17,7 +17,7 @@ namespace MainGame
 		: m_haveObject(nullptr)
 	{
 		m_rigid = AddComponent<Rigidbody>();
-		m_rigid->SetMass(2.0f);
+		m_rigid->SetMass(1.0f);
 		AddComponent<OBBCollision>()->SetScale(0.5f);
 
 		//モデル読み込み
@@ -80,6 +80,7 @@ namespace MainGame
 				auto haveRigid = m_haveObject->GetComponent<Rigidbody>();
 
 				haveRigid->SetIsKinematic(false);
+				haveRigid->SetIsTrigger(false);
 				auto forward = this->GetComponent<Transform>()->GetForward();
 				//力を前方向に
 				haveRigid->AddForce(-forward * 1);
@@ -106,14 +107,15 @@ namespace MainGame
 
 	void Player::OnCollision(GameObject* collision)
 	{
-		if (m_haveObject == nullptr)
+	/*	if (m_haveObject == nullptr)
 		{
 			auto colTrans = collision->GetComponent<Transform>();
 			m_haveObject = collision;
 			colTrans->SetParent(this);
 			colTrans->SetPosition(Vector3(0.0f, 1.0f, -1.0f));
 			collision->GetComponent<Rigidbody>()->SetIsKinematic(true);
-		}
+			collision->GetComponent<Rigidbody>()->SetIsTrigger(true);
+		}*/
 	}
 
 	void Player::OnTrigger(GameObject* collision)

@@ -78,10 +78,39 @@ public:
 	void AddHitObject(GameObject& obj) { m_hitObjects.push_back(&obj); }
 	Vector3 GetCollisionScale() { return m_collisionScale; }
 protected:
-	void CollisonAfter(CollisionComponent* col1, CollisionComponent* col2);
+	void CollisonAfter(CollisionComponent* col1, CollisionComponent* col2, Vector3 hitNormal);
 	void SetCollisionScale(Vector3 scale) { m_collisionScale = scale;}
 
+	template<typename MyType,typename OppType>
+	void AfterCollisionTemplate(MyType* myCol, OppType* oppCol)
+	{
+		//衝突相手の登録
+		AddHitObject(*oppCol->GetGameObject());
+		oppCol->AddHitObject(*myCol->GetGameObject());
+
+		//todo:動かないオブジェクトの追加
+		//衝突処理
+		{
+			Vector3 hitNormal = GetHitNormal(*oppCol);
+			CollisonAfter(oppCol, myCol, hitNormal);
+		}
+		{
+			Vector3 hitNormal = oppCol->GetHitNormal(*myCol);
+			oppCol->CollisonAfter(myCol, oppCol, hitNormal);
+		}
+	}
+
 private:
+	inline  Vector3 Slide(const Vector3& Vec, const Vector3& Norm)
+	{
+		//thisと法線から直行線の長さ（内積で求める）
+		float Len = Vec.Dot(Norm);
+		//その長さに伸ばす
+		Vector3 Contact = Norm * Len;
+		//スライドする方向は現在のベクトルから引き算
+		return (Vec - Contact);
+	}
+
 	std::vector<GameObject*> m_hitObjects;
 	bool m_isStaticObject;
 	Vector3 m_collisionScale;

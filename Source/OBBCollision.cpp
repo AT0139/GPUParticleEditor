@@ -37,7 +37,7 @@ void OBBCollision::HitTest(SphereCollision& opponent)
 {
 	if (CollisionUtility::ObbSphere(GetOBBInfo(), opponent.GetSphereInfo(),Vector3(0,0,0)))
 	{
-		CollisonAfter(this, &opponent);
+		AfterCollisionTemplate(this, &opponent);
 	}
 }
 
@@ -45,7 +45,7 @@ void OBBCollision::HitTest(AABBCollision& opponent)
 {
 	if (CollisionUtility::ObbAabb(GetOBBInfo(), opponent.GetAABBInfo()))
 	{
-		CollisonAfter(this, &opponent);
+		AfterCollisionTemplate(this, &opponent);
 	}
 }
 
@@ -53,7 +53,7 @@ void OBBCollision::HitTest(OBBCollision& opponent)
 {
 	if (CollisionUtility::ObbObb(GetOBBInfo(), opponent.GetOBBInfo()))
 	{
-		CollisonAfter(this, &opponent);
+		AfterCollisionTemplate(this, &opponent);
 	}
 }
 
