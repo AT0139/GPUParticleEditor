@@ -20,7 +20,6 @@ namespace MainGame
 		m_rigid->SetMass(1.5f);
 		auto col = AddComponent<OBBCollision>();
 		col->SetScale(0.5f);
-		col->SetHitAction(HitAction::None);
 		//モデル読み込み
 		m_model = ResourceManager::GetInstance().GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
 		m_model->LoadAnimation((char*)"asset\\model\\Akai_Idle.fbx", "Idle");
@@ -110,12 +109,15 @@ namespace MainGame
 	{
 		if (m_haveObject == nullptr)
 		{
-			auto colTrans = collision->GetComponent<Transform>();
-			m_haveObject = collision;
-			colTrans->SetParent(this);
-			colTrans->SetPosition(Vector3(0.0f, 1.0f, -1.0f));
-			collision->GetComponent<Rigidbody>()->SetIsKinematic(true);
-			collision->GetComponent<Rigidbody>()->SetIsTrigger(true);
+			if (collision->GetTag() == TAG::ENEMY)
+			{
+				auto colTrans = collision->GetComponent<Transform>();
+				m_haveObject = collision;
+				colTrans->SetParent(this);
+				colTrans->SetPosition(Vector3(0.0f, 1.0f, -1.0f));
+				collision->GetComponent<Rigidbody>()->SetIsKinematic(true);
+				collision->GetComponent<Rigidbody>()->SetIsTrigger(true);
+			}
 		}
 	}
 

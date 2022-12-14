@@ -42,7 +42,7 @@ void CollisionComponent::CollisionReset()
 	m_hitObjects.clear();
 }
 
-void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionComponent* col2,bool col1Flag,bool col2Frag)
+void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionComponent* col2, bool col1Flag, bool col2Flag)
 {
 	//当たっている
 	auto myGameObj = col1->GetGameObject();
@@ -71,11 +71,13 @@ void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionCompon
 		FLOAT Dot = (myVector - oppVector).Dot(C); // 内積算出
 		Vector3 ConstVec = RefRate * Dot / TotalWeight * C; // 定数ベクトル
 
-
-		myTransform->SetNextPosition(myTransform->GetPrevPosition());
-		oppTransform->SetNextPosition(oppTransform->GetPrevPosition());
-		myRigidbody->SetVelocity(-oppMass * ConstVec + myVector);
-		oppRigidbody->SetVelocity(myMass * ConstVec + oppVector);
+		if (col1Flag && col2Flag)
+		{
+			myTransform->SetNextPosition(myTransform->GetPrevPosition());
+			myRigidbody->SetVelocity(-oppMass * ConstVec + myVector);
+			oppTransform->SetNextPosition(oppTransform->GetPrevPosition());
+			oppRigidbody->SetVelocity(myMass * ConstVec + oppVector);
+		}
 	}
 
 	if (!myRigidbody->GetIsTrigger())
