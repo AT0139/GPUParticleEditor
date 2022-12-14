@@ -62,10 +62,17 @@ OBBInfo OBBCollision::GetOBBInfo()
 	OBBInfo obb;
 	auto transform = GetGameObject()->GetComponent<Transform>();
 	obb.center = transform->GetPosition();
-	obb.X = transform->GetXAxis();
-	obb.Y = transform->GetYAxis();
-	obb.Z = transform->GetZAxis();
-	obb.scaleHalf = GetCollisionScale();
+	auto x = transform->GetXAxis();
+	auto y = transform->GetYAxis();
+	auto z = transform->GetZAxis();
+	x.Normalize(); y.Normalize(); z.Normalize();
+	obb.rot[0] = x;
+	obb.rot[1] = y;
+	obb.rot[2] = z;
+	auto scale = GetCollisionScale();
+	obb.scaleHalf[0] = scale.x;
+	obb.scaleHalf[1] = scale.y;
+	obb.scaleHalf[2] = scale.z;
 
 	return obb;
 }

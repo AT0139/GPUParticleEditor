@@ -22,46 +22,109 @@ bool CollisionUtility::AabbAabb(AABBInfo box1, AABBInfo box2)
 		(box1min.z <= box2max.z && box1max.z >= box2min.z);
 }
 
-bool getSeparatingPlane(const Vector3& RPos, const XMVECTOR& Plane, const OBBInfo& box1, const OBBInfo& box2)
-{
-	auto x1 = box1.X * box1.scaleHalf.x;
-	auto y1 = box1.Y * box1.scaleHalf.y;
-	auto z1 = box1.Z * box1.scaleHalf.z;
-	auto x2 = box2.X * box2.scaleHalf.x;
-	auto y2 = box2.Y * box2.scaleHalf.y;
-	auto z2 = box2.Z * box2.scaleHalf.z;
-
-	//todo : 正常なら消す
-	return (fabs(Utility::VECtoFloat(XMVector3Dot(RPos, Plane)))) >
-		(fabs(Utility::VECtoFloat(XMVector3Dot(x1, Plane))) +
-			fabs(Utility::VECtoFloat(XMVector3Dot(y1, Plane))) +
-			fabs(Utility::VECtoFloat(XMVector3Dot(z1, Plane))) +
-			fabs(Utility::VECtoFloat(XMVector3Dot(x2, Plane))) +
-			fabs(Utility::VECtoFloat(XMVector3Dot(y2, Plane))) +
-			fabs(Utility::VECtoFloat(XMVector3Dot(z2, Plane))));
-}
 
 bool CollisionUtility::ObbObb(OBBInfo box1, OBBInfo box2)
 {
-	Vector3 direction;
-	Vector3 temp;
-	direction = box2.center - box1.center;
-	//軸ごとに比較
-	return !(getSeparatingPlane(direction, box1.X, box1, box2) ||
-		getSeparatingPlane(direction, box1.Y, box1, box2) ||
-		getSeparatingPlane(direction, box1.Z, box1, box2) ||
-		getSeparatingPlane(direction, box2.X, box1, box2) ||
-		getSeparatingPlane(direction, box2.Y, box1, box2) ||
-		getSeparatingPlane(direction, box2.Z, box1, box2) ||
-		getSeparatingPlane(direction, XMVector3Cross(box1.X, box2.X), box1, box2) ||
-		getSeparatingPlane(direction, XMVector3Cross(box1.X, box2.Y), box1, box2) ||
-		getSeparatingPlane(direction, XMVector3Cross(box1.X, box2.Z), box1, box2) ||
-		getSeparatingPlane(direction, XMVector3Cross(box1.Y, box2.X), box1, box2) ||
-		getSeparatingPlane(direction, XMVector3Cross(box1.Y, box2.Y), box1, box2) ||
-		getSeparatingPlane(direction, XMVector3Cross(box1.Y, box2.Z), box1, box2) ||
-		getSeparatingPlane(direction, XMVector3Cross(box1.Z, box2.X), box1, box2) ||
-		getSeparatingPlane(direction, XMVector3Cross(box1.Z, box2.Y), box1, box2) ||
-		getSeparatingPlane(direction, XMVector3Cross(box1.Z, box2.Z), box1, box2));
+	const float EPSILON = 1.175494e-37f;
+	float R[3][3], AbsR[3][3];
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			R[i][j] = box1.rot[i].Dot(box2.rot[j]);
+			AbsR[i][j] = fabsf(R[i][j]) + EPSILON;
+		}
+	}
+	Vector3 temp = box2.center - box1.center;
+	float t[3];
+	t[0] = temp.Dot(box1.rot[0]);
+	t[1] = temp.Dot(box1.rot[1]);
+	t[2] = temp.Dot(box1.rot[2]);
+	//軸L=A0, L=A1, L=A2判定
+	float ra, rb;
+	for (int i = 0; i < 3; i++)
+	{
+		ra = box1.scaleHalf[i];
+		rb = box2.scaleHalf[0] * AbsR[i][0] + box2.scaleHalf[1] * AbsR[i][1] + box2.scaleHalf[2] * AbsR[i][2];
+		if (fabsf(t[i]) > ra + rb)
+		{
+			return false;
+		}
+	}
+	//軸L=B0, L=B1, L=B2判定
+	for (int i = 0; i < 3; i++)
+	{
+		ra = box1.scaleHalf[0] * AbsR[0][i] + box1.scaleHalf[1] * AbsR[1][i] + box1.scaleHalf[2] * AbsR[2][i];
+		rb = box2.scaleHalf[i];
+		if (fabsf(t[0] * R[0][i] + t[1] * R[1][i] + t[2] * R[2][i]) > ra + rb)
+		{
+			return false;
+		}
+	}
+	//軸L=A0 X B0判定
+	ra = box1.scaleHalf[1] * AbsR[2][0] + box1.scaleHalf[2] * AbsR[1][0];
+	rb = box2.scaleHalf[1] * AbsR[0][2] + box2.scaleHalf[2] * AbsR[0][1];
+	if (fabsf(t[2] * R[1][0] - t[1] * R[2][0]) > ra + rb)
+	{
+		return false;
+	}
+	//軸L=A0 X B1判定
+	ra = box1.scaleHalf[1] * AbsR[2][1] + box1.scaleHalf[2] * AbsR[1][1];
+	rb = box2.scaleHalf[0] * AbsR[0][2] + box2.scaleHalf[2] * AbsR[0][0];
+	if (fabsf(t[2] * R[1][1] - t[1] * R[2][1]) > ra + rb)
+	{
+		return false;
+	}
+	//軸L=A0 X B2判定
+	ra = box1.scaleHalf[1] * AbsR[2][2] + box1.scaleHalf[2] * AbsR[1][2];
+	rb = box2.scaleHalf[0] * AbsR[0][1] + box2.scaleHalf[1] * AbsR[0][0];
+	if (fabsf(t[2] * R[1][2] - t[1] * R[2][2]) > ra + rb)
+	{
+		return false;
+	}
+	//軸L=A1 X B0判定
+	ra = box1.scaleHalf[0] * AbsR[2][0] + box1.scaleHalf[2] * AbsR[0][0];
+	rb = box2.scaleHalf[1] * AbsR[1][2] + box2.scaleHalf[2] * AbsR[1][1];
+	if (fabsf(t[0] * R[2][0] - t[2] * R[0][0]) > ra + rb)
+	{
+		return false;
+	}
+	//軸L=A1 X B1判定
+	ra = box1.scaleHalf[0] * AbsR[2][1] + box1.scaleHalf[2] * AbsR[0][1];
+	rb = box2.scaleHalf[0] * AbsR[1][2] + box2.scaleHalf[2] * AbsR[1][0];
+	if (fabsf(t[0] * R[2][1] - t[2] * R[0][1]) > ra + rb)
+	{
+		return false;
+	}
+	//軸L=A1 X B2判定
+	ra = box1.scaleHalf[0] * AbsR[2][2] + box1.scaleHalf[2] * AbsR[0][2];
+	rb = box2.scaleHalf[0] * AbsR[1][1] + box2.scaleHalf[1] * AbsR[1][0];
+	if (fabsf(t[0] * R[2][2] - t[2] * R[0][2]) > ra + rb)
+	{
+		return false;
+	}
+	//軸L=A2 X B0判定
+	ra = box1.scaleHalf[0] * AbsR[1][0] + box1.scaleHalf[1] * AbsR[0][0];
+	rb = box2.scaleHalf[1] * AbsR[2][2] + box2.scaleHalf[2] * AbsR[2][1];
+	if (fabsf(t[1] * R[0][0] - t[0] * R[1][0]) > ra + rb)
+	{
+		return false;
+	}
+	//軸L=A2 X B1判定
+	ra = box1.scaleHalf[0] * AbsR[1][1] + box1.scaleHalf[1] * AbsR[0][1];
+	rb = box2.scaleHalf[0] * AbsR[2][2] + box2.scaleHalf[2] * AbsR[2][0];
+	if (fabsf(t[1] * R[0][1] - t[0] * R[1][1]) > ra + rb)
+	{
+		return false;
+	}
+	//軸L=A2 X B2判定
+	ra = box1.scaleHalf[0] * AbsR[1][2] + box1.scaleHalf[1] * AbsR[0][2];
+	rb = box2.scaleHalf[0] * AbsR[2][1] + box2.scaleHalf[1] * AbsR[2][0];
+	if (fabsf(t[1] * R[0][2] - t[0] * R[1][2]) > ra + rb)
+	{
+		return false;
+	}
+	return true;
 }
 
 bool CollisionUtility::ObbSphere(OBBInfo obb, SphereInfo sphere, Vector3 returnNormal)
@@ -75,10 +138,12 @@ bool CollisionUtility::ObbAabb(OBBInfo obb, AABBInfo aabb)
 {
 	OBBInfo obb2;
 	obb2.center = aabb.center;
-	obb2.scaleHalf = aabb.scaleHalf;
-	obb2.X = Vector3(1, 0, 0);
-	obb2.Y = Vector3(0, 1, 0);
-	obb2.Z = Vector3(0, 0, 1);
+	obb2.scaleHalf[0] = aabb.scaleHalf.x;
+	obb2.scaleHalf[1] = aabb.scaleHalf.y;
+	obb2.scaleHalf[2] = aabb.scaleHalf.z;
+	obb2.rot[0] = Vector3(1, 0, 0);
+	obb2.rot[1] = Vector3(0, 1, 0);
+	obb2.rot[2] = Vector3(0, 0, 1);
 
 	return 	ObbObb(obb, obb2);
 }
@@ -89,38 +154,38 @@ void CollisionUtility::ClosestPtPointOBB(Vector3 point, OBBInfo obb, Vector3& no
 	normal = obb.center;
 	float dist;
 	{
-		dist = dir.Dot(obb.X);
-		if (dist > obb.scaleHalf.x)
+		dist = dir.Dot(obb.rot[0]);
+		if (dist > obb.scaleHalf[0])
 		{
-			dist = obb.scaleHalf.x;
+			dist = obb.scaleHalf[0];
 		}
-		if (dist < -obb.scaleHalf.x)
+		if (dist < -obb.scaleHalf[0])
 		{
-			dist = -obb.scaleHalf.x;
+			dist = -obb.scaleHalf[0];
 		}
-		normal += dist * obb.X;
+		normal += dist * obb.rot[0];
 
-		dist = dir.Dot(obb.Y);
-		if (dist > obb.scaleHalf.y)
+		dist = dir.Dot(obb.rot[1]);
+		if (dist > obb.scaleHalf[1])
 		{
-			dist = obb.scaleHalf.y;
+			dist = obb.scaleHalf[1];
 		}
-		if (dist < -obb.scaleHalf.y)
+		if (dist < -obb.scaleHalf[1])
 		{
-			dist = -obb.scaleHalf.y;
+			dist = -obb.scaleHalf[1];
 		}
-		normal += dist * obb.Y;
+		normal += dist * obb.rot[1];
 
-		dist = dir.Dot(obb.Z);
-		if (dist > obb.scaleHalf.z)
+		dist = dir.Dot(obb.rot[2]);
+		if (dist > obb.scaleHalf[2])
 		{
-			dist = obb.scaleHalf.z;
+			dist = obb.scaleHalf[2];
 		}
-		if (dist < -obb.scaleHalf.z)
+		if (dist < -obb.scaleHalf[2])
 		{
-			dist = -obb.scaleHalf.z;
+			dist = -obb.scaleHalf[2];
 		}
-		normal += dist * obb.Z;
+		normal += dist * obb.rot[2];
 	}
 }
 

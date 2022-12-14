@@ -37,8 +37,8 @@ struct AABBInfo
 struct OBBInfo
 {
 	Vector3 center;
-	Vector3 X,Y,Z;
-	Vector3 scaleHalf;
+	Vector3 rot[3];
+	float scaleHalf[3];
 };
 
 struct CapsuleInfo
@@ -98,21 +98,32 @@ protected:
 	void AfterCollisionTemplate(MyType* myCol, OppType* oppCol)
 	{
 		//衝突相手の登録
-		AddHitObject(*oppCol->GetGameObject());
 
 		bool myAfter = false;
 		bool oppAfter = false;
 
-		if (m_hitAction != HitAction::None)
+		if (!IsStaticObject())
 		{
-			myAfter = true;
+			AddHitObject(*oppCol->GetGameObject());
+			if (m_hitAction != HitAction::None)
+			{
+				myAfter = true;
+			}
 		}
+		else
+		{
+			if (oppCol->GetHitAction() != HitAction::None)
+			{
+				oppCol->CollisionEscape(*myCol);
+			}
+		}
+
 		if (!oppCol->IsStaticObject())
 		{
 			oppCol->AddHitObject(*myCol->GetGameObject());
 			if (oppCol->GetHitAction() != HitAction::None)
 			{
-				myAfter = true;
+				oppAfter = true;
 			}
 		}
 		else
