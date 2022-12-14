@@ -21,6 +21,12 @@ void Transform::SetPosition(Vector3 position)
 	m_changed = true;
 }
 
+void Transform::SetPrevPosition()
+{
+	m_position = m_prevPosition;
+	m_changed = true;
+}
+
 void Transform::SetWorldPosition(Vector3 position)
 {
 	auto setPos = position;

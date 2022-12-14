@@ -27,6 +27,11 @@ public:
 	virtual Vector3 GetHitNormal(AABBCollision& opponent) override;
 	virtual Vector3 GetHitNormal(OBBCollision& opponent) override;
 	virtual Vector3 GetHitNormal(CapsuleCollision& opponent) override;
+
+	virtual void CollisionEscape(SphereCollision& opponent) override;
+	virtual void CollisionEscape(AABBCollision& opponent) override;
+	virtual void CollisionEscape(OBBCollision& opponent) override;
+	virtual void CollisionEscape(CapsuleCollision& opponent) override;
 private:
 	float m_radius;
 #ifdef _DEBUG

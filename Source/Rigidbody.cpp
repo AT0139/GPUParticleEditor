@@ -9,9 +9,9 @@ static const float GRAVITY = 1.0f;
 
 Rigidbody::Rigidbody(GameObject* pGameObject)
 	: Component(pGameObject)
-	, m_mass(1)
+	, m_mass(0.8f)
 	, m_friction(0.1f)
-	, m_bounciness(0.5f)
+	, m_bounciness(0.8f)
 	, m_gravity(Vector3(0.0f, -0.098f, 0.0f))
 	, m_isTrigger(false)
 	, m_isKinematic(false)
@@ -54,6 +54,7 @@ void Rigidbody::Update()
 		if (pos.y < fieldHeight)
 		{
 			pos.y = fieldHeight;
+			m_velocity.y = 0.0f;
 		}
 
 

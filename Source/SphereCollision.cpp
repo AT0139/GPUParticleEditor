@@ -130,3 +130,44 @@ Vector3 SphereCollision::GetHitNormal(CapsuleCollision& opponent)
 {
 	return Vector3(0, 0, 0);
 }
+
+void SphereCollision::CollisionEscape(SphereCollision& opponent)
+{
+	auto mySphere = this->GetSphereInfo();
+	auto oppSphere = opponent.GetSphereInfo();
+
+	Vector3 normal = mySphere.center - oppSphere.center;
+	normal.Normalize();
+	float Span = mySphere.radius + oppSphere.radius;
+	normal *= Span;
+	auto transform = GetGameObject()->GetComponent<Transform>();
+	Vector3 pos = oppSphere.center + normal;
+	//エスケープはリセット
+	transform->SetWorldPosition(pos);
+}
+
+void SphereCollision::CollisionEscape(AABBCollision& opponent)
+{
+}
+
+void SphereCollision::CollisionEscape(OBBCollision& opponent)
+{
+	auto sphere = GetSphereInfo();
+	auto obb = opponent.GetOBBInfo();
+	Vector3 ret;
+	bool hit = CollisionUtility::ObbSphere(obb, sphere, ret);
+	if (hit)
+	{
+		Vector3 span = sphere.center - ret;
+		span.Normalize();
+		span *= sphere.radius;
+		span += ret;
+		auto transform = GetGameObject()->GetComponent<Transform>();
+		//エスケープはリセット
+		transform->SetWorldPosition(span);
+	}
+}
+
+void SphereCollision::CollisionEscape(CapsuleCollision& opponent)
+{
+}

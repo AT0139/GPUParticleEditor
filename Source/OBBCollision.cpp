@@ -83,6 +83,70 @@ void OBBCollision::SetScale(float scale)
 	SetCollisionScale(temp);
 }
 
+void OBBCollision::CollisionEscape(SphereCollision& opponent)
+{
+	auto obb = GetOBBInfo();
+	auto sphere = opponent.GetSphereInfo();
+	Vector3 ret;
+	bool hit = CollisionUtility::ObbSphere(obb, sphere, ret);
+	if (hit)
+	{
+		Vector3 nowSpan = ret - sphere.center;
+		Vector3 newSpan = nowSpan;
+		newSpan.Normalize();
+		newSpan *= (sphere.radius);
+		auto MoveSpan = newSpan - nowSpan;
+		auto transform = GetGameObject()->GetComponent<Transform>();
+		Vector3 pos, scale;
+		Quaternion rot;
+		auto Pos = transform->GetWorldMatrix().Decompose(scale,rot,pos);
+		pos += MoveSpan;
+		//エスケープはリセット
+		transform->SetWorldPosition(pos);
+	}
+}
+
+void OBBCollision::CollisionEscape(AABBCollision& opponent)
+{
+}
+
+void OBBCollision::CollisionEscape(OBBCollision& opponent)
+{
+	auto myObb = GetOBBInfo();
+	auto oppObb = opponent.GetOBBInfo();
+
+	Vector3 ret;
+	//SrcのOBBとDestの最近接点を得る
+	CollisionUtility::ClosestPtPointOBB(myObb.center, oppObb, ret);
+	Vector3 span = myObb.center - ret;
+	span.Normalize();
+	span *= 0.02f;
+	auto center = myObb.center;
+	int count = 0;
+	while (1)
+	{
+		center += span;
+		myObb.center = center;
+		if (!CollisionUtility::ObbObb(myObb, oppObb))
+		{
+			break;
+		}
+		count++;
+		if (count > 50)
+		{
+			break;
+		}
+	}
+	auto transform = GetGameObject()->GetComponent<Transform>();
+	//エスケープはリセット
+	transform->SetWorldPosition(center);
+}
+
+void OBBCollision::CollisionEscape(CapsuleCollision& opponent)
+{
+
+}
+
 Vector3 OBBCollision::GetHitNormal(SphereCollision& opponent)
 {
 	SphereInfo sp = opponent.GetSphereInfo();

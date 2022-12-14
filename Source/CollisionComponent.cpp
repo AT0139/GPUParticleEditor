@@ -6,7 +6,8 @@
 CollisionComponent::CollisionComponent(GameObject* pGameObject)
 	: Component(pGameObject)
 	, m_isStaticObject(false)
-	, m_collisionScale(Vector3(1.0f,1.0f,1.0f))
+	, m_collisionScale(Vector3(1.0f, 1.0f, 1.0f))
+	, m_hitAction(HitAction::Auto)
 {}
 
 bool CollisionComponent::IsHitObject(GameObject* obj)
@@ -41,7 +42,7 @@ void CollisionComponent::CollisionReset()
 	m_hitObjects.clear();
 }
 
-void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionComponent* col2, Vector3 hitNormal)
+void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionComponent* col2,bool col1Flag,bool col2Frag)
 {
 	//当たっている
 	auto myGameObj = col1->GetGameObject();
@@ -54,43 +55,30 @@ void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionCompon
 	float myMass = myRigidbody->GetMass();
 	float oppMass = oppRigidbody->GetMass();
 
-	Vector3 slide = Slide(myRigidbody->GetVelocity(), hitNormal);
-	myTransform->SetToPrev();
-	auto WorldPos = myTransform->GetWorldPosition() + slide;
-	auto hit = hitNormal;
-	WorldPos += hitNormal * (-1.0f * 0.5f);
-	myTransform->SetWorldPosition(WorldPos);
+	Vector3 myVector = myRigidbody->GetVelocity();
+	Vector3 oppVector = oppRigidbody->GetVelocity();
+
 
 
 	if (!myRigidbody->GetIsTrigger() && !oppRigidbody->GetIsTrigger())
 	{
-		float ResultPower = -(1.0f + myRigidbody->GetBounciness());
-		if (oppRigidbody)
-		{
-			Vector3 RelativeVelo = myRigidbody->GetVelocity() - oppRigidbody->GetVelocity();
-			ResultPower = (-(1.0f + myRigidbody->GetBounciness()) * RelativeVelo.Dot(hitNormal)) /
-				((hitNormal.Dot(hitNormal)) * (1 / myRigidbody->GetMass() + 1 / oppRigidbody->GetMass()));
-		}
-		else
-		{
-			Vector3 RelativeVelo = myRigidbody->GetVelocity();
-			ResultPower = (-(1.0f + myRigidbody->GetBounciness()) * RelativeVelo.Dot(hitNormal)) /
-				(hitNormal.Dot(hitNormal) * (1 / myRigidbody->GetMass()));
-		}
-		auto Velo = myRigidbody->GetVelocity();
-		Velo += (hitNormal * ResultPower) / myRigidbody->GetMass();
-		myRigidbody->SetVelocity(Velo);
 
-		////反発
-		//Vector3 myForce = ((myMass - oppRigidbody->GetBounciness() * oppMass) * myRigidbody->GetVelocity() + (1 + oppRigidbody->GetBounciness()) * oppMass * oppRigidbody->GetVelocity()) / (oppMass + myMass);
-		//myForce *= 0.5f;
-		//myRigidbody->AddForce(myForce);
 
-		//Vector3 oppForce = ((1 + myRigidbody->GetBounciness()) * myMass * myRigidbody->GetVelocity() + (oppMass - myRigidbody->GetBounciness() * myMass) * oppRigidbody->GetVelocity()) / (oppMass + myMass);
-		//oppForce *= 0.5f;
-		//oppRigidbody->AddForce(oppForce);
+		float TotalWeight = myMass + oppMass; // 質量の合計
+		FLOAT RefRate = (1 + myRigidbody->GetBounciness() * myRigidbody->GetBounciness()); // 反発率
+		Vector3 C = oppTransform->GetPosition() - myTransform->GetPosition(); // 衝突軸ベクトル
+		C.Normalize();
+		FLOAT Dot = (myVector - oppVector).Dot(C); // 内積算出
+		Vector3 ConstVec = RefRate * Dot / TotalWeight * C; // 定数ベクトル
+
+
+		myTransform->SetPrevPosition();
+		oppTransform->SetPrevPosition();
+		myRigidbody->SetVelocity(-oppMass * ConstVec + myVector);
+		oppRigidbody->SetVelocity(myMass * ConstVec + oppVector);
+
 	}
-	//todo;ここ違う
+
 	if (!myRigidbody->GetIsTrigger())
 	{
 		//衝突関数の呼び出し

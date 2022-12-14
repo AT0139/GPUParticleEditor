@@ -81,6 +81,22 @@ AABBInfo AABBCollision::GetAABBInfo()
 	return aabb;
 }
 
+void AABBCollision::CollisionEscape(SphereCollision& opponent)
+{
+}
+
+void AABBCollision::CollisionEscape(AABBCollision& opponent)
+{
+}
+
+void AABBCollision::CollisionEscape(OBBCollision& opponent)
+{
+}
+
+void AABBCollision::CollisionEscape(CapsuleCollision& opponent)
+{
+}
+
 Vector3 AABBCollision::GetHitNormal(SphereCollision& opponent)
 {
 	return Vector3();

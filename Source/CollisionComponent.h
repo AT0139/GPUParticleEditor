@@ -47,6 +47,11 @@ struct CapsuleInfo
 	float radius;
 };
 
+enum class HitAction
+{
+	None,
+	Auto,
+};
 
 class CollisionComponent : public Component
 {
@@ -58,7 +63,10 @@ public:
 	virtual void Update() override {}
 	virtual void Draw() override {}
 
+	void SetIsStaticObject(bool is) { m_isStaticObject = is; }
 	bool IsStaticObject()const { return m_isStaticObject; }
+	void SetHitAction(HitAction hitAction) { m_hitAction = hitAction; }
+	HitAction GetHitAction() { return m_hitAction; }
 
 	virtual void CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent) = 0;
 	virtual void HitTest(SphereCollision& opponent) = 0;
@@ -71,6 +79,11 @@ public:
 	virtual Vector3 GetHitNormal(OBBCollision& opponent) = 0;
 	virtual Vector3 GetHitNormal(CapsuleCollision& opponent) = 0;
 
+	virtual void CollisionEscape(SphereCollision& opponent) = 0;
+	virtual void CollisionEscape(AABBCollision& opponent) = 0;
+	virtual void CollisionEscape(OBBCollision& opponent) = 0;
+	virtual void CollisionEscape(CapsuleCollision& opponent) = 0;
+
 	bool IsHitObject(GameObject* obj);
 	bool IsParent(GameObject* obj);
 	void CollisionReset();
@@ -78,7 +91,7 @@ public:
 	void AddHitObject(GameObject& obj) { m_hitObjects.push_back(&obj); }
 	Vector3 GetCollisionScale() { return m_collisionScale; }
 protected:
-	void CollisonAfter(CollisionComponent* col1, CollisionComponent* col2, Vector3 hitNormal);
+	void CollisonAfter(CollisionComponent* col1, CollisionComponent* col2, bool col1Flag, bool col2Frag);
 	void SetCollisionScale(Vector3 scale) { m_collisionScale = scale;}
 
 	template<typename MyType,typename OppType>
@@ -86,17 +99,33 @@ protected:
 	{
 		//衝突相手の登録
 		AddHitObject(*oppCol->GetGameObject());
-		oppCol->AddHitObject(*myCol->GetGameObject());
 
+		bool myAfter = false;
+		bool oppAfter = false;
+
+		if (m_hitAction != HitAction::None)
+		{
+			myAfter = true;
+		}
+		if (!oppCol->IsStaticObject())
+		{
+			oppCol->AddHitObject(*myCol->GetGameObject());
+			if (oppCol->GetHitAction() != HitAction::None)
+			{
+				myAfter = true;
+			}
+		}
+		else
+		{
+			if (m_hitAction != HitAction::None)
+			{
+				CollisionEscape(*oppCol);
+			}
+		}
 		//todo:動かないオブジェクトの追加
 		//衝突処理
 		{
-			Vector3 hitNormal = GetHitNormal(*oppCol);
-			CollisonAfter(oppCol, myCol, hitNormal);
-		}
-		{
-			Vector3 hitNormal = oppCol->GetHitNormal(*myCol);
-			oppCol->CollisonAfter(myCol, oppCol, hitNormal);
+			CollisonAfter(myCol, oppCol, myAfter, oppAfter);
 		}
 	}
 
@@ -114,4 +143,5 @@ private:
 	std::vector<GameObject*> m_hitObjects;
 	bool m_isStaticObject;
 	Vector3 m_collisionScale;
+	HitAction m_hitAction;
 };
