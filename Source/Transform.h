@@ -24,6 +24,7 @@ public:
 
 	void SetPosition(Vector3 position);
 	void SetPrevPosition();
+	void SetNextPosition(Vector3 position);
 	void SetWorldPosition(Vector3 position);
 	void SetQuaternion(Quaternion rotation);
 	void AddQuaternion(Quaternion quat);
@@ -44,6 +45,7 @@ public:
 private:
 	Vector3 m_position;
 	Vector3 m_prevPosition;
+	Vector3 m_nextPosition;
 	Quaternion m_quaternion;
 	Quaternion m_prevQuaternion;
 	Vector3 m_scale;

@@ -72,11 +72,10 @@ void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionCompon
 		Vector3 ConstVec = RefRate * Dot / TotalWeight * C; // 定数ベクトル
 
 
-		myTransform->SetPrevPosition();
-		oppTransform->SetPrevPosition();
+		myTransform->SetNextPosition(myTransform->GetPrevPosition());
+		oppTransform->SetNextPosition(oppTransform->GetPrevPosition());
 		myRigidbody->SetVelocity(-oppMass * ConstVec + myVector);
 		oppRigidbody->SetVelocity(myMass * ConstVec + oppVector);
-
 	}
 
 	if (!myRigidbody->GetIsTrigger())

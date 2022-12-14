@@ -12,11 +12,13 @@ Transform::Transform(GameObject* pGameObject)
 	, m_prevChanged(true)
 	, m_parent(nullptr)
 	, m_pivot(m_position)
+	, m_nextPosition(m_position)
 {}
 
 void Transform::SetPosition(Vector3 position)
 {
 	m_position = position;
+	m_nextPosition = m_position;
 	m_pivot = position;
 	m_changed = true;
 }
@@ -25,6 +27,11 @@ void Transform::SetPrevPosition()
 {
 	m_position = m_prevPosition;
 	m_changed = true;
+}
+
+void Transform::SetNextPosition(Vector3 position)
+{
+	m_nextPosition = position;
 }
 
 void Transform::SetWorldPosition(Vector3 position)
@@ -251,6 +258,7 @@ void Transform::ResetParent()
 void Transform::Update()
 {
 	SetToPrev();
+	m_position = m_nextPosition;
 }
 
 void Transform::Draw()
