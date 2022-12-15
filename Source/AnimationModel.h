@@ -1,12 +1,10 @@
 ﻿#pragma once
 
-#include <unordered_map>
 
 #include <assimp/cimport.h>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <assimp/matrix4x4.h>
-#pragma comment (lib,"assimp.lib")
 
 //変形後頂点構造体
 struct DEFORM_VERTEX

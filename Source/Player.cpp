@@ -18,6 +18,7 @@ namespace MainGame
 		, MOVE_SPEED(0.1f)
 		, ADD_BLENDRATE(0.05f)
 		, JUMP_FORCE(0.8f)
+		, THROW_FORCE(0.1f)
 	{
 		m_tag = TAG::PLAYER;
 
@@ -127,6 +128,7 @@ namespace MainGame
 	{
 
 	}
+
 	void Player::Move()
 	{
 		auto scene = Manager::GetInstance().GetScene();
@@ -196,8 +198,9 @@ namespace MainGame
 		haveRigid->SetIsKinematic(false);
 		haveRigid->SetIsTrigger(false);
 		auto forward = this->GetComponent<Transform>()->GetForward();
+		forward.Normalize();
 		//力を前方向に
-		haveRigid->AddForce(-forward * 0.5f);
+		haveRigid->AddForce(-forward * THROW_FORCE);
 		m_haveObject = nullptr;
 	}
 }

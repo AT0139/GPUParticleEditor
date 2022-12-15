@@ -37,6 +37,7 @@ namespace MainGame
 		const float MOVE_SPEED;
 		const float ADD_BLENDRATE;
 		const float JUMP_FORCE;
+		const float THROW_FORCE;
 
 		int m_frame;
 		static float m_blendRate;
