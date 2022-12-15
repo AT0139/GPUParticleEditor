@@ -12,7 +12,7 @@ Rigidbody::Rigidbody(GameObject* pGameObject)
 	, m_mass(0.8f)
 	, m_friction(0.1f)
 	, m_bounciness(0.8f)
-	, m_gravity(Vector3(0.0f, -0.098f, 0.0f))
+	, m_gravity(Vector3(0.0f, -0.1f, 0.0f))
 	, m_isTrigger(false)
 	, m_isKinematic(false)
 {}
@@ -34,7 +34,7 @@ void Rigidbody::Update()
 			//移動力の計算
 			Vector3 force = m_force / m_mass;
 			m_velocity += force;
-			m_force = Vector3(0.0f, 0.0f, 0.0f);
+			m_force *= 0.9f;
 		}
 
 		//摩擦
@@ -51,7 +51,7 @@ void Rigidbody::Update()
 
 		//フィールド以下には行かないように
 		float fieldHeight = field->GetHeight(pos);
-		if (pos.y < fieldHeight)
+		if (pos.y <= fieldHeight)
 		{
 			pos.y = fieldHeight;
 			m_velocity.y = 0.0f;

@@ -35,7 +35,8 @@ void OBBCollision::CollisionBridge(const std::shared_ptr<CollisionComponent>& op
 
 void OBBCollision::HitTest(SphereCollision& opponent)
 {
-	if (CollisionUtility::ObbSphere(GetOBBInfo(), opponent.GetSphereInfo(),Vector3(0,0,0)))
+	Vector3 temp(0, 0, 0);
+	if (CollisionUtility::ObbSphere(GetOBBInfo(), opponent.GetSphereInfo(),temp))
 	{
 		AfterCollisionTemplate(this, &opponent);
 	}

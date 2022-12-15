@@ -127,7 +127,7 @@ bool CollisionUtility::ObbObb(OBBInfo box1, OBBInfo box2)
 	return true;
 }
 
-bool CollisionUtility::ObbSphere(OBBInfo obb, SphereInfo sphere, Vector3 returnNormal)
+bool CollisionUtility::ObbSphere(OBBInfo obb, SphereInfo sphere, Vector3& returnNormal)
 {
 	ClosestPtPointOBB(sphere.center, obb, returnNormal);
 	Vector3 v = returnNormal - sphere.center;
@@ -150,42 +150,21 @@ bool CollisionUtility::ObbAabb(OBBInfo obb, AABBInfo aabb)
 
 void CollisionUtility::ClosestPtPointOBB(Vector3 point, OBBInfo obb, Vector3& normal)
 {
-	Vector3 dir = point - obb.center;
+	Vector3 d = point - obb.center;
 	normal = obb.center;
 	float dist;
+	for (int i = 0; i < 3; i++)
 	{
-		dist = dir.Dot(obb.rot[0]);
-		if (dist > obb.scaleHalf[0])
+		dist = d.Dot(obb.rot[i]);
+		if (dist > obb.scaleHalf[i])
 		{
-			dist = obb.scaleHalf[0];
+			dist = obb.scaleHalf[i];
 		}
-		if (dist < -obb.scaleHalf[0])
+		if (dist < -obb.scaleHalf[i])
 		{
-			dist = -obb.scaleHalf[0];
+			dist = -obb.scaleHalf[i];
 		}
-		normal += dist * obb.rot[0];
-
-		dist = dir.Dot(obb.rot[1]);
-		if (dist > obb.scaleHalf[1])
-		{
-			dist = obb.scaleHalf[1];
-		}
-		if (dist < -obb.scaleHalf[1])
-		{
-			dist = -obb.scaleHalf[1];
-		}
-		normal += dist * obb.rot[1];
-
-		dist = dir.Dot(obb.rot[2]);
-		if (dist > obb.scaleHalf[2])
-		{
-			dist = obb.scaleHalf[2];
-		}
-		if (dist < -obb.scaleHalf[2])
-		{
-			dist = -obb.scaleHalf[2];
-		}
-		normal += dist * obb.rot[2];
+		normal += dist * obb.rot[i];
 	}
 }
 

@@ -15,6 +15,7 @@ void CollisionManager::Update()
 			//必要な情報を格納
 			CollisionInfo colInfo;
 			colInfo.collision = pCollision;
+
 			m_collisionVector.push_back(colInfo);
 		}
 	}

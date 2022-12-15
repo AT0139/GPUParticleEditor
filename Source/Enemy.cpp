@@ -10,7 +10,7 @@
 Enemy::Enemy()
 {
 	AddComponent<DrawModel>(this)->Load("asset\\model\\torus.obj");
-	AddComponent<SphereCollision>()->SetRadius(0.7f);
+	AddComponent<OBBCollision>()->SetScale(0.7f);
 	AddComponent<Rigidbody>();
 
 	auto transform = GetComponent<Transform>();

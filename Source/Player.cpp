@@ -15,7 +15,12 @@ namespace MainGame
 	float Player::m_blendRate = 0.0f;
 	Player::Player()
 		: m_haveObject(nullptr)
+		, MOVE_SPEED(0.1f)
+		, ADD_BLENDRATE(0.05f)
+		, JUMP_FORCE(0.8f)
 	{
+		m_tag = TAG::PLAYER;
+
 		m_rigid = AddComponent<Rigidbody>();
 		m_rigid->SetMass(1.5f);
 		auto col = AddComponent<OBBCollision>();
@@ -39,10 +44,9 @@ namespace MainGame
 		//m_shadow->SetPosition(m_position);
 		//m_shadow->SetScale(Vector3(2.0f, 1.0f, 2.0f));
 
-		auto tranform = GetComponent<Transform>();
-		tranform->SetScale(Vector3(0.008f, 0.008f, 0.008f));
+		m_transform = GetComponent<Transform>();
+		m_transform->SetScale(Vector3(0.008f, 0.008f, 0.008f));
 
-		m_tag = TAG::PLAYER;
 
 		//当たり判定用子オブジェクト
 		auto scene = Manager::GetInstance().GetScene();
@@ -50,10 +54,12 @@ namespace MainGame
 		auto objRigid = obj->AddComponent<Rigidbody>();
 		objRigid->SetIsTrigger(true);
 		objRigid->SetIsKinematic(true);
-		obj->AddComponent<SphereCollision>()->SetRadius(0.1f);
+		auto objCol = obj->AddComponent<SphereCollision>();
+		objCol->SetRadius(0.1f);
+		objCol->SetHitAction(HitAction::None);
 		auto objTrans = obj->GetComponent<Transform>();
 		objTrans->SetParent(this);
-		objTrans->SetPosition(-tranform->GetForward()* 1.0f);
+		objTrans->SetPosition(-m_transform->GetForward() * 1.0f);
 	}
 
 	Player::~Player()	
@@ -65,26 +71,22 @@ namespace MainGame
 
 	void Player::Update()
 	{
-		auto transform = GetComponent<Transform>();
 		m_model->Update(m_animationName.c_str(), m_blendRate, m_frame);
 		m_frame++;
 
 		Move();
 
+		if (Input::GetKeyTrigger(KEY_CONFIG::JUMP))
+		{
+			Jump();
+		}
+
+		//投げる
 		if (m_haveObject != nullptr)
 		{
 			if (Input::GetKeyRelease(KEY_CONFIG::ACTION))
 			{
-				auto haveTrans = m_haveObject->GetComponent<Transform>();
-				haveTrans->ResetParent();
-				auto haveRigid = m_haveObject->GetComponent<Rigidbody>();
-
-				haveRigid->SetIsKinematic(false);
-				haveRigid->SetIsTrigger(false);
-				auto forward = this->GetComponent<Transform>()->GetForward();
-				//力を前方向に
-				haveRigid->AddForce(-forward * 1);
-				m_haveObject = nullptr;
+				Throw();
 			}
 		}
 	}
@@ -130,7 +132,6 @@ namespace MainGame
 		auto scene = Manager::GetInstance().GetScene();
 		auto camera = scene->GetGameObject<Camera>(scene->CAMERA);
 
-		auto transform = GetComponent<Transform>();
 		Vector3 cameraForward = camera->GetCamaraForward();	//カメラ向き
 		Vector3 cameraRight = camera->GetCamaraRight();	//カメラ向き
 
@@ -144,7 +145,7 @@ namespace MainGame
 			velo += cameraForward * MOVE_SPEED;
 			m_animationName = "Run";
 			
-			transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
+			m_transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
 			m_blendRate += ADD_BLENDRATE;
 		}
 		else if (Input::GetKeyPress(KEY_CONFIG::MOVE_DOWN))
@@ -152,7 +153,7 @@ namespace MainGame
 			velo -= cameraForward * (MOVE_SPEED / 2);
 			m_animationName = "WalkingBack";
 			m_blendRate += ADD_BLENDRATE;
-			transform->SetQuaternion(-Quaternion::LookRotation(cameraForward, Vector3::Up));
+			m_transform->SetQuaternion(-Quaternion::LookRotation(cameraForward, Vector3::Up));
 		}
 		else
 		{
@@ -163,12 +164,12 @@ namespace MainGame
 		if (Input::GetKeyPress(KEY_CONFIG::MOVE_LEFT))
 		{
 			velo -= cameraRight * MOVE_SPEED;
-			transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
+			m_transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
 		}
 		if (Input::GetKeyPress(KEY_CONFIG::MOVE_RIGHT))
 		{
 			velo += cameraRight * MOVE_SPEED;
-			transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
+			m_transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
 		}
 
 		if (m_blendRate > 1.0f)
@@ -177,7 +178,26 @@ namespace MainGame
 			m_blendRate = 0.0f;
 
 		m_rigid->SetVelocity(velo);
+	}
 
 
+	void Player::Jump()
+	{
+		m_rigid->AddForce(Vector3::Up * JUMP_FORCE);
+	}
+
+
+	void Player::Throw()
+	{
+		auto haveTrans = m_haveObject->GetComponent<Transform>();
+		haveTrans->ResetParent();
+
+		auto haveRigid = m_haveObject->GetComponent<Rigidbody>();
+		haveRigid->SetIsKinematic(false);
+		haveRigid->SetIsTrigger(false);
+		auto forward = this->GetComponent<Transform>()->GetForward();
+		//力を前方向に
+		haveRigid->AddForce(-forward * 0.5f);
+		m_haveObject = nullptr;
 	}
 }

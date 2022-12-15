@@ -59,17 +59,15 @@ void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionCompon
 	Vector3 oppVector = oppRigidbody->GetVelocity();
 
 
-
+	//衝突後速度計算
 	if (!myRigidbody->GetIsTrigger() && !oppRigidbody->GetIsTrigger())
 	{
-
-
-		float TotalWeight = myMass + oppMass; // 質量の合計
-		FLOAT RefRate = (1 + myRigidbody->GetBounciness() * myRigidbody->GetBounciness()); // 反発率
-		Vector3 C = oppTransform->GetPosition() - myTransform->GetPosition(); // 衝突軸ベクトル
-		C.Normalize();
-		FLOAT Dot = (myVector - oppVector).Dot(C); // 内積算出
-		Vector3 ConstVec = RefRate * Dot / TotalWeight * C; // 定数ベクトル
+		float totalWeight = myMass + oppMass; // 質量の合計
+		float refRate = (1 + myRigidbody->GetBounciness() * myRigidbody->GetBounciness()); // 反発率
+		Vector3 c = oppTransform->GetPosition() - myTransform->GetPosition(); // 衝突軸ベクトル
+		c.Normalize();
+		float dot = (myVector - oppVector).Dot(c); // 内積算出
+		Vector3 ConstVec = refRate * dot / totalWeight * c; // 定数ベクトル
 
 		if (col1Flag && col2Flag)
 		{
