@@ -15,7 +15,8 @@ public:
 	Vector3 GetVelocity() { return m_velocity; }
 	float GetMass() { return m_mass; }
 	float GetBounciness() { return m_bounciness; }
-	bool GetIsTrigger() { return m_isTrigger; }
+	bool IsTrigger() { return m_isTrigger; }
+	bool IsGround() { return m_isGround; }
 
 	void SetVelocity(Vector3 velocity);
 	void SetVelocityZero();

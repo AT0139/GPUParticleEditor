@@ -22,7 +22,6 @@ bool CollisionUtility::AabbAabb(AABBInfo box1, AABBInfo box2)
 		(box1min.z <= box2max.z && box1max.z >= box2min.z);
 }
 
-
 bool CollisionUtility::ObbObb(OBBInfo box1, OBBInfo box2)
 {
 	const float EPSILON = 1.175494e-37f;

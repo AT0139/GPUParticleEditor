@@ -58,9 +58,8 @@ void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionCompon
 	Vector3 myVector = myRigidbody->GetVelocity();
 	Vector3 oppVector = oppRigidbody->GetVelocity();
 
-
 	//衝突後速度計算
-	if (!myRigidbody->GetIsTrigger() && !oppRigidbody->GetIsTrigger())
+	if (!myRigidbody->IsTrigger() && !oppRigidbody->IsTrigger())
 	{
 		float totalWeight = myMass + oppMass; // 質量の合計
 		float refRate = (1 + myRigidbody->GetBounciness() * myRigidbody->GetBounciness()); // 反発率
@@ -78,7 +77,7 @@ void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionCompon
 		}
 	}
 
-	if (!myRigidbody->GetIsTrigger())
+	if (!myRigidbody->IsTrigger())
 	{
 		//衝突関数の呼び出し
 		oppGameObj->OnCollision(myGameObj);
@@ -89,7 +88,7 @@ void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionCompon
 		oppGameObj->OnTrigger(myGameObj);
 	}
 
-	if (!oppRigidbody->GetIsTrigger())
+	if (!oppRigidbody->IsTrigger())
 	{
 		//衝突関数の呼び出し
 		myGameObj->OnCollision(oppGameObj);
@@ -103,7 +102,6 @@ void CollisionComponent::CollisonAfter(CollisionComponent* col1, CollisionCompon
 
 PlaneInfo AABBInfo::GetPlane(GameObject* gameObject)
 {
-
 	//面のベクトル
 	Vector3 point0 = center;
 	float MakedHalfX = scaleHalf.x;

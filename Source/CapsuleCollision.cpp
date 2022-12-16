@@ -65,8 +65,6 @@ void CapsuleCollision::HitTest(OBBCollision& opponent)
 	//}
 }
 
-
-
 CapsuleInfo CapsuleCollision::GetCapsuleInfo()
 {
 	CapsuleInfo cap;
@@ -79,7 +77,6 @@ CapsuleInfo CapsuleCollision::GetCapsuleInfo()
 void CapsuleCollision::SetRadius(float rad)
 {
 	m_radius = rad;
-
 }
 
 Vector3 CapsuleCollision::GetHitNormal(SphereCollision& opponent)

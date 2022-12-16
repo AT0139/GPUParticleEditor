@@ -36,7 +36,7 @@ void OBBCollision::CollisionBridge(const std::shared_ptr<CollisionComponent>& op
 void OBBCollision::HitTest(SphereCollision& opponent)
 {
 	Vector3 temp(0, 0, 0);
-	if (CollisionUtility::ObbSphere(GetOBBInfo(), opponent.GetSphereInfo(),temp))
+	if (CollisionUtility::ObbSphere(GetOBBInfo(), opponent.GetSphereInfo(), temp))
 	{
 		AfterCollisionTemplate(this, &opponent);
 	}
@@ -107,7 +107,7 @@ void OBBCollision::CollisionEscape(SphereCollision& opponent)
 		auto transform = GetGameObject()->GetComponent<Transform>();
 		Vector3 pos, scale;
 		Quaternion rot;
-		auto Pos = transform->GetWorldMatrix().Decompose(scale,rot,pos);
+		auto Pos = transform->GetWorldMatrix().Decompose(scale, rot, pos);
 		pos += MoveSpan;
 		//エスケープはリセット
 		transform->SetWorldPosition(pos);
@@ -152,7 +152,6 @@ void OBBCollision::CollisionEscape(OBBCollision& opponent)
 
 void OBBCollision::CollisionEscape(CapsuleCollision& opponent)
 {
-
 }
 
 Vector3 OBBCollision::GetHitNormal(SphereCollision& opponent)

@@ -317,17 +317,17 @@ void Model::LoadObj(const char* FileName, MODEL* Model)
 				(void)fscanf(file, "%s", str);
 
 				s = strtok(str, "/");
-				Model->vertexArray[vc].Position = positionArray[atoi(s) - 1];
+				Model->vertexArray[vc].position = positionArray[atoi(s) - 1];
 				if (s[strlen(s) + 1] != '/')
 				{
 					//テクスチャ座標が存在しない場合もある
 					s = strtok(NULL, "/");
-					Model->vertexArray[vc].TexCoord = texcoordArray[atoi(s) - 1];
+					Model->vertexArray[vc].texCoord = texcoordArray[atoi(s) - 1];
 				}
 				s = strtok(NULL, "/");
-				Model->vertexArray[vc].Normal = normalArray[atoi(s) - 1];
+				Model->vertexArray[vc].normal = normalArray[atoi(s) - 1];
 
-				Model->vertexArray[vc].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+				Model->vertexArray[vc].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 
 				Model->indexArray[ic] = vc;
 				ic++;
@@ -427,10 +427,10 @@ void Model::LoadMaterial(const char* FileName, MODEL_MATERIAL** MaterialArray, u
 		else if (strcmp(str, "Kd") == 0)
 		{
 			//ディフューズ
-			(void)fscanf(file, "%f", &materialArray[mc].material.Diffuse.x);
-			(void)fscanf(file, "%f", &materialArray[mc].material.Diffuse.y);
-			(void)fscanf(file, "%f", &materialArray[mc].material.Diffuse.z);
-			materialArray[mc].material.Diffuse.w = 1.0f;				 
+			(void)fscanf(file, "%f", &materialArray[mc].material.diffuse.x);
+			(void)fscanf(file, "%f", &materialArray[mc].material.diffuse.y);
+			(void)fscanf(file, "%f", &materialArray[mc].material.diffuse.z);
+			materialArray[mc].material.diffuse.w = 1.0f;				 
 		}
 		else if (strcmp(str, "Ks") == 0)
 		{
@@ -448,7 +448,7 @@ void Model::LoadMaterial(const char* FileName, MODEL_MATERIAL** MaterialArray, u
 		else if (strcmp(str, "d") == 0)
 		{
 			//アルファ
-			(void)fscanf(file, "%f", &materialArray[mc].material.Diffuse.w);
+			(void)fscanf(file, "%f", &materialArray[mc].material.diffuse.w);
 		}
 		else if (strcmp(str, "map_Kd") == 0)
 		{

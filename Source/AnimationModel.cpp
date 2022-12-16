@@ -36,10 +36,10 @@ void AnimationModel::Load(const char* FileName)
 
 			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
 			{
-				vertex[v].Position = Vector3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z);
-				vertex[v].Normal = Vector3(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z);
-				vertex[v].TexCoord = Vector2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
-				vertex[v].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+				vertex[v].position = Vector3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z);
+				vertex[v].normal = Vector3(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z);
+				vertex[v].texCoord = Vector2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
+				vertex[v].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 			}
 
 			D3D11_BUFFER_DESC bd;
@@ -93,8 +93,8 @@ void AnimationModel::Load(const char* FileName)
 		for (unsigned int v = 0; v < mesh->mNumVertices; v++)
 		{
 			DEFORM_VERTEX deformVertex;
-			deformVertex.Position = mesh->mVertices[v];
-			deformVertex.Normal = mesh->mNormals[v];
+			deformVertex.position = mesh->mVertices[v];
+			deformVertex.normal = mesh->mNormals[v];
 			deformVertex.BoneNum = 0;
 
 			for (unsigned int b = 0; b < 4; b++)
@@ -399,30 +399,30 @@ void AnimationModel::Update(const char* animationName, float blendRate, int fram
 					matrix[3].d4 * deformVertex->BoneWeight[3];
 			}
 
-			deformVertex->Position = mesh->mVertices[v];
-			deformVertex->Position *= outMatrix;
+			deformVertex->position = mesh->mVertices[v];
+			deformVertex->position *= outMatrix;
 
 			//法線返還ように移動成分を削除
 			outMatrix.a4 = 0.0f;
 			outMatrix.b4 = 0.0f;
 			outMatrix.c4 = 0.0f;
 
-			deformVertex->Normal = mesh->mNormals[v];
-			deformVertex->Normal *= outMatrix;
+			deformVertex->normal = mesh->mNormals[v];
+			deformVertex->normal *= outMatrix;
 
 			//頂点バッファへ書き込み
-			vertex[v].Position.x = deformVertex->Position.x;
-			vertex[v].Position.y = deformVertex->Position.y;
-			vertex[v].Position.z = deformVertex->Position.z;
+			vertex[v].position.x = deformVertex->position.x;
+			vertex[v].position.y = deformVertex->position.y;
+			vertex[v].position.z = deformVertex->position.z;
 
-			vertex[v].Normal.x = deformVertex->Normal.x;
-			vertex[v].Normal.y = deformVertex->Normal.y;
-			vertex[v].Normal.z = deformVertex->Normal.z;
+			vertex[v].normal.x = deformVertex->normal.x;
+			vertex[v].normal.y = deformVertex->normal.y;
+			vertex[v].normal.z = deformVertex->normal.z;
 
-			vertex[v].TexCoord.x = mesh->mTextureCoords[0][v].x;
-			vertex[v].TexCoord.y = mesh->mTextureCoords[0][v].y;
+			vertex[v].texCoord.x = mesh->mTextureCoords[0][v].x;
+			vertex[v].texCoord.y = mesh->mTextureCoords[0][v].y;
 
-			vertex[v].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[v].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 		Renderer::GetInstance().GetDeviceContext()->Unmap(m_vertexBuffer[m], 0);
 	}
@@ -436,7 +436,7 @@ void AnimationModel::Draw()
 	//マテリアル設定 FBXから取り出していないのでついか　現在定数
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
+	material.diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	material.Ambient = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	Renderer::GetInstance().SetMaterial(material);
 

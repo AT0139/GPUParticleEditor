@@ -41,7 +41,7 @@ void Transform::SetWorldPosition(Vector3 position)
 	if (parent) {
 		auto parentWorld = parent->GetComponent<Transform>()->GetWorldMatrix();
 		Quaternion quat;
-		Vector3 temp,parentPos;
+		Vector3 temp, parentPos;
 		parentWorld.Decompose(temp, quat, parentPos);
 		setPos -= parentPos;
 		quat.Inverse(quat);
@@ -227,7 +227,7 @@ void Transform::SetParent(GameObject* parent)
 		Quaternion quatSpan;
 		Vector3 temp;
 		parentWorld.Decompose(temp, quatSpan, temp);
-		
+
 		quatSpan.Inverse(quatSpan);
 		Matrix parentQuatMatrix;
 		parentQuatMatrix.CreateFromQuaternion(quatSpan);

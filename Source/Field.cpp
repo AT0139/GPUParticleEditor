@@ -7,25 +7,25 @@ Field::Field()
 {
 	VERTEX_3D vertex[4];
 
-	vertex[0].Position = Vector3(-10.0f, 0.0f, 10.0f);
-	vertex[0].Normal = Vector3(0.0f, 1.0f, 0.0f);
-	vertex[0].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[0].TexCoord = Vector2(0.0f, 0.0f);
+	vertex[0].position = Vector3(-10.0f, 0.0f, 10.0f);
+	vertex[0].normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[0].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[0].texCoord = Vector2(0.0f, 0.0f);
 
-	vertex[1].Position = Vector3(10.0f, 0.0f, 10.0f);
-	vertex[1].Normal = Vector3(0.0f, 1.0f, 0.0f);
-	vertex[1].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[1].TexCoord = Vector2(10.0f, 0.0f);
+	vertex[1].position = Vector3(10.0f, 0.0f, 10.0f);
+	vertex[1].normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[1].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[1].texCoord = Vector2(10.0f, 0.0f);
 
-	vertex[2].Position = Vector3(-10.0f, 0.0f, -10.0f);
-	vertex[2].Normal = Vector3(0.0f, 1.0f, 0.0f);
-	vertex[2].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[2].TexCoord = Vector2(0.0f, 10.0f);
+	vertex[2].position = Vector3(-10.0f, 0.0f, -10.0f);
+	vertex[2].normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[2].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[2].texCoord = Vector2(0.0f, 10.0f);
 
-	vertex[3].Position = Vector3(10.0f, 0.0f, -10.0f);
-	vertex[3].Normal = Vector3(0.0f, 1.0f, 0.0f);
-	vertex[3].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[3].TexCoord = Vector2(10.0f, 10.0f);
+	vertex[3].position = Vector3(10.0f, 0.0f, -10.0f);
+	vertex[3].normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[3].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[3].texCoord = Vector2(10.0f, 10.0f);
 
 	//頂点バッファ生成
 	D3D11_BUFFER_DESC bd;
@@ -90,7 +90,7 @@ void Field::Draw()
 	//マテリアル設定
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
+	material.diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	Renderer::GetInstance().SetMaterial(material);
 
 	//テクスチャ設定

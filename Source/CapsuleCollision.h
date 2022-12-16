@@ -3,7 +3,7 @@
 #include "CollisionComponent.h"
 
 //todo:作成
-class CapsuleCollision	 : public CollisionComponent
+class CapsuleCollision : public CollisionComponent
 {
 public:
 	CapsuleCollision(GameObject* pGameObject);

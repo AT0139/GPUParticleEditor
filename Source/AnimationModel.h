@@ -9,8 +9,8 @@
 //変形後頂点構造体
 struct DEFORM_VERTEX
 {
-	aiVector3D Position;
-	aiVector3D Normal;
+	aiVector3D position;
+	aiVector3D normal;
 	int BoneNum;
 	std::string BoneName[4];	//本来はボーンインデックスで管理すべき
 	float BoneWeight[4];

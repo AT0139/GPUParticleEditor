@@ -2,6 +2,8 @@
 
 #include "GameObject.h"
 
+class Draw2DPolygon;
+
 class Polygon2D : public GameObject
 {
 public:
@@ -11,11 +13,8 @@ public:
 	virtual void Draw()override;
 
 private:
+	std::shared_ptr<Draw2DPolygon> m_polygon;
 
-	ID3D11Buffer* m_vertexBuffer = NULL;
-	ID3D11ShaderResourceView* m_texture = NULL;
-
-	ID3D11VertexShader* m_vertexShader;
-	ID3D11PixelShader* m_pixelShader;
-	ID3D11InputLayout* m_vertexLayout;
+	Vector2 m_position;
+	float m_alpha;
 };

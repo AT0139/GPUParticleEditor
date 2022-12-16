@@ -92,9 +92,9 @@ public:
 	Vector3 GetCollisionScale() { return m_collisionScale; }
 protected:
 	void CollisonAfter(CollisionComponent* col1, CollisionComponent* col2, bool col1Flag, bool col2Flag);
-	void SetCollisionScale(Vector3 scale) { m_collisionScale = scale;}
+	void SetCollisionScale(Vector3 scale) { m_collisionScale = scale; }
 
-	template<typename MyType,typename OppType>
+	template<typename MyType, typename OppType>
 	void AfterCollisionTemplate(MyType* myCol, OppType* oppCol)
 	{
 		//衝突相手の登録

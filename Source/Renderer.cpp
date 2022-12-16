@@ -202,12 +202,12 @@ void Renderer::Init()
 	light.Direction = Vector4(1.0f, -1.0f, 1.0f, 0.0f);
 	light.Direction = XMVector4Normalize(light.Direction);
 	light.Ambient = Color(0.2f, 0.2f, 0.2f, 1.0f);
-	light.Diffuse = Color(2.0f, 2.0f, 2.0f, 1.0f);
+	light.diffuse = Color(2.0f, 2.0f, 2.0f, 1.0f);
 	SetLight(light);
 
 	// マテリアル初期化
 	MATERIAL material{};
-	material.Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
+	material.diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	material.Ambient = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 

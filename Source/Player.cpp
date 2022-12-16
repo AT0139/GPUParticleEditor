@@ -77,7 +77,7 @@ namespace MainGame
 
 		Move();
 
-		if (Input::GetKeyTrigger(KEY_CONFIG::JUMP))
+		if (Input::GetKeyTrigger(KEY_CONFIG::JUMP) && m_rigid->IsGround())
 		{
 			Jump();
 		}

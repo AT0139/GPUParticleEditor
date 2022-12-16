@@ -11,7 +11,7 @@ enum class RASTERIZER
 struct MATERIAL
 {
 	Color	Ambient;
-	Color	Diffuse;
+	Color	diffuse;
 	Color	Specular;
 	Color	Emission;
 	float		Shininess;
@@ -23,7 +23,7 @@ struct LIGHT
 	BOOL		Enable;
 	BOOL		Dummy[3];
 	Vector4	Direction;
-	Color	Diffuse;
+	Color	diffuse;
 	Color	Ambient;
 };
 

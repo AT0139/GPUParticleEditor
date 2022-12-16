@@ -38,7 +38,6 @@ void Rigidbody::Update()
 			m_force *= 0.9f;
 		}
 
-	
 		//摩擦
 		Vector3 fricForce = m_velocity * -1;
 		fricForce *= m_friction;
@@ -62,8 +61,6 @@ void Rigidbody::Update()
 		}
 		else
 			m_isGround = false;
-
-
 
 		transform->SetPosition(pos);
 	}

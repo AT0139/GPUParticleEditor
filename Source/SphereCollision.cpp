@@ -84,7 +84,7 @@ void SphereCollision::HitTest(AABBCollision& opponent)
 void SphereCollision::HitTest(OBBCollision& opponent)
 {
 	Vector3 temp;
-	if (CollisionUtility::ObbSphere(opponent.GetOBBInfo(), GetSphereInfo(),temp))
+	if (CollisionUtility::ObbSphere(opponent.GetOBBInfo(), GetSphereInfo(), temp))
 	{
 		AfterCollisionTemplate(this, &opponent);
 	}
@@ -96,7 +96,7 @@ void SphereCollision::HitTest(CapsuleCollision& opponent)
 
 Vector3 SphereCollision::GetHitNormal(SphereCollision& opponent)
 {
-	SphereInfo sphere= GetSphereInfo();
+	SphereInfo sphere = GetSphereInfo();
 	SphereInfo oppSphere = opponent.GetSphereInfo();
 	//接点へのベクトル
 	Vector3 normal = sphere.center - oppSphere.center;
@@ -120,7 +120,7 @@ Vector3 SphereCollision::GetHitNormal(OBBCollision& opponent)
 	SphereInfo sp = GetSphereInfo();
 	OBBInfo obb = opponent.GetOBBInfo();
 	Vector3 normal;
-	CollisionUtility::ObbSphere(obb,sp, normal);
+	CollisionUtility::ObbSphere(obb, sp, normal);
 	//接点へのベクトル
 	normal -= sp.center;
 	normal.Normalize();
@@ -165,7 +165,6 @@ void SphereCollision::CollisionEscape(OBBCollision& opponent)
 	auto transform = GetGameObject()->GetComponent<Transform>();
 
 	transform->SetWorldPosition(span);
-
 }
 
 void SphereCollision::CollisionEscape(CapsuleCollision& opponent)
