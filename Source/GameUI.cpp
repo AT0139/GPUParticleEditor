@@ -3,7 +3,7 @@
 #include "Input.h"
 #include "Manager.h"
 #include "Scene.h"
-#include "Enemy.h"
+#include "Wall.h"
 #include "Camera.h"
 #include "MeshField.h"
 #include "Renderer.h"
@@ -39,7 +39,7 @@ void GameUI::Update()
 		m_pPlacementUI->ResetIsCreate();
 		//オブジェクトの作成
 		auto scene = Manager::GetInstance().GetScene();
-		m_pPlaceObject = scene->AddGameObject<Enemy>(scene->OBJECT);
+		m_pPlaceObject = scene->AddGameObject<Wall>(scene->OBJECT);
 		m_pPlacementUI->SetHidden(true);
 	}
 	//設置物がnullじゃない場合

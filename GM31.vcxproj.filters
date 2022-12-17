@@ -29,6 +29,9 @@
     <Filter Include="ソース ファイル\Shader">
       <UniqueIdentifier>{6b9d3d32-c1ed-4e1b-89a8-7960c7d60b43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Component\Draw">
+      <UniqueIdentifier>{258de4d3-7a10-4270-b351-2cd560ad3cbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene.h">
@@ -103,9 +106,6 @@
     <ClInclude Include="Source\Main.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DrawModel.h">
-      <Filter>ソース ファイル\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Component.h">
       <Filter>ソース ファイル\Component</Filter>
     </ClInclude>
@@ -114,9 +114,6 @@
     </ClInclude>
     <ClInclude Include="Source\stdafx.h">
       <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DrawBillboard.h">
-      <Filter>ソース ファイル\Component</Filter>
     </ClInclude>
     <ClInclude Include="Source\Bullet.h">
       <Filter>ソース ファイル\Object</Filter>
@@ -172,17 +169,26 @@
     <ClInclude Include="Source\CapsuleCollision.h">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Draw2DPolygon.h">
-      <Filter>ソース ファイル\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Source\ObjectPlacementUI.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameUI.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Draw2DPolygon.h">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DrawBillboard.h">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
     <ClInclude Include="Source\DrawGeometry.h">
-      <Filter>ソース ファイル\Component</Filter>
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DrawModel.h">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -264,12 +270,6 @@
     <ClCompile Include="Source\stdafx.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DrawModel.cpp">
-      <Filter>ソース ファイル\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DrawBillboard.cpp">
-      <Filter>ソース ファイル\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Explosion.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
@@ -318,9 +318,6 @@
     <ClCompile Include="Source\CapsuleCollision.cpp">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Draw2DPolygon.cpp">
-      <Filter>ソース ファイル\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Utility.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -330,8 +327,20 @@
     <ClCompile Include="Source\GameUI.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Draw2DPolygon.cpp">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DrawBillboard.cpp">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClCompile>
     <ClCompile Include="Source\DrawGeometry.cpp">
-      <Filter>ソース ファイル\Component</Filter>
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DrawModel.cpp">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

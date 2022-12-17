@@ -12,6 +12,7 @@
 ObjectPlacementUI::ObjectPlacementUI()
 	: m_isCreate(false)
 {
+	//todo: マスタ化
 	m_backGround = AddComponent<Draw2DPolygon>(this);
 	m_backGround->LoadTexture(L"asset/texture/Black.jpg");
 	m_backGround->SetPosition(Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f));
@@ -19,9 +20,9 @@ ObjectPlacementUI::ObjectPlacementUI()
 	m_backGround->SetAlpha(0.4f);
 
 	m_icon = AddComponent<Draw2DPolygon>(this);
-	m_icon->LoadTexture(L"asset/texture/field.jpg");
+	m_icon->LoadTexture(L"asset/texture/Wall.png");
 	m_icon->SetPosition(Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f));
-	m_icon->SetSize(Vector2(100, 100));
+	m_icon->SetSize(Vector2(640, 360));
 }
 
 ObjectPlacementUI::~ObjectPlacementUI()
