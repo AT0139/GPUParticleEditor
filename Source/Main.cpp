@@ -17,6 +17,16 @@ HWND GetWindow()
 
 POINTS GetMousePos()
 {
+	if (g_mousePoint.x >= SCREEN_WIDTH)
+		g_mousePoint.x = SCREEN_WIDTH;
+	if (g_mousePoint.x <= 0.0f)
+		g_mousePoint.x = 0.0f;
+
+	if (g_mousePoint.y >= SCREEN_HEIGHT)
+		g_mousePoint.y = SCREEN_HEIGHT;
+	if (g_mousePoint.y <= 0.0f)
+		g_mousePoint.y = 0.0f;
+
 	return g_mousePoint;
 }
 

@@ -8,7 +8,6 @@
 #include "Manager.h"
 #include "BlankObject.h"
 #include "Camera.h"
-#include "ObjectPlacementUI.h"
 
 namespace MainGame
 {
@@ -61,10 +60,6 @@ namespace MainGame
 		auto objTrans = obj->GetComponent<Transform>();
 		objTrans->SetParent(this);
 		objTrans->SetPosition(-m_transform->GetForward() * 1.0f);
-
-		//UI
-		m_ui = scene->AddGameObject<ObjectPlacementUI>(scene->UI);
-		m_ui->SetHidden(true);
 	}
 
 	Player::~Player()	
@@ -93,15 +88,6 @@ namespace MainGame
 			{
 				Throw();
 			}
-		}
-
-		if (Input::GetKeyTrigger(KEY_CONFIG::OPEN_UI))
-		{
-			m_ui->SetHidden(false);
-		}
-		if (Input::GetKeyRelease(KEY_CONFIG::OPEN_UI))
-		{
-			m_ui->SetHidden(true);
 		}
 	}
 

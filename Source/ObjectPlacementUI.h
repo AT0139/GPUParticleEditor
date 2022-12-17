@@ -3,7 +3,7 @@
 #include "GameObject.h"
 
 class Draw2DPolygon;
-class DrawModel;
+class Enemy;
 
 class ObjectPlacementUI : public GameObject
 {
@@ -15,7 +15,12 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
+	bool IsCreate() { return m_isCreate; }
+	void ResetIsCreate() { m_isCreate = false; }
+
 private:
+	bool m_isCreate;
+
 	std::shared_ptr<Draw2DPolygon> m_backGround;
-	std::shared_ptr<DrawModel> m_obj;
+	std::shared_ptr<Draw2DPolygon> m_icon;
 };

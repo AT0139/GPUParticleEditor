@@ -34,10 +34,11 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
+#define SCREEN_WIDTH	(960)
+#define SCREEN_HEIGHT	(540)
+#define FPS (60)
+
 #include "Utility.h"
 #include "Structures.h"
 
 
-#define SCREEN_WIDTH	(960)
-#define SCREEN_HEIGHT	(540)
-#define FPS (60)

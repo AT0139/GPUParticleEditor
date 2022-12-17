@@ -40,7 +40,7 @@ void DrawModel::Draw()
 	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
 	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
-	////ワールドマトリクス設定
+	//ワールドマトリクス設定
 	Matrix world;
 	if (m_isCollision)
 	{

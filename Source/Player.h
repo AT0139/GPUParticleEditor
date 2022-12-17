@@ -2,8 +2,6 @@
 
 #include "GameObject.h"
 
-class ObjectPlacementUI;
-
 namespace MainGame
 {
 	class Player :public GameObject
@@ -45,7 +43,5 @@ namespace MainGame
 		static float m_blendRate;
 
 		GameObject* m_haveObject;
-
-		ObjectPlacementUI* m_ui;
 	};
 }

@@ -54,6 +54,7 @@ private:
 	ID3D11RasterizerState* m_rasterizerState;
 	ID3D11RasterizerState* m_wireFrameRasterizerState;
 
+	Viewport m_viewport;
 private:
 #ifdef _DEBUG
 	inline static bool show_demo_window = false;
@@ -80,6 +81,8 @@ public:
 	void SetLight(LIGHT Light);
 	void SetCameraPosition(Vector3 pos);
 	void SetRasterizerState(RASTERIZER state);
+
+	Viewport GetViewport();
 
 	ID3D11Device* GetDevice(void) { return m_pDevice; }
 	ID3D11DeviceContext* GetDeviceContext(void) { return m_pDeviceContext; }

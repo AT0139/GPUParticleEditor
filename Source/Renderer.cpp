@@ -85,14 +85,20 @@ void Renderer::Init()
 	m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetView, m_pDepthStencilView);
 
 	// ビューポート設定
-	D3D11_VIEWPORT viewport;
-	viewport.Width = (FLOAT)SCREEN_WIDTH;
-	viewport.Height = (FLOAT)SCREEN_HEIGHT;
-	viewport.MinDepth = 0.0f;
-	viewport.MaxDepth = 1.0f;
-	viewport.TopLeftX = 0;
-	viewport.TopLeftY = 0;
-	m_pDeviceContext->RSSetViewports(1, &viewport);
+	//D3D11_VIEWPORT viewport;
+	//viewport.Width = (FLOAT)SCREEN_WIDTH;
+	//viewport.Height = (FLOAT)SCREEN_HEIGHT;
+	//viewport.MinDepth = 0.0f;
+	//viewport.MaxDepth = 1.0f;
+	//viewport.TopLeftX = 0;
+	//viewport.TopLeftY = 0;
+
+	m_viewport.width = (FLOAT)SCREEN_WIDTH;
+	m_viewport.height = (FLOAT)SCREEN_HEIGHT;
+	m_viewport.minDepth = 0.0f;
+	m_viewport.maxDepth = 1.0f;
+
+	m_pDeviceContext->RSSetViewports(1, m_viewport.Get11());
 
 	// ラスタライザステート設定
 	D3D11_RASTERIZER_DESC rasterizerDesc{};
@@ -353,6 +359,11 @@ void Renderer::SetRasterizerState(RASTERIZER state)
 	default:
 		break;
 	}
+}
+
+Viewport Renderer::GetViewport()
+{
+	return m_viewport;
 }
 
 void Renderer::CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName)

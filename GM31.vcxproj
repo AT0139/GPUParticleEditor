@@ -210,7 +210,6 @@
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\ImGuizmo.h" />
     <ClInclude Include="imgui\imgui_internal.h" />
-    <ClInclude Include="ObjectPlacementUI.h" />
     <ClInclude Include="Source\AABBCollision.h" />
     <ClInclude Include="Source\AnimationModel.h" />
     <ClInclude Include="Source\Audio.h" />
@@ -230,12 +229,14 @@
     <ClInclude Include="Source\Field.h" />
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\GameObject.h" />
+    <ClInclude Include="Source\GameUI.h" />
     <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\Main.h" />
     <ClInclude Include="Source\Manager.h" />
     <ClInclude Include="Source\MeshField.h" />
     <ClInclude Include="Source\Model.h" />
     <ClInclude Include="Source\OBBCollision.h" />
+    <ClInclude Include="Source\ObjectPlacementUI.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Polygon2D.h" />
     <ClInclude Include="Source\Renderer.h" />
@@ -262,7 +263,6 @@
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
-    <ClCompile Include="ObjectPlacementUI.cpp" />
     <ClCompile Include="Source\AABBCollision.cpp" />
     <ClCompile Include="Source\AnimationModel.cpp" />
     <ClCompile Include="Source\Audio.cpp" />
@@ -281,12 +281,14 @@
     <ClCompile Include="Source\Explosion.cpp" />
     <ClCompile Include="Source\Field.cpp" />
     <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\GameUI.cpp" />
     <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Manager.cpp" />
     <ClCompile Include="Source\MeshField.cpp" />
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\OBBCollision.cpp" />
+    <ClCompile Include="Source\ObjectPlacementUI.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Polygon2D.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
@@ -306,6 +308,7 @@
     <ClCompile Include="Source\Title.cpp" />
     <ClCompile Include="Source\Transform.cpp" />
     <ClCompile Include="Source\Tree.cpp" />
+    <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\common.hlsl">

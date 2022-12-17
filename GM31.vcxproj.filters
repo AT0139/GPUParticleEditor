@@ -175,7 +175,10 @@
     <ClInclude Include="Source\Draw2DPolygon.h">
       <Filter>ソース ファイル\Component</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectPlacementUI.h">
+    <ClInclude Include="Source\ObjectPlacementUI.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameUI.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -315,7 +318,13 @@
     <ClCompile Include="Source\Draw2DPolygon.cpp">
       <Filter>ソース ファイル\Component</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectPlacementUI.cpp">
+    <ClCompile Include="Source\Utility.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ObjectPlacementUI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameUI.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

@@ -82,9 +82,9 @@ namespace MainGame
 		Renderer::GetInstance().SetViewMatrix(&m_viewMatrix);
 
 		//プロジェクションマトリクス設定
-		Matrix projectionMatrix = XMMatrixPerspectiveFovLH(1.0f, (float)SCREEN_WIDTH / SCREEN_HEIGHT, 1.0f, 1000.0f);
+		m_projection = XMMatrixPerspectiveFovLH(1.0f, (float)SCREEN_WIDTH / SCREEN_HEIGHT, 1.0f, 1000.0f);
 
-		Renderer::GetInstance().SetProjectionMatrix(&projectionMatrix);
+		Renderer::GetInstance().SetProjectionMatrix(&m_projection);
 	}
 	Vector3 Camera::GetCamaraForward()
 	{

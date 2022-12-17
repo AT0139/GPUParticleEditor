@@ -16,7 +16,7 @@
 #include "ResourceManager.h"
 #include "audio.h"
 #include "Explosion.h"
-#include "BlankObject.h"
+#include "GameUI.h"
 
 namespace MainGame
 {
@@ -31,8 +31,8 @@ namespace MainGame
 		AddGameObject<MeshField>(OBJECT);
 		AddGameObject<Stair>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(10.0f, 5.0f, 10.0f));
 		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(-8.0f, 4.0f, 3.0f));
-		AddGameObject<Tree>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(-5.0f, 5.0f, 0.0f));
-		
+
+		AddGameObject<GameUI>(UI);
 		//Audio* bgm = AddGameObject<Audio>(UI);
 		//bgm->Load("asset\\audio\\bgm.wav");
 		//bgm->Play(true);
@@ -55,5 +55,14 @@ namespace MainGame
 		{
 			Manager::GetInstance().SetScene<Result>();
 		}
+
+#ifdef _DEBUG
+		auto mousePos = GetMousePos();
+		ImGui::Begin("mouse");
+		{
+			ImGui::Text("x = %d y = %d", mousePos.x, mousePos.y);
+		}
+		ImGui::End();
+#endif 
 	}
 }
