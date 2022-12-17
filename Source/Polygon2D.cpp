@@ -4,7 +4,7 @@
 Polygon2D::Polygon2D()
 {
 	m_polygon = AddComponent<Draw2DPolygon>(this);
-	m_polygon->LoadTexture("asset/texture/field.jpg");
+	m_polygon->LoadTexture(L"asset/texture/field.jpg");
 }
 
 Polygon2D::~Polygon2D()
@@ -22,6 +22,14 @@ void Polygon2D::Update()
 
 		ImGui::SliderFloat("alpha", &m_alpha, 0.0f, 1.0f);
 
+
+		ImGui::End();
+	}
+
+	{
+		ImGui::Begin("test");
+
+		ImGui::Text("Test");
 
 		ImGui::End();
 	}

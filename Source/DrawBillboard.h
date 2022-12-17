@@ -12,8 +12,8 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
-	void Load(const char* filePath);
-	void Load(const char* filePath, int xNum, int yNum);
+	void Load(const wchar_t* filePath);
+	void Load(const wchar_t* filePath, int xNum, int yNum);
 private:
 	ID3D11ShaderResourceView* m_texture;
 

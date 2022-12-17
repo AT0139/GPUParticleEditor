@@ -56,7 +56,6 @@ Draw2DPolygon::Draw2DPolygon(GameObject* gameObject)
 Draw2DPolygon::~Draw2DPolygon()
 {
 	m_vertexBuffer->Release();
-	m_texture->Release();
 
 	m_vertexLayout->Release();
 	m_vertexShader->Release();
@@ -149,7 +148,7 @@ void Draw2DPolygon::SetAlpha(float alpha)
 	m_alpha = alpha;
 }
 
-void Draw2DPolygon::LoadTexture(std::string fileName)
+void Draw2DPolygon::LoadTexture(std::wstring fileName)
 {
 	m_texture = ResourceManager::GetInstance().GetTextureData(fileName);
 }

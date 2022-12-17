@@ -148,12 +148,12 @@ void DrawBillboard::Draw()
 	Renderer::GetInstance().GetDeviceContext()->Draw(4, 0);
 }
 
-void DrawBillboard::Load(const char* filePath)
+void DrawBillboard::Load(const wchar_t* filePath)
 {
 	m_texture = ResourceManager::GetInstance().GetTextureData(filePath);
 }
 
-void DrawBillboard::Load(const char* filePath, int xNum, int yNum)
+void DrawBillboard::Load(const wchar_t* filePath, int xNum, int yNum)
 {
 	m_texture = ResourceManager::GetInstance().GetTextureData(filePath);
 

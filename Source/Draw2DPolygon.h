@@ -18,7 +18,7 @@ public:
 	void SetUV(Vector2 uv, Vector2 size);
 	void SetAlpha(float alpha);
 
-	void LoadTexture(std::string fileName);
+	void LoadTexture(std::wstring fileName);
 private:
 	ID3D11Buffer* m_vertexBuffer;
 	ID3D11ShaderResourceView* m_texture;

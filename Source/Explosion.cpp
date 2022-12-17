@@ -11,7 +11,7 @@ namespace MainGame
 {
 	Explosion::Explosion()
 	{
-		AddComponent<DrawBillboard>(this)->Load("asset/texture/explosion.png", 4, 4);
+		AddComponent<DrawBillboard>(this)->Load(L"asset/texture/explosion.png", 4, 4);
 
 		auto transform = GetComponent<Transform>();
 

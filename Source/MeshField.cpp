@@ -97,7 +97,7 @@ namespace MainGame
 		}
 
 		//テクスチャ読み込み
-		m_texture = ResourceManager::GetInstance().GetTextureData("asset/texture/forest.jpg");
+		m_texture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/forest.jpg");
 
 		assert(m_texture);
 
