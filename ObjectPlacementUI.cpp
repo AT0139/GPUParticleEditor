@@ -1,5 +1,6 @@
 ﻿#include "ObjectPlacementUI.h"
 #include "Draw2DPolygon.h"
+#include "DrawModel.h"
 
 ObjectPlacementUI::ObjectPlacementUI()
 {
@@ -9,7 +10,8 @@ ObjectPlacementUI::ObjectPlacementUI()
 	m_backGround->SetSize(Vector2(SCREEN_WIDTH - 200, SCREEN_HEIGHT - 200));
 	m_backGround->SetAlpha(0.4f);
 
-
+	m_obj = AddComponent<DrawModel>(this);
+	//m_obj->Load
 }
 
 ObjectPlacementUI::~ObjectPlacementUI()
