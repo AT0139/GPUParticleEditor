@@ -7,6 +7,16 @@
 #define FIELD_Z (255)
 #define INDEX_NUM (((FIELD_Z + 2) * 2) * FIELD_X - 2)
 
+struct Triangle
+{
+	Triangle() {}
+	Triangle(Vector3 t1, Vector3 t2, Vector3 t3)
+		:tri1(t1), tri2(t2), tri3(t3)
+	{}
+
+	Vector3 tri1, tri2, tri3;
+};
+
 namespace MainGame
 {
 	class MeshField : public GameObject
@@ -18,6 +28,7 @@ namespace MainGame
 		virtual void Draw()override;
 
 		float GetHeight(Vector3 position);
+		void GetTriangles(std::list<Triangle>& ret, Vector3 pos);
 
 	private:
 		bool FileReader(const char* filename);

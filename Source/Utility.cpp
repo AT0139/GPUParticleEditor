@@ -1,4 +1,5 @@
-﻿bool Utility::MouseOver(POINTS mousePos, Vector2 overPos, Vector2 overSize, bool isOverCenter)
+﻿#include "Utility.h"
+bool Utility::MouseOver(POINTS mousePos, Vector2 overPos, Vector2 overSize, bool isOverCenter)
 {
 	//マウスオーバー相手が中心原点だったら
 	if (isOverCenter)
@@ -70,4 +71,19 @@ Vector3 Utility::CalcScreenToWorld(Vector3& pout, int screenX, int screenY, int 
 	pout = p;
 	
 	return pout;
+}
+
+Ray Utility::ScreenPosToRay(int screenX, int screenY, Matrix* view, Matrix* prj)
+{
+	Vector3 nearpos;
+	Vector3 farpos;
+	CalcScreenToWorld(nearpos, screenX, screenY, 0.0f, view, prj);
+	CalcScreenToWorld(farpos, screenX, screenY, 1.0f, view, prj);
+
+	Ray ray;
+	ray.position = nearpos;
+	ray.direction = farpos - nearpos;
+	ray.direction.Normalize();
+
+	return ray;
 }

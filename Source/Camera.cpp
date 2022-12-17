@@ -103,4 +103,6 @@ namespace MainGame
 		
 		return XMVector3Normalize(right);
 	}
+
+
 }

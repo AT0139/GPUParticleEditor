@@ -180,7 +180,7 @@ namespace MainGame
 
 		float py;
 		Vector3 n;
-
+		
 		if (c.y > 0.0f)
 		{
 			Vector3 v10;
@@ -198,6 +198,34 @@ namespace MainGame
 		py = -((position.x - pos1.x) * n.x + (position.z - pos1.z) * n.z) / n.y + pos1.y;
 
 		return py;
+	}
+
+	void MeshField::GetTriangles(std::list<Triangle>& ret, Vector3 pos)
+	{
+		int x, z;
+
+		x = static_cast<int>(pos.x / 5.0f + 10.0f);
+		z = static_cast<int>(pos.z / -5.0f + 10.0f);
+
+		Vector3 pos0, pos1, pos2, pos3;
+		pos0 = m_vertex[x][z].position;
+		pos1 = m_vertex[x + 1][z].position;
+		pos2 = m_vertex[x][z + 1].position;
+		pos3 = m_vertex[x + 1][z + 1].position;
+
+		for (int i = -5; i < 5; i++)
+		{
+			for (int j = -5; j < 5; j++)
+			{
+				pos0 = m_vertex[x + j][z + i].position;
+				pos1 = m_vertex[x + j + 1][z + i].position;
+				pos2 = m_vertex[x + j][z + i + 1].position;
+				pos3 = m_vertex[x + j + 1][z + i + 1].position;
+
+				ret.push_back(Triangle(pos0, pos1, pos2));
+				ret.push_back(Triangle(pos1, pos3, pos2));
+			}
+		}
 	}
 
 	bool MeshField::FileReader(const char* filename)

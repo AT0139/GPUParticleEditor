@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "MeshField.h"
 #include "Renderer.h"
+#include "Player.h"
 
 GameUI::GameUI()
 	: m_pPlaceObject(nullptr)
@@ -54,11 +55,28 @@ void GameUI::Update()
 
 		Matrix view = camera->GetViewMatrix();
 		Matrix proj = camera->GetProjectionMatrix();
-		Utility::CalcScreenToXZ(&pos, mousePos.x, mousePos.y, &view, &proj);
-		pos.y = field->GetHeight(pos);
+
+		Ray ray = Utility::ScreenPosToRay(mousePos.x, mousePos.y, &view, &proj);
+		std::list<Triangle> triangles;
+		auto playerTrans = scene->GetGameObject<MainGame::Player>(scene->OBJECT)->GetComponent<Transform>();
+		field->GetTriangles(triangles, playerTrans->GetPosition());
+
+		float dist = 0;
+		Triangle colTri;
+		for (auto tri : triangles)
+		{
+			if (ray.Intersects(tri.tri1, tri.tri2, tri.tri3, dist))
+			{
+				colTri = tri;
+				break;
+			}
+		}
+
+		pos = ray.position + ray.direction * dist;
 
 		auto trans = m_pPlaceObject->GetComponent<Transform>();
 		trans->SetPosition(pos);
+
 
 		//離されたら
 		if (Input::GetKeyRelease(KEY_CONFIG::MOUSE_L))

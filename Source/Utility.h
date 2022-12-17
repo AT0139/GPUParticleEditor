@@ -22,6 +22,8 @@ namespace Utility
 	Vector3* CalcScreenToXZ(Vector3* pout, int screenX, int screenY, Matrix* view, Matrix* prj);
 	Vector3 CalcScreenToWorld(Vector3& pout, int screenX, int screenY, int farZ,  Matrix* view, Matrix* prj);
 
+	Ray ScreenPosToRay(int screenX, int screenY, Matrix* view, Matrix* prj);
+
 	inline float VECtoFloat(XMVECTOR vec)
 	{
 		float tmp;

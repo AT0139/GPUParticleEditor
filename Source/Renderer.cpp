@@ -217,6 +217,8 @@ void Renderer::Init()
 	material.Ambient = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 
+	//ジオメトリプリミティブ作成
+
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();

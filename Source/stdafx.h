@@ -24,6 +24,8 @@
 #include "SpriteBatch.h"
 #include "WICTextureLoader.h"
 #include "SimpleMath.h"
+#include <GeometricPrimitive.h>
+
 
 #pragma warning(pop)
 
