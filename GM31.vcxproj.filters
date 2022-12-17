@@ -181,6 +181,9 @@
     <ClInclude Include="Source\GameUI.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Source\DrawGeometry.h">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Tree.cpp">
@@ -326,6 +329,9 @@
     </ClCompile>
     <ClCompile Include="Source\GameUI.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DrawGeometry.cpp">
+      <Filter>ソース ファイル\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

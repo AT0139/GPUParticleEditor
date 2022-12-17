@@ -31,8 +31,8 @@ Vector3* Utility::CalcScreenToXZ(Vector3* pout, int screenX, int screenY, Matrix
 	Vector3 nearpos;
 	Vector3 farpos;
 	Vector3 ray;
-	CalcScreenToWorld(nearpos, screenX, screenY, 0.0f, view, prj);
-	CalcScreenToWorld(farpos, screenX, screenY, 1.0f, view, prj);
+	CalcScreenToWorld(nearpos, screenX, screenY, 0, view, prj);
+	CalcScreenToWorld(farpos, screenX, screenY, 1, view, prj);
 
 	ray = farpos - nearpos;
 	ray.Normalize();
@@ -67,7 +67,7 @@ Vector3 Utility::CalcScreenToWorld(Vector3& pout, int screenX, int screenY, int 
 	
 	// 逆変換
 	Matrix tmp = InvViewport * InvPrj * InvView;
-	auto p = Vector3::Transform(Vector3(screenX, screenY, farZ), tmp);
+	auto p = Vector3::Transform(Vector3((float)screenX, (float)screenY, (float)farZ), tmp);
 	pout = p;
 	
 	return pout;
@@ -77,8 +77,8 @@ Ray Utility::ScreenPosToRay(int screenX, int screenY, Matrix* view, Matrix* prj)
 {
 	Vector3 nearpos;
 	Vector3 farpos;
-	CalcScreenToWorld(nearpos, screenX, screenY, 0.0f, view, prj);
-	CalcScreenToWorld(farpos, screenX, screenY, 1.0f, view, prj);
+	CalcScreenToWorld(nearpos, screenX, screenY, 0, view, prj);
+	CalcScreenToWorld(farpos, screenX, screenY, 1, view, prj);
 
 	Ray ray;
 	ray.position = nearpos;
