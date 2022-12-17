@@ -56,11 +56,13 @@ void GameUI::Update()
 		Matrix view = camera->GetViewMatrix();
 		Matrix proj = camera->GetProjectionMatrix();
 
+		//マウス座標からレイを飛ばす
 		Ray ray = Utility::ScreenPosToRay(mousePos.x, mousePos.y, &view, &proj);
 		std::list<Triangle> triangles;
 		auto playerTrans = scene->GetGameObject<MainGame::Player>(scene->OBJECT)->GetComponent<Transform>();
 		field->GetTriangles(triangles, playerTrans->GetPosition());
 
+		//メッシュフィールド上のどのポリゴンにいるか
 		float dist = 0;
 		Triangle colTri;
 		for (auto tri : triangles)
@@ -72,11 +74,14 @@ void GameUI::Update()
 			}
 		}
 
-		pos = ray.position + ray.direction * dist;
+		if (dist >= 1.0f)
+		{
+			//当たりの距離から位置の計算
+			pos = ray.position + ray.direction * dist;
 
-		auto trans = m_pPlaceObject->GetComponent<Transform>();
-		trans->SetPosition(pos);
-
+			auto trans = m_pPlaceObject->GetComponent<Transform>();
+			trans->SetPosition(pos);
+		}
 
 		//離されたら
 		if (Input::GetKeyRelease(KEY_CONFIG::MOUSE_L))
