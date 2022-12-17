@@ -16,6 +16,8 @@ enum class KEY_CONFIG
 	MOUSE_L,
 	MOUSE_R,
 
+	OPEN_UI,
+
 	RETURN,
 
 	MAX

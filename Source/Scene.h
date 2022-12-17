@@ -39,10 +39,13 @@ public:
 		{
 			for (GameObject* object : m_gameObjects[i])
 			{
-				object->Update();
-				object->ComponentUpdate();
-				object->TransformUpdate();
-				object->RigidbodyUpdate();
+				if (!object->IsHidden())
+				{
+					object->Update();
+					object->ComponentUpdate();
+					object->TransformUpdate();
+					object->RigidbodyUpdate();
+				}
 			}
 
 			m_gameObjects[i].remove_if([](GameObject* object) {return object->Destroy(); });
@@ -54,8 +57,11 @@ public:
 		{
 			for (GameObject* object : m_gameObjects[i])
 			{
-				object->Draw();
-				object->ComponentDraw();
+				if (!object->IsHidden())
+				{
+					object->Draw();
+					object->ComponentDraw();
+				}
 			}
 		}
 	}

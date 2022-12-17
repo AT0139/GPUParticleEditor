@@ -204,13 +204,13 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Draw2DPolygon.h" />
     <ClInclude Include="imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="imgui\backends\imgui_impl_win32.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\ImGuizmo.h" />
     <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="ObjectPlacementUI.h" />
     <ClInclude Include="Source\AABBCollision.h" />
     <ClInclude Include="Source\AnimationModel.h" />
     <ClInclude Include="Source\Audio.h" />
@@ -222,6 +222,7 @@
     <ClInclude Include="Source\CollisionManager.h" />
     <ClInclude Include="Source\CollisionUtility.h" />
     <ClInclude Include="Source\Component.h" />
+    <ClInclude Include="Source\Draw2DPolygon.h" />
     <ClInclude Include="Source\DrawBillboard.h" />
     <ClInclude Include="Source\DrawModel.h" />
     <ClInclude Include="Source\Enemy.h" />
@@ -254,7 +255,6 @@
     <ClInclude Include="Source\Utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Draw2DPolygon.cpp" />
     <ClCompile Include="imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -262,6 +262,7 @@
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="ObjectPlacementUI.cpp" />
     <ClCompile Include="Source\AABBCollision.cpp" />
     <ClCompile Include="Source\AnimationModel.cpp" />
     <ClCompile Include="Source\Audio.cpp" />
@@ -273,6 +274,7 @@
     <ClCompile Include="Source\CollisionManager.cpp" />
     <ClCompile Include="Source\CollisionUtility.cpp" />
     <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\Draw2DPolygon.cpp" />
     <ClCompile Include="Source\DrawBillboard.cpp" />
     <ClCompile Include="Source\DrawModel.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />

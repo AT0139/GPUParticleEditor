@@ -159,6 +159,9 @@ public:
 
 	TAG GetTag() { return m_tag; }
 
+	void SetHidden(bool is) { m_isHidden = is; }
+	bool IsHidden() { return m_isHidden; }
+
 protected:
 	TAG m_tag;
 
@@ -182,4 +185,5 @@ private:
 	shared_ptr<CollisionComponent> m_collision;
 	shared_ptr<Rigidbody> m_rigidbody;
 	bool m_destory = false;
+	bool m_isHidden = false;
 };

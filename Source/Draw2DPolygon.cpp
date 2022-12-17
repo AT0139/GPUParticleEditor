@@ -76,22 +76,22 @@ void Draw2DPolygon::Draw()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		vertex[0].position = Vector3(m_position.x, m_position.y, 0.0f);
+		vertex[0].position = Vector3(m_position.x - m_size.x * 0.5f, m_position.y - m_size.y * 0.5f, 0.0f);
 		vertex[0].normal = Vector3(0.0f, 0.0f, 0.0f);
 		vertex[0].diffuse = Vector4(1.0f, 1.0f, 1.0f, m_alpha);
 		vertex[0].texCoord = Vector2(m_uv.x, m_uv.y);
 
-		vertex[1].position = Vector3(m_position.x + m_size.x, m_position.y, 0.0f);
+		vertex[1].position = Vector3(m_position.x + m_size.x * 0.5f, m_position.y - m_size.y * 0.5f, 0.0f);
 		vertex[1].normal = Vector3(0.0f, 0.0f, 0.0f);
 		vertex[1].diffuse = Vector4(1.0f, 1.0f, 1.0f, m_alpha);
 		vertex[1].texCoord = Vector2(m_uv.x + m_uvSize.x, m_uv.y);
 
-		vertex[2].position = Vector3(m_position.x, m_position.y + m_size.y, 0.0f);
+		vertex[2].position = Vector3(m_position.x - m_size.x * 0.5f, m_position.y + m_size.y * 0.5f, 0.0f);
 		vertex[2].normal = Vector3(0.0f, 0.0f, 0.0f);
 		vertex[2].diffuse = Vector4(1.0f, 1.0f, 1.0f, m_alpha);
 		vertex[2].texCoord = Vector2(m_uv.x, m_uv.y + m_uvSize.y);
 
-		vertex[3].position = Vector3(m_position.x + m_size.x, m_position.y + m_size.y, 0.0f);
+		vertex[3].position = Vector3(m_position.x + m_size.x * 0.5f, m_position.y + m_size.y * 0.5f, 0.0f);
 		vertex[3].normal = Vector3(0.0f, 0.0f, 0.0f);
 		vertex[3].diffuse = Vector4(1.0f, 1.0f, 1.0f, m_alpha);
 		vertex[3].texCoord = Vector2(m_uv.x + m_uvSize.x, m_uv.y + m_uvSize.y);
