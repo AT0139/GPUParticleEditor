@@ -61,7 +61,7 @@ void Transform::AddQuaternion(Quaternion quat)
 {
 	if (!XMVector3Equal(Vector3(0.0f, 0.0f, 0.0f), quat))
 	{
-		m_quaternion = XMQuaternionMultiply(m_quaternion, quat);
+		m_quaternion *= quat;
 		m_changed = true;
 	}
 }

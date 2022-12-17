@@ -9,6 +9,8 @@
 #include "Renderer.h"
 #include "Player.h"
 
+static const float ROTATION_SPEED = 0.05f;
+
 GameUI::GameUI()
 	: m_pPlaceObject(nullptr)
 {
@@ -52,6 +54,7 @@ void GameUI::Update()
 		Vector3 pos;
 		auto camera = scene->GetGameObject<MainGame::Camera>(scene->CAMERA);
 		auto field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
+		auto trans = m_pPlaceObject->GetComponent<Transform>();
 
 		Matrix view = camera->GetViewMatrix();
 		Matrix proj = camera->GetProjectionMatrix();
@@ -79,8 +82,17 @@ void GameUI::Update()
 			//当たりの距離から位置の計算
 			pos = ray.position + ray.direction * dist;
 
-			auto trans = m_pPlaceObject->GetComponent<Transform>();
 			trans->SetPosition(pos);
+		}
+
+		//回転
+		if (Input::GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_L))
+		{
+			trans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, -ROTATION_SPEED));
+		}
+		if (Input::GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_R))
+		{
+			trans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, ROTATION_SPEED));
 		}
 
 		//離されたら
