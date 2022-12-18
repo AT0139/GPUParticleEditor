@@ -36,6 +36,8 @@
 
 #include <cereal/cereal.hpp>
 #include <cereal/archives/json.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/types/list.hpp>
 
 
 using namespace DirectX;
@@ -43,6 +45,8 @@ using namespace DirectX::SimpleMath;
 
 #define SCREEN_WIDTH	(960)
 #define SCREEN_HEIGHT	(540)
+#define SCREEN_WIDTH_HALF	(SCREEN_WIDTH * 0.5f)
+#define SCREEN_HEIGHT_HALF	(SCREEN_HEIGHT * 0.5f)
 #define FPS (60)
 
 #include "Utility.h"

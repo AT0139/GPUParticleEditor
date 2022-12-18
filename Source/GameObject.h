@@ -7,6 +7,7 @@
 #include "SphereCollision.h"
 #include "AABBCollision.h"
 #include "OBBCollision.h"
+#include "SerializeComponent.h"
 
 using std::shared_ptr;
 
@@ -15,6 +16,8 @@ enum class TAG
 	NONE,
 	PLAYER,
 	ENEMY,
+	WALL,
+	FLOOR
 };
 
 class GameObject
@@ -39,16 +42,17 @@ public:
 			return false;
 	}
 
-	template<typename T>
+	template<typename T>	
 	shared_ptr<T> GetComponent() const
 	{
-		auto ptr = SearchComponent(std::type_index(typeid(T)));
-		if (ptr)
+		std::shared_ptr<Component> ptr;
+		for (auto comp : m_componentList)
 		{
-			auto pRet = std::dynamic_pointer_cast<T>(ptr);
+			shared_ptr<T> pRet = std::dynamic_pointer_cast<T>(comp);
 			if (pRet)
 				return pRet;
 		}
+
 		return nullptr;
 	}
 
@@ -166,18 +170,6 @@ protected:
 	TAG m_tag;
 
 private:
-	template<typename T>
-	shared_ptr<Component> SearchComponent(std::type_index index)const
-	{
-		for (auto comp : m_componentList)
-		{
-			if (typeid(comp) == typeid(T))
-			{
-				return comp;
-			}
-		}
-		return nullptr;
-	}
 
 	std::list<std::shared_ptr<Component>> m_componentList;
 

@@ -29,7 +29,7 @@ namespace MainGame
 		AddGameObject<SkyDome>(OBJECT);
 		AddGameObject<Player>(OBJECT);
 		AddGameObject<MeshField>(OBJECT);
-		AddGameObject<Stair>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(10.0f, 5.0f, 10.0f));
+		//AddGameObject<Stair>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(10.0f, 5.0f, 10.0f));
 		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(-8.0f, 4.0f, 3.0f));
 
 		AddGameObject<GameUI>(UI);
@@ -38,6 +38,7 @@ namespace MainGame
 		//bgm->Play(true);
 
 		m_collisionManager = std::make_unique<CollisionManager>();
+		m_serializeManger = std::make_unique<SerializeManager>();
 	}
 
 	void Game::Uninit()
@@ -61,6 +62,15 @@ namespace MainGame
 		ImGui::Begin("mouse");
 		{
 			ImGui::Text("x = %d y = %d", mousePos.x, mousePos.y);
+
+			if (ImGui::Button("serialize"))
+			{
+				m_serializeManger->ToSerialize();
+			}
+			if (ImGui::Button("deserialize"))
+			{
+				m_serializeManger->ToDeserialize();
+			}
 		}
 		ImGui::End();
 #endif 

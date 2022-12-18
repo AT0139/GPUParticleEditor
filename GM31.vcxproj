@@ -204,7 +204,6 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Floor.h" />
     <ClInclude Include="imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="imgui\backends\imgui_impl_win32.h" />
     <ClInclude Include="imgui\imconfig.h" />
@@ -229,6 +228,7 @@
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\Explosion.h" />
     <ClInclude Include="Source\Field.h" />
+    <ClInclude Include="Source\Floor.h" />
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\GameUI.h" />
@@ -246,6 +246,8 @@
     <ClInclude Include="Source\Result.h" />
     <ClInclude Include="Source\Rigidbody.h" />
     <ClInclude Include="Source\Scene.h" />
+    <ClInclude Include="Source\SerializeComponent.h" />
+    <ClInclude Include="Source\SerializeManager.h" />
     <ClInclude Include="Source\Singleton.h" />
     <ClInclude Include="Source\SkyDome.h" />
     <ClInclude Include="Source\SphereCollision.h" />
@@ -256,10 +258,9 @@
     <ClInclude Include="Source\Transform.h" />
     <ClInclude Include="Source\Tree.h" />
     <ClInclude Include="Source\Utility.h" />
-    <ClInclude Include="Wall.h" />
+    <ClInclude Include="Source\Wall.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -285,6 +286,7 @@
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\Explosion.cpp" />
     <ClCompile Include="Source\Field.cpp" />
+    <ClCompile Include="Source\Floor.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\GameUI.cpp" />
     <ClCompile Include="Source\Input.cpp" />
@@ -300,6 +302,8 @@
     <ClCompile Include="Source\ResourceManager.cpp" />
     <ClCompile Include="Source\Result.cpp" />
     <ClCompile Include="Source\Rigidbody.cpp" />
+    <ClCompile Include="Source\SerializeComponent.cpp" />
+    <ClCompile Include="Source\SerializeManager.cpp" />
     <ClCompile Include="Source\SkyDome.cpp" />
     <ClCompile Include="Source\SphereCollision.cpp" />
     <ClCompile Include="Source\Stair.cpp" />
@@ -314,7 +318,7 @@
     <ClCompile Include="Source\Transform.cpp" />
     <ClCompile Include="Source\Tree.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
-    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="Source\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\common.hlsl">

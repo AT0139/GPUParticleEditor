@@ -1,4 +1,5 @@
 ﻿#include "Floor.h"
+#include "SerializeComponent.h"
 
 Floor::Floor()
 {
@@ -14,6 +15,10 @@ Floor::Floor()
 	auto collision = AddComponent<OBBCollision>();
 	collision->SetScale(Vector3(3.0f, 0.3f, 3.0f));
 	collision->SetIsStaticObject(true);
+
+	AddComponent<SerializeComponent>(this);
+
+	m_tag = TAG::FLOOR;
 }
 
 Floor::~Floor()

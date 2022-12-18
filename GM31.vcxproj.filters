@@ -64,9 +64,6 @@
     <ClInclude Include="Source\ResourceManager.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Result.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Tree.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -136,9 +133,6 @@
     <ClInclude Include="Source\Rigidbody.h">
       <Filter>ソース ファイル\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Source\CollisionManager.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\CollisionComponent.h">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClInclude>
@@ -187,11 +181,23 @@
     <ClInclude Include="Source\DrawModel.h">
       <Filter>ソース ファイル\Component\Draw</Filter>
     </ClInclude>
-    <ClInclude Include="Wall.h">
+    <ClInclude Include="Source\Result.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Wall.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Floor.h">
+    <ClInclude Include="Source\Floor.h">
       <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CollisionManager.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SerializeManager.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SerializeComponent.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -217,9 +223,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\ResourceManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Result.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Title.cpp">
@@ -291,9 +294,6 @@
     <ClCompile Include="Source\Input.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CollisionManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SphereCollision.cpp">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClCompile>
@@ -342,11 +342,23 @@
     <ClCompile Include="Source\DrawModel.cpp">
       <Filter>ソース ファイル\Component\Draw</Filter>
     </ClCompile>
-    <ClCompile Include="Wall.cpp">
+    <ClCompile Include="Source\Result.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Wall.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Floor.cpp">
+    <ClCompile Include="Source\Floor.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CollisionManager.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SerializeManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SerializeComponent.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

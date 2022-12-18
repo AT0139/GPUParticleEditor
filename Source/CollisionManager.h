@@ -19,7 +19,6 @@ struct CollisionInfo
 class CollisionManager
 {
 public:
-	// GameObject を介して継承されました
 	void Update();
 
 private:
