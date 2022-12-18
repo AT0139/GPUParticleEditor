@@ -8,6 +8,7 @@
 #include "MeshField.h"
 #include "Renderer.h"
 #include "Player.h"
+#include "Floor.h"
 
 static const float ROTATION_SPEED = 0.05f;
 
@@ -36,12 +37,23 @@ void GameUI::Update()
 		m_pPlacementUI->SetHidden(true);
 	}
 	//作成フラグが帰ってきていたら
-	if (m_pPlacementUI->IsCreate())
+	auto createType = m_pPlacementUI->IsCreate();
+	if (createType != OBJECT_TYPE::NONE)
 	{
 		m_pPlacementUI->ResetIsCreate();
 		//オブジェクトの作成
 		auto scene = Manager::GetInstance().GetScene();
-		m_pPlaceObject = scene->AddGameObject<Wall>(scene->OBJECT);
+
+		switch (createType)
+		{
+		case OBJECT_TYPE::WALL:
+			m_pPlaceObject = scene->AddGameObject<Wall>(scene->OBJECT);
+			break;
+		case OBJECT_TYPE::FLOOR:
+			m_pPlaceObject = scene->AddGameObject<Floor>(scene->OBJECT);
+			break;
+
+		}
 		m_pPlacementUI->SetHidden(true);
 
 		auto col = m_pPlaceObject->GetComponent<CollisionComponent>();

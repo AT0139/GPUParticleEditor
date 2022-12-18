@@ -5,6 +5,15 @@
 class Draw2DPolygon;
 class Enemy;
 
+
+enum class OBJECT_TYPE
+{
+	WALL,
+	FLOOR,
+
+	NONE,
+};
+
 class ObjectPlacementUI : public GameObject
 {
 public:
@@ -15,11 +24,11 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
-	bool IsCreate() { return m_isCreate; }
-	void ResetIsCreate() { m_isCreate = false; }
+	OBJECT_TYPE IsCreate() { return m_createObject; }
+	void ResetIsCreate() { m_createObject = OBJECT_TYPE::NONE; }
 
 private:
-	bool m_isCreate;
+	OBJECT_TYPE m_createObject;
 
 	std::shared_ptr<Draw2DPolygon> m_backGround;
 	std::shared_ptr<Draw2DPolygon> m_icon;
