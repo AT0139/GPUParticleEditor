@@ -43,8 +43,8 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-#define SCREEN_WIDTH	(960)
-#define SCREEN_HEIGHT	(540)
+#define SCREEN_WIDTH	(1920)
+#define SCREEN_HEIGHT	(1080)
 #define SCREEN_WIDTH_HALF	(SCREEN_WIDTH * 0.5f)
 #define SCREEN_HEIGHT_HALF	(SCREEN_HEIGHT * 0.5f)
 #define FPS (60)

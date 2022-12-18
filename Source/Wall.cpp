@@ -29,29 +29,8 @@ Wall::~Wall()
 
 void Wall::Update()	
 {
-#ifdef _DEBUG
-	{
-		ImGui::Begin("Wall");
-
-		ImGui::Text("x = %f", GetComponent<Transform>()->GetPosition().x);
-	
-
-		if(ImGui::Button("serialize"))
-		{
-			Cereal();
-		}
-		ImGui::End();
-	}
-#endif
 }
 
 void Wall::Draw()
 {
-}
-
-void Wall::Cereal()
-{
-	std::ofstream os("wall.json", std::ios::out);
-	cereal::JSONOutputArchive archiveFile(os);
-	serialize(archiveFile);
 }

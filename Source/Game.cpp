@@ -57,12 +57,8 @@ namespace MainGame
 			Manager::GetInstance().SetScene<Result>();
 		}
 
-#ifdef _DEBUG
-		auto mousePos = GetMousePos();
-		ImGui::Begin("mouse");
+		ImGui::Begin("Serialize", 0, ImGuiWindowFlags_AlwaysAutoResize);
 		{
-			ImGui::Text("x = %d y = %d", mousePos.x, mousePos.y);
-
 			if (ImGui::Button("serialize"))
 			{
 				m_serializeManger->ToSerialize();
@@ -73,6 +69,6 @@ namespace MainGame
 			}
 		}
 		ImGui::End();
-#endif 
+
 	}
 }
