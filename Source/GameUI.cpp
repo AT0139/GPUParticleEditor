@@ -43,6 +43,12 @@ void GameUI::Update()
 		auto scene = Manager::GetInstance().GetScene();
 		m_pPlaceObject = scene->AddGameObject<Wall>(scene->OBJECT);
 		m_pPlacementUI->SetHidden(true);
+
+		auto col = m_pPlaceObject->GetComponent<CollisionComponent>();
+		if (col)
+		{
+			col->SetIsStaticObject(false);
+		}
 	}
 	//設置物がnullじゃない場合
 	if (m_pPlaceObject)
@@ -87,17 +93,20 @@ void GameUI::Update()
 
 		//回転
 		if (Input::GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_L))
-		{
 			trans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, -ROTATION_SPEED));
-		}
 		if (Input::GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_R))
-		{
 			trans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, ROTATION_SPEED));
-		}
 
 		//離されたら
 		if (Input::GetKeyRelease(KEY_CONFIG::MOUSE_L))
+		{
+			auto col = m_pPlaceObject->GetComponent<CollisionComponent>();
+			if (col)
+			{
+				col->SetIsStaticObject(true);
+			}
 			m_pPlaceObject = nullptr;
+		}
 	}
 
 }

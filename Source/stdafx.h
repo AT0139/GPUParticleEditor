@@ -15,6 +15,7 @@
 #include <memory>
 #include <typeinfo>
 #include <typeindex>
+#include <fstream>
 
 #pragma warning(push)
 #pragma warning(disable:4005)
@@ -32,6 +33,10 @@
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
+
+#include <cereal/cereal.hpp>
+#include <cereal/archives/json.hpp>
+
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
