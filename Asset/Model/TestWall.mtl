@@ -1,0 +1,13 @@
+# Blender 3.4.0 MTL File: 'None'
+# www.blender.org
+
+newmtl マテリアル.005
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd JS-2-2022-12-19-21-14-28-Seamless-Color.png
+map_Bump JS-2-2022-12-19-21-14-28-Seamless-Normal.png

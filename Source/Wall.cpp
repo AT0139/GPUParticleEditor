@@ -12,7 +12,7 @@ Wall::Wall()
 	rigid->SetIsKinematic(true);
 
 	auto model = AddComponent<DrawModel>(this);
-	model->Load("asset\\model\\Wall.obj");
+	model->Load("asset\\model\\TestWall.obj");
 	
 	auto collision = AddComponent<OBBCollision>();
 	collision->SetScale(Vector3(0.4f,5.0f,3.0f));

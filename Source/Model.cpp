@@ -39,6 +39,11 @@ void Model::Draw()
 
 		// テクスチャ設定
 		Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(0, 1, &m_pSubsetArray[i].material.pTexture);
+		if (m_pSubsetArray[i].material.isNormalTexture)
+		{
+			//バンプマップ用テクスチャがあればスロット1に設定
+			Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(1, 1, &m_pSubsetArray[i].material.pNormalTexture);
+		}
 
 		// ポリゴン描画
 		Renderer::GetInstance().GetDeviceContext()->DrawIndexed(m_pSubsetArray[i].indexNum, m_pSubsetArray[i].startIndex, 0);
@@ -95,26 +100,33 @@ void Model::Load(const char* FileName)
 			m_pSubsetArray[i].material.material = model.subsetArray[i].material.material;
 
 			m_pSubsetArray[i].material.pTexture = NULL;
+			m_pSubsetArray[i].material.pNormalTexture = NULL;
 
-			//D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance().GetDevice(),
-			//	model.subsetArray[i].material.textureName,
-			//	NULL,
-			//	NULL,
-			//	&m_pSubsetArray[i].material.pTexture,
-			//	NULL);
+			{
+				wchar_t wFilename[256];
+				const char* name = model.subsetArray[i].material.textureName;
+				mbsrtowcs(wFilename, &name, 256, 0);
 
-			wchar_t wFilename[256];
-			const char* name = model.subsetArray[i].material.textureName;
-			mbsrtowcs(wFilename, &name, 256, 0);
+				//外部ファイルから読み込み
+				HRESULT hr = CreateWICTextureFromFile(Renderer::GetInstance().GetDevice(), wFilename,
+					nullptr, &m_pSubsetArray[i].material.pTexture);
+				assert(SUCCEEDED(hr));
+				assert(m_pSubsetArray[i].material.pTexture);
+			}
 
-			//外部ファイルから読み込み
-			HRESULT hr = CreateWICTextureFromFile(Renderer::GetInstance().GetDevice(), wFilename,
-				nullptr,&m_pSubsetArray[i].material.pTexture);
+			if (model.subsetArray[i].material.isNormalTexture)
+			{
+				wchar_t wFilename[256];
+				const char* name = model.subsetArray[i].material.normalTextureName;
+				mbsrtowcs(wFilename, &name, 256, 0);
 
-			assert(SUCCEEDED(hr));
-			
-
-			assert(m_pSubsetArray[i].material.pTexture);
+				//外部ファイルから読み込み
+				HRESULT hr = CreateWICTextureFromFile(Renderer::GetInstance().GetDevice(), wFilename,
+					nullptr, &m_pSubsetArray[i].material.pNormalTexture);
+				assert(SUCCEEDED(hr));
+				assert(m_pSubsetArray[i].material.pNormalTexture);
+				m_pSubsetArray[i].material.isNormalTexture = true;
+			}
 		}
 	}
 
@@ -299,6 +311,11 @@ void Model::LoadObj(const char* FileName, MODEL* Model)
 				{
 					Model->subsetArray[sc].material.material = materialArray[i].material;
 					strcpy(Model->subsetArray[sc].material.textureName, materialArray[i].textureName);
+					if (materialArray[i].isNormalTexture)
+					{
+						strcpy(Model->subsetArray[sc].material.normalTextureName, materialArray[i].normalTextureName);
+						Model->subsetArray[sc].material.isNormalTexture = true;
+					}
 					strcpy(Model->subsetArray[sc].material.name, materialArray[i].name);
 
 					break;
@@ -410,6 +427,7 @@ void Model::LoadMaterial(const char* FileName, MODEL_MATERIAL** MaterialArray, u
 			mc++;
 			(void)fscanf(file, "%s", materialArray[mc].name);
 			strcpy(materialArray[mc].textureName, "");
+			strcpy(materialArray[mc].normalTextureName, "");
 
 			materialArray[mc].material.Emission.x = 0.0f;
 			materialArray[mc].material.Emission.y = 0.0f;
@@ -462,6 +480,21 @@ void Model::LoadMaterial(const char* FileName, MODEL_MATERIAL** MaterialArray, u
 
 			strcat(materialArray[mc].textureName, path);
 		}
+		else if (strcmp(str, "map_Bump") == 0)
+		{
+			//テクスチャ
+			(void)fscanf(file, "%s", str);
+
+			//法線テクスチャ
+			char path[256];
+			strcpy(path, dir);
+			strcat(path, "\\");
+			strcat(path, str);
+
+			strcat(materialArray[mc].normalTextureName, path);
+			materialArray[mc].isNormalTexture = true;
+		}
+
 	}
 
 	fclose(file);
