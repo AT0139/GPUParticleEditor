@@ -39,6 +39,7 @@ namespace MainGame
 
 		m_collisionManager = std::make_unique<CollisionManager>();
 		m_serializeManger = std::make_unique<SerializeManager>();
+		StaticDataTable::GetInstance();
 	}
 
 	void Game::Uninit()

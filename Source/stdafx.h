@@ -51,5 +51,5 @@ using namespace DirectX::SimpleMath;
 
 #include "Utility.h"
 #include "Structures.h"
-
+#include "StaticDataTable.h"
 
