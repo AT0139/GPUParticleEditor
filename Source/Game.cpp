@@ -53,7 +53,7 @@ namespace MainGame
 		Scene::Update();
 
 		m_collisionManager->Update();
-		if (Input::GetKeyTrigger(KEY_CONFIG::RETURN))
+		if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN))
 		{
 			Manager::GetInstance().SetScene<Result>();
 		}

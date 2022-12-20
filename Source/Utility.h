@@ -17,12 +17,12 @@ namespace Utility
 		return nullptr;
 	}
 
-	bool MouseOver(POINTS mousePos, Vector2 overPos, Vector2 overSize,bool isOverCenter = true);
+	bool MouseOver(Vector2 mousePos, Vector2 overPos, Vector2 overSize,bool isOverCenter = true);
 
-	Vector3* CalcScreenToXZ(Vector3* pout, int screenX, int screenY, Matrix* view, Matrix* prj);
-	Vector3 CalcScreenToWorld(Vector3& pout, int screenX, int screenY, int farZ,  Matrix* view, Matrix* prj);
+	Vector3* CalcScreenToXZ(Vector3* pout, float screenX, float screenY, Matrix* view, Matrix* prj);
+	Vector3 CalcScreenToWorld(Vector3& pout, float screenX, float screenY, int farZ,  Matrix* view, Matrix* prj);
 
-	Ray ScreenPosToRay(int screenX, int screenY, Matrix* view, Matrix* prj);
+	Ray ScreenPosToRay(float screenX, float screenY, Matrix* view, Matrix* prj);
 
 	inline float VECtoFloat(XMVECTOR vec)
 	{

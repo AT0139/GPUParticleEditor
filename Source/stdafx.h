@@ -48,6 +48,7 @@ using namespace DirectX::SimpleMath;
 #define SCREEN_WIDTH_HALF	(SCREEN_WIDTH * 0.5f)
 #define SCREEN_HEIGHT_HALF	(SCREEN_HEIGHT * 0.5f)
 #define FPS (60)
+#define GET_INPUT Input::GetInstance()
 
 #include "Utility.h"
 #include "Structures.h"

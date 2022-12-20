@@ -28,11 +28,11 @@ GameUI::~GameUI()
 void GameUI::Update()
 {
 	//UIを開く
-	if (Input::GetKeyTrigger(KEY_CONFIG::OPEN_UI))
+	if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::OPEN_UI))
 	{
 		m_pPlacementUI->SetHidden(false);
 	}
-	if (Input::GetKeyRelease(KEY_CONFIG::OPEN_UI))
+	if (GET_INPUT.GetKeyRelease(KEY_CONFIG::OPEN_UI))
 	{
 		m_pPlacementUI->SetHidden(true);
 	}
@@ -65,7 +65,7 @@ void GameUI::Update()
 	//設置物がnullじゃない場合
 	if (m_pPlaceObject)
 	{
-		auto mousePos = GetMousePos();
+		auto mousePos = GET_INPUT.GetMousePoint();
 		auto scene = Manager::GetInstance().GetScene();
 
 		//マウスポジションから座標を計算
@@ -104,13 +104,13 @@ void GameUI::Update()
 		}
 
 		//回転
-		if (Input::GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_L))
+		if (GET_INPUT.GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_L))
 			trans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, -ROTATION_SPEED));
-		if (Input::GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_R))
+		if (GET_INPUT.GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_R))
 			trans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, ROTATION_SPEED));
 
 		//離されたら
-		if (Input::GetKeyRelease(KEY_CONFIG::MOUSE_L))
+		if (GET_INPUT.GetKeyRelease(KEY_CONFIG::MOUSE_L))
 		{
 			auto col = m_pPlaceObject->GetComponent<CollisionComponent>();
 			if (col)

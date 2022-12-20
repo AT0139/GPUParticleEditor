@@ -1,7 +1,10 @@
 ﻿#pragma once
 
+#include "Singleton.h"
+
 #define KEY_NUM 256
 #define KEY_CONFIG_ASSIGN_NUM 4
+
 
 enum class KEY_CONFIG
 {
@@ -46,20 +49,28 @@ struct KEY_CONFIG_INFO
 	BYTE keyCode[KEY_CONFIG_ASSIGN_NUM];
 };
 
-class Input
+class Input : public Singleton<Input>
 {
 public:
-	static void Init();
-	static void Uninit();
-	static void Update();
+	friend class Singleton<Input>;
 
-	static bool GetKeyPress(KEY_CONFIG key);
-	static bool GetKeyTrigger(KEY_CONFIG key);
-	static bool GetKeyRelease(KEY_CONFIG key);
+	void Init();
+	void Uninit();
+	void Update();
 
+	bool GetKeyPress(KEY_CONFIG key);
+	bool GetKeyTrigger(KEY_CONFIG key);
+	bool GetKeyRelease(KEY_CONFIG key);
+
+	Vector2 GetMousePoint() { return m_mousePos; }
+	Vector2 GetMouseAcceleration() { return m_mouseAcceleration; }
 private:
-	static bool CheckKey(KEY_CONFIG keyConfigList, KEY_STATE keyState);
+	bool CheckKey(KEY_CONFIG keyConfigList, KEY_STATE keyState);
 
-	static KEY_STATE m_oldKeyState[KEY_NUM];
-	static KEY_STATE m_keyState[KEY_NUM];
+	KEY_STATE m_oldKeyState[KEY_NUM];
+	KEY_STATE m_keyState[KEY_NUM];
+
+	Vector2 m_mousePos;
+	Vector2 m_preMousePos;
+	Vector2 m_mouseAcceleration;
 };

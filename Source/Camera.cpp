@@ -40,14 +40,13 @@ namespace MainGame
 
 		m_target = playerPos;
 
-		//マウス位置取得
-		m_preMousePos = m_mousePos;
-		m_mousePos = GetMousePos();
-		if (Input::GetKeyPress(KEY_CONFIG::MOUSE_R))
+
+		if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOUSE_R))
 		{
 			//マウス加速度
-			float mouseXAcc = (m_preMousePos.x - m_mousePos.x) / CAMERA_FACTOR;
-			float mouseYAcc = (m_preMousePos.y - m_mousePos.y) / CAMERA_FACTOR;
+			auto mouseAcc = GET_INPUT.GetMouseAcceleration();
+			float mouseXAcc = mouseAcc.x / CAMERA_FACTOR;
+			float mouseYAcc = mouseAcc.y / CAMERA_FACTOR;
 
 			m_theta += mouseXAcc;
 			m_delta += mouseYAcc;

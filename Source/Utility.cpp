@@ -1,5 +1,5 @@
 ﻿#include "Utility.h"
-bool Utility::MouseOver(POINTS mousePos, Vector2 overPos, Vector2 overSize, bool isOverCenter)
+bool Utility::MouseOver(Vector2 mousePos, Vector2 overPos, Vector2 overSize, bool isOverCenter)
 {
 	//マウスオーバー相手が中心原点だったら
 	if (isOverCenter)
@@ -26,7 +26,7 @@ bool Utility::MouseOver(POINTS mousePos, Vector2 overPos, Vector2 overSize, bool
 	return false;
 }
 
-Vector3* Utility::CalcScreenToXZ(Vector3* pout, int screenX, int screenY, Matrix* view, Matrix* prj)
+Vector3* Utility::CalcScreenToXZ(Vector3* pout, float screenX, float screenY, Matrix* view, Matrix* prj)
 {
 	Vector3 nearpos;
 	Vector3 farpos;
@@ -54,7 +54,7 @@ Vector3* Utility::CalcScreenToXZ(Vector3* pout, int screenX, int screenY, Matrix
 	return pout;
 }
 
-Vector3 Utility::CalcScreenToWorld(Vector3& pout, int screenX, int screenY, int farZ, Matrix* view, Matrix* prj)
+Vector3 Utility::CalcScreenToWorld(Vector3& pout, float screenX, float screenY, int farZ, Matrix* view, Matrix* prj)
 {
 	// 各行列の逆行列を算出
 	Matrix InvView, InvPrj, VP, InvViewport;
@@ -67,13 +67,13 @@ Vector3 Utility::CalcScreenToWorld(Vector3& pout, int screenX, int screenY, int 
 	
 	// 逆変換
 	Matrix tmp = InvViewport * InvPrj * InvView;
-	auto p = Vector3::Transform(Vector3((float)screenX, (float)screenY, (float)farZ), tmp);
+	auto p = Vector3::Transform(Vector3(screenX, screenY, (float)farZ), tmp);
 	pout = p;
 	
 	return pout;
 }
 
-Ray Utility::ScreenPosToRay(int screenX, int screenY, Matrix* view, Matrix* prj)
+Ray Utility::ScreenPosToRay(float screenX, float screenY, Matrix* view, Matrix* prj)
 {
 	Vector3 nearpos;
 	Vector3 farpos;

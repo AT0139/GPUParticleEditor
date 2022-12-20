@@ -23,7 +23,7 @@ void Result::Update()
 {
 	Scene::Update();
 
-	if (Input::GetKeyTrigger(KEY_CONFIG::RETURN))
+	if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN))
 	{
 		Manager::GetInstance().SetScene<Title>();
 	}
