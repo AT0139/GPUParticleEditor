@@ -1,33 +1,33 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "renderer.h"
 #include "Field.h"
 #include "ResourceManager.h"
 
-void Field::Init()
+Field::Field()
 {
 	VERTEX_3D vertex[4];
 
-	vertex[0].Position = D3DXVECTOR3(-10.0f, 0.0f, 10.0f);
-	vertex[0].Normal   = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[0].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
+	vertex[0].position = Vector3(-10.0f, 0.0f, 10.0f);
+	vertex[0].normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[0].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[0].texCoord = Vector2(0.0f, 0.0f);
 
-	vertex[1].Position = D3DXVECTOR3(10.0f, 0.0f, 10.0f);
-	vertex[1].Normal  = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[1].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[1].TexCoord = D3DXVECTOR2(10.0f, 0.0f);
+	vertex[1].position = Vector3(10.0f, 0.0f, 10.0f);
+	vertex[1].normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[1].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[1].texCoord = Vector2(10.0f, 0.0f);
 
-	vertex[2].Position = D3DXVECTOR3(-10.0f, 0.0f, -10.0f);
-	vertex[2].Normal   = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[2].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[2].TexCoord = D3DXVECTOR2(0.0f, 10.0f);
+	vertex[2].position = Vector3(-10.0f, 0.0f, -10.0f);
+	vertex[2].normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[2].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[2].texCoord = Vector2(0.0f, 10.0f);
 
-	vertex[3].Position = D3DXVECTOR3(10.0f, 0.0f, -10.0f);
-	vertex[3].Normal   = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[3].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[3].TexCoord = D3DXVECTOR2(10.0f, 10.0f);
+	vertex[3].position = Vector3(10.0f, 0.0f, -10.0f);
+	vertex[3].normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[3].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[3].texCoord = Vector2(10.0f, 10.0f);
 
-	//’¸“_ƒoƒbƒtƒ@¶¬	
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DEFAULT;
@@ -41,20 +41,21 @@ void Field::Init()
 
 	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 
-	//ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
-	m_texture = ResourceManager::GetInstance().GetTextureData("asset/texture/field000.jpg");
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
+	m_texture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/field000.jpg");
 	assert(m_texture);
 
 	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
 	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
-	m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	auto transform = GetComponent<Transform>();
+	transform->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+	transform->SetQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
+	transform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 }
 
-void Field::Uninit()
+Field::~Field()
 {
 	m_vertexBuffer->Release();
 	m_texture->Release();
@@ -70,38 +71,34 @@ void Field::Update()
 
 void Field::Draw()
 {
-	//“ü—ÍƒŒƒCƒAƒEƒgİ’è
+	//å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆè¨­å®š
 	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
-	//ƒVƒF[ƒ_[İ’è
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼è¨­å®š
 	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
 	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 
-	//ƒ[ƒ‹ƒhƒ}ƒgƒŠƒNƒXİ’è
-	D3DXMATRIX world, scale, rot, trans;
-	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
-	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
-	world = scale * rot * trans;
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒãƒˆãƒªã‚¯ã‚¹è¨­å®š
+	Matrix world = GetComponent<Transform>()->GetWorldMatrix();
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
-	//’¸“_ƒoƒbƒtƒ@İ’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡è¨­å®š
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
 	Renderer::GetInstance().GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 
-	//ƒ}ƒeƒŠƒAƒ‹İ’è
+	//ãƒãƒ†ãƒªã‚¢ãƒ«è¨­å®š
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	material.diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	Renderer::GetInstance().SetMaterial(material);
 
-	//ƒeƒNƒXƒ`ƒƒİ’è
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®š
 	Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
 
-	//ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWİ’è
+	//ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒˆãƒãƒ­ã‚¸è¨­å®š
 	Renderer::GetInstance().GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	//ƒ|ƒŠƒSƒ“•`‰æ
+	//ãƒãƒªã‚´ãƒ³æç”»
 	Renderer::GetInstance().GetDeviceContext()->Draw(4, 0);
 }

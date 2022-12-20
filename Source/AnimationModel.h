@@ -1,18 +1,16 @@
 ﻿#pragma once
 
-#include <unordered_map>
 
 #include <assimp/cimport.h>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <assimp/matrix4x4.h>
-#pragma comment (lib,"assimp.lib")
 
 //変形後頂点構造体
 struct DEFORM_VERTEX
 {
-	aiVector3D Position;
-	aiVector3D Normal;
+	aiVector3D position;
+	aiVector3D normal;
 	int BoneNum;
 	std::string BoneName[4];	//本来はボーンインデックスで管理すべき
 	float BoneWeight[4];

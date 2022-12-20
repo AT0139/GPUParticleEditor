@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <list>
 #include <vector>
@@ -20,15 +20,14 @@ public:
 		LAYER_MAX
 	};
 
-	virtual void Init() = 0;	//ƒˆ‰¼‘zŠÖ”
+	virtual void Init() = 0;	//ç´”ç²‹ä»®æƒ³é–¢æ•°
 
 	virtual void Uninit()
 	{
 		for (int i = 0; i < LAYER_MAX; i++)
 		{
-			for (GameObject* object : m_gameObjects[i])	//”ÍˆÍfor•¶
+			for (GameObject* object : m_gameObjects[i])	//ç¯„å›²foræ–‡
 			{
-				object->Uninit();
 				delete object;
 			}
 			m_gameObjects[i].clear();
@@ -40,7 +39,13 @@ public:
 		{
 			for (GameObject* object : m_gameObjects[i])
 			{
-				object->Update();
+				if (!object->IsHidden())
+				{
+					object->Update();
+					object->ComponentUpdate();
+					object->TransformUpdate();
+					object->RigidbodyUpdate();
+				}
 			}
 
 			m_gameObjects[i].remove_if([](GameObject* object) {return object->Destroy(); });
@@ -52,7 +57,11 @@ public:
 		{
 			for (GameObject* object : m_gameObjects[i])
 			{
-				object->Draw();
+				if (!object->IsHidden())
+				{
+					object->Draw();
+					object->ComponentDraw();
+				}
 			}
 		}
 	}
@@ -62,7 +71,6 @@ public:
 	{
 		T* gameobject = new T;
 		m_gameObjects[layer].push_back(gameobject);
-		gameobject->Init();
 
 		return gameobject;
 	}
@@ -70,7 +78,7 @@ public:
 	template <typename T>
 	T* GetGameObject(int layer)
 	{
-		for (GameObject* object : m_gameObjects[layer])	//Œ^‚ğ’²‚×‚é(RTTI“®“IŒ^î•ñ)
+		for (GameObject* object : m_gameObjects[layer])	//å‹ã‚’èª¿ã¹ã‚‹(RTTIå‹•çš„å‹æƒ…å ±)
 		{
 			if (typeid(*object) == typeid(T))
 			{
@@ -83,8 +91,8 @@ public:
 	template <typename T>
 	std::vector<T*> GetGameObjects(int layer)
 	{
-		std::vector<T*> objects;	//STL‚Ì”z—ñ
-		for (GameObject* object : m_gameObjects[layer])	//Œ^‚ğ’²‚×‚é(RTTI“®“IŒ^î•ñ)
+		std::vector<T*> objects;	//STLã®é…åˆ—
+		for (GameObject* object : m_gameObjects[layer])	//å‹ã‚’èª¿ã¹ã‚‹(RTTIå‹•çš„å‹æƒ…å ±)
 		{
 			if (typeid(*object) == typeid(T))
 			{
@@ -94,6 +102,11 @@ public:
 		return objects;
 	}
 
+	std::list<GameObject*>& GetAllObject()
+	{
+		return m_gameObjects[OBJECT];
+	}
+
 protected:
-	std::list<GameObject*> m_gameObjects[LAYER_MAX];	//STL‚ÌƒŠƒXƒg\‘¢
+	std::list<GameObject*> m_gameObjects[LAYER_MAX];	//STLã®ãƒªã‚¹ãƒˆæ§‹é€ 
 };

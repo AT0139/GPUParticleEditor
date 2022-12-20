@@ -15,6 +15,8 @@
 #include "Result.h"
 #include "ResourceManager.h"
 #include "audio.h"
+#include "Explosion.h"
+#include "GameUI.h"
 
 namespace MainGame
 {
@@ -27,19 +29,17 @@ namespace MainGame
 		AddGameObject<SkyDome>(OBJECT);
 		AddGameObject<Player>(OBJECT);
 		AddGameObject<MeshField>(OBJECT);
-		AddGameObject<Stair>(OBJECT)->SetPosition(D3DXVECTOR3(10.0f, 0.0f, 10.0f));
-		AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(-2.0f, 1.0f, 3.0f));
-		AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 3.0f));
-		AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(2.0f, 1.0f, 3.0f));
-		AddGameObject<Tree>(OBJECT)->SetPosition(D3DXVECTOR3(-8.0f, 2.0f, 5.0f));
+		//AddGameObject<Stair>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(10.0f, 5.0f, 10.0f));
+		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(-8.0f, 4.0f, 3.0f));
 
-		//2Dオブジェクト
-		//AddGameObject<Polygon2D>(UI);
-
+		AddGameObject<GameUI>(UI);
 		//Audio* bgm = AddGameObject<Audio>(UI);
 		//bgm->Load("asset\\audio\\bgm.wav");
 		//bgm->Play(true);
 
+		m_collisionManager = std::make_unique<CollisionManager>();
+		m_serializeManger = std::make_unique<SerializeManager>();
+		StaticDataTable::GetInstance();
 	}
 
 	void Game::Uninit()
@@ -52,9 +52,24 @@ namespace MainGame
 	{
 		Scene::Update();
 
+		m_collisionManager->Update();
 		if (Input::GetKeyTrigger(KEY_CONFIG::RETURN))
 		{
 			Manager::GetInstance().SetScene<Result>();
 		}
+
+		ImGui::Begin("Serialize", 0, ImGuiWindowFlags_AlwaysAutoResize);
+		{
+			if (ImGui::Button("serialize"))
+			{
+				m_serializeManger->ToSerialize();
+			}
+			if (ImGui::Button("deserialize"))
+			{
+				m_serializeManger->ToDeserialize();
+			}
+		}
+		ImGui::End();
+
 	}
 }

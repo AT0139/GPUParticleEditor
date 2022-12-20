@@ -1,56 +1,28 @@
-#include "main.h"
+Ôªø#include "main.h"
 #include "renderer.h"
 #include "model.h"
 #include "ResourceManager.h"
 #include "Stair.h"
+#include "DrawModel.h"
 
-
-void Stair::Init()
+Stair::Stair()
 {
-	//ÉÇÉfÉãì«Ç›çûÇ›
-	m_model = ResourceManager::GetInstance().GetModelData("asset\\model\\upstair.obj");
+	AddComponent<DrawModel>(this)->Load("asset\\model\\upstair.obj");
 
-
-	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
-
-	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
-
-	m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_rotation = D3DXVECTOR3(0.0f, D3DX_PI + 1.0f, 0.0f);
-	m_scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
+	auto transform = GetComponent<Transform>();
+	AddComponent<Rigidbody>()->SetIsKinematic(true);
+	auto col = AddComponent<OBBCollision>();
+	col->SetScale(4.0f);
+	col->SetIsStaticObject(true);
+	//transform->SetPosition(Vector3(0.0f, 5.0f, 0.0f));
+	//transform->SetRotation(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
+	//transform->SetScale(Vector3(0.3f, 0.3f, 0.3f));
 }
 
-void Stair::Uninit()
+Stair::~Stair()
 {
-	//m_model->Unload();
-	//delete m_model;
-
-	m_vertexLayout->Release();
-	m_vertexShader->Release();
-	m_pixelShader->Release();
 }
 
 void Stair::Update()
 {
-
-}
-
-void Stair::Draw()
-{
-	//ì¸óÕÉåÉCÉAÉEÉgê›íË
-	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
-
-	//ÉVÉFÅ[É_Å[ê›íË
-	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
-
-	////ÉèÅ[ÉãÉhÉ}ÉgÉäÉNÉXê›íË
-	D3DXMATRIX world, scale, rot, trans;
-	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
-	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
-	world = scale * rot * trans;
-	Renderer::GetInstance().SetWorldMatrix(&world);
-
-	m_model->Draw();
 }

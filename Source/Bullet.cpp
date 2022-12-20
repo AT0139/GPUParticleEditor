@@ -9,40 +9,32 @@
 #include "input.h"
 #include "Explosion.h"
 #include "Player.h"
-
+#include "DrawModel.h"
 
 namespace MainGame
 {
-	Model* Bullet::m_model;	//スタティックメンバ変数再度宣言
-
-	void Bullet::Init()
+	Bullet::Bullet()
 	{
-		m_model = ResourceManager::GetInstance().GetModelData("asset\\model\\torus.obj");
+		AddComponent<DrawModel>(this)->Load("asset\\model\\torus.obj");
 
-		Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
-
-		Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
-
-		m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-		m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		m_scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
+		auto transform = GetComponent<Transform>();
+		transform->SetPosition(Vector3(0.0f, 1.0f, 0.0f));
+		transform->SetQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
+		transform->SetScale(Vector3(0.2f, 0.2f, 0.2f));
 
 		Player* player = Manager::GetInstance().GetScene()->GetGameObject<Player>(Manager::GetInstance().GetScene()->OBJECT);
-		m_forward = player->GetForward();
+		m_forward = transform->GetForward();
 	}
 
-	void Bullet::Uninit()
-	{
-		m_vertexLayout->Release();
-		m_vertexShader->Release();
-		m_pixelShader->Release();
-	}
+	Bullet::~Bullet()
+	{}
 
 	void Bullet::Update()
 	{
 		Scene* scene = Manager::GetInstance().GetScene();
+		auto transform = GetComponent<Transform>();
 
-		m_position += m_forward * MOVE_SPEED;
+		transform->SetPosition(m_forward * MOVE_SPEED);
 
 		if (m_count > DESTROY_COUNT)
 		{
@@ -50,58 +42,24 @@ namespace MainGame
 			return;
 		}
 
-
 		//敵当たり判定
 		std::vector<Enemy*> enemyList = scene->GetGameObjects<Enemy>(scene->OBJECT);
 
 		for (Enemy* enemy : enemyList)
 		{
-			D3DXVECTOR3 enemyPosition = enemy->GetPosition();
-			D3DXVECTOR3 direction = m_position - enemyPosition;
-			float length = D3DXVec3Length(&direction);
+			Vector3 enemyPosition = enemy->GetComponent<Transform>()->GetPosition();
+			Vector3 direction = transform->GetPosition() - enemyPosition;
+			float length = Utility::VECtoFloat(XMVector3LengthEst(direction));
 
 			if (length < 2.0f)
 			{
 				enemy->SetDestroy();
 				SetDestroy();
-				scene->AddGameObject<Explosion>(scene->OBJECT)->SetPosition(enemyPosition);
+				scene->AddGameObject<Explosion>(scene->OBJECT)->GetComponent<Transform>()->SetPosition(enemyPosition);
 				return;
 			}
-
 		}
 
 		m_count++;
-	}
-
-	void Bullet::Draw()
-	{
-		//入力レイアウト設定
-		Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
-
-		//シェーダー設定
-		Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-		Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
-
-		//ワールドマトリクス設定
-		D3DXMATRIX world, scale, rot, trans;
-		D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-		D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
-		D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
-		world = scale * rot * trans;
-		Renderer::GetInstance().SetWorldMatrix(&world);
-
-		m_model->Draw();
-	}
-
-	void Bullet::Load()
-	{
-		//モデル読み込み
-		m_model = ResourceManager::GetInstance().GetModelData("asset\\model\\torus.obj");
-	}
-
-	void Bullet::Unload()
-	{
-		//m_model->Unload();
-		//delete m_model;
 	}
 }

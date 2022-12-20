@@ -3,7 +3,6 @@
 #include <xaudio2.h>
 #include "GameObject.h"
 
-
 class Audio : public GameObject
 {
 private:
@@ -25,7 +24,6 @@ public:
 	void Update() {};
 	void Draw() {};
 
-	void Load(const char *fileName);
+	void Load(const char* fileName);
 	void Play(bool isLoop = false);
 };
-

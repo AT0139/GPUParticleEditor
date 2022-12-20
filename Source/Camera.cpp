@@ -5,16 +5,30 @@
 #include "input.h"
 #include "Scene.h"
 #include "Player.h"
+#include "MeshField.h"
+
+static const float CAMERA_FACTOR = 120.0f;
+static const float CAMERA_DISTANCE = 5.0f;
+
+static const float DELTA_MIN = 2.0f;
+static const float DELTA_MAX = 4.0f;
+
+static const float FIELD_Y_OFFSET = 1.0f;
 
 namespace MainGame
 {
-	void Camera::Init()
+	Camera::Camera()
 	{
-		m_position = D3DXVECTOR3(0.0f, 5.0f, -5.0f);
-		m_target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		m_target = Vector3(0.0f, 0.0f, 0.0f);
+		m_theta = 4.57f;
+		m_delta = 0.43f;
+
+		m_cameraPos.x = m_target.x + CAMERA_DISTANCE * cos(m_delta) * cos(m_theta);
+		m_cameraPos.y = m_target.y + CAMERA_DISTANCE * sin(m_delta);
+		m_cameraPos.z = m_target.z + CAMERA_DISTANCE * cos(m_delta) * sin(m_theta);
 	}
 
-	void Camera::Uninit()
+	Camera::~Camera()
 	{
 	}
 
@@ -22,44 +36,73 @@ namespace MainGame
 	{
 		//プレイヤーの取得
 		Scene* scene = Manager::GetInstance().GetScene();
-		Player* player = scene->GetGameObject<Player>(scene->OBJECT);
-		D3DXVECTOR3 playerPos = player->GetPosition();
-		D3DXVECTOR3 playerForward = player->GetForward();
-		D3DXVECTOR3 playerRight = player->GetRight();
+		Vector3 playerPos = scene->GetGameObject<Player>(scene->OBJECT)->GetComponent<Transform>()->GetPosition();
 
-		//トップビュー
-		//m_target = playerPos;
-		//m_position = playerPos + D3DXVECTOR3(0.0f, 5.0f, -5.0f);
+		m_target = playerPos;
 
+		//マウス位置取得
+		m_preMousePos = m_mousePos;
+		m_mousePos = GetMousePos();
+		if (Input::GetKeyPress(KEY_CONFIG::MOUSE_R))
+		{
+			//マウス加速度
+			float mouseXAcc = (m_preMousePos.x - m_mousePos.x) / CAMERA_FACTOR;
+			float mouseYAcc = (m_preMousePos.y - m_mousePos.y) / CAMERA_FACTOR;
 
-		//サードパーソンビュー
-		m_target = D3DXVECTOR3(playerPos.x, playerPos.y + m_targetYoffset, playerPos.z);
-		m_position = playerPos - playerForward * 5.0f + D3DXVECTOR3(0.0f, 2.5f + m_positionYoffset, 0.0f);
+			m_theta += mouseXAcc;
+			m_delta += mouseYAcc;
 
-		//サードパーソンビュー(右寄り)
-		//m_target = playerPos + playerRight;
-		//m_position = playerPos - playerForward * 5.0f + playerRight + D3DXVECTOR3(0.0f, 2.0f, 0.0f);
+			if (m_delta <= DELTA_MIN)
+				m_delta = DELTA_MIN;
 
-		////ファーストパーソンビュー
-		//m_target = playerPos + playerForward;
-		//m_position = playerPos;
+			if (m_delta >= DELTA_MAX)
+				m_delta = DELTA_MAX;
+		}
+		m_cameraPos.x = m_target.x + CAMERA_DISTANCE * cos(m_delta) * cos(m_theta);
+		m_cameraPos.y = m_target.y + CAMERA_DISTANCE * sin(m_delta);
+		m_cameraPos.z = m_target.z + CAMERA_DISTANCE * cos(m_delta) * sin(m_theta);
 
+		//フィールドにめりこまないように
+		MainGame::MeshField* field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
+		float fieldHeight = field->GetHeight(m_cameraPos);
+		if (m_cameraPos.y  < fieldHeight + FIELD_Y_OFFSET)
+		{
+			m_cameraPos.y = fieldHeight + FIELD_Y_OFFSET;
+		}
 
-		Renderer::GetInstance().SetCameraPosition(m_position);
+		Renderer::GetInstance().SetCameraPosition(m_cameraPos);
 	}
+
 
 	void Camera::Draw()
 	{
 		//ビューマトリクス設定
-		D3DXVECTOR3 up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-		D3DXMatrixLookAtLH(&m_viewMatrix, &m_position, &m_target, &up);
+		m_viewMatrix = XMMatrixLookAtLH(m_cameraPos, m_target, Vector3::Up);
 
 		Renderer::GetInstance().SetViewMatrix(&m_viewMatrix);
 
-		//プロジェクションマトリクス設定	
-		D3DXMATRIX projectionMatrix;
-		D3DXMatrixPerspectiveFovLH(&projectionMatrix, 1.0f, (float)SCREEN_WIDTH / SCREEN_HEIGHT, 1.0f, 1000.0f);
+		//プロジェクションマトリクス設定
+		m_projection = XMMatrixPerspectiveFovLH(1.0f, (float)SCREEN_WIDTH / SCREEN_HEIGHT, 1.0f, 1000.0f);
 
-		Renderer::GetInstance().SetProjectionMatrix(&projectionMatrix);
+		Renderer::GetInstance().SetProjectionMatrix(&m_projection);
 	}
+	Vector3 Camera::GetCamaraForward()
+	{
+		Vector3 forward = m_target - m_cameraPos;
+		forward.y = 0.0f;
+		return XMVector3Normalize(forward);
+	}
+	Vector3 Camera::GetCamaraRight()
+	{
+		Vector3 forward = m_target - m_cameraPos;
+
+		Vector3 right;
+		right.x = forward.z;
+		right.y = 0.0f;
+		right.z = -forward.x;
+		
+		return XMVector3Normalize(right);
+	}
+
+
 }

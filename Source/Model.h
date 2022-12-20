@@ -1,16 +1,16 @@
 ﻿#pragma once
 
-
-
 // マテリアル構造体
 struct MODEL_MATERIAL
 {
 	char name[256];
 	MATERIAL material;
 	char textureName[256];
+	char normalTextureName[256];
+	bool isNormalTexture = false;
 	ID3D11ShaderResourceView* pTexture;
+	ID3D11ShaderResourceView* pNormalTexture;
 };
-
 
 // 描画サブセット構造体
 struct SUBSET
@@ -19,7 +19,6 @@ struct SUBSET
 	unsigned int indexNum;
 	MODEL_MATERIAL material;
 };
-
 
 // モデル構造体
 struct MODEL
@@ -33,10 +32,6 @@ struct MODEL
 	SUBSET* subsetArray;
 	unsigned int subsetNum;
 };
-
-
-
-
 
 class Model
 {

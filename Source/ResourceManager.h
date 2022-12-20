@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-
 #include "Singleton.h"
 #include <unordered_map>
 #include <string>
@@ -12,7 +11,7 @@ public:
 
 	class Model* GetModelData(std::string filePath);
 	class AnimationModel* GetAnimationModelData(std::string filePath);
-	ID3D11ShaderResourceView* GetTextureData(std::string filePath);
+	ID3D11ShaderResourceView* GetTextureData(std::wstring filePath);
 
 	void Release();
 
@@ -22,5 +21,5 @@ private:
 
 	std::unordered_map <std::string, Model*> m_modelList;
 	std::unordered_map <std::string, AnimationModel*>m_animationModelList;
-	std::unordered_map <std::string, ID3D11ShaderResourceView*> m_textureList;
+	std::unordered_map <std::wstring, ID3D11ShaderResourceView*> m_textureList;
 };

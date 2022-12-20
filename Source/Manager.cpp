@@ -18,12 +18,11 @@ void Manager::Init()
 	Input::Init();
 	Audio::InitMaster();
 
-	SetScene<Title>();
+	SetScene<MainGame::Game>();
 }
 
-
 void Manager::Uninit()
-{	
+{
 	m_pScene->Uninit();
 	delete m_pScene;
 
@@ -37,7 +36,6 @@ void Manager::Update()
 	Input::Update();
 
 	m_pScene->Update();
-
 }
 
 void Manager::Draw()

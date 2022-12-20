@@ -3,7 +3,6 @@
 #include "AnimationModel.h"
 #include "Player.h"
 
-
 AnimationModel::AnimationModel(const char* fileName)
 {
 	Load(fileName);
@@ -27,8 +26,6 @@ void AnimationModel::Load(const char* FileName)
 	//再帰的にボーン生成
 	CreateBone(m_aiScene->mRootNode);
 
-
-
 	for (unsigned int m = 0; m < m_aiScene->mNumMeshes; m++)
 	{
 		aiMesh* mesh = m_aiScene->mMeshes[m];
@@ -39,10 +36,10 @@ void AnimationModel::Load(const char* FileName)
 
 			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
 			{
-				vertex[v].Position = D3DXVECTOR3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z);
-				vertex[v].Normal = D3DXVECTOR3(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z);
-				vertex[v].TexCoord = D3DXVECTOR2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
-				vertex[v].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+				vertex[v].position = Vector3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z);
+				vertex[v].normal = Vector3(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z);
+				vertex[v].texCoord = Vector2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
+				vertex[v].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 			}
 
 			D3D11_BUFFER_DESC bd;
@@ -96,8 +93,8 @@ void AnimationModel::Load(const char* FileName)
 		for (unsigned int v = 0; v < mesh->mNumVertices; v++)
 		{
 			DEFORM_VERTEX deformVertex;
-			deformVertex.Position = mesh->mVertices[v];
-			deformVertex.Normal = mesh->mNormals[v];
+			deformVertex.position = mesh->mVertices[v];
+			deformVertex.normal = mesh->mNormals[v];
 			deformVertex.BoneNum = 0;
 
 			for (unsigned int b = 0; b < 4; b++)
@@ -145,13 +142,13 @@ void AnimationModel::Load(const char* FileName)
 					if (m_texture[path.data] == NULL)
 					{
 						ID3D11ShaderResourceView* texture;
+
 						int id = atoi(&path.data[1]);
 
-						D3DX11CreateShaderResourceViewFromMemory(
-							Renderer::GetInstance().GetDevice(),
-							(const unsigned char*)m_aiScene->mTextures[id]->pcData,
-							m_aiScene->mTextures[id]->mWidth,
-							NULL, NULL, &texture, NULL);
+						HRESULT hr = CreateWICTextureFromMemory(Renderer::GetInstance().GetDevice(),(uint8_t*)m_aiScene->mTextures[id]->pcData, (size_t)m_aiScene->mTextures[id]->mWidth,
+							nullptr, &texture);
+
+						assert(SUCCEEDED(hr));
 						
 						m_texture[path.data] = texture;
 					}
@@ -161,17 +158,17 @@ void AnimationModel::Load(const char* FileName)
 					if (m_texture[path.data] == NULL)
 					{
 						ID3D11ShaderResourceView* texture;
-				
-						char temp[1024] = { "asset/model/" };
-						(void)strcat(temp, path.data);
+
+						char temp[256] = { "asset/model/" };
+						strcat(temp, path.data);
+						wchar_t wFilename[256];
+						mbsrtowcs(wFilename, (const char**)temp, 256, 0);
 
 						//外部ファイルから読み込み
-						D3DX11CreateShaderResourceViewFromFile(
-							Renderer::GetInstance().GetDevice(),
-							temp,
-							NULL, NULL, &texture, NULL
-						);
+						HRESULT hr = CreateWICTextureFromFile(Renderer::GetInstance().GetDevice(), wFilename, nullptr, &texture);
 
+						assert(SUCCEEDED(hr));
+						
 						m_texture[temp] = texture;
 					}
 				}
@@ -272,11 +269,9 @@ void AnimationModel::Update(const char* animationName, float blendRate, int fram
 			aiNodeAnim* nodeAnim1 = animation->mChannels[c];
 			BONE* bone = &m_bone[nodeAnim1->mNodeName.C_Str()];
 
-
 			int f;
 			f = frame % nodeAnim1->mNumRotationKeys;//簡易実装
 			aiQuaternion rot = nodeAnim1->mRotationKeys[f].mValue;
-
 
 			f = frame % nodeAnim1->mNumPositionKeys;
 			aiVector3D pos;
@@ -404,30 +399,30 @@ void AnimationModel::Update(const char* animationName, float blendRate, int fram
 					matrix[3].d4 * deformVertex->BoneWeight[3];
 			}
 
-			deformVertex->Position = mesh->mVertices[v];
-			deformVertex->Position *= outMatrix;
+			deformVertex->position = mesh->mVertices[v];
+			deformVertex->position *= outMatrix;
 
 			//法線返還ように移動成分を削除
 			outMatrix.a4 = 0.0f;
 			outMatrix.b4 = 0.0f;
 			outMatrix.c4 = 0.0f;
 
-			deformVertex->Normal = mesh->mNormals[v];
-			deformVertex->Normal *= outMatrix;
+			deformVertex->normal = mesh->mNormals[v];
+			deformVertex->normal *= outMatrix;
 
 			//頂点バッファへ書き込み
-			vertex[v].Position.x = deformVertex->Position.x;
-			vertex[v].Position.y = deformVertex->Position.y;
-			vertex[v].Position.z = deformVertex->Position.z;
+			vertex[v].position.x = deformVertex->position.x;
+			vertex[v].position.y = deformVertex->position.y;
+			vertex[v].position.z = deformVertex->position.z;
 
-			vertex[v].Normal.x = deformVertex->Normal.x;
-			vertex[v].Normal.y = deformVertex->Normal.y;
-			vertex[v].Normal.z = deformVertex->Normal.z;
+			vertex[v].normal.x = deformVertex->normal.x;
+			vertex[v].normal.y = deformVertex->normal.y;
+			vertex[v].normal.z = deformVertex->normal.z;
 
-			vertex[v].TexCoord.x = mesh->mTextureCoords[0][v].x;
-			vertex[v].TexCoord.y = mesh->mTextureCoords[0][v].y;
+			vertex[v].texCoord.x = mesh->mTextureCoords[0][v].x;
+			vertex[v].texCoord.y = mesh->mTextureCoords[0][v].y;
 
-			vertex[v].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[v].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 		Renderer::GetInstance().GetDeviceContext()->Unmap(m_vertexBuffer[m], 0);
 	}
@@ -440,9 +435,9 @@ void AnimationModel::Draw()
 
 	//マテリアル設定 FBXから取り出していないのでついか　現在定数
 	MATERIAL material;
-	ZeroMemory(&material,sizeof(material));
-	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	ZeroMemory(&material, sizeof(material));
+	material.diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Ambient = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	Renderer::GetInstance().SetMaterial(material);
 
 	for (unsigned int m = 0; m < m_aiScene->mNumMeshes; m++)
@@ -472,7 +467,6 @@ void AnimationModel::Draw()
 
 		//ポリゴン描画
 		Renderer::GetInstance().GetDeviceContext()->DrawIndexed(mesh->mNumFaces * 3, 0, 0);
-
 	}
 }
 

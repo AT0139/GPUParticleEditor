@@ -1,54 +1,23 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "renderer.h"
-#include "model.h"
 #include "SkyDome.h"
+#include "DrawModel.h"
 
-void SkyDome::Init()
+SkyDome::SkyDome()
 {
-	//ƒ‚ƒfƒ‹“Ç‚İ‚İ
-	m_model = new Model();
-	m_model->Load((char*)"asset\\model\\skydome.obj");
+	//ãƒ¢ãƒ‡ãƒ«èª­ã¿è¾¼ã¿
+	AddComponent<DrawModel>(this)->Load("asset\\model\\skydome.obj");
 
-
-	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
-
-	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
-
-	m_position = D3DXVECTOR3(0.0f, -100.0f, 0.0f);
-	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_scale = D3DXVECTOR3(150.0f, 150.0f, 150.0f);
+	auto transform = GetComponent<Transform>();
+	transform->SetPosition(Vector3(0.0f, -100.0f, 0.0f));
+	transform->SetQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
+	transform->SetScale(Vector3(150.0f, 150.0f, 150.0f));
 }
 
-void SkyDome::Uninit()
+SkyDome::~SkyDome()
 {
-	//m_model->Unload();
-	//delete m_model;
-
-	m_vertexLayout->Release();
-	m_vertexShader->Release();
-	m_pixelShader->Release();
 }
 
 void SkyDome::Update()
 {
-}
-
-void SkyDome::Draw()
-{
-	//“ü—ÍƒŒƒCƒAƒEƒgİ’è
-	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
-
-	//ƒVƒF[ƒ_[İ’è
-	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
-
-	//ƒ[ƒ‹ƒhƒ}ƒgƒŠƒNƒXİ’è
-	D3DXMATRIX world, scale, rot, trans;
-	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.y, m_rotation.x, m_rotation.z);
-	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
-	world = scale * rot * trans;
-	Renderer::GetInstance().SetWorldMatrix(&world);
-
-	m_model->Draw();
 }

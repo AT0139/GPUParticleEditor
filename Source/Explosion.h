@@ -7,20 +7,11 @@ namespace MainGame
 	class Explosion : public GameObject
 	{
 	public:
-		virtual void Init()override;
-		virtual void Uninit()override;
+		Explosion();
+		~Explosion();
 		virtual void Update()override;
 		virtual void Draw()override;
 
 	private:
-
-		ID3D11Buffer* m_vertexBuffer = NULL;
-		ID3D11ShaderResourceView* m_texture = NULL;
-
-		ID3D11VertexShader* m_vertexShader;
-		ID3D11PixelShader* m_pixelShader;
-		ID3D11InputLayout* m_vertexLayout;
-
-		int m_count;
 	};
 }

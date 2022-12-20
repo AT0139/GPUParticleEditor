@@ -8,17 +8,29 @@
     <Filter Include="ソース ファイル\Scene">
       <UniqueIdentifier>{056c6915-7d9c-4f88-b131-9a8c54e9b0cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Component">
+      <UniqueIdentifier>{5a98d0ea-849b-404d-81ed-452c0a458770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Object">
+      <UniqueIdentifier>{3eaf8851-d3b8-487f-a800-cef75b89cfc1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ソース ファイル\System">
       <UniqueIdentifier>{741cdef5-6fb9-4a4d-86b3-7d8589b53530}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader">
-      <UniqueIdentifier>{6b9d3d32-c1ed-4e1b-89a8-7960c7d60b43}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Component\Collision">
+      <UniqueIdentifier>{c09e2873-7f01-4969-bd8a-379370233c4a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="imgui">
+    <Filter Include="ソース ファイル\imgui">
       <UniqueIdentifier>{1ee1289b-b3ea-46e2-8ae8-d8c1a188dac7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="imgui\backend">
+    <Filter Include="ソース ファイル\imgui\backend">
       <UniqueIdentifier>{793c5ae9-ab62-42f4-a2f4-64539d1311b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Shader">
+      <UniqueIdentifier>{6b9d3d32-c1ed-4e1b-89a8-7960c7d60b43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Component\Draw">
+      <UniqueIdentifier>{258de4d3-7a10-4270-b351-2cd560ad3cbc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -28,28 +40,13 @@
     <ClInclude Include="Source\Game.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Bullet.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Camera.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Enemy.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Explosion.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\Field.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameObject.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Input.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Item.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\Manager.h">
@@ -67,18 +64,6 @@
     <ClInclude Include="Source\ResourceManager.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Result.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Shadow.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SkyDome.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Stair.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Tree.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -86,9 +71,6 @@
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="Source\Audio.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Main.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="Source\Model.h">
@@ -104,50 +86,131 @@
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imgui_internal.h">
-      <Filter>imgui</Filter>
+      <Filter>ソース ファイル\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
-      <Filter>imgui</Filter>
+      <Filter>ソース ファイル\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imgui.h">
-      <Filter>imgui</Filter>
+      <Filter>ソース ファイル\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\backends\imgui_impl_dx11.h">
-      <Filter>imgui\backend</Filter>
+      <Filter>ソース ファイル\imgui\backend</Filter>
     </ClInclude>
     <ClInclude Include="imgui\backends\imgui_impl_win32.h">
-      <Filter>imgui\backend</Filter>
+      <Filter>ソース ファイル\imgui\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Main.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component.h">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Transform.h">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\stdafx.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bullet.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Explosion.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SkyDome.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stair.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Rigidbody.h">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CollisionComponent.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SphereCollision.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CollisionUtility.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\ImGuizmo.h">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AABBCollision.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OBBCollision.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utility.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Structures.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BlankObject.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CapsuleCollision.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ObjectPlacementUI.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameUI.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Draw2DPolygon.h">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DrawBillboard.h">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DrawGeometry.h">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DrawModel.h">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Result.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Wall.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Floor.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CollisionManager.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SerializeManager.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SerializeComponent.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StaticDataTable.h">
+      <Filter>ソース ファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\SkyDome.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Stair.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Tree.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Bullet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Camera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Enemy.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Explosion.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Field.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Input.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Item.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Manager.cpp">
@@ -165,12 +228,6 @@
     <ClCompile Include="Source\ResourceManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Result.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Shadow.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Title.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
@@ -183,9 +240,6 @@
     <ClCompile Include="Source\Audio.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Main.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Model.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
@@ -193,48 +247,159 @@
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_demo.cpp">
-      <Filter>imgui</Filter>
+      <Filter>ソース ファイル\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_draw.cpp">
-      <Filter>imgui</Filter>
+      <Filter>ソース ファイル\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_tables.cpp">
-      <Filter>imgui</Filter>
+      <Filter>ソース ファイル\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_widgets.cpp">
-      <Filter>imgui</Filter>
+      <Filter>ソース ファイル\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
-      <Filter>imgui</Filter>
+      <Filter>ソース ファイル\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\backends\imgui_impl_dx11.cpp">
-      <Filter>imgui\backend</Filter>
+      <Filter>ソース ファイル\imgui\backend</Filter>
     </ClCompile>
     <ClCompile Include="imgui\backends\imgui_impl_win32.cpp">
-      <Filter>imgui\backend</Filter>
+      <Filter>ソース ファイル\imgui\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component.cpp">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Transform.cpp">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Explosion.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bullet.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SkyDome.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Stair.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SphereCollision.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Rigidbody.cpp">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CollisionComponent.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CollisionUtility.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AABBCollision.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OBBCollision.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Structures.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BlankObject.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CapsuleCollision.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utility.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ObjectPlacementUI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameUI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Draw2DPolygon.cpp">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DrawBillboard.cpp">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DrawGeometry.cpp">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DrawModel.cpp">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Result.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Wall.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Floor.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CollisionManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SerializeManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SerializeComponent.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\stdafx.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StaticDataTable.cpp">
+      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\common.hlsl">
-      <Filter>Shader</Filter>
+      <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Shader\pixelLightingPS.hlsl">
-      <Filter>Shader</Filter>
+      <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Shader\pixelLightingVS.hlsl">
-      <Filter>Shader</Filter>
+      <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Shader\unlitTexturePS.hlsl">
-      <Filter>Shader</Filter>
+      <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Shader\unlitTextureVS.hlsl">
-      <Filter>Shader</Filter>
+      <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Shader\vertexLightingPS.hlsl">
-      <Filter>Shader</Filter>
+      <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Shader\vertexLightingVS.hlsl">
-      <Filter>Shader</Filter>
+      <Filter>ソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\NormalMappingVS.hlsl">
+      <Filter>ソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\NormalMappingPS.hlsl">
+      <Filter>ソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\EnvMappingVS.hlsl">
+      <Filter>ソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\EnvMappingPS.hlsl">
+      <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

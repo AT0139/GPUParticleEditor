@@ -24,14 +24,18 @@ AnimationModel* ResourceManager::GetAnimationModelData(std::string filePath)
 	return m_animationModelList[filePath];
 }
 
-
-ID3D11ShaderResourceView* ResourceManager::GetTextureData(std::string filePath)
+ID3D11ShaderResourceView* ResourceManager::GetTextureData(std::wstring filePath)
 {
 	//キーが存在しているか
 	if (m_textureList.find(filePath) == m_textureList.end())
 	{
 		ID3D11ShaderResourceView* texture;
-		D3DX11CreateShaderResourceViewFromFile(Renderer::GetInstance().GetDevice(),filePath.c_str(), NULL, NULL, &texture, NULL);
+
+		//外部ファイルから読み込み
+		HRESULT hr = CreateWICTextureFromFile(Renderer::GetInstance().GetDevice(), filePath.c_str(), nullptr, &texture);
+
+		assert(SUCCEEDED(hr));
+
 		m_textureList[filePath] = texture;
 	}
 
@@ -56,7 +60,6 @@ void ResourceManager::Release()
 	}
 	m_animationModelList.clear();
 }
-
 
 ResourceManager::~ResourceManager()
 {
