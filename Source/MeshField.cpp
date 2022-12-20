@@ -97,12 +97,14 @@ namespace MainGame
 		}
 
 		//テクスチャ読み込み
-		m_texture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/forest.jpg");
+		m_texture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/JS-dotGrid-20221220113242.png");
+		m_normalTexture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/TexturesCom_DramaticovercastSkyBackground_S.png");
 
 		assert(m_texture);
+		assert(m_normalTexture);
 
-		Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
-		Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "vertexLightingPS.cso");
+		Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "EnvMappingVS.cso");
+		Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "EnvMappingPS.cso");
 	}
 
 	MeshField::~MeshField()
@@ -110,6 +112,7 @@ namespace MainGame
 		m_vertexBuffer->Release();
 		m_indexBuffer->Release();
 		m_texture->Release();
+		m_normalTexture->Release();
 
 		m_vertexLayout->Release();
 		m_vertexShader->Release();
@@ -149,6 +152,7 @@ namespace MainGame
 
 		//テクスチャ設定
 		Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
+		Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(1, 1, &m_normalTexture);
 
 		//プリミティブトポロジ設定
 		Renderer::GetInstance().GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);

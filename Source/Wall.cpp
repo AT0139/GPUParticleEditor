@@ -1,4 +1,4 @@
-﻿#include "Wall.h"
+#include "Wall.h"
 #include "DrawModel.h"
 #include "OBBCollision.h"
 
@@ -12,7 +12,9 @@ Wall::Wall()
 	rigid->SetIsKinematic(true);
 
 	auto model = AddComponent<DrawModel>(this);
-	model->Load("asset\\model\\TestWall.obj");
+	model->Load("asset\\model\\Wall.obj");
+	model->SetVertexShader("NormalMappingVS.cso");
+	model->SetPixelShader("NormalMappingPS.cso");
 	
 	auto collision = AddComponent<OBBCollision>();
 	collision->SetScale(Vector3(0.4f,5.0f,3.0f));

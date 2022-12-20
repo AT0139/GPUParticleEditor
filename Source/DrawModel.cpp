@@ -62,3 +62,16 @@ void DrawModel::Load(const char* filePath)
 {
 	m_model = ResourceManager::GetInstance().GetModelData(filePath);
 }
+
+void DrawModel::SetVertexShader(const char* filename)
+{
+	m_vertexLayout->Release();
+	m_vertexShader->Release();
+	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, filename);
+}
+
+void DrawModel::SetPixelShader(const char* filename)
+{
+	m_pixelShader->Release();
+	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, filename);
+}
