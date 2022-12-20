@@ -254,6 +254,7 @@
     <ClInclude Include="Source\Stair.h" />
     <ClInclude Include="Source\StaticDataTable.h" />
     <ClInclude Include="Source\stdafx.h" />
+    <ClInclude Include="Source\strconv.h" />
     <ClInclude Include="Source\Structures.h" />
     <ClInclude Include="Source\Title.h" />
     <ClInclude Include="Source\Transform.h" />

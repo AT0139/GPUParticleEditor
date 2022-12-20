@@ -1,6 +1,7 @@
 ﻿#include "Draw2DPolygon.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "strconv.h"
 
 Draw2DPolygon::Draw2DPolygon(GameObject* gameObject)
 	: Component(gameObject)
@@ -151,4 +152,10 @@ void Draw2DPolygon::SetAlpha(float alpha)
 void Draw2DPolygon::LoadTexture(std::wstring fileName)
 {
 	m_texture = ResourceManager::GetInstance().GetTextureData(fileName);
+}
+
+void Draw2DPolygon::LoadTexture(std::string fileName)
+{
+	
+	m_texture = ResourceManager::GetInstance().GetTextureData(utf8_to_wide(fileName));
 }

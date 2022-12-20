@@ -19,6 +19,7 @@ public:
 	void SetAlpha(float alpha);
 
 	void LoadTexture(std::wstring fileName);
+	void LoadTexture(std::string fileName);
 private:
 	ID3D11Buffer* m_vertexBuffer;
 	ID3D11ShaderResourceView* m_texture;

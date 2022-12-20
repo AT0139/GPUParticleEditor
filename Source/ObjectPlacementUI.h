@@ -31,5 +31,4 @@ private:
 	OBJECT_TYPE m_createObject;
 
 	std::shared_ptr<Draw2DPolygon> m_backGround;
-	std::shared_ptr<Draw2DPolygon> m_icon;
 };

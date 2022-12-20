@@ -1,33 +1,34 @@
 ﻿#include "ObjectPlacementUI.h"
 #include "Draw2DPolygon.h"
-#include "DrawModel.h"
-#include "Manager.h"
-#include "Scene.h"
-#include "Enemy.h"
-#include "Transform.h"
+#include "Main.h"
 #include "Input.h"
-#include "Camera.h"
 #include "MeshField.h"
+
+static const std::string textureRootPath = "Asset/Texture/";
+static const Vector2 iconSize(640, 360);
+static const float iconXOffset = 400;
 
 ObjectPlacementUI::ObjectPlacementUI()
 	: m_createObject(OBJECT_TYPE::NONE)
 {
-	//todo: マスタ化
+	//背景
 	m_backGround = AddComponent<Draw2DPolygon>(this);
-	m_backGround->LoadTexture(L"asset/texture/Black.jpg");
+	m_backGround->LoadTexture(textureRootPath + "Black.jpg");
 	m_backGround->SetPosition(Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f));
 	m_backGround->SetSize(Vector2(SCREEN_WIDTH - 200, SCREEN_HEIGHT - 200));
 	m_backGround->SetAlpha(0.4f);
 
-	m_icon = AddComponent<Draw2DPolygon>(this);
-	m_icon->LoadTexture(L"asset/texture/Wall.png");
-	m_icon->SetPosition(Vector2(SCREEN_WIDTH * 0.5f - 200, SCREEN_HEIGHT * 0.5f));
-	m_icon->SetSize(Vector2(640, 360));
-
-	m_icon = AddComponent<Draw2DPolygon>(this);
-	m_icon->LoadTexture(L"asset/texture/floor.png");
-	m_icon->SetPosition(Vector2(SCREEN_WIDTH * 0.5f + 200, SCREEN_HEIGHT * 0.5f));
-	m_icon->SetSize(Vector2(600, 360));
+	//todo: マスタ化
+	auto pDataList = StaticDataTable::GetInstance().GetPlacementDataList();
+	int count = 0;
+	for (auto pData : *pDataList)
+	{
+		auto icon = AddComponent<Draw2DPolygon>(this);
+		icon->LoadTexture(textureRootPath + pData->GetIconPath());
+		icon->SetPosition(Vector2((SCREEN_WIDTH * 0.5f) + (count * iconXOffset), SCREEN_HEIGHT * 0.5f));
+		icon->SetSize(iconSize);
+		count++;
+	}	
 }
 
 ObjectPlacementUI::~ObjectPlacementUI()

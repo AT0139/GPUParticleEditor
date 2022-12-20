@@ -35,6 +35,8 @@ public:
 	virtual void Load(std::vector<std::string> line) override;
 	virtual bool CheckID(int id) override;
 
+	const int GetModelID() { return m_modelId; }
+	const std::string GetIconPath() { return m_iconPath; }
 private:
 
 	int m_modelId;
@@ -51,6 +53,8 @@ public:
 
 	std::shared_ptr<ModelData> GetModelData(int id);
 
+	const std::list<std::shared_ptr<ModelData>>* GetModelDataList() { return &m_modelDataTable; }
+	const std::list<std::shared_ptr<PlacementData>>* GetPlacementDataList() { return &m_placementDataTable; }
 private:
 	std::list<std::shared_ptr<ModelData>> m_modelDataTable;
 	std::list<std::shared_ptr<PlacementData>> m_placementDataTable;
