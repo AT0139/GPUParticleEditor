@@ -199,6 +199,9 @@
     <ClInclude Include="Source\SerializeComponent.h">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="Source\StaticDataTable.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Tree.cpp">
@@ -272,9 +275,6 @@
     </ClCompile>
     <ClCompile Include="Source\Transform.cpp">
       <Filter>ソース ファイル\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\stdafx.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Explosion.cpp">
       <Filter>ソース ファイル\Object</Filter>
@@ -360,6 +360,12 @@
     <ClCompile Include="Source\SerializeComponent.cpp">
       <Filter>ソース ファイル\Component\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="Source\stdafx.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StaticDataTable.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\common.hlsl">
@@ -381,6 +387,18 @@
       <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Shader\vertexLightingVS.hlsl">
+      <Filter>ソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\NormalMappingVS.hlsl">
+      <Filter>ソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\NormalMappingPS.hlsl">
+      <Filter>ソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\EnvMappingVS.hlsl">
+      <Filter>ソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\EnvMappingPS.hlsl">
       <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
   </ItemGroup>

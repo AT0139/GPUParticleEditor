@@ -2,21 +2,21 @@
 
 void main(in VS_IN In, out PS_IN Out)
 {
-    matrix wvp; //–ˆ‰ñ‚¨–ñ‘©‚Ì’¸“_•ÏŠ·
+    matrix wvp; //é ‚ç‚¹å¤‰æ›
     wvp = mul(World, View);
     wvp = mul(wvp, Projection);
     Out.Position = mul(In.Position, wvp);
     
-    float4 worldNormal, normal; //ƒ[ƒJƒ‹•Ï”‚ðì¬
+    float4 worldNormal, normal; //ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã‚’ä½œæˆ
     
-    //’¸“_–@ü‚ðƒ[ƒ‹ƒhs—ñ‚Å‰ñ“]‚³‚¹‚é(’¸“_‚Æ“¯‚¶‰ñ“]‚ð‚³‚¹‚é)
-    normal = float4(In.Normal.xyz, 0.0); //–@üƒxƒNƒgƒ‹‚Ìw‚ð0‚Æ‚µ‚ÄƒRƒs[i•½sˆÚ“®‚µ‚È‚¢‚½‚ß)
-    worldNormal = mul(normal, World); //–@ü‚ðƒ[ƒ‹ƒhs—ñ‚Å‰ñ“]‚·‚é
-    worldNormal = normalize(worldNormal); //‰ñ“]Œã‚Ì–@ü‚ð³‹K‰»‚·‚é
-    Out.Normal = worldNormal; //‰ñ“]Œã‚Ì–@üo—Í In.Normal‚Å‚È‚­‰ñ“]Œã‚Ì–@ü‚ðo—Í
+    //é ‚ç‚¹æ³•ç·šã‚’ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã§å›žè»¢ã•ã›ã‚‹(é ‚ç‚¹ã¨åŒã˜å›žè»¢ã‚’ã•ã›ã‚‹)
+    normal = float4(In.Normal.xyz, 0.0); //æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã®wã‚’0ã¨ã—ã¦ã‚³ãƒ”ãƒ¼ï¼ˆå¹³è¡Œç§»å‹•ã—ãªã„ãŸã‚)
+    worldNormal = mul(normal, World); //æ³•ç·šã‚’ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã§å›žè»¢ã™ã‚‹
+    worldNormal = normalize(worldNormal); //å›žè»¢å¾Œã®æ³•ç·šã‚’æ­£è¦åŒ–ã™ã‚‹
+    Out.Normal = worldNormal; //å›žè»¢å¾Œã®æ³•ç·šå‡ºåŠ› In.Normalã§ãªãå›žè»¢å¾Œã®æ³•ç·šã‚’å‡ºåŠ›
     
     
     Out.Diffuse = In.Diffuse;
-    Out.TexCoord = In.TexCoord; //’¸“_‚ÌƒeƒNƒXƒ`ƒƒÀ•W‚ðo—Í
+    Out.TexCoord = In.TexCoord; //é ‚ç‚¹ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™ã‚’å‡ºåŠ›
     Out.WorldPosition = mul(In.Position, World);
 }

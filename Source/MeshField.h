@@ -36,6 +36,7 @@ namespace MainGame
 		ID3D11Buffer* m_vertexBuffer = NULL;
 		ID3D11Buffer* m_indexBuffer = NULL;
 		ID3D11ShaderResourceView* m_texture = NULL;
+		ID3D11ShaderResourceView* m_normalTexture = NULL;
 
 		VERTEX_3D m_vertex[FIELD_X + 1][FIELD_Z + 1];
 

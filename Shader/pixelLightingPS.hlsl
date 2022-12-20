@@ -5,28 +5,28 @@ SamplerState g_SamplerState : register(s0);
 
 void main(in PS_IN In, out float4 outDiffuse:SV_Target)
 {
-    float4 normal = normalize(In.Normal);   //ƒsƒNƒZƒ‹‚Ì–@ü‚ğ³‹K‰»
-    float light = -dot(Light.Direction.xyz, In.Normal.xyz); //ŒõŒ¹ŒvZ‚ğ‚·‚é
+    float4 normal = normalize(In.Normal);   //ãƒ”ã‚¯ã‚»ãƒ«ã®æ³•ç·šã‚’æ­£è¦åŒ–
+    float light = -dot(Light.Direction.xyz, In.Normal.xyz); //å…‰æºè¨ˆç®—ã‚’ã™ã‚‹
     
-    //ƒJƒƒ‰‚©‚çƒsƒNƒZƒ‹‚ÉŒü‚©‚¤ƒxƒNƒgƒ‹
+    //ã‚«ãƒ¡ãƒ©ã‹ã‚‰ãƒ”ã‚¯ã‚»ãƒ«ã«å‘ã‹ã†ãƒ™ã‚¯ãƒˆãƒ«
     float3 eyev = In.WorldPosition.xyz - CameraPosition.xyz;
     eyev = normalize(eyev);
     
     //--------------------------
-    //ƒtƒHƒ“‹¾–Ê”½Ë
+    //ãƒ•ã‚©ãƒ³é¡é¢åå°„
     //--------------------------
-    ////Œõ‚Ì”½ËƒxƒNƒgƒ‹‚ğŒvZ
+    ////å…‰ã®åå°„ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
     float3 refv = reflect(Light.Direction.xyz, normal.xyz);
-    refv = normalize(refv);//³‹K‰»
+    refv = normalize(refv);//æ­£è¦åŒ–
     
-    float specular = -dot(eyev, refv);  //‹¾–Ê”½Ë‚ÌŒvZ
-    specular = saturate(specular);      //’l‚ğƒTƒ`ƒ…ƒŒ[ƒg
-    specular = pow(specular, 30);       //30æ
+    float specular = -dot(eyev, refv);  //é¡é¢åå°„ã®è¨ˆç®—
+    specular = saturate(specular);      //å€¤ã‚’ã‚µãƒãƒ¥ãƒ¬ãƒ¼ãƒˆ
+    specular = pow(specular, 30);       //30ä¹—
 
     outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
-    //ƒeƒNƒXƒ`ƒƒ‚ÌƒsƒNƒZƒ‹F‚ğæ“¾
+    //ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ”ã‚¯ã‚»ãƒ«è‰²ã‚’å–å¾—
     outDiffuse.rgb *= In.Diffuse.rgb * light;
-    outDiffuse.a *= In.Diffuse.a;   //a‚É–¾‚é‚³‚ÍŠÖŒW‚È‚¢‚Ì‚Å•ÊŒvZ
+    outDiffuse.a *= In.Diffuse.a;   //aã«æ˜ã‚‹ã•ã¯é–¢ä¿‚ãªã„ã®ã§åˆ¥è¨ˆç®—
     
-    outDiffuse.rgb += specular;//ƒX‚ØƒLƒ…ƒ‰’l‚ğƒfƒBƒtƒ…[ƒY‚Æ‚µ‚Ä‘«‚µ‚±‚Ş
+    outDiffuse.rgb += specular;//ã‚¹ãºã‚­ãƒ¥ãƒ©å€¤ã‚’ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºã¨ã—ã¦è¶³ã—ã“ã‚€
 }

@@ -18,6 +18,10 @@ public:
 
 	void Load(const char* filePath);
 	void SetCollisionDraw(bool is) { m_isCollision = is; }
+	//todo: シェーダーのセット
+	void SetVertexShader(const char* filename);
+	void SetPixelShader(const char* filename);
+
 private:
 	class Model* m_model;
 
