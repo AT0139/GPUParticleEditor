@@ -21,10 +21,8 @@ void BlankObject::Draw()
 
 void BlankObject::OnCollision(GameObject* collision)
 {
-	GetComponent<Transform>()->GetParent()->OnCollision(collision);
 }
 
 void BlankObject::OnTrigger(GameObject* collision)
 {
-	GetComponent<Transform>()->GetParent()->OnTrigger(collision);
 }

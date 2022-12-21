@@ -217,6 +217,7 @@
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\CapsuleCollision.h" />
+    <ClInclude Include="Source\ChildObject.h" />
     <ClInclude Include="Source\CollisionComponent.h" />
     <ClInclude Include="Source\CollisionManager.h" />
     <ClInclude Include="Source\CollisionUtility.h" />
@@ -277,6 +278,7 @@
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\CapsuleCollision.cpp" />
+    <ClCompile Include="Source\ChildObject.cpp" />
     <ClCompile Include="Source\CollisionComponent.cpp" />
     <ClCompile Include="Source\CollisionManager.cpp" />
     <ClCompile Include="Source\CollisionUtility.cpp" />

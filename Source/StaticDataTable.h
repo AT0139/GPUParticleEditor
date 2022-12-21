@@ -19,6 +19,9 @@ public:
 	virtual void Load(std::vector<std::string> line) override;
 	virtual bool CheckID(int id) override;
 
+	std::string GetPath() { return m_path; }
+	Vector3 GetScale() { return m_scale; }
+	Vector3 GetCollisionScale() { return m_collisionScale; }
 private:
 
 	int m_id;

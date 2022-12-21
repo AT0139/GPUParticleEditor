@@ -4,16 +4,19 @@
 #include "Input.h"
 #include "MeshField.h"
 
-static const std::string textureRootPath = "Asset/Texture/";
-static const Vector2 iconSize(640, 360);
-static const float iconXOffset = 400;
+static const std::string TEXTURE_ROOT_PATH = "Asset/Texture/";
+static const Vector2 ICON_SIZE(540, 260);
+static const Vector2 SELECT_ICON_SIZE(840, 560);
+static const float ICON_X_OFFSET = 500;
 
 ObjectPlacementUI::ObjectPlacementUI()
-	: m_createObject(OBJECT_TYPE::NONE)
+	: m_selectIndex(0)
+	, m_createModelID(-1)
+	, m_xMovingDistance(0)
 {
 	//背景
 	m_backGround = AddComponent<Draw2DPolygon>(this);
-	m_backGround->LoadTexture(textureRootPath + "Black.jpg");
+	m_backGround->LoadTexture(TEXTURE_ROOT_PATH + "Black.jpg");
 	m_backGround->SetPosition(Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f));
 	m_backGround->SetSize(Vector2(SCREEN_WIDTH, SCREEN_HEIGHT - 200));
 	m_backGround->SetAlpha(0.4f);
@@ -24,10 +27,14 @@ ObjectPlacementUI::ObjectPlacementUI()
 	for (auto pData : *pDataList)
 	{
 		auto icon = AddComponent<Draw2DPolygon>(this);
-		icon->LoadTexture(textureRootPath + pData->GetIconPath());
-		icon->SetPosition(Vector2((SCREEN_WIDTH * 0.5f) + (count * iconXOffset), SCREEN_HEIGHT * 0.5f));
-		icon->SetSize(iconSize);
-		m_pIcons.push_back(icon);
+		icon->LoadTexture(TEXTURE_ROOT_PATH + pData->GetIconPath());
+		icon->SetPosition(Vector2((SCREEN_WIDTH * 0.5f) + (count * ICON_X_OFFSET), SCREEN_HEIGHT * 0.5f));
+		icon->SetSize(ICON_SIZE);
+
+		IconInfo info;
+		info.modelID = pData->GetModelID();
+		info.icon = icon;
+		m_pIconInfos.push_back(info);
 		count++;
 	}	
 }
@@ -48,34 +55,44 @@ void ObjectPlacementUI::Update()
 		//横方向
 		if (std::abs(mouseAcc.x) > std::abs(mouseAcc.y))
 		{
-			for (auto icon : m_pIcons)
-			{
-				Vector2 pos = icon->GetPosition();
-				icon->SetPosition(Vector2(pos.x - mouseAcc.x, pos.y));
-			}
+			m_createModelID = -1;
+
+			MoveIcons(mouseAcc.x);
+
+			//m_pIconInfos[i].icon->SetSize(ICON_SIZE);
+			//中心を大きく
+
+	/*		if()
+				m_pIconInfos[i].icon->SetSize(SELECT_ICON_SIZE);
+				if (m_selectIndex != i)
+				{
+
+				}
+				m_selectIndex = i;*/
+			
 		}
-		else
-		{
-			//アイコンにマウスオーバー
-			if (Utility::MouseOver(mousePos, Vector2(SCREEN_WIDTH * 0.5f - 200, SCREEN_HEIGHT * 0.5f), Vector2(400, 360)))
-			{
-				if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::MOUSE_L))
-					m_createObject = OBJECT_TYPE::WALL;
-			}
-		}
+
 	}
-
-
-
-
-
-	//if (Utility::MouseOver(mousePos, Vector2(SCREEN_WIDTH * 0.5f + 200, SCREEN_HEIGHT * 0.5f), Vector2(400, 360)))
-	//{
-	//	if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::MOUSE_L))
-	//		m_createObject = OBJECT_TYPE::FLOOR;
-	//}
+	else if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::MOUSE_L))
+	{
+		if(Utility::MouseOver(mousePos, Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f), SELECT_ICON_SIZE))
+		//アイコンにマウスオーバー
+		m_createModelID = m_pIconInfos[m_selectIndex].modelID;
+	}
 }
 
 void ObjectPlacementUI::Draw()
 {
+}
+
+void ObjectPlacementUI::MoveIcons(float xValue)
+{
+	for (int i = 0; i < m_pIconInfos.size(); i++)
+	{
+		m_xMovingDistance += xValue;
+		float posX = i * ICON_X_OFFSET + SCREEN_WIDTH_HALF;
+		float iconXpos = posX - m_xMovingDistance;
+
+		m_pIconInfos[i].icon->SetPosition(Vector2(iconXpos, SCREEN_HEIGHT_HALF));
+	}
 }

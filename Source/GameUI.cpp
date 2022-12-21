@@ -3,12 +3,11 @@
 #include "Input.h"
 #include "Manager.h"
 #include "Scene.h"
-#include "Wall.h"
+#include "BlankObject.h"
 #include "Camera.h"
 #include "MeshField.h"
 #include "Renderer.h"
 #include "Player.h"
-#include "Floor.h"
 
 static const float ROTATION_SPEED = 0.05f;
 
@@ -37,30 +36,29 @@ void GameUI::Update()
 		m_pPlacementUI->SetHidden(true);
 	}
 	//作成フラグが帰ってきていたら
-	auto createType = m_pPlacementUI->IsCreate();
-	if (createType != OBJECT_TYPE::NONE)
+	int modeId = m_pPlacementUI->GetCreateModelID();
+	if (modeId != -1)
 	{
-		m_pPlacementUI->ResetIsCreate();
 		//オブジェクトの作成
 		auto scene = Manager::GetInstance().GetScene();
+		m_pPlaceObject = scene->AddGameObject<BlankObject>(scene->OBJECT);
+		auto modelData = StaticDataTable::GetInstance().GetModelData(modeId);
 
-		switch (createType)
-		{
-		case OBJECT_TYPE::WALL:
-			m_pPlaceObject = scene->AddGameObject<Wall>(scene->OBJECT);
-			break;
-		case OBJECT_TYPE::FLOOR:
-			m_pPlaceObject = scene->AddGameObject<Floor>(scene->OBJECT);
-			break;
+		auto model = m_pPlaceObject->AddComponent<DrawModel>(this);
+		model->Load(modelData->GetPath().c_str());
+		model->SetVertexShader("NormalMappingVS.cso");
+		model->SetPixelShader("NormalMappingPS.cso");
+		m_pPlaceObject->GetComponent<Transform>()->SetScale(modelData->GetScale());
+		auto col = m_pPlaceObject->AddComponent<OBBCollision>();
+		col->SetScale(modelData->GetCollisionScale());
+		col->SetIsStaticObject(false);
 
-		}
+		auto rigid = m_pPlaceObject->AddComponent<Rigidbody>();
+		rigid->SetIsKinematic(true);
+
 		m_pPlacementUI->SetHidden(true);
 
-		auto col = m_pPlaceObject->GetComponent<CollisionComponent>();
-		if (col)
-		{
-			col->SetIsStaticObject(false);
-		}
+		m_pPlacementUI->ResetModelID();
 	}
 	//設置物がnullじゃない場合
 	if (m_pPlaceObject)

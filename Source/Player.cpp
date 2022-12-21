@@ -6,7 +6,7 @@
 #include "ResourceManager.h"
 #include "Rigidbody.h"
 #include "Manager.h"
-#include "BlankObject.h"
+#include "ChildObject.h"
 #include "Camera.h"
 
 namespace MainGame
@@ -50,7 +50,7 @@ namespace MainGame
 
 		//当たり判定用子オブジェクト
 		auto scene = Manager::GetInstance().GetScene();
-		auto obj = scene->AddGameObject<BlankObject>(scene->OBJECT);
+		auto obj = scene->AddGameObject<ChildObject>(scene->OBJECT);
 		auto objRigid = obj->AddComponent<Rigidbody>();
 		objRigid->SetIsTrigger(true);
 		objRigid->SetIsKinematic(true);
