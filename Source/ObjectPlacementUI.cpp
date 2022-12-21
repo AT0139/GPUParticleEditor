@@ -27,6 +27,7 @@ ObjectPlacementUI::ObjectPlacementUI()
 		icon->LoadTexture(textureRootPath + pData->GetIconPath());
 		icon->SetPosition(Vector2((SCREEN_WIDTH * 0.5f) + (count * iconXOffset), SCREEN_HEIGHT * 0.5f));
 		icon->SetSize(iconSize);
+		m_pIcons.push_back(icon);
 		count++;
 	}	
 }
@@ -40,16 +41,39 @@ void ObjectPlacementUI::Update()
 	auto mousePos = GET_INPUT.GetMousePoint();
 
 
-	if(Utility::MouseOver(mousePos,Vector2(SCREEN_WIDTH * 0.5f - 200, SCREEN_HEIGHT * 0.5f), Vector2(400, 360)))
+	if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOUSE_L))
 	{
-		if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::MOUSE_L))
-			m_createObject = OBJECT_TYPE::WALL;
+		auto mouseAcc = GET_INPUT.GetMouseAcceleration();
+
+		//横方向
+		if (std::abs(mouseAcc.x) > std::abs(mouseAcc.y))
+		{
+			for (auto icon : m_pIcons)
+			{
+				Vector2 pos = icon->GetPosition();
+				icon->SetPosition(Vector2(pos.x - mouseAcc.x, pos.y));
+			}
+		}
+		else
+		{
+			//アイコンにマウスオーバー
+			if (Utility::MouseOver(mousePos, Vector2(SCREEN_WIDTH * 0.5f - 200, SCREEN_HEIGHT * 0.5f), Vector2(400, 360)))
+			{
+				if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::MOUSE_L))
+					m_createObject = OBJECT_TYPE::WALL;
+			}
+		}
 	}
-	if (Utility::MouseOver(mousePos, Vector2(SCREEN_WIDTH * 0.5f + 200, SCREEN_HEIGHT * 0.5f), Vector2(400, 360)))
-	{
-		if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::MOUSE_L))
-			m_createObject = OBJECT_TYPE::FLOOR;
-	}
+
+
+
+
+
+	//if (Utility::MouseOver(mousePos, Vector2(SCREEN_WIDTH * 0.5f + 200, SCREEN_HEIGHT * 0.5f), Vector2(400, 360)))
+	//{
+	//	if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::MOUSE_L))
+	//		m_createObject = OBJECT_TYPE::FLOOR;
+	//}
 }
 
 void ObjectPlacementUI::Draw()

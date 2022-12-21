@@ -12,6 +12,8 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
+	Vector2 GetPosition() { return m_position; }
+
 	void SetPosition(Vector2 pos);
 	void SetSize(Vector2 size);
 	void SetUV(Vector2 uv);

@@ -3,8 +3,6 @@
 #include "GameObject.h"
 
 class Draw2DPolygon;
-class Enemy;
-
 
 enum class OBJECT_TYPE
 {
@@ -31,4 +29,5 @@ private:
 	OBJECT_TYPE m_createObject;
 
 	std::shared_ptr<Draw2DPolygon> m_backGround;
+	std::list <std::shared_ptr<Draw2DPolygon>> m_pIcons;
 };
