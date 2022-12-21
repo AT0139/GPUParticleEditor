@@ -5,9 +5,12 @@
 #include "MeshField.h"
 
 static const std::string TEXTURE_ROOT_PATH = "Asset/Texture/";
-static const Vector2 ICON_SIZE(540, 260);
-static const Vector2 SELECT_ICON_SIZE(840, 560);
+static const Vector2 ICON_SIZE(640, 360);
 static const float ICON_X_OFFSET = 500;
+static const float ICON_X_OFFSET_HALF = ICON_X_OFFSET * 0.5f;
+static const float ICON_SIZE_MIN = 200;
+static const float ICON_DIFF_FACTOR = 480;
+static const float ICON_POW_FACTOR = 2.0f;
 
 ObjectPlacementUI::ObjectPlacementUI()
 	: m_selectIndex(0)
@@ -18,7 +21,7 @@ ObjectPlacementUI::ObjectPlacementUI()
 	m_backGround = AddComponent<Draw2DPolygon>(this);
 	m_backGround->LoadTexture(TEXTURE_ROOT_PATH + "Black.jpg");
 	m_backGround->SetPosition(Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f));
-	m_backGround->SetSize(Vector2(SCREEN_WIDTH, SCREEN_HEIGHT - 200));
+	m_backGround->SetSize(Vector2(SCREEN_WIDTH - 180, SCREEN_HEIGHT - 200));
 	m_backGround->SetAlpha(0.4f);
 
 	//todo: マスタ化
@@ -36,7 +39,8 @@ ObjectPlacementUI::ObjectPlacementUI()
 		info.icon = icon;
 		m_pIconInfos.push_back(info);
 		count++;
-	}	
+	}
+	MoveIcons(0);
 }
 
 ObjectPlacementUI::~ObjectPlacementUI()
@@ -59,23 +63,23 @@ void ObjectPlacementUI::Update()
 
 			MoveIcons(mouseAcc.x);
 
-			//m_pIconInfos[i].icon->SetSize(ICON_SIZE);
-			//中心を大きく
-
-	/*		if()
-				m_pIconInfos[i].icon->SetSize(SELECT_ICON_SIZE);
-				if (m_selectIndex != i)
+			//中心のインデックス
+			int centerIndex = (int)(m_xMovingDistance / ICON_X_OFFSET_HALF);
+			if (centerIndex < m_pIconInfos.size())
+			{
+				//変わった時に位置補正
+				if (centerIndex != m_selectIndex)
 				{
 
 				}
-				m_selectIndex = i;*/
-			
-		}
 
+				m_selectIndex = centerIndex;
+			}
+		}
 	}
 	else if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::MOUSE_L))
 	{
-		if(Utility::MouseOver(mousePos, Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f), SELECT_ICON_SIZE))
+		if(Utility::MouseOver(mousePos, Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f), ICON_SIZE))
 		//アイコンにマウスオーバー
 		m_createModelID = m_pIconInfos[m_selectIndex].modelID;
 	}
@@ -94,5 +98,22 @@ void ObjectPlacementUI::MoveIcons(float xValue)
 		float iconXpos = posX - m_xMovingDistance;
 
 		m_pIconInfos[i].icon->SetPosition(Vector2(iconXpos, SCREEN_HEIGHT_HALF));
+
+		float diff = std::abs(SCREEN_WIDTH_HALF - iconXpos);
+		diff /= SCREEN_WIDTH_HALF;
+		diff = std::pow(diff, ICON_POW_FACTOR);
+		diff *= ICON_DIFF_FACTOR;
+
+		float diffX = diff * 1.6f;
+		float diffY = diff * 0.9f;
+
+		//最大値
+		if (diffX >= ICON_SIZE.x)
+			diffX = ICON_SIZE.x;
+
+		if (diffY >= ICON_SIZE.y)
+			diffY = ICON_SIZE.y;
+
+		m_pIconInfos[i].icon->SetSize(Vector2(ICON_SIZE.x - diffX, ICON_SIZE.y - diffY));
 	}
 }
