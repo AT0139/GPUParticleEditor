@@ -26,9 +26,6 @@ namespace MainGame
 		float m_targetYoffset = 2.0f;
 		float m_positionYoffset = 0.0f;
 
-		POINTS m_mousePos;
-		POINTS m_preMousePos;
-
 		float m_theta;
 		float m_delta;
 	};

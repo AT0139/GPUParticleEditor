@@ -1,5 +1,7 @@
 ﻿#include "StaticDataTable.h"
 
+static const std::string modelRootPath = "Asset\\model\\";
+
 
 namespace
 {
@@ -52,6 +54,7 @@ namespace
 				return it;
 			}
 		}
+		return nullptr;
 	}
 
 }
@@ -69,13 +72,13 @@ StaticDataTable::~StaticDataTable()
 
 std::shared_ptr<ModelData> StaticDataTable::GetModelData(int id)
 {
-	return std::shared_ptr<ModelData>();
+	return SearchTable(m_modelDataTable, id);
 }
 
 void ModelData::Load(std::vector<std::string> line)
 {
 	m_id = std::atoi(line[0].c_str());
-	m_path = line[1];
+	m_path = modelRootPath + line[1];
 	Vector3 temp(std::stof(line[2].c_str()), std::stof(line[3].c_str()), std::stof(line[4].c_str()));
 	m_scale = Vector3(temp);
 	m_collisionScale = Vector3(std::stof(line[5].c_str()), std::stof(line[6].c_str()), std::stof(line[7].c_str()));
@@ -89,7 +92,7 @@ void PlacementData::Load(std::vector<std::string> line)
 
 bool ModelData::CheckID(int id)
 {
-	if (m_id = id)
+	if (m_id == id)
 		return true;
 	return false;
 }

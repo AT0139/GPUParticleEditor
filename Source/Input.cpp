@@ -3,8 +3,6 @@
 
 #define KEY_NONE NULL
 
-KEY_STATE Input::m_oldKeyState[KEY_NUM];
-KEY_STATE Input::m_keyState[KEY_NUM];
 
 KEY_CONFIG_INFO keyConfigList[] =
 {
@@ -37,6 +35,14 @@ void Input::Uninit()
 
 void Input::Update()
 {
+	//マウス用
+	{
+		m_preMousePos = m_mousePos;
+		auto pos = MouseAcquisition();
+		m_mousePos = Vector2(pos.x, pos.y);
+		m_mouseAcceleration = m_preMousePos - m_mousePos;
+	}
+
 	BYTE buffer[KEY_NUM];
 	//前回のキー入力保存
 	for (int i = 0; i < KEY_NUM; i++)

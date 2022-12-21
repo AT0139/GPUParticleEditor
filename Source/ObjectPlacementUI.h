@@ -3,16 +3,7 @@
 #include "GameObject.h"
 
 class Draw2DPolygon;
-class Enemy;
 
-
-enum class OBJECT_TYPE
-{
-	WALL,
-	FLOOR,
-
-	NONE,
-};
 
 class ObjectPlacementUI : public GameObject
 {
@@ -24,12 +15,21 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
-	OBJECT_TYPE IsCreate() { return m_createObject; }
-	void ResetIsCreate() { m_createObject = OBJECT_TYPE::NONE; }
-
+	int GetCreateModelID() { return m_createModelID; }
+	void ResetModelID() { m_createModelID = -1; }
 private:
-	OBJECT_TYPE m_createObject;
+	struct IconInfo
+	{
+		int modelID;
+		std::shared_ptr<Draw2DPolygon> icon;
+	};
 
+	void MoveIcons(float xValue);
+
+	int m_createModelID;
+	int m_selectIndex;
+	float m_xMovingDistance;
 	std::shared_ptr<Draw2DPolygon> m_backGround;
-	std::shared_ptr<Draw2DPolygon> m_icon;
+	std::shared_ptr<Draw2DPolygon> m_flame;
+	std::vector<IconInfo> m_pIconInfos;
 };

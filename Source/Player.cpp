@@ -6,7 +6,7 @@
 #include "ResourceManager.h"
 #include "Rigidbody.h"
 #include "Manager.h"
-#include "BlankObject.h"
+#include "ChildObject.h"
 #include "Camera.h"
 
 namespace MainGame
@@ -50,7 +50,7 @@ namespace MainGame
 
 		//当たり判定用子オブジェクト
 		auto scene = Manager::GetInstance().GetScene();
-		auto obj = scene->AddGameObject<BlankObject>(scene->OBJECT);
+		auto obj = scene->AddGameObject<ChildObject>(scene->OBJECT);
 		auto objRigid = obj->AddComponent<Rigidbody>();
 		objRigid->SetIsTrigger(true);
 		objRigid->SetIsKinematic(true);
@@ -76,7 +76,7 @@ namespace MainGame
 
 		Move();
 
-		if (Input::GetKeyTrigger(KEY_CONFIG::JUMP) && m_rigid->IsGround())
+		if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::JUMP) && m_rigid->IsGround())
 		{
 			Jump();
 		}
@@ -84,7 +84,7 @@ namespace MainGame
 		//投げる
 		if (m_haveObject != nullptr)
 		{
-			if (Input::GetKeyRelease(KEY_CONFIG::ACTION))
+			if (GET_INPUT.GetKeyRelease(KEY_CONFIG::ACTION))
 			{
 				Throw();
 			}
@@ -141,7 +141,7 @@ namespace MainGame
 
 		//MOVE
 		Vector3 velo = Vector3(0, 0, 0);
-		if (Input::GetKeyPress(KEY_CONFIG::MOVE_UP))
+		if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOVE_UP))
 		{
 			velo += cameraForward * MOVE_SPEED;
 			m_animationName = "Run";
@@ -149,7 +149,7 @@ namespace MainGame
 			m_transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
 			m_blendRate += ADD_BLENDRATE;
 		}
-		else if (Input::GetKeyPress(KEY_CONFIG::MOVE_DOWN))
+		else if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOVE_DOWN))
 		{
 			velo -= cameraForward * (MOVE_SPEED / 2);
 			m_animationName = "WalkingBack";
@@ -162,12 +162,12 @@ namespace MainGame
 
 			m_animationName = "Idle";
 		}
-		if (Input::GetKeyPress(KEY_CONFIG::MOVE_LEFT))
+		if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOVE_LEFT))
 		{
 			velo -= cameraRight * MOVE_SPEED;
 			m_transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
 		}
-		if (Input::GetKeyPress(KEY_CONFIG::MOVE_RIGHT))
+		if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOVE_RIGHT))
 		{
 			velo += cameraRight * MOVE_SPEED;
 			m_transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));

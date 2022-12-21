@@ -3,12 +3,11 @@
 #include "Input.h"
 #include "Manager.h"
 #include "Scene.h"
-#include "Wall.h"
+#include "BlankObject.h"
 #include "Camera.h"
 #include "MeshField.h"
 #include "Renderer.h"
 #include "Player.h"
-#include "Floor.h"
 
 static const float ROTATION_SPEED = 0.05f;
 
@@ -28,44 +27,43 @@ GameUI::~GameUI()
 void GameUI::Update()
 {
 	//UIを開く
-	if (Input::GetKeyTrigger(KEY_CONFIG::OPEN_UI))
+	if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::OPEN_UI))
 	{
 		m_pPlacementUI->SetHidden(false);
 	}
-	if (Input::GetKeyRelease(KEY_CONFIG::OPEN_UI))
+	if (GET_INPUT.GetKeyRelease(KEY_CONFIG::OPEN_UI))
 	{
 		m_pPlacementUI->SetHidden(true);
 	}
 	//作成フラグが帰ってきていたら
-	auto createType = m_pPlacementUI->IsCreate();
-	if (createType != OBJECT_TYPE::NONE)
+	int modeId = m_pPlacementUI->GetCreateModelID();
+	if (modeId != -1)
 	{
-		m_pPlacementUI->ResetIsCreate();
 		//オブジェクトの作成
 		auto scene = Manager::GetInstance().GetScene();
+		m_pPlaceObject = scene->AddGameObject<BlankObject>(scene->OBJECT);
+		auto modelData = StaticDataTable::GetInstance().GetModelData(modeId);
 
-		switch (createType)
-		{
-		case OBJECT_TYPE::WALL:
-			m_pPlaceObject = scene->AddGameObject<Wall>(scene->OBJECT);
-			break;
-		case OBJECT_TYPE::FLOOR:
-			m_pPlaceObject = scene->AddGameObject<Floor>(scene->OBJECT);
-			break;
+		auto model = m_pPlaceObject->AddComponent<DrawModel>(this);
+		model->Load(modelData->GetPath().c_str());
+		model->SetVertexShader("NormalMappingVS.cso");
+		model->SetPixelShader("NormalMappingPS.cso");
+		m_pPlaceObject->GetComponent<Transform>()->SetScale(modelData->GetScale());
+		auto col = m_pPlaceObject->AddComponent<OBBCollision>();
+		col->SetScale(modelData->GetCollisionScale());
+		col->SetIsStaticObject(false);
 
-		}
+		auto rigid = m_pPlaceObject->AddComponent<Rigidbody>();
+		rigid->SetIsKinematic(true);
+
 		m_pPlacementUI->SetHidden(true);
 
-		auto col = m_pPlaceObject->GetComponent<CollisionComponent>();
-		if (col)
-		{
-			col->SetIsStaticObject(false);
-		}
+		m_pPlacementUI->ResetModelID();
 	}
 	//設置物がnullじゃない場合
 	if (m_pPlaceObject)
 	{
-		auto mousePos = GetMousePos();
+		auto mousePos = GET_INPUT.GetMousePoint();
 		auto scene = Manager::GetInstance().GetScene();
 
 		//マウスポジションから座標を計算
@@ -104,13 +102,13 @@ void GameUI::Update()
 		}
 
 		//回転
-		if (Input::GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_L))
+		if (GET_INPUT.GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_L))
 			trans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, -ROTATION_SPEED));
-		if (Input::GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_R))
+		if (GET_INPUT.GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_R))
 			trans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, ROTATION_SPEED));
 
 		//離されたら
-		if (Input::GetKeyRelease(KEY_CONFIG::MOUSE_L))
+		if (GET_INPUT.GetKeyRelease(KEY_CONFIG::MOUSE_L))
 		{
 			auto col = m_pPlaceObject->GetComponent<CollisionComponent>();
 			if (col)

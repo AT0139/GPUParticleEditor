@@ -202,6 +202,12 @@
     <ClInclude Include="Source\StaticDataTable.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
+    <ClInclude Include="Source\strconv.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ChildObject.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Tree.cpp">
@@ -365,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="Source\StaticDataTable.cpp">
       <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ChildObject.cpp">
+      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

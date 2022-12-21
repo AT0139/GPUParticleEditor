@@ -5,4 +5,4 @@
 
 
 HWND GetWindow();
-POINTS GetMousePos();
+POINTS MouseAcquisition();

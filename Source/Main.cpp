@@ -15,7 +15,7 @@ HWND GetWindow()
 	return g_Window;
 }
 
-POINTS GetMousePos()
+POINTS MouseAcquisition()
 {
 	if (g_mousePoint.x >= SCREEN_WIDTH)
 		g_mousePoint.x = SCREEN_WIDTH;

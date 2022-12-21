@@ -15,7 +15,7 @@ Manager::Manager()
 void Manager::Init()
 {
 	Renderer::GetInstance().Init();
-	Input::Init();
+	GET_INPUT.Init();
 	Audio::InitMaster();
 
 	SetScene<MainGame::Game>();
@@ -27,13 +27,13 @@ void Manager::Uninit()
 	delete m_pScene;
 
 	Audio::UninitMaster();
-	Input::Uninit();
+	GET_INPUT.Uninit();
 	Renderer::GetInstance().Uninit();
 }
 
 void Manager::Update()
 {
-	Input::Update();
+	GET_INPUT.Update();
 
 	m_pScene->Update();
 }
