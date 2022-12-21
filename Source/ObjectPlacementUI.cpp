@@ -2,7 +2,6 @@
 #include "Draw2DPolygon.h"
 #include "Main.h"
 #include "Input.h"
-#include "MeshField.h"
 
 static const std::string TEXTURE_ROOT_PATH = "Asset/Texture/";
 static const Vector2 ICON_SIZE(640, 360);
@@ -21,8 +20,10 @@ ObjectPlacementUI::ObjectPlacementUI()
 	m_backGround = AddComponent<Draw2DPolygon>(this);
 	m_backGround->LoadTexture(TEXTURE_ROOT_PATH + "Black.jpg");
 	m_backGround->SetPosition(Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f));
-	m_backGround->SetSize(Vector2(SCREEN_WIDTH - 180, SCREEN_HEIGHT - 200));
+	m_backGround->SetSize(Vector2(SCREEN_WIDTH - 180, SCREEN_HEIGHT - 500));
 	m_backGround->SetAlpha(0.4f);
+
+
 
 	//todo: マスタ化
 	auto pDataList = StaticDataTable::GetInstance().GetPlacementDataList();
@@ -41,6 +42,13 @@ ObjectPlacementUI::ObjectPlacementUI()
 		count++;
 	}
 	MoveIcons(0);
+
+	//枠
+	m_flame = AddComponent<Draw2DPolygon>(this);
+	m_flame->LoadTexture(TEXTURE_ROOT_PATH + "Flame.png");
+	m_flame->SetPosition(Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f));
+	m_flame->SetSize(Vector2(640, 640));
+
 }
 
 ObjectPlacementUI::~ObjectPlacementUI()
@@ -50,38 +58,30 @@ ObjectPlacementUI::~ObjectPlacementUI()
 void ObjectPlacementUI::Update()
 {
 	auto mousePos = GET_INPUT.GetMousePoint();
+	auto mouseAcc = GET_INPUT.GetMouseAcceleration();
 
 
 	if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOUSE_L))
 	{
-		auto mouseAcc = GET_INPUT.GetMouseAcceleration();
 
-		//横方向
-		if (std::abs(mouseAcc.x) > std::abs(mouseAcc.y))
+		m_createModelID = -1;
+
+		MoveIcons(mouseAcc.x);
+
+		//中心のインデックス
+		int centerIndex = (int)(m_xMovingDistance / ICON_X_OFFSET_HALF);
+		if (centerIndex < m_pIconInfos.size())
 		{
-			m_createModelID = -1;
-
-			MoveIcons(mouseAcc.x);
-
-			//中心のインデックス
-			int centerIndex = (int)(m_xMovingDistance / ICON_X_OFFSET_HALF);
-			if (centerIndex < m_pIconInfos.size())
-			{
-				//変わった時に位置補正
-				if (centerIndex != m_selectIndex)
-				{
-
-				}
-
-				m_selectIndex = centerIndex;
-			}
+			m_selectIndex = centerIndex;
 		}
+		m_flame->SetPosition(m_pIconInfos[m_selectIndex].icon->GetPosition());
 	}
-	else if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::MOUSE_L))
+	//縦方向
+	if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::MOUSE_L) && std::abs(mouseAcc.x) < std::abs(mouseAcc.y))
 	{
-		if(Utility::MouseOver(mousePos, Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f), ICON_SIZE))
-		//アイコンにマウスオーバー
-		m_createModelID = m_pIconInfos[m_selectIndex].modelID;
+		if (Utility::MouseOver(mousePos, Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f), ICON_SIZE))
+			//アイコンにマウスオーバー
+			m_createModelID = m_pIconInfos[m_selectIndex].modelID;
 	}
 }
 
@@ -94,6 +94,11 @@ void ObjectPlacementUI::MoveIcons(float xValue)
 	for (int i = 0; i < m_pIconInfos.size(); i++)
 	{
 		m_xMovingDistance += xValue;
+		if (m_xMovingDistance < 0)
+			m_xMovingDistance = 0;
+		if (m_xMovingDistance > (m_pIconInfos.size() - 1) * ICON_X_OFFSET)
+			m_xMovingDistance = (m_pIconInfos.size() - 1) * ICON_X_OFFSET;
+
 		float posX = i * ICON_X_OFFSET + SCREEN_WIDTH_HALF;
 		float iconXpos = posX - m_xMovingDistance;
 

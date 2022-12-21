@@ -30,5 +30,6 @@ private:
 	int m_selectIndex;
 	float m_xMovingDistance;
 	std::shared_ptr<Draw2DPolygon> m_backGround;
+	std::shared_ptr<Draw2DPolygon> m_flame;
 	std::vector<IconInfo> m_pIconInfos;
 };
