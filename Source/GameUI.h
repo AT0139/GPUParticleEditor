@@ -15,10 +15,19 @@ public:
 	virtual void Draw() override;
 
 private:
+	struct SnapObjectInfo
+	{
+		BoundingOrientedBox m_obb;
+		std::vector<Vector3> m_snapPoint;
+	};
+
 	void PlacementUIUpdate();
-	void CreateObjectAtID(int modelID);
+	void CreateObjectAtID(int staticObjectID);
+	void SetSnapInfo();
 
 	ObjectPlacementUI* m_pPlacementUI;
 	GameObject* m_pPlaceObject;
-	std::list<std::shared_ptr<BoundingOrientedBox>> m_pSnapPositionList;
+	std::list<SnapObjectInfo> m_pSnapObjectList;
+
+	std::shared_ptr<StaticObjectData> m_placeObjectData;
 };

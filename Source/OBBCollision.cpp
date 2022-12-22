@@ -60,22 +60,22 @@ void OBBCollision::HitTest(OBBCollision& opponent)
 
 OBBInfo OBBCollision::GetOBBInfo()
 {
-	OBBInfo obb;
+	OBBInfo m_obb;
 	auto transform = GetGameObject()->GetComponent<Transform>();
-	obb.center = transform->GetPosition();
+	m_obb.center = transform->GetPosition();
 	auto x = transform->GetXAxis();
 	auto y = transform->GetYAxis();
 	auto z = transform->GetZAxis();
 	x.Normalize(); y.Normalize(); z.Normalize();
-	obb.rot[0] = x;
-	obb.rot[1] = y;
-	obb.rot[2] = z;
+	m_obb.rot[0] = x;
+	m_obb.rot[1] = y;
+	m_obb.rot[2] = z;
 	auto scale = GetCollisionScale();
-	obb.scaleHalf[0] = scale.x;
-	obb.scaleHalf[1] = scale.y;
-	obb.scaleHalf[2] = scale.z;
+	m_obb.scaleHalf[0] = scale.x;
+	m_obb.scaleHalf[1] = scale.y;
+	m_obb.scaleHalf[2] = scale.z;
 
-	return obb;
+	return m_obb;
 }
 
 void OBBCollision::SetScale(Vector3 scale)
@@ -93,10 +93,10 @@ void OBBCollision::SetScale(float scale)
 
 void OBBCollision::CollisionEscape(SphereCollision& opponent)
 {
-	auto obb = GetOBBInfo();
+	auto m_obb = GetOBBInfo();
 	auto sphere = opponent.GetSphereInfo();
 	Vector3 ret;
-	bool hit = CollisionUtility::ObbSphere(obb, sphere, ret);
+	bool hit = CollisionUtility::ObbSphere(m_obb, sphere, ret);
 	if (hit)
 	{
 		Vector3 nowSpan = ret - sphere.center;
@@ -157,9 +157,9 @@ void OBBCollision::CollisionEscape(CapsuleCollision& opponent)
 Vector3 OBBCollision::GetHitNormal(SphereCollision& opponent)
 {
 	SphereInfo sp = opponent.GetSphereInfo();
-	OBBInfo obb = GetOBBInfo();
+	OBBInfo m_obb = GetOBBInfo();
 	Vector3 normal;
-	CollisionUtility::ObbSphere(obb, sp, normal);
+	CollisionUtility::ObbSphere(m_obb, sp, normal);
 	//接点へのベクトル
 	normal = sp.center - normal;
 	normal.Normalize();
@@ -168,7 +168,7 @@ Vector3 OBBCollision::GetHitNormal(SphereCollision& opponent)
 
 Vector3 OBBCollision::GetHitNormal(AABBCollision& opponent)
 {
-	OBBInfo obb = GetOBBInfo();
+	OBBInfo m_obb = GetOBBInfo();
 	AABBInfo aabb = opponent.GetAABBInfo();
 	//Rectのベクトル
 	Vector3 ret = aabb.GetPlane(opponent.GetGameObject()).normal;
@@ -178,13 +178,13 @@ Vector3 OBBCollision::GetHitNormal(AABBCollision& opponent)
 
 Vector3 OBBCollision::GetHitNormal(OBBCollision& opponent)
 {
-	OBBInfo obb = GetOBBInfo();
+	OBBInfo m_obb = GetOBBInfo();
 	OBBInfo obb2 = opponent.GetOBBInfo();
 	Vector3 normal;
 	//SrcのOBBとDestの最近接点を得る
-	CollisionUtility::ClosestPtPointOBB(obb.center, obb2, normal);
+	CollisionUtility::ClosestPtPointOBB(m_obb.center, obb2, normal);
 	//接点へのベクトル
-	Vector3 ret = normal - obb.center;
+	Vector3 ret = normal - m_obb.center;
 	ret.Normalize();
 	return ret;
 }

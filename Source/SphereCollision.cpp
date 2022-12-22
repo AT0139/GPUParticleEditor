@@ -118,9 +118,9 @@ Vector3 SphereCollision::GetHitNormal(AABBCollision& opponent)
 Vector3 SphereCollision::GetHitNormal(OBBCollision& opponent)
 {
 	SphereInfo sp = GetSphereInfo();
-	OBBInfo obb = opponent.GetOBBInfo();
+	OBBInfo m_obb = opponent.GetOBBInfo();
 	Vector3 normal;
-	CollisionUtility::ObbSphere(obb, sp, normal);
+	CollisionUtility::ObbSphere(m_obb, sp, normal);
 	//接点へのベクトル
 	normal -= sp.center;
 	normal.Normalize();
@@ -154,9 +154,9 @@ void SphereCollision::CollisionEscape(AABBCollision& opponent)
 void SphereCollision::CollisionEscape(OBBCollision& opponent)
 {
 	auto sphere = GetSphereInfo();
-	auto obb = opponent.GetOBBInfo();
+	auto m_obb = opponent.GetOBBInfo();
 	Vector3 ret;
-	bool hit = CollisionUtility::ObbSphere(obb, sphere, ret);
+	bool hit = CollisionUtility::ObbSphere(m_obb, sphere, ret);
 
 	Vector3 span = sphere.center - ret;
 	span.Normalize();

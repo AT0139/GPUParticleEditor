@@ -15,7 +15,7 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
-	int GetCreateModelID() { return m_createModelID; }
+	int GetCreateStaticObjectID() { return m_createModelID; }
 	void ResetModelID() { m_createModelID = -1; }
 private:
 	struct IconInfo

@@ -46,11 +46,11 @@ void GameUI::Draw()
 void GameUI::PlacementUIUpdate()
 {
 	//作成フラグが帰ってきていたら
-	int modelId = m_pPlacementUI->GetCreateModelID();
-	if (modelId != -1)
+	int staticObjectId = m_pPlacementUI->GetCreateStaticObjectID();
+	if (staticObjectId != -1)
 	{
 		//オブジェクトの作成
-		CreateObjectAtID(modelId);
+		CreateObjectAtID(staticObjectId);
 	}
 	//設置物がnullじゃない場合
 	if (m_pPlaceObject)
@@ -59,7 +59,6 @@ void GameUI::PlacementUIUpdate()
 		auto scene = Manager::GetInstance().GetScene();
 
 		//マウスポジションから座標を計算
-		Vector3 pos;
 		auto camera = scene->GetGameObject<MainGame::Camera>(scene->CAMERA);
 		auto field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
 		auto trans = m_pPlaceObject->GetComponent<Transform>();
@@ -85,9 +84,10 @@ void GameUI::PlacementUIUpdate()
 			}
 		}
 
+		//当たりの距離から位置の計算
 		if (dist >= 1.0f)
 		{
-			//当たりの距離から位置の計算
+			Vector3 pos;
 			pos = ray.position + ray.direction * dist;
 			trans->SetPosition(pos);
 		}
@@ -99,10 +99,10 @@ void GameUI::PlacementUIUpdate()
 			trans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, ROTATION_SPEED));
 
 		//スナップ
-		for (auto snap : m_pSnapPositionList)
+		for (auto snap : m_pSnapObjectList)
 		{
 			float snapDist = 0;
-			if (snap->Intersects(ray.position, ray.direction, snapDist))
+			if (snap.m_obb.Intersects(ray.position, ray.direction, snapDist))
 			{
 #ifdef _DEBUG
 				ImGui::Begin("Mouse");
@@ -111,10 +111,23 @@ void GameUI::PlacementUIUpdate()
 				}
 				ImGui::End();
 #endif
-				Vector3 hitPos = ray.position + ray.direction * snapDist;
-				snap->Center - hitPos;
+				Vector3 hitPos = ray.position + ray.direction * snapDist; //オブジェクト上の交差点
+
+				//一番近いスナップポイントインデックスを計算
+				float nearDistance = 100;
+				int nearIndex = 0;
+				for (int i = 0; i < snap.m_snapPoint.size(); i++)
+				{
+					float dis = (snap.m_snapPoint[i] - trans->GetPosition()).Length();
+					if (dis < nearDistance)
+					{
+						nearDistance = dis;
+						nearIndex = i;
+					}
+				}
 
 
+				trans->SetPosition(snap.m_snapPoint[nearIndex]);
 				break;
 			}
 		}
@@ -128,32 +141,30 @@ void GameUI::PlacementUIUpdate()
 				col->SetIsStaticObject(true);
 			}
 
-			//スナップ用情報セット
-			std::shared_ptr<BoundingOrientedBox> box(new BoundingOrientedBox);
-			box->Center = m_pPlaceObject->GetComponent<Transform>()->GetPosition();
-			box->Extents = m_pPlaceObject->GetComponent<CollisionComponent>()->GetCollisionScale();
-			box->Orientation = m_pPlaceObject->GetComponent<Transform>()->GetRotation();
-			m_pSnapPositionList.push_back(box);
-
+			SetSnapInfo();
 
 			m_pPlaceObject = nullptr;
+			m_placeObjectData.reset();
 		}
 	}
 }
 
-void GameUI::CreateObjectAtID(int modelID)
+void GameUI::CreateObjectAtID(int staticObjectID)
 {
 	auto scene = Manager::GetInstance().GetScene();
 	m_pPlaceObject = scene->AddGameObject<BlankObject>(scene->OBJECT);
-	auto modelData = StaticDataTable::GetInstance().GetModelData(modelID);//モデルデータ取得
+	m_placeObjectData = StaticDataTable::GetInstance().GetStaticObjectData(staticObjectID);
+	auto modelData = StaticDataTable::GetInstance().GetModelData(m_placeObjectData->GetModelID());//モデルデータ取得
 
 	auto model = m_pPlaceObject->AddComponent<DrawModel>(this);
+
 	model->Load(modelData->GetPath().c_str());
 	model->SetVertexShader("NormalMappingVS.cso");
 	model->SetPixelShader("NormalMappingPS.cso");
+
 	m_pPlaceObject->GetComponent<Transform>()->SetScale(modelData->GetScale());
 	auto col = m_pPlaceObject->AddComponent<OBBCollision>();
-	col->SetScale(modelData->GetCollisionScale());
+	col->SetScale(m_placeObjectData->GetCollisionScale());
 	col->SetIsStaticObject(false);
 
 	auto rigid = m_pPlaceObject->AddComponent<Rigidbody>();
@@ -162,4 +173,55 @@ void GameUI::CreateObjectAtID(int modelID)
 	//UIを消す
 	m_pPlacementUI->SetHidden(true);
 	m_pPlacementUI->ResetModelID();
+}
+
+void GameUI::SetSnapInfo()
+{
+	//スナップ用情報セット
+	SnapObjectInfo info;
+	auto transform = m_pPlaceObject->GetComponent<Transform>();
+	auto position = transform->GetPosition();
+	info.m_obb.Center = position;
+	info.m_obb.Extents = m_pPlaceObject->GetComponent<CollisionComponent>()->GetCollisionScale();
+	info.m_obb.Orientation = transform->GetRotation();
+
+
+	auto scele = transform->GetScale();
+	auto quat = transform->GetRotation();
+	quat.Normalize();
+
+	//x軸
+	if(m_placeObjectData->IsSnapX())
+	{
+		Vector3 a(scele.x, 0, 0);
+
+		a = Vector3::Transform(a, quat);
+		info.m_snapPoint.push_back(position + a);
+
+		info.m_snapPoint.push_back(position - a);
+	}
+
+	//y軸
+	if (m_placeObjectData->IsSnapY())
+	{
+		Vector3 a(0, scele.y, 0);	
+
+		a = Vector3::Transform(a, quat);
+		info.m_snapPoint.push_back(position + a);
+
+		info.m_snapPoint.push_back(position - a);
+	}
+
+	//z軸
+	if (m_placeObjectData->IsSnapZ())
+	{
+		Vector3 a(0, 0, scele.z);
+
+		a = Vector3::Transform(a, quat);
+		info.m_snapPoint.push_back(position + a);
+
+		info.m_snapPoint.push_back(position - a);
+	}
+
+	m_pSnapObjectList.push_back(info);
 }

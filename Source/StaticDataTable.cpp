@@ -1,6 +1,7 @@
 ﻿#include "StaticDataTable.h"
 
-static const std::string modelRootPath = "Asset\\model\\";
+static const std::string TABLE_ROOT_PATH = "Asset\\Table\\";
+static const std::string MODEL_ROOT_PATH = "Asset\\model\\";
 
 
 namespace
@@ -61,8 +62,9 @@ namespace
 
 StaticDataTable::StaticDataTable()
 {
-	LoadTable(m_modelDataTable, "Asset\\Table\\ModelTable.csv");
-	LoadTable(m_placementDataTable, "Asset\\Table\\PlacementUITable.csv");
+	LoadTable(m_pModelDataTable, TABLE_ROOT_PATH + "ModelDataTable.csv");
+	LoadTable(m_pStaticObjectDataTable, TABLE_ROOT_PATH +"StaticObjectTable.csv");
+	LoadTable(m_pPlacementDataTable, TABLE_ROOT_PATH + "PlacementUITable.csv");
 }
 
 
@@ -72,22 +74,19 @@ StaticDataTable::~StaticDataTable()
 
 std::shared_ptr<ModelData> StaticDataTable::GetModelData(int id)
 {
-	return SearchTable(m_modelDataTable, id);
+	return SearchTable(m_pModelDataTable, id);
+}
+
+std::shared_ptr<StaticObjectData> StaticDataTable::GetStaticObjectData(int id)
+{
+	return SearchTable(m_pStaticObjectDataTable, id);
 }
 
 void ModelData::Load(std::vector<std::string> line)
 {
 	m_id = std::atoi(line[0].c_str());
-	m_path = modelRootPath + line[1];
-	Vector3 temp(std::stof(line[2].c_str()), std::stof(line[3].c_str()), std::stof(line[4].c_str()));
-	m_scale = Vector3(temp);
-	m_collisionScale = Vector3(std::stof(line[5].c_str()), std::stof(line[6].c_str()), std::stof(line[7].c_str()));
-}
-
-void PlacementData::Load(std::vector<std::string> line)
-{
-	m_modelId = std::atoi(line[0].c_str());
-	m_iconPath = line[1];
+	m_path = MODEL_ROOT_PATH + line[1];
+	m_scale = Vector3(std::stof(line[2].c_str()), std::stof(line[3].c_str()), std::stof(line[4].c_str()));
 }
 
 bool ModelData::CheckID(int id)
@@ -95,6 +94,29 @@ bool ModelData::CheckID(int id)
 	if (m_id == id)
 		return true;
 	return false;
+}
+
+void StaticObjectData::Load(std::vector<std::string> line)
+{
+	m_id = std::atoi(line[1].c_str());
+	m_modelID = std::atoi(line[2].c_str());
+	m_collisionScale = Vector3(std::stof(line[3].c_str()), std::stof(line[4].c_str()), std::stof(line[5].c_str()));;
+	m_isSnapX = std::atoi(line[6].c_str());
+	m_isSnapY = std::atoi(line[7].c_str());
+	m_isSnapZ = std::atoi(line[8].c_str());
+}
+
+bool StaticObjectData::CheckID(int id)
+{
+	if (m_id == id)
+		return true;
+	return false;
+}
+
+void PlacementData::Load(std::vector<std::string> line)
+{
+	m_modelId = std::atoi(line[0].c_str());
+	m_iconPath = line[1];
 }
 
 bool PlacementData::CheckID(int id)
