@@ -189,6 +189,7 @@ void GameUI::CreateObjectAtID(int staticObjectID)
 	auto col = m_pPlaceObject->AddComponent<OBBCollision>();
 	col->SetScale(m_placeObjectData->GetCollisionScale());
 	col->SetIsStaticObject(false);
+	col->SetHitAction(HitAction::None);
 
 	auto rigid = m_pPlaceObject->AddComponent<Rigidbody>();
 	rigid->SetIsKinematic(true);

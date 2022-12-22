@@ -120,11 +120,24 @@ void OBBCollision::CollisionEscape(AABBCollision& opponent)
 
 void OBBCollision::CollisionEscape(OBBCollision& opponent)
 {
+	auto transform = GetGameObject()->GetComponent<Transform>();
+
 	auto myObb = GetOBBInfo();
 	auto oppObb = opponent.GetOBBInfo();
 
+	float myBase = myObb.center.y - myObb.scaleHalf[1];
+	float oppHigh = oppObb.center.y + oppObb.scaleHalf[1];
+
+	if (oppHigh - myBase < 0.5f)
+	{
+		auto pos = transform->GetPosition();
+		pos.y = oppHigh;
+		transform->SetPosition(pos);
+		return;
+	}
+
 	Vector3 ret;
-	//SrcのOBBとDestの最近接点を得る
+	//最近接点を得る
 	CollisionUtility::ClosestPtPointOBB(myObb.center, oppObb, ret);
 	Vector3 span = myObb.center - ret;
 	span.Normalize();
@@ -145,7 +158,7 @@ void OBBCollision::CollisionEscape(OBBCollision& opponent)
 			break;
 		}
 	}
-	auto transform = GetGameObject()->GetComponent<Transform>();
+
 	//エスケープはリセット
 	transform->SetWorldPosition(center);
 }

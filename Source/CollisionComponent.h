@@ -38,7 +38,7 @@ struct OBBInfo
 {
 	Vector3 center;
 	Vector3 rot[3];
-	float scaleHalf[3];
+	float scaleHalf[3];//x,y,z
 };
 
 struct CapsuleInfo
