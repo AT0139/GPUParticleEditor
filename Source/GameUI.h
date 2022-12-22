@@ -15,6 +15,10 @@ public:
 	virtual void Draw() override;
 
 private:
+	void PlacementUIUpdate();
+	void CreateObjectAtID(int modelID);
+
 	ObjectPlacementUI* m_pPlacementUI;
 	GameObject* m_pPlaceObject;
+	std::list<std::shared_ptr<BoundingOrientedBox>> m_pSnapPositionList;
 };
