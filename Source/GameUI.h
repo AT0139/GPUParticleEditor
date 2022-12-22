@@ -23,7 +23,7 @@ private:
 
 	void PlacementUIUpdate();
 	void CreateObjectAtID(int staticObjectID);
-	void SetSnapInfo();
+	SnapObjectInfo CreateSnapInfo();
 
 	ObjectPlacementUI* m_pPlacementUI;
 	GameObject* m_pPlaceObject;
