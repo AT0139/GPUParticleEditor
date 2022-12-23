@@ -29,7 +29,7 @@ SphereInfo SphereCollision::GetSphereInfo()
 {
 	SphereInfo sphere;
 
-	sphere.center = GetGameObject()->GetComponent<Transform>()->GetWorldPosition();
+	sphere.center = GetGameObject()->GetComponent<Transform>()->GetWorldPosition() + m_centerPosition;
 	sphere.radius = m_radius;
 
 	return sphere;

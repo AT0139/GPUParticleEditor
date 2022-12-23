@@ -76,7 +76,7 @@ AABBInfo AABBCollision::GetAABBInfo()
 {
 	AABBInfo aabb;
 	auto transform = GetGameObject()->GetComponent<Transform>();
-	aabb.center = transform->GetPosition();
+	aabb.center = transform->GetPosition() + m_centerPosition;
 	aabb.scaleHalf = GetCollisionScale();
 	return aabb;
 }

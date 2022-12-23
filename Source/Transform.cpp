@@ -142,7 +142,7 @@ Matrix Transform::GetWorldMatrix()
 	return m_worldMatrix;
 }
 
-Matrix Transform::GetWorldMatrix(Vector3 scale)
+Matrix Transform::GetWorldMatrix(Vector3 scale, Vector3 position)
 {
 	auto parent = GetParent();
 	Matrix world;
@@ -150,7 +150,8 @@ Matrix Transform::GetWorldMatrix(Vector3 scale)
 	Matrix sc, rot, trans;
 	sc = XMMatrixScaling(scale.x, scale.y, scale.z);
 	rot = XMMatrixRotationQuaternion(m_quaternion);
-	trans = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
+	auto pos = m_position + position;
+	trans = XMMatrixTranslation(pos.x, pos.y, pos.z);
 	world = sc * rot * trans;
 	if (parent)
 	{

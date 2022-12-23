@@ -62,7 +62,7 @@ OBBInfo OBBCollision::GetOBBInfo()
 {
 	OBBInfo m_obb;
 	auto transform = GetGameObject()->GetComponent<Transform>();
-	m_obb.center = transform->GetPosition();
+	m_obb.center = transform->GetPosition() + m_centerPosition;
 	auto x = transform->GetXAxis();
 	auto y = transform->GetYAxis();
 	auto z = transform->GetZAxis();
@@ -128,7 +128,8 @@ void OBBCollision::CollisionEscape(OBBCollision& opponent)
 	float myBase = myObb.center.y - myObb.scaleHalf[1];
 	float oppHigh = oppObb.center.y + oppObb.scaleHalf[1];
 
-	if (oppHigh - myBase < 0.5f)
+	//微妙な段差は乗り越え
+	if (oppHigh - myBase < 0.2f)
 	{
 		auto pos = transform->GetPosition();
 		pos.y = oppHigh;
@@ -138,11 +139,12 @@ void OBBCollision::CollisionEscape(OBBCollision& opponent)
 
 	Vector3 ret;
 	//最近接点を得る
-	CollisionUtility::ClosestPtPointOBB(myObb.center, oppObb, ret);
-	Vector3 span = myObb.center - ret;
+	auto pos =GetGameObject()->GetComponent<Transform>()->GetPosition();
+	CollisionUtility::ClosestPtPointOBB(pos, oppObb, ret);
+	Vector3 span = pos - ret;
 	span.Normalize();
 	span *= 0.02f;
-	auto center = myObb.center;
+	auto center = pos;
 	int count = 0;
 	while (1)
 	{

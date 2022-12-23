@@ -24,7 +24,8 @@ namespace MainGame
 		m_rigid = AddComponent<Rigidbody>();
 		m_rigid->SetMass(1.5f);
 		auto col = AddComponent<OBBCollision>();
-		col->SetScale(0.5f);
+		col->SetScale(Vector3(0.5f, 1.6f, 0.5f));
+		col->SetCenterPosition(Vector3(0.0f, 0.8f, 0.0f));
 		//モデル読み込み
 		m_model = ResourceManager::GetInstance().GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
 		m_model->LoadAnimation((char*)"asset\\model\\Akai_Idle.fbx", "Idle");

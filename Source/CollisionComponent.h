@@ -63,6 +63,7 @@ public:
 	virtual void Update() override {}
 	virtual void Draw() override {}
 
+	void SetCenterPosition(Vector3 pos) { m_centerPosition = pos; }
 	void SetIsStaticObject(bool is) { m_isStaticObject = is; }
 	bool IsStaticObject()const { return m_isStaticObject; }
 	void SetHitAction(HitAction hitAction) { m_hitAction = hitAction; }
@@ -90,10 +91,11 @@ public:
 
 	void AddHitObject(GameObject& obj) { m_hitObjects.push_back(&obj); }
 	Vector3 GetCollisionScale() { return m_collisionScale; }
+	Vector3 GetCenterPosition() { return m_centerPosition; }
+	void SetCollisionScale(Vector3 scale) { m_collisionScale = scale; }
 
 protected:
 	void CollisonAfter(CollisionComponent* col1, CollisionComponent* col2, bool col1Flag, bool col2Flag);
-	void SetCollisionScale(Vector3 scale) { m_collisionScale = scale; }
 
 	template<typename MyType, typename OppType>
 	void AfterCollisionTemplate(MyType* myCol, OppType* oppCol)
@@ -113,6 +115,7 @@ protected:
 		}
 		else
 		{
+			//自分が静的だったら
 			if (oppCol->GetHitAction() != HitAction::None)
 			{
 				oppCol->CollisionEscape(*myCol);
@@ -132,14 +135,17 @@ protected:
 			if (m_hitAction != HitAction::None)
 			{
 				CollisionEscape(*oppCol);
+				return;
 			}
 		}
-		//todo:動かないオブジェクトの追加
 		//衝突処理
 		{
+
 			CollisonAfter(myCol, oppCol, myAfter, oppAfter);
 		}
 	}
+
+	Vector3 m_centerPosition;
 
 private:
 	inline  Vector3 Slide(const Vector3& Vec, const Vector3& Norm)

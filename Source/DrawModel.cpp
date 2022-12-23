@@ -45,7 +45,8 @@ void DrawModel::Draw()
 	if (m_isCollision)
 	{
 		auto scale = GetGameObject()->GetComponent<CollisionComponent>()->GetCollisionScale();
-		world = GetGameObject()->GetComponent<Transform>()->GetWorldMatrix(scale);
+		auto position = GetGameObject()->GetComponent<CollisionComponent>()->GetCenterPosition();
+		world = GetGameObject()->GetComponent<Transform>()->GetWorldMatrix(scale, position);
 	}
 	else
 		world = GetGameObject()->GetComponent<Transform>()->GetWorldMatrix();

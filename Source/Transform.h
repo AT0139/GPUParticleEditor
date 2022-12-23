@@ -34,7 +34,7 @@ public:
 	Vector3 GetForward();
 	Vector3 GetRight();
 	Matrix GetWorldMatrix();
-	Matrix GetWorldMatrix(Vector3 scale);
+	Matrix GetWorldMatrix(Vector3 scale,Vector3 position);
 	Matrix GetPrevWorldMatrix();
 	Matrix GetWorldMatrixInvView();
 
