@@ -98,7 +98,7 @@ namespace MainGame
 
 		//テクスチャ読み込み
 		m_texture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/JS-dotGrid-20221220113242.png");
-		m_normalTexture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/TexturesCom_DramaticovercastSkyBackground_S.png");
+		m_normalTexture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/shadow.jpg");
 
 		assert(m_texture);
 		assert(m_normalTexture);

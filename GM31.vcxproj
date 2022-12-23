@@ -213,6 +213,7 @@
     <ClInclude Include="Source\AABBCollision.h" />
     <ClInclude Include="Source\AnimationModel.h" />
     <ClInclude Include="Source\Audio.h" />
+    <ClInclude Include="Source\Base.h" />
     <ClInclude Include="Source\BlankObject.h" />
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Camera.h" />

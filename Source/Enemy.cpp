@@ -9,7 +9,7 @@
 
 Enemy::Enemy()
 {
-	AddComponent<DrawModel>(this)->Load("asset\\model\\torus.obj");
+	AddComponent<DrawModel>(this)->Load("asset\\model\\Enemy.obj");
 	AddComponent<OBBCollision>()->SetScale(0.5f);
 	AddComponent<Rigidbody>();
 
