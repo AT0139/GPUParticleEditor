@@ -1,5 +1,5 @@
 ﻿#include "renderer.h"
-#include "AnimationModel.h"
+#include "DrawAnimationModel.h"
 #include "audio.h"
 #include "Player.h"
 #include "input.h"
@@ -11,11 +11,9 @@
 
 namespace MainGame
 {
-	float Player::m_blendRate = 0.0f;
 	Player::Player()
 		: m_haveObject(nullptr)
 		, MOVE_SPEED(0.1f)
-		, ADD_BLENDRATE(0.05f)
 		, JUMP_FORCE(0.8f)
 		, THROW_FORCE(0.1f)
 	{
@@ -27,16 +25,11 @@ namespace MainGame
 		col->SetScale(Vector3(0.5f, 1.6f, 0.5f));
 		col->SetCenterPosition(Vector3(0.0f, 0.8f, 0.0f));
 		//モデル読み込み
-		m_model = ResourceManager::GetInstance().GetAnimationModelData("asset\\model\\Akai_Idle.fbx");
-		m_model->LoadAnimation((char*)"asset\\model\\Akai_Idle.fbx", "Idle");
-		m_model->LoadAnimation((char*)"asset\\model\\Akai_Run.fbx", "Run");
-		m_model->LoadAnimation((char*)"asset\\model\\Akai_WalkingBackward.fbx", "WalkingBack");
-
-		m_animationName = "Idle";
-
-		Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
-
-		Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "vertexLightingPS.cso");
+		m_model = AddComponent<DrawAnimationModel>(this);
+		m_model->Load("asset\\model\\Akai_Idle.fbx");
+		m_model->LoadAnimation("asset\\model\\Akai_Idle.fbx", "Idle");
+		m_model->LoadAnimation("asset\\model\\Akai_Run.fbx", "Run");
+		m_model->LoadAnimation("asset\\model\\Akai_WalkingBackward.fbx", "WalkingBack");
 
 		//m_shotSE = scene->AddGameObject<Audio>(scene->UI);
 		//m_shotSE->Load("asset\\audio\\wan.wav");
@@ -65,16 +58,10 @@ namespace MainGame
 
 	Player::~Player()	
 	{
-		m_vertexLayout->Release();
-		m_vertexShader->Release();
-		m_pixelShader->Release();
 	}
 
 	void Player::Update()
 	{
-		m_model->Update(m_animationName.c_str(), m_blendRate, m_frame);
-		m_frame++;
-
 		Move();
 
 		if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::JUMP) && m_rigid->IsGround())
@@ -94,18 +81,6 @@ namespace MainGame
 
 	void Player::Draw()
 	{
-		//入力レイアウト設定
-		Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
-
-		//シェーダー設定
-		Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-		Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
-
-		//ワールドマトリクス設定
-		Matrix world = GetComponent<Transform>()->GetWorldMatrix();
-		Renderer::GetInstance().SetWorldMatrix(&world);
-
-		m_model->Draw();
 	}
 
 	void Player::OnCollision(GameObject* collision)
@@ -145,23 +120,23 @@ namespace MainGame
 		if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOVE_UP))
 		{
 			velo += cameraForward * MOVE_SPEED;
-			m_animationName = "Run";
+			m_model->SetAnimationName("Run");
 			
 			m_transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
-			m_blendRate += ADD_BLENDRATE;
+			m_model->AddBlendRate();
 		}
 		else if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOVE_DOWN))
 		{
 			velo -= cameraForward * (MOVE_SPEED / 2);
-			m_animationName = "WalkingBack";
-			m_blendRate += ADD_BLENDRATE;
+			m_model->SetAnimationName("WalkingBack");
+			m_model->AddBlendRate();
 			m_transform->SetQuaternion(-Quaternion::LookRotation(cameraForward, Vector3::Up));
 		}
 		else
 		{
-			m_blendRate += ADD_BLENDRATE * 2;
+			m_model->AddBlendRate(2);
 
-			m_animationName = "Idle";
+			m_model->SetAnimationName("Idle");
 		}
 		if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOVE_LEFT))
 		{
@@ -174,10 +149,6 @@ namespace MainGame
 			m_transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
 		}
 
-		if (m_blendRate > 1.0f)
-			m_blendRate = 1.0f;
-		if (m_blendRate < 0.0f)
-			m_blendRate = 0.0f;
 
 		m_rigid->SetVelocity(velo);
 	}

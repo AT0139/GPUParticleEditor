@@ -4,6 +4,7 @@
 #include "Player.h"
 
 AnimationModel::AnimationModel(const char* fileName)
+	:m_isResetBlendRate(false)
 {
 	Load(fileName);
 }
@@ -255,7 +256,7 @@ void AnimationModel::Update(const char* animationName, float blendRate, int fram
 			if (blendRate >= 1.0f)
 			{
 				m_currentAnimationName = animationName;
-				MainGame::Player::ResetBlendRate();
+				m_isResetBlendRate = true;
 			}
 		}
 	}
@@ -283,7 +284,7 @@ void AnimationModel::Update(const char* animationName, float blendRate, int fram
 			bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot, pos);
 
 			m_currentAnimationName = animationName;
-			MainGame::Player::ResetBlendRate();
+			m_isResetBlendRate = true;
 		}
 	}
 	//再帰的にボーンマトリクスを更新

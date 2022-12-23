@@ -37,6 +37,9 @@ public:
 	void Update(const char* animationName, float blendRate, int frame);
 	void Draw();
 
+	bool IsResetBlendRate() { return m_isResetBlendRate; }
+	void FalseResetBlendRate() { m_isResetBlendRate = false; }
+
 private:
 	const aiScene* m_aiScene = NULL;
 	ID3D11Buffer** m_vertexBuffer;
@@ -49,6 +52,8 @@ private:
 	std::unordered_map<std::string, BONE>m_bone;	//ボーンデータ(名前で参照)
 
 	std::string m_currentAnimationName;
+
+	bool m_isResetBlendRate;
 
 	void CreateBone(aiNode* node);
 	void UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix);

@@ -211,6 +211,9 @@
     <ClInclude Include="Source\Base.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Source\DrawAnimationModel.h">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Tree.cpp">
@@ -377,6 +380,9 @@
     </ClCompile>
     <ClCompile Include="Source\ChildObject.cpp">
       <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DrawAnimationModel.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

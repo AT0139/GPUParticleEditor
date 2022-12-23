@@ -224,6 +224,7 @@
     <ClInclude Include="Source\CollisionUtility.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\Draw2DPolygon.h" />
+    <ClInclude Include="Source\DrawAnimationModel.h" />
     <ClInclude Include="Source\DrawBillboard.h" />
     <ClInclude Include="Source\DrawGeometry.h" />
     <ClInclude Include="Source\DrawModel.h" />
@@ -285,6 +286,7 @@
     <ClCompile Include="Source\CollisionUtility.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\Draw2DPolygon.cpp" />
+    <ClCompile Include="Source\DrawAnimationModel.cpp" />
     <ClCompile Include="Source\DrawBillboard.cpp" />
     <ClCompile Include="Source\DrawGeometry.cpp" />
     <ClCompile Include="Source\DrawModel.cpp" />
