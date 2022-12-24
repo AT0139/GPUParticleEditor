@@ -184,12 +184,6 @@
     <ClInclude Include="Source\Result.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Wall.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Floor.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Source\CollisionManager.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -208,11 +202,11 @@
     <ClInclude Include="Source\ChildObject.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Base.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DrawAnimationModel.h">
       <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DefenceBase.h">
+      <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -357,12 +351,6 @@
     <ClCompile Include="Source\Result.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Wall.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Floor.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Source\CollisionManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -382,6 +370,9 @@
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="Source\DrawAnimationModel.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DefenceBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

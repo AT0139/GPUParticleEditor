@@ -62,6 +62,7 @@ void DrawAnimationModel::Draw()
 void DrawAnimationModel::Load(std::string filePath)
 {
 	m_model = ResourceManager::GetInstance().GetAnimationModelData(filePath);
+	m_model->LoadAnimation(filePath.c_str(), "Idle");
 }
 
 void DrawAnimationModel::LoadAnimation(const char* fileName, const char* animarionName)

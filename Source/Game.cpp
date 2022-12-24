@@ -15,8 +15,8 @@
 #include "Result.h"
 #include "ResourceManager.h"
 #include "audio.h"
-#include "Explosion.h"
 #include "GameUI.h"
+#include "DefenceBase.h"
 
 namespace MainGame
 {
@@ -31,6 +31,7 @@ namespace MainGame
 		AddGameObject<MeshField>(OBJECT);
 		//AddGameObject<Stair>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(10.0f, 5.0f, 10.0f));
 		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(-8.0f, 4.0f, 3.0f));
+		AddGameObject<DefenceBase>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 4.0f, 0.0f));
 
 		AddGameObject<GameUI>(UI);
 		//Audio* bgm = AddGameObject<Audio>(UI);

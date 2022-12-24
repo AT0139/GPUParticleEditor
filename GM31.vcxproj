@@ -213,7 +213,6 @@
     <ClInclude Include="Source\AABBCollision.h" />
     <ClInclude Include="Source\AnimationModel.h" />
     <ClInclude Include="Source\Audio.h" />
-    <ClInclude Include="Source\Base.h" />
     <ClInclude Include="Source\BlankObject.h" />
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Camera.h" />
@@ -223,6 +222,7 @@
     <ClInclude Include="Source\CollisionManager.h" />
     <ClInclude Include="Source\CollisionUtility.h" />
     <ClInclude Include="Source\Component.h" />
+    <ClInclude Include="Source\DefenceBase.h" />
     <ClInclude Include="Source\Draw2DPolygon.h" />
     <ClInclude Include="Source\DrawAnimationModel.h" />
     <ClInclude Include="Source\DrawBillboard.h" />
@@ -231,7 +231,6 @@
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\Explosion.h" />
     <ClInclude Include="Source\Field.h" />
-    <ClInclude Include="Source\Floor.h" />
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\GameUI.h" />
@@ -263,7 +262,6 @@
     <ClInclude Include="Source\Transform.h" />
     <ClInclude Include="Source\Tree.h" />
     <ClInclude Include="Source\Utility.h" />
-    <ClInclude Include="Source\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\backends\imgui_impl_dx11.cpp" />
@@ -285,6 +283,7 @@
     <ClCompile Include="Source\CollisionManager.cpp" />
     <ClCompile Include="Source\CollisionUtility.cpp" />
     <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\DefenceBase.cpp" />
     <ClCompile Include="Source\Draw2DPolygon.cpp" />
     <ClCompile Include="Source\DrawAnimationModel.cpp" />
     <ClCompile Include="Source\DrawBillboard.cpp" />
@@ -293,7 +292,6 @@
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\Explosion.cpp" />
     <ClCompile Include="Source\Field.cpp" />
-    <ClCompile Include="Source\Floor.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\GameUI.cpp" />
     <ClCompile Include="Source\Input.cpp" />
@@ -326,7 +324,6 @@
     <ClCompile Include="Source\Transform.cpp" />
     <ClCompile Include="Source\Tree.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
-    <ClCompile Include="Source\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\common.hlsl">

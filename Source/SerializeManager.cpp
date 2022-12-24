@@ -2,8 +2,6 @@
 #include "SerializeComponent.h"
 #include "Manager.h"
 #include "Scene.h"
-#include "Wall.h"
-#include "Floor.h"
 
 SerializeManager::SerializeManager()
 {
@@ -64,19 +62,19 @@ void SerializeManager::ToDeserialize()
 	{
 		if (input.type == SerializeObjectType::WALL)
 		{
-			auto objTrans = scene->AddGameObject<Wall>(scene->OBJECT)->GetComponent<Transform>();
-			Vector3 pos(input.data.positionX, input.data.positionY, input.data.positionZ);
-			Quaternion rot(input.data.rotateX, input.data.rotateY, input.data.rotateZ, input.data.rotateW);
-			objTrans->SetPosition(pos);
-			objTrans->SetQuaternion(rot);
+			//auto objTrans = scene->AddGameObject<Wall>(scene->OBJECT)->GetComponent<Transform>();
+			//Vector3 pos(input.data.positionX, input.data.positionY, input.data.positionZ);
+			//Quaternion rot(input.data.rotateX, input.data.rotateY, input.data.rotateZ, input.data.rotateW);
+			//objTrans->SetPosition(pos);
+			//objTrans->SetQuaternion(rot);
 		}
 		else
 		{
-			auto objTrans = scene->AddGameObject<Floor>(scene->OBJECT)->GetComponent<Transform>();
-			Vector3 pos(input.data.positionX, input.data.positionY, input.data.positionZ);
-			Quaternion rot(input.data.rotateX, input.data.rotateY, input.data.rotateZ, input.data.rotateW);
-			objTrans->SetPosition(pos);
-			objTrans->SetQuaternion(rot);
+			//auto objTrans = scene->AddGameObject<Floor>(scene->OBJECT)->GetComponent<Transform>();
+			//Vector3 pos(input.data.positionX, input.data.positionY, input.data.positionZ);
+			//Quaternion rot(input.data.rotateX, input.data.rotateY, input.data.rotateZ, input.data.rotateW);
+			//objTrans->SetPosition(pos);
+			//objTrans->SetQuaternion(rot);
 		}
 	}
 

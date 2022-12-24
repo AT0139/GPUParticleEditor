@@ -10,9 +10,9 @@ DrawModel::DrawModel(GameObject* pGameObject)
 	, m_rasterizerState(RASTERIZER::DEFAULT)
 	, m_isCollision(false)
 {
-	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
+	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "pixelLightingVS.cso");
 
-	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
+	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "pixelLightingPS.cso");
 }
 
 DrawModel::~DrawModel()

@@ -9,7 +9,10 @@
 SkyDome::SkyDome()
 {
 	//モデル読み込み
-	AddComponent<DrawModel>(this)->Load("asset\\model\\skydome.obj");
+	auto model = AddComponent<DrawModel>(this);
+	model->Load("asset\\model\\skydome.obj");
+	model->SetVertexShader("unlitTextureVS.cso");
+	model->SetPixelShader("unlitTexturePS.cso");
 
 	auto transform = GetComponent<Transform>();
 	transform->SetPosition(Vector3(0.0f, -100.0f, 0.0f));
