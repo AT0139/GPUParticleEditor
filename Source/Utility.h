@@ -24,6 +24,8 @@ namespace Utility
 
 	Ray ScreenPosToRay(float screenX, float screenY, Matrix* view, Matrix* prj);
 
+	float Lerp(float start, float end, float t);
+
 	inline float VECtoFloat(XMVECTOR vec)
 	{
 		float tmp;

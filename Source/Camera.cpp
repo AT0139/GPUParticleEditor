@@ -18,11 +18,14 @@ static const float FIELD_Y_OFFSET = 1.0f;
 namespace MainGame
 {
 	Camera::Camera()
+		: m_targetYOffset(0.0f)
+		, m_targetYOffsetTemporary(0.0f)
+		, m_target(0.0f, 0.0f, 0.0f)
+		, m_theta(4.57f)
+		, m_delta(0.43f)
+		, m_lerpRatio(0.0f)
+		, m_isOnField(false)
 	{
-		m_target = Vector3(0.0f, 0.0f, 0.0f);
-		m_theta = 4.57f;
-		m_delta = 0.43f;
-
 		m_cameraPos.x = m_target.x + CAMERA_DISTANCE * cos(m_delta) * cos(m_theta);
 		m_cameraPos.y = m_target.y + CAMERA_DISTANCE * sin(m_delta);
 		m_cameraPos.z = m_target.z + CAMERA_DISTANCE * cos(m_delta) * sin(m_theta);
@@ -39,14 +42,15 @@ namespace MainGame
 		Vector3 playerPos = scene->GetGameObject<Player>(scene->OBJECT)->GetComponent<Transform>()->GetPosition();
 
 		m_target = playerPos;
+		m_target.y += m_targetYOffset;
 
+		//マウス加速度
+		auto mouseAcc = GET_INPUT.GetMouseAcceleration();
+		float mouseXAcc = mouseAcc.x / CAMERA_FACTOR;
+		float mouseYAcc = mouseAcc.y / CAMERA_FACTOR;
 
 		if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOUSE_R))
 		{
-			//マウス加速度
-			auto mouseAcc = GET_INPUT.GetMouseAcceleration();
-			float mouseXAcc = mouseAcc.x / CAMERA_FACTOR;
-			float mouseYAcc = mouseAcc.y / CAMERA_FACTOR;
 
 			m_theta += mouseXAcc;
 			m_delta += mouseYAcc;
@@ -56,18 +60,54 @@ namespace MainGame
 
 			if (m_delta >= DELTA_MAX)
 				m_delta = DELTA_MAX;
+
+			//カメラがフィールドに沿っていたら
+			if (m_isOnField)
+			{
+				//上を向けるようにターゲット位置に加算する変数に加算
+				m_targetYOffset += mouseYAcc;
+				m_lerpRatio = 0.0f;
+			}
 		}
-		m_cameraPos.x = m_target.x + CAMERA_DISTANCE * cos(m_delta) * cos(m_theta);
-		m_cameraPos.y = m_target.y + CAMERA_DISTANCE * sin(m_delta);
-		m_cameraPos.z = m_target.z + CAMERA_DISTANCE * cos(m_delta) * sin(m_theta);
+		m_cameraPos.x = playerPos.x + CAMERA_DISTANCE * cos(m_delta) * cos(m_theta);
+		m_cameraPos.y = playerPos.y + CAMERA_DISTANCE * sin(m_delta);
+		m_cameraPos.z = playerPos.z + CAMERA_DISTANCE * cos(m_delta) * sin(m_theta);
 
 		//フィールドにめりこまないように
 		MainGame::MeshField* field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
 		float fieldHeight = field->GetHeight(m_cameraPos);
-		if (m_cameraPos.y  < fieldHeight + FIELD_Y_OFFSET)
+		if (m_cameraPos.y < fieldHeight + FIELD_Y_OFFSET)
 		{
 			m_cameraPos.y = fieldHeight + FIELD_Y_OFFSET;
+			m_isOnField = true;
+			m_targetYOffsetTemporary = m_targetYOffset;
 		}
+		else
+		{
+			m_isOnField = false;
+
+			//いきなりカメラが動かないように
+			if (std::abs(m_targetYOffsetTemporary) > 0)
+			{
+				m_targetYOffset = Utility::Lerp(m_targetYOffsetTemporary, 0.0f, m_lerpRatio);
+				m_lerpRatio += 0.05f;
+				if (m_lerpRatio >= 1.0f)
+				{
+					m_lerpRatio = 0.0f;
+					m_targetYOffsetTemporary = 0.0f;
+					m_targetYOffset = 0.0f;
+				}
+			}
+			else
+				m_lerpRatio = 0.0f;
+		}
+
+		ImGui::Begin("a");
+		{
+			ImGui::Text("targetY %f", m_targetYOffset);
+			ImGui::Text("lerpRatio %f", m_lerpRatio);
+		}
+		ImGui::End();
 
 		Renderer::GetInstance().SetCameraPosition(m_cameraPos);
 	}

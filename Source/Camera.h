@@ -28,5 +28,10 @@ namespace MainGame
 
 		float m_theta;
 		float m_delta;
+
+		bool m_isOnField;
+		float m_targetYOffset;
+		float m_targetYOffsetTemporary;
+		float m_lerpRatio;
 	};
 }

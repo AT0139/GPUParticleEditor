@@ -4,7 +4,7 @@
 DefenceBase::DefenceBase()
 {
 	auto trans = GetComponent<Transform>();
-	trans->SetScale(Vector3(0.001f, 0.001f, 0.001f));
+	trans->SetScale(Vector3(0.005f, 0.005f, 0.005f));
 	trans->SetQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Forward, 4.7f));
 
 	m_model = AddComponent<DrawAnimationModel>(this);

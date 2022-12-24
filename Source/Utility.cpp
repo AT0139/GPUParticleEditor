@@ -87,3 +87,8 @@ Ray Utility::ScreenPosToRay(float screenX, float screenY, Matrix* view, Matrix* 
 
 	return ray;
 }
+
+float Utility::Lerp(float start, float end, float t)
+{
+	return (1 - t) * start + t * end;
+}
