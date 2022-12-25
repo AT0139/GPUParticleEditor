@@ -16,6 +16,13 @@ namespace MainGame
 		}
 
 		{
+			//経路探索用のvectorを作成
+			m_nodes.resize(FIELD_X + 1);
+			for (int i = 0; i < FIELD_X + 1; i++)
+			{
+				m_nodes[i].resize(FIELD_Z + 1);
+			}
+
 			for (int x = 0; x <= FIELD_X; x++)
 			{
 				for (int z = 0; z <= FIELD_X; z++)
@@ -26,8 +33,56 @@ namespace MainGame
 					m_vertex[x][z].normal = Vector3(0.0f, 1.0f, 0.0f);
 					m_vertex[x][z].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 					m_vertex[x][z].texCoord = Vector2(x * 0.5f, z * 0.5f);
+
+
 				}
 			}
+
+			for (int x = 0; x <= FIELD_X; x++)
+			{
+				for (int z = 0; z <= FIELD_X; z++)
+				{
+					//経路探索用のノードを作成
+					m_nodes[x][z].pos = m_vertex[x][z].position;
+
+					//周囲のノードの登録
+					AdjacentNode adNode;
+					for (int nodeX = -1; nodeX < 2; nodeX++)
+					{
+						for (int nodeZ = -1; nodeZ < 2; nodeZ++)
+						{
+							//格納出来ないノードは飛ばす
+							//左端
+							if(x + nodeX < 0)
+								continue;
+							//右端
+							if (x + nodeX > FIELD_X)
+								continue;
+
+							//上端
+							if (z + nodeZ < 0)
+								continue;
+							//下端
+							if (z + nodeZ > FIELD_Z)
+								continue;
+
+							//自分
+							if (nodeX == 0 && nodeZ == 0)
+								continue;
+
+
+							adNode.node = &m_nodes[x + nodeX][z + nodeZ];
+							auto dir = m_nodes[x][z].pos - m_nodes[x + nodeX][z + nodeZ].pos;
+							adNode.cost = dir.Length();
+
+							m_nodes[x][z].adjacentNode.push_back(adNode);
+						}
+					}
+
+
+				}
+			}
+
 			for (int x = 1; x <= FIELD_X - 1; x++)
 			{
 				for (int z = 1; z <= FIELD_Z - 1; z++)

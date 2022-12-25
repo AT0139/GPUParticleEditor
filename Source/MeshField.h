@@ -17,6 +17,19 @@ struct Triangle
 	Vector3 tri1, tri2, tri3;
 };
 
+struct AdjacentNode;
+struct Node
+{
+	Vector3 pos;
+	std::list<AdjacentNode> adjacentNode;
+};
+
+struct AdjacentNode
+{
+	Node* node;
+	float cost;
+};
+
 namespace MainGame
 {
 	class MeshField : public GameObject
@@ -46,5 +59,6 @@ namespace MainGame
 
 		int m_terrainWidth, m_terrainHeight;
 		std::vector<std::vector<float>> m_heightMap;
+		std::vector<std::vector<Node>> m_nodes;
 	};
 }
