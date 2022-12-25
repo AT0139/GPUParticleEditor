@@ -97,6 +97,10 @@ void AABBCollision::CollisionEscape(CapsuleCollision& opponent)
 {
 }
 
+void AABBCollision::CollisionEscape(RayCollision& opponent)
+{
+}
+
 Vector3 AABBCollision::GetHitNormal(SphereCollision& opponent)
 {
 	return Vector3();
@@ -117,6 +121,15 @@ Vector3 AABBCollision::GetHitNormal(CapsuleCollision& opponent)
 	return Vector3();
 }
 
+Vector3 AABBCollision::GetHitNormal(RayCollision& opponent)
+{
+	return Vector3();
+}
+
 void AABBCollision::HitTest(CapsuleCollision& opponent)
+{
+}
+
+void AABBCollision::HitTest(RayCollision& opponent)
 {
 }

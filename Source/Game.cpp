@@ -27,11 +27,15 @@ namespace MainGame
 
 		//3Dオブジェクト
 		AddGameObject<SkyDome>(OBJECT);
+		auto field = AddGameObject<MeshField>(OBJECT);
+
+		auto basePos = Vector3(5.0f, 5.0f, 5.0f);
+		basePos.y =field->GetHeight(basePos);
+		AddGameObject<DefenceBase>(OBJECT)->GetComponent<Transform>()->SetPosition(basePos);
+
 		AddGameObject<Player>(OBJECT);
-		AddGameObject<MeshField>(OBJECT);
-		//AddGameObject<Stair>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(10.0f, 5.0f, 10.0f));
 		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(-8.0f, 4.0f, 3.0f));
-		AddGameObject<DefenceBase>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 4.0f, 0.0f));
+		//AddGameObject<Stair>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(10.0f, 5.0f, 10.0f));
 
 		AddGameObject<GameUI>(UI);
 		//Audio* bgm = AddGameObject<Audio>(UI);

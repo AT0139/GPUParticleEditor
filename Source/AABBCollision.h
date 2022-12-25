@@ -20,16 +20,19 @@ public:
 	virtual void HitTest(AABBCollision& opponent) override;
 	virtual void HitTest(OBBCollision& opponent) override;
 	virtual void HitTest(CapsuleCollision& opponent) override;
+	virtual void HitTest(RayCollision& opponent) override;
 
 	virtual Vector3 GetHitNormal(SphereCollision& opponent) override;
 	virtual Vector3 GetHitNormal(AABBCollision& opponent) override;
 	virtual Vector3 GetHitNormal(OBBCollision& opponent) override;
 	virtual Vector3 GetHitNormal(CapsuleCollision& opponent) override;
+	virtual Vector3 GetHitNormal(RayCollision& opponent) override;
 
 	virtual void CollisionEscape(SphereCollision& opponent) override;
 	virtual void CollisionEscape(AABBCollision& opponent) override;
 	virtual void CollisionEscape(OBBCollision& opponent) override;
 	virtual void CollisionEscape(CapsuleCollision& opponent) override;
+	virtual void CollisionEscape(RayCollision& opponent) override;
 
 	AABBInfo GetAABBInfo();
 private:

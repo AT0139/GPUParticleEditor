@@ -7,6 +7,7 @@ class SphereCollision;
 class AABBCollision;
 class OBBCollision;
 class CapsuleCollision;
+class RayCollision;
 
 struct LineInfo
 {
@@ -39,12 +40,20 @@ struct OBBInfo
 	Vector3 center;
 	Vector3 rot[3];
 	float scaleHalf[3];//x,y,z
+	Quaternion orientation;
 };
 
 struct CapsuleInfo
 {
 	LineInfo line;
 	float radius;
+};
+
+struct RayInfo
+{
+	Vector3 position;
+	Vector3 direction;
+	float length;
 };
 
 enum class HitAction
@@ -74,16 +83,19 @@ public:
 	virtual void HitTest(AABBCollision& opponent) = 0;
 	virtual void HitTest(OBBCollision& opponent) = 0;
 	virtual void HitTest(CapsuleCollision& opponent) = 0;
+	virtual void HitTest(RayCollision& opponent) = 0;
 
 	virtual Vector3 GetHitNormal(SphereCollision& opponent) = 0;
 	virtual Vector3 GetHitNormal(AABBCollision& opponent) = 0;
 	virtual Vector3 GetHitNormal(OBBCollision& opponent) = 0;
 	virtual Vector3 GetHitNormal(CapsuleCollision& opponent) = 0;
+	virtual Vector3 GetHitNormal(RayCollision& opponent) = 0;
 
 	virtual void CollisionEscape(SphereCollision& opponent) = 0;
 	virtual void CollisionEscape(AABBCollision& opponent) = 0;
 	virtual void CollisionEscape(OBBCollision& opponent) = 0;
 	virtual void CollisionEscape(CapsuleCollision& opponent) = 0;
+	virtual void CollisionEscape(RayCollision& opponent) = 0;
 
 	bool IsHitObject(GameObject* obj);
 	bool IsParent(GameObject* obj);

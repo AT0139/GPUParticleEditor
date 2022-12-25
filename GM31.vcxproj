@@ -243,6 +243,7 @@
     <ClInclude Include="Source\ObjectPlacementUI.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Polygon2D.h" />
+    <ClInclude Include="Source\RayCollision.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\ResourceManager.h" />
     <ClInclude Include="Source\Result.h" />
@@ -303,6 +304,7 @@
     <ClCompile Include="Source\ObjectPlacementUI.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Polygon2D.cpp" />
+    <ClCompile Include="Source\RayCollision.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\ResourceManager.cpp" />
     <ClCompile Include="Source\Result.cpp" />

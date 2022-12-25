@@ -11,4 +11,5 @@ public:
 	virtual void Draw() override {}
 
 private:
+	Vector3 m_targetPos;
 };

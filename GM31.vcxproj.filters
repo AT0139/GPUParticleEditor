@@ -208,6 +208,9 @@
     <ClInclude Include="Source\DefenceBase.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RayCollision.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Tree.cpp">
@@ -373,6 +376,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\DefenceBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RayCollision.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

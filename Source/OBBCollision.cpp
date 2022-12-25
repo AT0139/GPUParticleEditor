@@ -75,6 +75,8 @@ OBBInfo OBBCollision::GetOBBInfo()
 	m_obb.scaleHalf[1] = scale.y;
 	m_obb.scaleHalf[2] = scale.z;
 
+	m_obb.orientation = transform->GetRotation();
+
 	return m_obb;
 }
 
@@ -169,6 +171,10 @@ void OBBCollision::CollisionEscape(CapsuleCollision& opponent)
 {
 }
 
+void OBBCollision::CollisionEscape(RayCollision& opponent)
+{
+}
+
 Vector3 OBBCollision::GetHitNormal(SphereCollision& opponent)
 {
 	SphereInfo sp = opponent.GetSphereInfo();
@@ -209,6 +215,17 @@ Vector3 OBBCollision::GetHitNormal(CapsuleCollision& opponent)
 	return Vector3();
 }
 
+Vector3 OBBCollision::GetHitNormal(RayCollision& opponent)
+{
+	return Vector3();
+}
+
 void OBBCollision::HitTest(CapsuleCollision& opponent)
 {
+}
+
+
+void OBBCollision::HitTest(RayCollision& opponent)
+{
+	
 }

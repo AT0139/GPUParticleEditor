@@ -15,6 +15,9 @@ public:
 	static bool ObbAabb(OBBInfo m_obb, AABBInfo aabb);
 	static void ClosestPtPointOBB(Vector3 point, OBBInfo m_obb, Vector3& normal);
 
+	static bool RayObb(RayInfo ray, OBBInfo obb);
+	static bool RaySphere(RayInfo ray, SphereInfo sphere);
+
 	//static bool CapsuleCapsule(CapsuleInfo cap1, CapsuleInfo cap2);
 private:
 };

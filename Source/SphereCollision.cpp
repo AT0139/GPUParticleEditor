@@ -94,6 +94,10 @@ void SphereCollision::HitTest(CapsuleCollision& opponent)
 {
 }
 
+void SphereCollision::HitTest(RayCollision& opponent)
+{
+}
+
 Vector3 SphereCollision::GetHitNormal(SphereCollision& opponent)
 {
 	SphereInfo sphere = GetSphereInfo();
@@ -132,6 +136,11 @@ Vector3 SphereCollision::GetHitNormal(CapsuleCollision& opponent)
 	return Vector3(0, 0, 0);
 }
 
+Vector3 SphereCollision::GetHitNormal(RayCollision& opponent)
+{
+	return Vector3();
+}
+
 void SphereCollision::CollisionEscape(SphereCollision& opponent)
 {
 	auto mySphere = this->GetSphereInfo();
@@ -168,5 +177,9 @@ void SphereCollision::CollisionEscape(OBBCollision& opponent)
 }
 
 void SphereCollision::CollisionEscape(CapsuleCollision& opponent)
+{
+}
+
+void SphereCollision::CollisionEscape(RayCollision& opponent)
 {
 }
