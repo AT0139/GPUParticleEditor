@@ -14,7 +14,7 @@ DefenceBase::DefenceBase()
 	modelBase->Load("Asset\\Model\\Base.obj");
 
 	auto col = AddComponent<OBBCollision>();
-	col->SetScale(Vector3(1.0f, 1.0f, 1.0f));
+	col->SetScale(Vector3(3.0f, 3.0f, 3.0f));
 	col->SetIsStaticObject(false);
 	col->SetHitAction(HitAction::None);
 

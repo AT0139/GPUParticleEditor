@@ -5,6 +5,7 @@
 #include "Manager.h"
 #include "Scene.h"
 #include "DefenceBase.h"
+#include "ChildObject.h"
 
 static const float MOVE_SPEED = 0.07f;
 
@@ -22,6 +23,16 @@ Enemy::Enemy()
 	auto scene = Manager::GetInstance().GetScene();
 	m_targetPos = scene->GetGameObject<DefenceBase>(scene->OBJECT)->GetComponent<Transform>()->GetPosition();
 	
+	auto obj = scene->AddGameObject<ChildObject>(scene->OBJECT);
+	auto objRigid = obj->AddComponent<Rigidbody>();
+	objRigid->SetIsTrigger(true);
+	objRigid->SetIsKinematic(true);
+	auto objCol = obj->AddComponent<SphereCollision>();
+	objCol->SetRadius(0.1f);
+	objCol->SetHitAction(HitAction::None);
+	auto objTrans = obj->GetComponent<Transform>();
+	objTrans->SetParent(this);
+	objTrans->SetPosition(-transform->GetForward() * 1.0f);
 
 	m_tag = TAG::ENEMY;
 }

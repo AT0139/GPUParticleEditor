@@ -71,7 +71,39 @@ void RayCollision::CollisionEscape(CapsuleCollision& opponent)
 
 RayInfo RayCollision::GetRayInfo()
 {
-	return m_info;
+	RayInfo ray = m_info;
+	auto transform = GetGameObject()->GetComponent<Transform>();
+	Vector3::Transform(ray.direction, transform->GetRotation(), ray.direction);
+
+	return ray;
+}
+
+void RayCollision::SetDirection(Vector3 dir)
+{
+	m_info.direction = dir;
+	m_info.direction.Normalize();
+
+	SetCollisionScale(m_info.direction * m_info.direction);
+}
+
+void RayCollision::SetLength(float len)
+{
+	m_info.length = len;
+
+	SetCollisionScale(m_info.direction * m_info.direction);
+}
+
+void RayCollision::HitTest(RayCollision& opponent)
+{
+}
+
+Vector3 RayCollision::GetHitNormal(RayCollision& opponent)
+{
+	return Vector3();
+}
+
+void RayCollision::CollisionEscape(RayCollision& opponent)
+{
 }
 
 Vector3 RayCollision::GetHitNormal(SphereCollision& opponent)

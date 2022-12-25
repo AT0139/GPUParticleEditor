@@ -171,12 +171,12 @@ bool CollisionUtility::RayObb(RayInfo ray, OBBInfo obb)
 {
 	BoundingOrientedBox dxObb;
 	dxObb.Center = obb.center;
-	dxObb.Extents.x = obb.scaleHalf[0];
-	dxObb.Extents.y = obb.scaleHalf[1];
-	dxObb.Extents.z = obb.scaleHalf[2];
+	dxObb.Extents.x = obb.scaleHalf[0] * 2.0f;
+	dxObb.Extents.y = obb.scaleHalf[1] * 2.0f;
+	dxObb.Extents.z = obb.scaleHalf[2] * 2.0f;
 	dxObb.Orientation = obb.orientation;
 
-	float len;
+	float len = ray.length;
 	if (dxObb.Intersects(ray.position, ray.direction, len))
 	{
 		if (len < ray.length)
