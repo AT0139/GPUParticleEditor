@@ -31,8 +31,12 @@ ID3D11ShaderResourceView* ResourceManager::GetTextureData(std::wstring filePath)
 		ID3D11ShaderResourceView* texture;
 
 		//外部ファイルから読み込み
-		HRESULT hr = CreateWICTextureFromFile(Renderer::GetInstance().GetDevice(), filePath.c_str(), nullptr, &texture);
-
+		HRESULT hr = CreateDDSTextureFromFile(Renderer::GetInstance().GetDevice(), filePath.c_str(),
+			nullptr, &texture);
+		if (FAILED(hr))
+		{
+			hr = CreateWICTextureFromFile(Renderer::GetInstance().GetDevice(), filePath.c_str(), nullptr, &texture);
+		}
 		assert(SUCCEEDED(hr));
 
 		m_textureList[filePath] = texture;

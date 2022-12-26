@@ -6,6 +6,7 @@
 #include "main.h"
 #include "renderer.h"
 #include "CModel.h"
+#include "ResourceManager.h"
 
 CModel::CModel()
 	: m_vertexBuffer(nullptr)
@@ -108,9 +109,7 @@ void CModel::Load(const char* FileName)
 				mbsrtowcs(wFilename, &name, 256, 0);
 
 				//外部ファイルから読み込み
-				HRESULT hr = CreateWICTextureFromFile(Renderer::GetInstance().GetDevice(), wFilename,
-					nullptr, &m_pSubsetArray[i].material.pTexture);
-				assert(SUCCEEDED(hr));
+				m_pSubsetArray[i].material.pTexture = ResourceManager::GetInstance().GetTextureData(wFilename);
 				assert(m_pSubsetArray[i].material.pTexture);
 			}
 
@@ -121,9 +120,7 @@ void CModel::Load(const char* FileName)
 				mbsrtowcs(wFilename, &name, 256, 0);
 
 				//外部ファイルから読み込み
-				HRESULT hr = CreateWICTextureFromFile(Renderer::GetInstance().GetDevice(), wFilename,
-					nullptr, &m_pSubsetArray[i].material.pNormalTexture);
-				assert(SUCCEEDED(hr));
+				m_pSubsetArray[i].material.pNormalTexture = ResourceManager::GetInstance().GetTextureData(wFilename);
 				assert(m_pSubsetArray[i].material.pNormalTexture);
 				m_pSubsetArray[i].material.isNormalTexture = true;
 			}

@@ -24,6 +24,7 @@
 
 #include "SpriteBatch.h"
 #include "WICTextureLoader.h"
+#include "DDSTextureLoader.h"
 #include "SimpleMath.h"
 #include <GeometricPrimitive.h>
 

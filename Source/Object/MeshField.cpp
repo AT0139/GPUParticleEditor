@@ -33,10 +33,10 @@ namespace MainGame
 					m_vertex[x][z].normal = Vector3(0.0f, 1.0f, 0.0f);
 					m_vertex[x][z].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 					m_vertex[x][z].texCoord = Vector2(x * 0.5f, z * 0.5f);
-
-
 				}
 			}
+
+			m_heightMap.clear();
 
 			for (int x = 0; x <= FIELD_X; x++)
 			{
@@ -152,7 +152,7 @@ namespace MainGame
 		}
 
 		//テクスチャ読み込み
-		m_texture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/JS-dotGrid-20221220113242.png");
+		m_texture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/JS-dotGrid-20221220113242.dds");
 		m_normalTexture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/shadow.jpg");
 
 		assert(m_texture);

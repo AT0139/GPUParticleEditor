@@ -2,6 +2,7 @@
 #include "renderer.h"
 #include "AnimationModel.h"
 #include "Player.h"
+#include "ResourceManager.h"
 
 AnimationModel::AnimationModel(const char* fileName)
 	:m_isResetBlendRate(false)
@@ -160,17 +161,18 @@ void AnimationModel::Load(const char* FileName)
 					{
 						ID3D11ShaderResourceView* texture;
 
-						char temp[256] = { "asset/model/" };
+						char temp[256] = { "Asset/Model/" };
 						strcat(temp, path.data);
 						wchar_t wFilename[256];
-						mbsrtowcs(wFilename, (const char**)temp, 256, 0);
+						const char* t = temp;
+						mbsrtowcs(wFilename, &t, 256, 0);
 
 						//外部ファイルから読み込み
-						HRESULT hr = CreateWICTextureFromFile(Renderer::GetInstance().GetDevice(), wFilename, nullptr, &texture);
+						texture = ResourceManager::GetInstance().GetTextureData(wFilename);
 
-						assert(SUCCEEDED(hr));
+						assert(texture);
 						
-						m_texture[temp] = texture;
+						m_texture[path.data] = texture;
 					}
 				}
 			}
@@ -450,12 +452,6 @@ void AnimationModel::Draw()
 		//テクスチャ設定
 		aiString path;
 		material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
-		if (path.data[0] != '*')
-		{
-			char temp[1024] = { "asset/model/" };
-			(void)strcat(temp, path.data);
-			strcpy(path.data, temp);
-		}
 		Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(0, 1, &m_texture[path.data]);
 
 		//頂点バッファ設定
