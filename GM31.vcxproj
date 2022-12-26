@@ -105,7 +105,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
@@ -131,7 +131,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
@@ -157,7 +157,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OmitFramePointers>false</OmitFramePointers>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
@@ -184,7 +184,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OmitFramePointers>false</OmitFramePointers>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
@@ -204,10 +204,6 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Source\BlankObject.h" />
-    <ClInclude Include="Source\Bullet.h" />
-    <ClInclude Include="Source\Camera.h" />
-    <ClInclude Include="Source\ChildObject.h" />
     <ClInclude Include="Source\CollisionManager.h" />
     <ClInclude Include="Source\CollisionUtility.h" />
     <ClInclude Include="Source\Component\Collision\AABBCollision.h" />
@@ -223,11 +219,8 @@
     <ClInclude Include="Source\Component\Draw\DrawGeometry.h" />
     <ClInclude Include="Source\Component\Draw\DrawModel.h" />
     <ClInclude Include="Source\Component\Rigidbody.h" />
+    <ClInclude Include="Source\Component\SerializeComponent.h" />
     <ClInclude Include="Source\Component\Transform.h" />
-    <ClInclude Include="Source\DefenceBase.h" />
-    <ClInclude Include="Source\Enemy.h" />
-    <ClInclude Include="Source\Explosion.h" />
-    <ClInclude Include="Source\Field.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\GameUI.h" />
     <ClInclude Include="Source\imgui\backends\imgui_impl_dx11.h" />
@@ -237,19 +230,27 @@
     <ClInclude Include="Source\imgui\imgui_internal.h" />
     <ClInclude Include="Source\Main.h" />
     <ClInclude Include="Source\Manager.h" />
-    <ClInclude Include="Source\MeshField.h" />
     <ClInclude Include="Source\ObjectPlacementUI.h" />
-    <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\Object\BlankObject.h" />
+    <ClInclude Include="Source\Object\Bullet.h" />
+    <ClInclude Include="Source\Object\Camera.h" />
+    <ClInclude Include="Source\Object\ChildObject.h" />
+    <ClInclude Include="Source\Object\DefenceBase.h" />
+    <ClInclude Include="Source\Object\Enemy.h" />
+    <ClInclude Include="Source\Object\Explosion.h" />
+    <ClInclude Include="Source\Object\Field.h" />
+    <ClInclude Include="Source\Object\MeshField.h" />
+    <ClInclude Include="Source\Object\Player.h" />
+    <ClInclude Include="Source\Object\SkyDome.h" />
+    <ClInclude Include="Source\Object\Stair.h" />
+    <ClInclude Include="Source\Object\Tree.h" />
     <ClInclude Include="Source\Polygon2D.h" />
     <ClInclude Include="Source\ResourceManager.h" />
     <ClInclude Include="Source\Scene\Game.h" />
     <ClInclude Include="Source\Scene\Result.h" />
     <ClInclude Include="Source\Scene\Scene.h" />
     <ClInclude Include="Source\Scene\Title.h" />
-    <ClInclude Include="Source\SerializeComponent.h" />
     <ClInclude Include="Source\SerializeManager.h" />
-    <ClInclude Include="Source\SkyDome.h" />
-    <ClInclude Include="Source\Stair.h" />
     <ClInclude Include="Source\System\AnimationModel.h" />
     <ClInclude Include="Source\System\CAudio.h" />
     <ClInclude Include="Source\System\CModel.h" />
@@ -260,14 +261,9 @@
     <ClInclude Include="Source\System\stdafx.h" />
     <ClInclude Include="Source\System\strconv.h" />
     <ClInclude Include="Source\System\Structures.h" />
-    <ClInclude Include="Source\Tree.h" />
     <ClInclude Include="Source\Utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\BlankObject.cpp" />
-    <ClCompile Include="Source\Bullet.cpp" />
-    <ClCompile Include="Source\Camera.cpp" />
-    <ClCompile Include="Source\ChildObject.cpp" />
     <ClCompile Include="Source\CollisionManager.cpp" />
     <ClCompile Include="Source\CollisionUtility.cpp" />
     <ClCompile Include="Source\Component\Collision\AABBCollision.cpp" />
@@ -283,11 +279,8 @@
     <ClCompile Include="Source\Component\Draw\DrawGeometry.cpp" />
     <ClCompile Include="Source\Component\Draw\DrawModel.cpp" />
     <ClCompile Include="Source\Component\Rigidbody.cpp" />
+    <ClCompile Include="Source\Component\SerializeComponent.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
-    <ClCompile Include="Source\DefenceBase.cpp" />
-    <ClCompile Include="Source\Enemy.cpp" />
-    <ClCompile Include="Source\Explosion.cpp" />
-    <ClCompile Include="Source\Field.cpp" />
     <ClCompile Include="Source\GameUI.cpp" />
     <ClCompile Include="Source\imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="Source\imgui\backends\imgui_impl_win32.cpp" />
@@ -297,18 +290,26 @@
     <ClCompile Include="Source\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Manager.cpp" />
-    <ClCompile Include="Source\MeshField.cpp" />
     <ClCompile Include="Source\ObjectPlacementUI.cpp" />
-    <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Object\BlankObject.cpp" />
+    <ClCompile Include="Source\Object\Bullet.cpp" />
+    <ClCompile Include="Source\Object\Camera.cpp" />
+    <ClCompile Include="Source\Object\ChildObject.cpp" />
+    <ClCompile Include="Source\Object\DefenceBase.cpp" />
+    <ClCompile Include="Source\Object\Enemy.cpp" />
+    <ClCompile Include="Source\Object\Explosion.cpp" />
+    <ClCompile Include="Source\Object\Field.cpp" />
+    <ClCompile Include="Source\Object\MeshField.cpp" />
+    <ClCompile Include="Source\Object\Player.cpp" />
+    <ClCompile Include="Source\Object\SkyDome.cpp" />
+    <ClCompile Include="Source\Object\Stair.cpp" />
+    <ClCompile Include="Source\Object\Tree.cpp" />
     <ClCompile Include="Source\Polygon2D.cpp" />
     <ClCompile Include="Source\ResourceManager.cpp" />
     <ClCompile Include="Source\Scene\Game.cpp" />
     <ClCompile Include="Source\Scene\Result.cpp" />
     <ClCompile Include="Source\Scene\Title.cpp" />
-    <ClCompile Include="Source\SerializeComponent.cpp" />
     <ClCompile Include="Source\SerializeManager.cpp" />
-    <ClCompile Include="Source\SkyDome.cpp" />
-    <ClCompile Include="Source\Stair.cpp" />
     <ClCompile Include="Source\System\AnimationModel.cpp" />
     <ClCompile Include="Source\System\CAudio.cpp" />
     <ClCompile Include="Source\System\CModel.cpp" />
@@ -322,7 +323,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\System\Structures.cpp" />
-    <ClCompile Include="Source\Tree.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
