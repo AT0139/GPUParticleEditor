@@ -34,12 +34,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Scene.h">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game.h">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Camera.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -67,49 +61,7 @@
     <ClInclude Include="Source\Tree.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\AnimationModel.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Audio.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Model.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Renderer.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Singleton.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Title.h">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui_internal.h">
-      <Filter>ソース ファイル\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imconfig.h">
-      <Filter>ソース ファイル\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui.h">
-      <Filter>ソース ファイル\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\backends\imgui_impl_dx11.h">
-      <Filter>ソース ファイル\imgui\backend</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\backends\imgui_impl_win32.h">
-      <Filter>ソース ファイル\imgui\backend</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Main.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Component.h">
-      <Filter>ソース ファイル\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Transform.h">
-      <Filter>ソース ファイル\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\stdafx.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\Bullet.h">
@@ -127,41 +79,11 @@
     <ClInclude Include="Source\Stair.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Input.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Rigidbody.h">
-      <Filter>ソース ファイル\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CollisionComponent.h">
-      <Filter>ソース ファイル\Component\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SphereCollision.h">
-      <Filter>ソース ファイル\Component\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CollisionUtility.h">
-      <Filter>ソース ファイル\Component\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\ImGuizmo.h">
-      <Filter>ソース ファイル\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\AABBCollision.h">
-      <Filter>ソース ファイル\Component\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OBBCollision.h">
-      <Filter>ソース ファイル\Component\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Utility.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Structures.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="Source\BlankObject.h">
       <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CapsuleCollision.h">
-      <Filter>ソース ファイル\Component\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Source\ObjectPlacementUI.h">
       <Filter>ソース ファイル</Filter>
@@ -169,47 +91,122 @@
     <ClInclude Include="Source\GameUI.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Draw2DPolygon.h">
-      <Filter>ソース ファイル\Component\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DrawBillboard.h">
-      <Filter>ソース ファイル\Component\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DrawGeometry.h">
-      <Filter>ソース ファイル\Component\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DrawModel.h">
-      <Filter>ソース ファイル\Component\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Result.h">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Source\CollisionManager.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\SerializeManager.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SerializeComponent.h">
-      <Filter>ソース ファイル\Component\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\StaticDataTable.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\strconv.h">
-      <Filter>ソース ファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="Source\ChildObject.h">
       <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DrawAnimationModel.h">
-      <Filter>ソース ファイル\Component\Draw</Filter>
     </ClInclude>
     <ClInclude Include="Source\DefenceBase.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RayCollision.h">
+    <ClInclude Include="Source\imgui\imgui.h">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\imgui\imgui_internal.h">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\imgui\imconfig.h">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\imgui\backends\imgui_impl_win32.h">
+      <Filter>ソース ファイル\imgui\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\imgui\backends\imgui_impl_dx11.h">
+      <Filter>ソース ファイル\imgui\backend</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Draw\DrawGeometry.h">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Draw\DrawModel.h">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Draw\Draw2DPolygon.h">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Draw\DrawAnimationModel.h">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Draw\DrawBillboard.h">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CollisionUtility.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SerializeComponent.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Collision\OBBCollision.h">
       <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Collision\SphereCollision.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Collision\RayCollision.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Collision\AABBCollision.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Collision\CapsuleCollision.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Collision\CollisionComponent.h">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Component.h">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Rigidbody.h">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Transform.h">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Scene.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Result.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Game.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Title.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\strconv.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\stdafx.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Structures.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Singleton.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\AnimationModel.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\CAudio.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Input.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\CModel.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Renderer.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\StaticDataTable.h">
+      <Filter>ソース ファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -237,53 +234,8 @@
     <ClCompile Include="Source\ResourceManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Title.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\AnimationModel.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Audio.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Model.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Renderer.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_demo.cpp">
-      <Filter>ソース ファイル\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_draw.cpp">
-      <Filter>ソース ファイル\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_tables.cpp">
-      <Filter>ソース ファイル\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_widgets.cpp">
-      <Filter>ソース ファイル\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui.cpp">
-      <Filter>ソース ファイル\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\backends\imgui_impl_dx11.cpp">
-      <Filter>ソース ファイル\imgui\backend</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\backends\imgui_impl_win32.cpp">
-      <Filter>ソース ファイル\imgui\backend</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Main.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Component.cpp">
-      <Filter>ソース ファイル\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Transform.cpp">
-      <Filter>ソース ファイル\Component</Filter>
     </ClCompile>
     <ClCompile Include="Source\Explosion.cpp">
       <Filter>ソース ファイル\Object</Filter>
@@ -300,35 +252,8 @@
     <ClCompile Include="Source\Stair.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Input.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SphereCollision.cpp">
-      <Filter>ソース ファイル\Component\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Rigidbody.cpp">
-      <Filter>ソース ファイル\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CollisionComponent.cpp">
-      <Filter>ソース ファイル\Component\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CollisionUtility.cpp">
-      <Filter>ソース ファイル\Component\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\AABBCollision.cpp">
-      <Filter>ソース ファイル\Component\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\OBBCollision.cpp">
-      <Filter>ソース ファイル\Component\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Structures.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
     <ClCompile Include="Source\BlankObject.cpp">
       <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CapsuleCollision.cpp">
-      <Filter>ソース ファイル\Component\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utility.cpp">
       <Filter>ソース ファイル</Filter>
@@ -339,47 +264,116 @@
     <ClCompile Include="Source\GameUI.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Draw2DPolygon.cpp">
-      <Filter>ソース ファイル\Component\Draw</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DrawBillboard.cpp">
-      <Filter>ソース ファイル\Component\Draw</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DrawGeometry.cpp">
-      <Filter>ソース ファイル\Component\Draw</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DrawModel.cpp">
-      <Filter>ソース ファイル\Component\Draw</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Result.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Source\CollisionManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\SerializeManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SerializeComponent.cpp">
-      <Filter>ソース ファイル\Component\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\stdafx.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\StaticDataTable.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ChildObject.cpp">
       <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DrawAnimationModel.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\DefenceBase.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RayCollision.cpp">
+    <ClCompile Include="Source\imgui\imgui.cpp">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\imgui\imgui_draw.cpp">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\imgui\imgui_tables.cpp">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\imgui\imgui_widgets.cpp">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\imgui\backends\imgui_impl_win32.cpp">
+      <Filter>ソース ファイル\imgui\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\imgui\backends\imgui_impl_dx11.cpp">
+      <Filter>ソース ファイル\imgui\backend</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Draw\DrawGeometry.cpp">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Draw\DrawModel.cpp">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Draw\Draw2DPolygon.cpp">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Draw\DrawAnimationModel.cpp">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Draw\DrawBillboard.cpp">
+      <Filter>ソース ファイル\Component\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CollisionUtility.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SerializeComponent.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Collision\SphereCollision.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Collision\RayCollision.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Collision\AABBCollision.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Collision\CapsuleCollision.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Collision\CollisionComponent.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Collision\OBBCollision.cpp">
+      <Filter>ソース ファイル\Component\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Component.cpp">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Rigidbody.cpp">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Transform.cpp">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Title.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Result.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Game.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\StaticDataTable.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Structures.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\stdafx.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\AnimationModel.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\CAudio.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Input.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\CModel.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Renderer.cpp">
+      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

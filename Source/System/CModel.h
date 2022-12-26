@@ -33,12 +33,12 @@ struct MODEL
 	unsigned int subsetNum;
 };
 
-class Model
+class CModel
 {
 public:
 
-	Model();
-	Model(const char* fileName);
+	CModel();
+	CModel(const char* fileName);
 
 	void Draw();
 

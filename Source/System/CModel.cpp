@@ -5,21 +5,21 @@
 
 #include "main.h"
 #include "renderer.h"
-#include "model.h"
+#include "CModel.h"
 
-Model::Model()
+CModel::CModel()
 	: m_vertexBuffer(nullptr)
 	, m_indexBuffer(nullptr)
 	, m_pSubsetArray(nullptr)
 	, m_subsetNum(0)
 {}
 
-Model::Model(const char* fileName)
+CModel::CModel(const char* fileName)
 {
 	Load(fileName);
 }
 
-void Model::Draw()
+void CModel::Draw()
 {
 	// 頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -50,7 +50,7 @@ void Model::Draw()
 	}
 }
 
-void Model::Load(const char* FileName)
+void CModel::Load(const char* FileName)
 {
 	MODEL model;
 	LoadObj(FileName, &model);
@@ -135,7 +135,7 @@ void Model::Load(const char* FileName)
 	delete[] model.subsetArray;
 }
 
-void Model::Unload()
+void CModel::Unload()
 {
 	m_vertexBuffer->Release();
 	m_indexBuffer->Release();
@@ -149,7 +149,7 @@ void Model::Unload()
 }
 
 //モデル読込////////////////////////////////////////////
-void Model::LoadObj(const char* FileName, MODEL* Model)
+void CModel::LoadObj(const char* FileName, MODEL* Model)
 {
 	char dir[MAX_PATH];
 	strcpy(dir, FileName);
@@ -377,7 +377,7 @@ void Model::LoadObj(const char* FileName, MODEL* Model)
 }
 
 //マテリアル読み込み///////////////////////////////////////////////////////////////////
-void Model::LoadMaterial(const char* FileName, MODEL_MATERIAL** MaterialArray, unsigned int* MaterialNum)
+void CModel::LoadMaterial(const char* FileName, MODEL_MATERIAL** MaterialArray, unsigned int* MaterialNum)
 {
 	char dir[MAX_PATH];
 	strcpy(dir, FileName);

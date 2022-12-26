@@ -1,6 +1,6 @@
 ﻿#include "Renderer.h"
+#include "CModel.h"
 #include "DrawModel.h"
-#include "Model.h"
 #include "ResourceManager.h"
 #include "GameObject.h"
 

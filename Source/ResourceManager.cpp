@@ -1,16 +1,15 @@
-﻿#include "main.h"
-#include "renderer.h"
-#include "model.h"
+﻿#include "Renderer.h"
+#include "CModel.h"
 #include "AnimationModel.h"
 #include "ResourceManager.h"
 
-Model* ResourceManager::GetModelData(std::string filePath)
+CModel* ResourceManager::GetModelData(std::string filePath)
 {
 	//キーが存在しているか
 	if (m_modelList.find(filePath) == m_modelList.end())
 	{
 		//ない場合作成
-		m_modelList[filePath] = new Model(filePath.c_str());
+		m_modelList[filePath] = new CModel(filePath.c_str());
 	}
 	return m_modelList[filePath];
 }

@@ -3,7 +3,7 @@
 #include <xaudio2.h>
 #include "GameObject.h"
 
-class Audio : public GameObject
+class CAudio : public GameObject
 {
 private:
 	static IXAudio2* m_xAudio;

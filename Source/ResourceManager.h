@@ -9,7 +9,7 @@ class ResourceManager : public Singleton<ResourceManager>
 public:
 	friend class Singleton<ResourceManager>;
 
-	class Model* GetModelData(std::string filePath);
+	class CModel* GetModelData(std::string filePath);
 	class AnimationModel* GetAnimationModelData(std::string filePath);
 	ID3D11ShaderResourceView* GetTextureData(std::wstring filePath);
 
@@ -19,7 +19,7 @@ private:
 	ResourceManager() {}
 	~ResourceManager();
 
-	std::unordered_map <std::string, Model*> m_modelList;
+	std::unordered_map <std::string, CModel*> m_modelList;
 	std::unordered_map <std::string, AnimationModel*>m_animationModelList;
 	std::unordered_map <std::wstring, ID3D11ShaderResourceView*> m_textureList;
 };

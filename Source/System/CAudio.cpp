@@ -1,10 +1,10 @@
 ﻿#include "main.h"
-#include "audio.h"
+#include "CAudio.h"
 
-IXAudio2* Audio::m_xAudio = NULL;
-IXAudio2MasteringVoice* Audio::m_masteringVoice = NULL;
+IXAudio2* CAudio::m_xAudio = NULL;
+IXAudio2MasteringVoice* CAudio::m_masteringVoice = NULL;
 
-void Audio::InitMaster()
+void CAudio::InitMaster()
 {
 	// COM初期化
 	(void)CoInitializeEx(NULL, COINIT_MULTITHREADED);
@@ -16,14 +16,14 @@ void Audio::InitMaster()
 	m_xAudio->CreateMasteringVoice(&m_masteringVoice);
 }
 
-void Audio::UninitMaster()
+void CAudio::UninitMaster()
 {
 	m_masteringVoice->DestroyVoice();
 	m_xAudio->Release();
 	CoUninitialize();
 }
 
-void Audio::Load(const char* fileName)
+void CAudio::Load(const char* fileName)
 {
 	// サウンドデータ読込
 	WAVEFORMATEX wfx = { 0 };
@@ -78,7 +78,7 @@ void Audio::Load(const char* fileName)
 	assert(m_pSourceVoice);
 }
 
-void Audio::Uninit()
+void CAudio::Uninit()
 {
 	m_pSourceVoice->Stop();
 	m_pSourceVoice->DestroyVoice();
@@ -86,7 +86,7 @@ void Audio::Uninit()
 	delete[] m_pSoundData;
 }
 
-void Audio::Play(bool isLoop)
+void CAudio::Play(bool isLoop)
 {
 	m_pSourceVoice->Stop();
 	m_pSourceVoice->FlushSourceBuffers();

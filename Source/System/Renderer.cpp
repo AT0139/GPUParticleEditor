@@ -236,7 +236,7 @@ void Renderer::Init()
 	ImGui_ImplDX11_Init(m_pDevice, m_pDeviceContext);
 
 	//	Fonts
-	io.Fonts->AddFontFromFileTTF("imgui/misc/fonts/Roboto-Medium.ttf", m_ImGuiFontSize);
+	io.Fonts->AddFontFromFileTTF("Source/imgui/misc/fonts/Roboto-Medium.ttf", m_ImGuiFontSize);
 
 	//style
 	ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(0.0f, 1.0f, 220.0f / 250.0f, 1.0f));

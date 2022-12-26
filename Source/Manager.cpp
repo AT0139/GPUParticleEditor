@@ -6,7 +6,7 @@
 #include "Game.h"
 #include "Title.h"
 #include "Result.h"
-#include "audio.h"
+#include "CAudio.h"
 
 Manager::Manager()
 	: m_pScene(nullptr)
@@ -16,7 +16,7 @@ void Manager::Init()
 {
 	Renderer::GetInstance().Init();
 	GET_INPUT.Init();
-	Audio::InitMaster();
+	CAudio::InitMaster();
 
 	SetScene<MainGame::Game>();
 }
@@ -26,7 +26,7 @@ void Manager::Uninit()
 	m_pScene->Uninit();
 	delete m_pScene;
 
-	Audio::UninitMaster();
+	CAudio::UninitMaster();
 	GET_INPUT.Uninit();
 	Renderer::GetInstance().Uninit();
 }

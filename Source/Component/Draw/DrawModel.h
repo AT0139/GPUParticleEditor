@@ -23,7 +23,7 @@ public:
 	void SetPixelShader(const char* filename);
 
 private:
-	class Model* m_model;
+	class CModel* m_model;
 
 	ID3D11VertexShader* m_vertexShader;
 	ID3D11PixelShader* m_pixelShader;
