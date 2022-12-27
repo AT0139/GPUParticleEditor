@@ -101,7 +101,7 @@ void GameUI::PlacementUIUpdate()
 
 				//x軸
 				{
-					Vector3 axizScale(scale.x * 0.5f, 0, 0);
+					Vector3 axizScale(scale.x, 0, 0);
 
 				axizScale = Vector3::Transform(axizScale, quat);	
 				field->SetNotTraffic(position + axizScale);
@@ -110,7 +110,7 @@ void GameUI::PlacementUIUpdate()
 				}
 				{
 					//z軸
-					Vector3 axizScale(0, 0, scale.z * 0.5f);
+					Vector3 axizScale(0, 0, scale.z);
 
 					axizScale = Vector3::Transform(axizScale, quat);
 					field->SetNotTraffic(position + axizScale);

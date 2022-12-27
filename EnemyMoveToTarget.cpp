@@ -75,8 +75,8 @@ void EnemyMoveToTarget::CalcWayPoint(Vector3 startPos, Vector3 endPos)
 			if (adjacent.node->notTraffic)
 				continue;
 
-			auto estimated = endPos - adjacent.node->pos;
-			float score = total + adjacent.cost + estimated.Length();
+			auto Manhattan = std::abs(endPos.x - adjacent.node->pos.x) + std::abs(endPos.z - adjacent.node->pos.z);
+			float score = total + adjacent.cost + Manhattan;
 			if (minScore > score || minScore == -1)
 			{
 				minScore = score;

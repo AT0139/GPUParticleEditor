@@ -16,6 +16,7 @@
 #include <typeinfo>
 #include <typeindex>
 #include <fstream>
+#include <algorithm>
 
 #pragma warning(push)
 #pragma warning(disable:4005)
