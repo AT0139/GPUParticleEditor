@@ -217,6 +217,9 @@
     <ClInclude Include="EnemyMoveToTarget.h">
       <Filter>ソース ファイル\Object\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Turret.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Manager.cpp">
@@ -385,7 +388,10 @@
       <Filter>ソース ファイル\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyMoveToTarget.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Turret.cpp">
+      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

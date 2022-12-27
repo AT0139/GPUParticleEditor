@@ -23,7 +23,7 @@ void EnemyMoveToTarget::StateEnter()
 {
 	auto scene = Manager::GetInstance().GetScene();
 	m_targetPos = scene->GetGameObject<DefenceBase>(scene->OBJECT)->GetComponent<Transform>()->GetPosition();
-	
+	m_aster = false;
 }
 
 void EnemyMoveToTarget::StateUpdate()
