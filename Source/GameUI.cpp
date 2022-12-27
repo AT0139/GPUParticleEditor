@@ -91,7 +91,34 @@ void GameUI::PlacementUIUpdate()
 
 			m_pPlaceObject = nullptr;
 			m_placeObjectData.reset();
-			field->SetNotTraffic(trans->GetPosition());
+
+			//経路探索ノードに設置物の反映
+			{
+				field->SetNotTraffic(trans->GetPosition());
+				auto position = trans->GetPosition();
+				auto scale = trans->GetScale();
+				auto quat = trans->GetRotation();
+
+				//x軸
+				{
+					Vector3 axizScale(scale.x * 0.5f, 0, 0);
+
+				axizScale = Vector3::Transform(axizScale, quat);	
+				field->SetNotTraffic(position + axizScale);
+
+				field->SetNotTraffic(position - axizScale);
+				}
+				{
+					//z軸
+					Vector3 axizScale(0, 0, scale.z * 0.5f);
+
+					axizScale = Vector3::Transform(axizScale, quat);
+					field->SetNotTraffic(position + axizScale);
+
+					field->SetNotTraffic(position - axizScale);
+				}
+			}
+
 			return;
 		}
 
@@ -212,41 +239,41 @@ GameUI::SnapObjectInfo GameUI::CreateSnapInfo()
 	info.m_obb.Orientation = transform->GetRotation();
 
 
-	auto scele = transform->GetScale();
+	auto scale = transform->GetScale();
 	auto quat = transform->GetRotation();
 	quat.Normalize();
 
 	//x軸
 	if(m_placeObjectData->IsSnapX())
 	{
-		Vector3 a(scele.x, 0, 0);
+		Vector3 axizScale(scale.x, 0, 0);
 
-		a = Vector3::Transform(a, quat);
-		info.m_snapPoint.push_back(position + a);
+		axizScale = Vector3::Transform(axizScale, quat);
+		info.m_snapPoint.push_back(position + axizScale);
 
-		info.m_snapPoint.push_back(position - a);
+		info.m_snapPoint.push_back(position - axizScale);
 	}
 
 	//y軸
 	if (m_placeObjectData->IsSnapY())
 	{
-		Vector3 a(0, scele.y, 0);	
+		Vector3 axizScale(0, scale.y, 0);	
 
-		a = Vector3::Transform(a, quat);
-		info.m_snapPoint.push_back(position + a);
+		axizScale = Vector3::Transform(axizScale, quat);
+		info.m_snapPoint.push_back(position + axizScale);
 
-		info.m_snapPoint.push_back(position - a);
+		info.m_snapPoint.push_back(position - axizScale);
 	}
 
 	//z軸
 	if (m_placeObjectData->IsSnapZ())
 	{
-		Vector3 a(0, 0, scele.z);
+		Vector3 axizScale(0, 0, scale.z);
 
-		a = Vector3::Transform(a, quat);
-		info.m_snapPoint.push_back(position + a);
+		axizScale = Vector3::Transform(axizScale, quat);
+		info.m_snapPoint.push_back(position + axizScale);
 
-		info.m_snapPoint.push_back(position - a);
+		info.m_snapPoint.push_back(position - axizScale);
 	}
 
 	return info;

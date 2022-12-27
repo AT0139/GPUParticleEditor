@@ -15,6 +15,14 @@ public:
 
 	void CalcWayPoint(Vector3 startPos,Vector3 endPos);
 private:
+	struct OpenNode
+	{
+		float total;
+		float estimated;
+		float score;
+		Node* parent;
+	};
+
 	Vector3 m_targetPos;
 	std::vector<Vector3> m_wayPoint;
 	int m_wayPointIndex;

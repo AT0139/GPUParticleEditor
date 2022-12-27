@@ -67,7 +67,8 @@ void EnemyMoveToTarget::CalcWayPoint(Vector3 startPos, Vector3 endPos)
 	while (pNode != pEndNode)
 	{
 		Node* nextNode = nullptr;
-		float minScore = 99999;
+		float minScore = -1;
+		float addTotal = 0;
 		//次のノードのスコア計算
 		for (auto adjacent : pNode->adjacentNode)
 		{
@@ -76,13 +77,14 @@ void EnemyMoveToTarget::CalcWayPoint(Vector3 startPos, Vector3 endPos)
 
 			auto estimated = endPos - adjacent.node->pos;
 			float score = total + adjacent.cost + estimated.Length();
-			if (minScore > score)
+			if (minScore > score || minScore == -1)
 			{
 				minScore = score;
 				nextNode = adjacent.node;
+				addTotal = adjacent.cost;
 			}
 		}
-
+		total += addTotal;
 		m_wayPoint.push_back(nextNode->pos);
 		pNode = nextNode;
 	}
