@@ -34,7 +34,7 @@ namespace MainGame
 		AddGameObject<DefenceBase>(OBJECT)->GetComponent<Transform>()->SetPosition(basePos);
 
 		AddGameObject<Player>(OBJECT);
-		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(-8.0f, 4.0f, 3.0f));
+		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(00.0f, 4.0f, -0.0f));
 		//AddGameObject<Stair>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(10.0f, 5.0f, 10.0f));
 
 		AddGameObject<GameUI>(UI);
@@ -65,6 +65,11 @@ namespace MainGame
 
 		ImGui::Begin("Serialize", 0, ImGuiWindowFlags_AlwaysAutoResize);
 		{
+			if (ImGui::Button("Enemy"))
+			{
+				AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(50.0f, 4.0f, -0.0f));
+			}
+
 			if (ImGui::Button("serialize"))
 			{
 				m_serializeManger->ToSerialize();

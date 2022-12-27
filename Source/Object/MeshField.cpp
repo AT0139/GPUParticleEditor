@@ -44,7 +44,7 @@ namespace MainGame
 				{
 					//経路探索用のノードを作成
 					m_nodes[x][z].pos = m_vertex[x][z].position;
-
+					m_nodes[x][z].notTraffic = false;
 					//周囲のノードの登録
 					AdjacentNode adNode;
 					for (int nodeX = -1; nodeX < 2; nodeX++)
@@ -285,6 +285,26 @@ namespace MainGame
 				ret.push_back(Triangle(pos1, pos3, pos2));
 			}
 		}
+	}
+
+	void MeshField::SetNotTraffic(Vector3 pos)
+	{
+		int x, z;
+
+		x = static_cast<int>(pos.x / 5.0f + 10.0f);
+		z = static_cast<int>(pos.z / -5.0f + 10.0f);
+
+		m_nodes[x][z].notTraffic = true;
+	}
+
+	Node* MeshField::GetNodes(Vector3 pos)
+	{
+		int x, z;
+
+		x = static_cast<int>(pos.x / 5.0f + 10.0f);
+		z = static_cast<int>(pos.z / -5.0f + 10.0f);
+
+		return &m_nodes[x][z];
 	}
 
 	bool MeshField::FileReader(const char* filename)

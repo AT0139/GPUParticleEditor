@@ -204,6 +204,8 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EnemyMoveToTarget.h" />
+    <ClInclude Include="EnemyStateBase.h" />
     <ClInclude Include="Source\CollisionManager.h" />
     <ClInclude Include="Source\CollisionUtility.h" />
     <ClInclude Include="Source\Component\Collision\AABBCollision.h" />
@@ -264,6 +266,7 @@
     <ClInclude Include="Source\Utility.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyMoveToTarget.cpp" />
     <ClCompile Include="Source\CollisionManager.cpp" />
     <ClCompile Include="Source\CollisionUtility.cpp" />
     <ClCompile Include="Source\Component\Collision\AABBCollision.cpp" />

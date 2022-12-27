@@ -91,6 +91,7 @@ void GameUI::PlacementUIUpdate()
 
 			m_pPlaceObject = nullptr;
 			m_placeObjectData.reset();
+			field->SetNotTraffic(trans->GetPosition());
 			return;
 		}
 

@@ -22,6 +22,7 @@ struct Node
 {
 	Vector3 pos;
 	std::list<AdjacentNode> adjacentNode;
+	bool notTraffic;
 };
 
 struct AdjacentNode
@@ -42,6 +43,9 @@ namespace MainGame
 
 		float GetHeight(Vector3 position);
 		void GetTriangles(std::list<Triangle>& ret, Vector3 pos);
+		void SetNotTraffic(Vector3 pos);
+
+		Node* GetNodes(Vector3 pos);
 
 	private:
 		bool FileReader(const char* filename);

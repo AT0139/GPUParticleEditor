@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "GameObject.h"
+#include "EnemyStateBase.h"
 
 class Enemy :public GameObject
 {
@@ -11,5 +12,5 @@ public:
 	virtual void Draw() override {}
 
 private:
-	Vector3 m_targetPos;
+	std::shared_ptr<EnemyStateBase> m_state;
 };

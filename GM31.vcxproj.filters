@@ -211,6 +211,12 @@
     <ClInclude Include="Source\Object\Enemy.h">
       <Filter>ソース ファイル\Object\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyStateBase.h">
+      <Filter>ソース ファイル\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMoveToTarget.h">
+      <Filter>ソース ファイル\Object\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Manager.cpp">
@@ -377,6 +383,9 @@
     </ClCompile>
     <ClCompile Include="Source\Object\Enemy.cpp">
       <Filter>ソース ファイル\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMoveToTarget.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
