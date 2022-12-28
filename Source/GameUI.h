@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include "GameObject.h"
+#include "PlacementObjectSnap.h"
+
 
 class ObjectPlacementUI;
 
@@ -15,18 +17,13 @@ public:
 	virtual void Draw() override;
 
 private:
-	struct SnapObjectInfo
-	{
-		BoundingOrientedBox m_obb;
-		std::vector<Vector3> m_snapPoint;
-	};
+
 
 	void PlacementUIUpdate();
 	void CreateObjectAtID(int staticObjectID);
-	SnapObjectInfo CreateSnapInfo();
 
 	ObjectPlacementUI* m_pPlacementUI;
-	GameObject* m_pPlaceObject;
+	PlacementObject* m_pPlaceObject;
 	std::list<SnapObjectInfo> m_pSnapObjectList;
 
 	std::shared_ptr<StaticObjectData> m_placeObjectData;

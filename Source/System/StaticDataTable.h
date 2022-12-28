@@ -28,24 +28,32 @@ private:
 	Vector3 m_scale;
 };
 
+enum class STATICOBJECT_TYPE
+{
+	BLANK,
+	FOUNDATION,
+	WALL,
+};
+
 class StaticObjectData : public DataTableBase
 {
 public:
+
 	// DataTableBase を介して継承されました
 	virtual void Load(std::vector<std::string> line) override;
 	virtual bool CheckID(int id) override;
 
 	int GetModelID() { return m_modelID; }
+	STATICOBJECT_TYPE GetType() { return m_type; }
 	Vector3 GetCollisionScale() { return m_collisionScale; }
-	bool IsSnapX() { return m_isSnapX; }
-	bool IsSnapY() { return m_isSnapY; }
-	bool IsSnapZ() { return m_isSnapZ; }
+	Vector3 GetPositionOffset() { return m_offset; }
 
 private:
 	int m_id;
 	int m_modelID;
+	STATICOBJECT_TYPE m_type;
 	Vector3 m_collisionScale;
-	bool m_isSnapX, m_isSnapY, m_isSnapZ;
+	Vector3 m_offset;
 };
 
 class PlacementData : public DataTableBase

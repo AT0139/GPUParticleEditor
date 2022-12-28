@@ -87,7 +87,7 @@ void GameUI::PlacementUIUpdate()
 				col->SetIsStaticObject(true);
 			}
 
-			m_pSnapObjectList.push_back(CreateSnapInfo());
+			m_pSnapObjectList.push_back(m_pPlaceObject->CreateSnapInfo());
 
 			m_pPlaceObject = nullptr;
 			m_placeObjectData.reset();
@@ -103,10 +103,10 @@ void GameUI::PlacementUIUpdate()
 				{
 					Vector3 axizScale(scale.x, 0, 0);
 
-				axizScale = Vector3::Transform(axizScale, quat);	
-				field->SetNotTraffic(position + axizScale);
+					axizScale = Vector3::Transform(axizScale, quat);
+					field->SetNotTraffic(position + axizScale);
 
-				field->SetNotTraffic(position - axizScale);
+					field->SetNotTraffic(position - axizScale);
 				}
 				{
 					//z軸
@@ -129,51 +129,9 @@ void GameUI::PlacementUIUpdate()
 			float snapDist = 0;
 			if (snap.m_obb.Intersects(ray.position, ray.direction, snapDist))
 			{
-#ifdef _DEBUG
-				ImGui::Begin("Mouse");
-				{
-					ImGui::Text("Ray Intersect!");
-				}
-				ImGui::End();
-#endif
 				Vector3 hitPos = ray.position + ray.direction * snapDist; //オブジェクト上の交差点
 
-				//一番近いスナップポイントインデックスを計算
-				Vector3 snapPoint;
-				{
-					float nearDistance = 100;
-					int nearIndex = 0;
-					for (int i = 0; i < snap.m_snapPoint.size(); i++)
-					{
-						float dis = (snap.m_snapPoint[i] - trans->GetPosition()).Length();
-						if (dis < nearDistance)
-						{
-							nearDistance = dis;
-							nearIndex = i;
-						}
-					}
-					snapPoint = snap.m_snapPoint[nearIndex];
-				}
-				//スナップポイントから一番近い自分のスナップポイントを計算
-				auto mySnapInfo = CreateSnapInfo();
-				Vector3 mySnapPoint;
-				{
-					float nearDistance = 100;
-					int nearIndex = 0;
-					for (int i = 0; i < mySnapInfo.m_snapPoint.size(); i++)
-					{
-						float dis = (mySnapInfo.m_snapPoint[i] - snap.m_obb.Center).Length();
-						if (dis < nearDistance)
-						{
-							nearDistance = dis;
-							nearIndex = i;
-						}
-					}
-					mySnapPoint = mySnapInfo.m_snapPoint[nearIndex];
-				}
-				Vector3 pointDiff = trans->GetPosition() - mySnapPoint;
-
-				trans->SetPosition(snapPoint+ pointDiff);
+				m_pPlaceObject->SnapBridge(snap.m_obj, snap, hitPos);
 				return;
 			}
 		}
@@ -197,15 +155,27 @@ void GameUI::PlacementUIUpdate()
 			pos = ray.position + ray.direction * dist;
 			trans->SetPosition(pos);
 		}
+
 	}
 }
 
 void GameUI::CreateObjectAtID(int staticObjectID)
 {
 	auto scene = Manager::GetInstance().GetScene();
-	m_pPlaceObject = scene->AddGameObject<BlankObject>(scene->OBJECT);
+
+
 	m_placeObjectData = StaticDataTable::GetInstance().GetStaticObjectData(staticObjectID);
 	auto modelData = StaticDataTable::GetInstance().GetModelData(m_placeObjectData->GetModelID());//モデルデータ取得
+
+	switch (m_placeObjectData->GetType())
+	{
+	case STATICOBJECT_TYPE::WALL:
+		m_pPlaceObject = scene->AddGameObject<Wall>(scene->OBJECT);
+		break;
+	case STATICOBJECT_TYPE::FOUNDATION:
+		m_pPlaceObject = scene->AddGameObject<Foundation>(scene->OBJECT);
+		break;
+	}
 
 	auto model = m_pPlaceObject->AddComponent<DrawModel>(this);
 
@@ -218,6 +188,7 @@ void GameUI::CreateObjectAtID(int staticObjectID)
 	col->SetScale(m_placeObjectData->GetCollisionScale());
 	col->SetIsStaticObject(false);
 	col->SetHitAction(HitAction::None);
+	col->SetCenterPosition(m_placeObjectData->GetPositionOffset());
 
 	auto rigid = m_pPlaceObject->AddComponent<Rigidbody>();
 	rigid->SetIsKinematic(true);
@@ -226,55 +197,4 @@ void GameUI::CreateObjectAtID(int staticObjectID)
 	//UIを消す
 	m_pPlacementUI->SetHidden(true);
 	m_pPlacementUI->ResetModelID();
-}
-
-GameUI::SnapObjectInfo GameUI::CreateSnapInfo()
-{
-	//スナップ用情報セット
-	SnapObjectInfo info;
-	auto transform = m_pPlaceObject->GetComponent<Transform>();
-	auto position = transform->GetPosition();
-	info.m_obb.Center = position;
-	info.m_obb.Extents = m_pPlaceObject->GetComponent<CollisionComponent>()->GetCollisionScale();
-	info.m_obb.Orientation = transform->GetRotation();
-
-
-	auto scale = transform->GetScale();
-	auto quat = transform->GetRotation();
-	quat.Normalize();
-
-	//x軸
-	if(m_placeObjectData->IsSnapX())
-	{
-		Vector3 axizScale(scale.x, 0, 0);
-
-		axizScale = Vector3::Transform(axizScale, quat);
-		info.m_snapPoint.push_back(position + axizScale);
-
-		info.m_snapPoint.push_back(position - axizScale);
-	}
-
-	//y軸
-	if (m_placeObjectData->IsSnapY())
-	{
-		Vector3 axizScale(0, scale.y, 0);	
-
-		axizScale = Vector3::Transform(axizScale, quat);
-		info.m_snapPoint.push_back(position + axizScale);
-
-		info.m_snapPoint.push_back(position - axizScale);
-	}
-
-	//z軸
-	if (m_placeObjectData->IsSnapZ())
-	{
-		Vector3 axizScale(0, 0, scale.z);
-
-		axizScale = Vector3::Transform(axizScale, quat);
-		info.m_snapPoint.push_back(position + axizScale);
-
-		info.m_snapPoint.push_back(position - axizScale);
-	}
-
-	return info;
 }

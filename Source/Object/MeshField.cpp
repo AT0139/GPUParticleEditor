@@ -213,7 +213,7 @@ namespace MainGame
 		Renderer::GetInstance().GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 		//ポリゴン描画
-		Renderer::GetInstance().GetDeviceContext()->DrawIndexed(INDEX_NUM, 0, 0);
+		//Renderer::GetInstance().GetDeviceContext()->DrawIndexed(INDEX_NUM, 0, 0);
 	}
 
 	float MeshField::GetHeight(Vector3 position)

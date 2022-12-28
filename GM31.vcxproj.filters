@@ -46,9 +46,6 @@
     <ClInclude Include="Source\ResourceManager.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Main.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Utility.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -220,6 +217,12 @@
     <ClInclude Include="Turret.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
+    <ClInclude Include="PlacementObjectSnap.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Main.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Manager.cpp">
@@ -229,9 +232,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\ResourceManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utility.cpp">
@@ -392,6 +392,12 @@
     </ClCompile>
     <ClCompile Include="Turret.cpp">
       <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="PlacementObjectSnap.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

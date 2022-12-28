@@ -100,10 +100,12 @@ void StaticObjectData::Load(std::vector<std::string> line)
 {
 	m_id = std::atoi(line[1].c_str());
 	m_modelID = std::atoi(line[2].c_str());
-	m_collisionScale = Vector3(std::stof(line[3].c_str()), std::stof(line[4].c_str()), std::stof(line[5].c_str()));;
-	m_isSnapX = std::atoi(line[6].c_str());
-	m_isSnapY = std::atoi(line[7].c_str());
-	m_isSnapZ = std::atoi(line[8].c_str());
+	if (line[3] == "Wall")
+		m_type = STATICOBJECT_TYPE::WALL;
+	else if (line[3] == "Foundation")
+		m_type = STATICOBJECT_TYPE::FOUNDATION;
+	m_collisionScale = Vector3(std::stof(line[4].c_str()), std::stof(line[5].c_str()), std::stof(line[6].c_str()));
+	m_offset = Vector3(std::stof(line[7].c_str()), std::stof(line[8].c_str()), std::stof(line[9].c_str()));
 }
 
 bool StaticObjectData::CheckID(int id)
