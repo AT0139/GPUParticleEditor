@@ -15,7 +15,7 @@ public:
 	Vector3 GetPrevPosition() { return m_prevPosition; }
 	Vector3 GetWorldPosition();
 	Vector3 GetPrevWorldPosition();
-	Quaternion GetRotation() { return m_quaternion; }
+	Quaternion GetQuaternion() { return m_quaternion; }
 	Vector3 GetScale() { return m_scale; }
 	Vector3 GetVelocity();
 	Vector3 GetXAxis();

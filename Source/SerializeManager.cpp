@@ -26,15 +26,6 @@ void SerializeManager::ToSerialize()
 			SerializeInfo info;
 			info.data = pSerial->GetSerializeData();
 
-			if (obj->GetTag() == TAG::WALL)
-			{
-				info.type = SerializeObjectType::WALL;
-			}
-			else
-			{
-				info.type = SerializeObjectType::FLOOR;
-			}
-
 			serializeList.push_back(info);
 		}
 	}

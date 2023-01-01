@@ -21,7 +21,7 @@ SerializeData SerializeComponent::GetSerializeData()
 {
 	auto pObj = GetGameObject();
 	auto transform = pObj->GetComponent<Transform>();
-	SerializeData data(transform->GetPosition(), transform->GetRotation());
+	SerializeData data(transform->GetPosition(), transform->GetQuaternion());
 
 	return data;
 }

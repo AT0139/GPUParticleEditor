@@ -17,8 +17,7 @@ enum class TAG
 	NONE,
 	PLAYER,
 	ENEMY,
-	WALL,
-	FLOOR
+	STATIC_OBJECT,
 };
 
 class GameObject
@@ -171,15 +170,16 @@ public:
 	virtual void OnCollision(GameObject* collision) {};
 	virtual void OnTrigger(GameObject* collision) {};
 
+	void SetTag(TAG tag) { m_tag = tag; }
 	TAG GetTag() { return m_tag; }
 
 	void SetHidden(bool is) { m_isHidden = is; }
 	bool IsHidden() { return m_isHidden; }
 
 protected:
-	TAG m_tag;
 
 private:
+	TAG m_tag;
 
 	std::list<std::shared_ptr<Component>> m_componentList;
 

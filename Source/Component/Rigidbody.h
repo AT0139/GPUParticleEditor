@@ -25,6 +25,7 @@ public:
 	void SetMass(float mass);
 	void SetIsTrigger(bool is) { m_isTrigger = is; }
 	void SetIsKinematic(bool is) { m_isKinematic = is; }
+	void SetIsGround(bool is) { m_isGround = is; }
 
 	void AddForce(Vector3 force);
 private:

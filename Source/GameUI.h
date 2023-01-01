@@ -23,8 +23,8 @@ private:
 	void CreateObjectAtID(int staticObjectID);
 
 	ObjectPlacementUI* m_pPlacementUI;
-	PlacementObject* m_pPlaceObject;
-	std::list<SnapObjectInfo> m_pSnapObjectList;
+	Placement::PlacementObject* m_pPlaceObject;
+	std::list<Placement::SnapObjectInfo> m_pSnapObjectList;
 
 	std::shared_ptr<StaticObjectData> m_placeObjectData;
 };

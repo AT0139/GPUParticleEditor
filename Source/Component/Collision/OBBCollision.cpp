@@ -76,7 +76,7 @@ OBBInfo OBBCollision::GetOBBInfo()
 	m_obb.scaleHalf[2] = scale.z;
 
 	m_obb.orientation = Quaternion::Identity;
-	m_obb.orientation = transform->GetRotation();
+	m_obb.orientation = transform->GetQuaternion();
 	m_obb.orientation.Normalize();
 
 	return m_obb;

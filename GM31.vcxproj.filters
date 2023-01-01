@@ -35,6 +35,9 @@
     <Filter Include="ソース ファイル\Object\Enemy">
       <UniqueIdentifier>{fa1c1ae4-08fa-459a-8438-7d528357e711}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Object\Placement">
+      <UniqueIdentifier>{facb0b3a-aeb8-4e73-80e8-ee3f96ada519}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Manager.h">
@@ -205,23 +208,29 @@
     <ClInclude Include="Source\Object\Field.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Object\Enemy.h">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyStateBase.h">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyMoveToTarget.h">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Turret.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="PlacementObjectSnap.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Main.h">
       <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\Enemy\EnemyStateBase.h">
+      <Filter>ソース ファイル\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\Enemy\EnemyMoveToTarget.h">
+      <Filter>ソース ファイル\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\Enemy\Enemy.h">
+      <Filter>ソース ファイル\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\Placement\PlacementObjectSnap.h">
+      <Filter>ソース ファイル\Object\Placement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\Placement\Wall.h">
+      <Filter>ソース ファイル\Object\Placement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\Placement\Foundation.h">
+      <Filter>ソース ファイル\Object\Placement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -384,20 +393,26 @@
     <ClCompile Include="Source\Object\Field.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Object\Enemy.cpp">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyMoveToTarget.cpp">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Turret.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="PlacementObjectSnap.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Main.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\Enemy\EnemyMoveToTarget.cpp">
+      <Filter>ソース ファイル\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\Enemy\Enemy.cpp">
+      <Filter>ソース ファイル\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\Placement\PlacementObjectSnap.cpp">
+      <Filter>ソース ファイル\Object\Placement</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\Placement\Wall.cpp">
+      <Filter>ソース ファイル\Object\Placement</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\Placement\Foundation.cpp">
+      <Filter>ソース ファイル\Object\Placement</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

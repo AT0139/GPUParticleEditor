@@ -73,7 +73,7 @@ RayInfo RayCollision::GetRayInfo()
 {
 	RayInfo ray = m_info;
 	auto transform = GetGameObject()->GetComponent<Transform>();
-	Vector3::Transform(ray.direction, transform->GetRotation(), ray.direction);
+	Vector3::Transform(ray.direction, transform->GetQuaternion(), ray.direction);
 
 	return ray;
 }

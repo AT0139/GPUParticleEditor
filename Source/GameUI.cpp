@@ -3,13 +3,12 @@
 #include "Input.h"
 #include "Manager.h"
 #include "Scene.h"
-#include "BlankObject.h"
 #include "Camera.h"
 #include "MeshField.h"
 #include "Renderer.h"
 #include "Player.h"
-
-static const float ROTATION_SPEED = 0.05f;
+#include "Wall.h"
+#include "Foundation.h"
 
 GameUI::GameUI()
 	: m_pPlaceObject(nullptr)
@@ -72,12 +71,6 @@ void GameUI::PlacementUIUpdate()
 		auto playerTrans = scene->GetGameObject<MainGame::Player>(scene->OBJECT)->GetComponent<Transform>();
 		field->GetTriangles(triangles, playerTrans->GetPosition());
 
-		//回転
-		if (GET_INPUT.GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_L))
-			trans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, -ROTATION_SPEED));
-		if (GET_INPUT.GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_R))
-			trans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, ROTATION_SPEED));
-
 		//離されたら
 		if (GET_INPUT.GetKeyRelease(KEY_CONFIG::MOUSE_L))
 		{
@@ -97,7 +90,7 @@ void GameUI::PlacementUIUpdate()
 				field->SetNotTraffic(trans->GetPosition());
 				auto position = trans->GetPosition();
 				auto scale = trans->GetScale();
-				auto quat = trans->GetRotation();
+				auto quat = trans->GetQuaternion();
 
 				//x軸
 				{
@@ -156,6 +149,11 @@ void GameUI::PlacementUIUpdate()
 			trans->SetPosition(pos);
 		}
 
+		//回転
+		if (GET_INPUT.GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_L))
+			trans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, -Placement::ROTATION_SPEED));
+		if (GET_INPUT.GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_R))
+			trans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, Placement::ROTATION_SPEED));
 	}
 }
 
@@ -170,10 +168,10 @@ void GameUI::CreateObjectAtID(int staticObjectID)
 	switch (m_placeObjectData->GetType())
 	{
 	case STATICOBJECT_TYPE::WALL:
-		m_pPlaceObject = scene->AddGameObject<Wall>(scene->OBJECT);
+		m_pPlaceObject = scene->AddGameObject<Placement::Wall>(scene->OBJECT);
 		break;
 	case STATICOBJECT_TYPE::FOUNDATION:
-		m_pPlaceObject = scene->AddGameObject<Foundation>(scene->OBJECT);
+		m_pPlaceObject = scene->AddGameObject<Placement::Foundation>(scene->OBJECT);
 		break;
 	}
 
@@ -194,6 +192,7 @@ void GameUI::CreateObjectAtID(int staticObjectID)
 	rigid->SetIsKinematic(true);
 
 	m_pPlaceObject->AddComponent<SerializeComponent>(this);
+	m_pPlaceObject->SetTag(TAG::STATIC_OBJECT);
 	//UIを消す
 	m_pPlacementUI->SetHidden(true);
 	m_pPlacementUI->ResetModelID();

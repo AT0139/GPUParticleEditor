@@ -17,7 +17,7 @@ namespace MainGame
 		, JUMP_FORCE(0.8f)
 		, THROW_FORCE(0.1f)
 	{
-		m_tag = TAG::PLAYER;
+		SetTag(TAG::PLAYER);
 
 		m_rigid = AddComponent<Rigidbody>();
 		m_rigid->SetMass(1.5f);
@@ -96,6 +96,16 @@ namespace MainGame
 				collision->GetComponent<Rigidbody>()->SetIsKinematic(true);
 				collision->GetComponent<Rigidbody>()->SetIsTrigger(true);
 			}
+		}
+
+		if (collision->GetTag() == TAG::STATIC_OBJECT)
+		{
+			auto transform = collision->GetComponent<Transform>();
+			float colYpos = transform->GetPosition().y;
+			float myYpos = m_transform->GetPosition().y;
+
+			if (myYpos > colYpos)
+				m_rigid->SetIsGround(true);
 		}
 	}
 

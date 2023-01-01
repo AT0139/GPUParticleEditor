@@ -19,7 +19,7 @@ Enemy::Enemy()
 	transform->SetScale(Vector3(0.5f, 0.5f, 0.5f));
 
 
-	m_tag = TAG::ENEMY;
+	SetTag(TAG::ENEMY);
 
 	m_state = std::make_shared<EnemyMoveToTarget>(EnemyMoveToTarget(this));
 	m_state->StateEnter();

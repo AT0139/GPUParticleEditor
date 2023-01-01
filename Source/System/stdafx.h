@@ -52,6 +52,9 @@ using namespace DirectX::SimpleMath;
 #define FPS (60)
 #define GET_INPUT Input::GetInstance()
 
+#define PI (3.141592)
+#define TO_RADIAN(degree) (PI / 180 * degree)
+
 #include "Utility.h"
 #include "Structures.h"
 #include "StaticDataTable.h"
