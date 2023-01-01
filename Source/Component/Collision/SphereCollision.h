@@ -14,7 +14,7 @@ public:
 
 	SphereInfo GetSphereInfo();
 	SphereInfo GetPrevSphereInfo();
-	void SetRadius(float rad);
+	void SetScale(float rad);
 
 	// CollisionComponent を介して継承されました
 	virtual void CollisionBridge(const std::shared_ptr<CollisionComponent>& opponent) override;

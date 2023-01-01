@@ -12,6 +12,8 @@ namespace MainGame
 		~Bullet();
 		virtual void Update()override;
 		virtual void Draw()override {}
+
+		void SetVelocity(Vector3 velocity);
 	private:
 		const float MOVE_SPEED = 0.3f;
 		const int DESTROY_COUNT = 60;

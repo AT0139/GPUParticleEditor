@@ -237,7 +237,8 @@
     <ClInclude Include="Source\Object\ChildObject.h" />
     <ClInclude Include="Source\Object\DefenceBase.h" />
     <ClInclude Include="Source\Object\Enemy\Enemy.h" />
-    <ClInclude Include="Source\Object\Enemy\EnemyMoveToTarget.h" />
+    <ClInclude Include="Source\Object\Enemy\EnemyAttackState.h" />
+    <ClInclude Include="Source\Object\Enemy\EnemyMoveToTargetState.h" />
     <ClInclude Include="Source\Object\Enemy\EnemyStateBase.h" />
     <ClInclude Include="Source\Object\Explosion.h" />
     <ClInclude Include="Source\Object\Field.h" />
@@ -303,7 +304,8 @@
     <ClCompile Include="Source\Object\ChildObject.cpp" />
     <ClCompile Include="Source\Object\DefenceBase.cpp" />
     <ClCompile Include="Source\Object\Enemy\Enemy.cpp" />
-    <ClCompile Include="Source\Object\Enemy\EnemyMoveToTarget.cpp" />
+    <ClCompile Include="Source\Object\Enemy\EnemyAttackState.cpp" />
+    <ClCompile Include="Source\Object\Enemy\EnemyMoveToTargetState.cpp" />
     <ClCompile Include="Source\Object\Explosion.cpp" />
     <ClCompile Include="Source\Object\Field.cpp" />
     <ClCompile Include="Source\Object\MeshField.cpp" />

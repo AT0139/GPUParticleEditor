@@ -18,6 +18,7 @@ enum class TAG
 	PLAYER,
 	ENEMY,
 	STATIC_OBJECT,
+	BULLET,
 };
 
 class GameObject

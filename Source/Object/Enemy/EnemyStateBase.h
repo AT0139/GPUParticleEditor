@@ -2,10 +2,12 @@
 
 #include "GameObject.h"
 
+class Enemy;
+
 class EnemyStateBase
 {
 public:
-	EnemyStateBase(GameObject* pGO) : m_pGameObject(pGO) {}
+	EnemyStateBase(Enemy* pGO) : m_pGameObject(pGO) {}
 	virtual ~EnemyStateBase() {}
 
 	virtual void StateEnter() = 0;
@@ -13,5 +15,5 @@ public:
 	virtual void StateExit() = 0;
 
 protected:
-	GameObject* m_pGameObject;
+	Enemy* m_pGameObject;
 };

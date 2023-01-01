@@ -49,7 +49,7 @@ namespace MainGame
 		objRigid->SetIsTrigger(true);
 		objRigid->SetIsKinematic(true);
 		auto objCol = obj->AddComponent<SphereCollision>();
-		objCol->SetRadius(0.1f);
+		objCol->SetScale(0.1f);
 		objCol->SetHitAction(HitAction::None);
 		auto objTrans = obj->GetComponent<Transform>();
 		objTrans->SetParent(this);

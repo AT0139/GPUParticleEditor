@@ -18,6 +18,9 @@
 #include "GameUI.h"
 #include "DefenceBase.h"
 
+
+#include "Bullet.h"
+
 namespace MainGame
 {
 	void Game::Init()
@@ -34,7 +37,7 @@ namespace MainGame
 		AddGameObject<DefenceBase>(OBJECT)->GetComponent<Transform>()->SetPosition(basePos);
 
 		AddGameObject<Player>(OBJECT);
-		AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(00.0f, 4.0f, -0.0f));
+		//AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(00.0f, 4.0f, -0.0f));
 		//AddGameObject<Stair>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(10.0f, 5.0f, 10.0f));
 
 		AddGameObject<GameUI>(UI);

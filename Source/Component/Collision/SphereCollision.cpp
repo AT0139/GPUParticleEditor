@@ -45,7 +45,7 @@ SphereInfo SphereCollision::GetPrevSphereInfo()
 	return sphere;
 }
 
-void SphereCollision::SetRadius(float rad)
+void SphereCollision::SetScale(float rad)
 {
 	m_radius = rad;
 	SetCollisionScale(Vector3(m_radius, m_radius, m_radius));

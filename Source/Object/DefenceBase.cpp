@@ -13,9 +13,10 @@ DefenceBase::DefenceBase()
 	auto modelBase = AddComponent<DrawModel>(this);
 	modelBase->Load("Asset\\Model\\Base.obj");
 
-	auto col = AddComponent<OBBCollision>();
-	col->SetScale(Vector3(3.0f, 3.0f, 3.0f));
-	col->SetIsStaticObject(false);
+	auto col = AddComponent<SphereCollision>();
+	col->SetScale(5.0f);
+	col->SetCenterPosition(Vector3(0.0f, 1.5f, 0.0f));
+	col->SetIsStaticObject(true);
 	col->SetHitAction(HitAction::None);
 
 	auto rigid = AddComponent<Rigidbody>();
@@ -33,4 +34,12 @@ void DefenceBase::Update()
 
 void DefenceBase::Draw()
 {
+}
+
+void DefenceBase::OnTrigger(GameObject* collision)
+{
+	if (collision->GetTag() == TAG::BULLET)
+	{
+		collision->SetDestroy();
+	}
 }

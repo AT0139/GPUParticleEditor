@@ -1,38 +1,40 @@
-﻿#include "EnemyMoveToTarget.h"
+﻿#include "EnemyMoveToTargetState.h"
 #include "GameObject.h"
 #include "Manager.h"
 #include "Scene.h"
 #include "DefenceBase.h"
 #include "MeshField.h"
+#include "Enemy.h"
+#include "EnemyAttackState.h"
 
 static const float MOVE_SPEED = 0.05f;
 
 
-EnemyMoveToTarget::EnemyMoveToTarget(GameObject* pGO)
+EnemyMoveToTargetState::EnemyMoveToTargetState(Enemy* pGO)
 	: EnemyStateBase(pGO)
 	, m_aster(false)
 	, m_wayPointIndex(0)
 {
 }
 
-EnemyMoveToTarget::~EnemyMoveToTarget()
+EnemyMoveToTargetState::~EnemyMoveToTargetState()
 {
 }
 
-void EnemyMoveToTarget::StateEnter()
+void EnemyMoveToTargetState::StateEnter()
 {
 	auto scene = Manager::GetInstance().GetScene();
-	m_targetPos = scene->GetGameObject<DefenceBase>(scene->OBJECT)->GetComponent<Transform>()->GetPosition();
 	m_aster = false;
 }
 
-void EnemyMoveToTarget::StateUpdate()
+void EnemyMoveToTargetState::StateUpdate()
 {
 	auto myPos = m_pGameObject->GetComponent<Transform>()->GetPosition();
+	Vector3 targetPos = m_pGameObject->GetTargetPos();
 
 	if (!m_aster)
 	{
-		CalcWayPoint(myPos, m_targetPos);
+		CalcWayPoint(myPos, targetPos);
 		m_aster = true;
 	}
 
@@ -47,14 +49,20 @@ void EnemyMoveToTarget::StateUpdate()
 
 
 	m_pGameObject->GetComponent<Rigidbody>()->SetVelocity(targetDir * MOVE_SPEED);
+
+	auto dir = targetPos - myPos;
+	if (dir.Length() < 10.0f)
+	{
+		m_pGameObject->StateTransition<EnemyAttackState>();
+	}
 }
 
-void EnemyMoveToTarget::StateExit()
+void EnemyMoveToTargetState::StateExit()
 {
 
 }
 
-void EnemyMoveToTarget::CalcWayPoint(Vector3 startPos, Vector3 endPos)
+void EnemyMoveToTargetState::CalcWayPoint(Vector3 startPos, Vector3 endPos)
 {
 	auto scene = Manager::GetInstance().GetScene();
 	auto field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
