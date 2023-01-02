@@ -2,19 +2,22 @@
 
 #include "EnemyStateBase.h"
 
-class EnemyAttackState :public EnemyStateBase
+namespace MainGame
 {
-public:
-	EnemyAttackState(Enemy* pGO);
-	virtual ~EnemyAttackState();
+	class EnemyAttackState :public EnemyStateBase
+	{
+	public:
+		EnemyAttackState(Enemy* pGO);
+		virtual ~EnemyAttackState();
 
-	// EnemyStateBase を介して継承されました
-	virtual void StateEnter() override;
-	virtual void StateUpdate() override;
-	virtual void StateExit() override;
+		// EnemyStateBase を介して継承されました
+		virtual void StateEnter() override;
+		virtual void StateUpdate() override;
+		virtual void StateExit() override;
 
-private:
-	void Shot();
+	private:
+		void Shot();
 
-	int m_cooldown;
-};
+		int m_cooldown;
+	};
+}

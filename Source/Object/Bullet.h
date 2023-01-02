@@ -15,8 +15,7 @@ namespace MainGame
 
 		void SetVelocity(Vector3 velocity);
 	private:
-		const float MOVE_SPEED = 0.3f;
-		const int DESTROY_COUNT = 60;
+
 
 		Vector3 m_forward;
 

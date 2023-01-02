@@ -8,30 +8,33 @@
 #include "EnemyMoveToTargetState.h"
 #include "EnemyAttackState.h"
 
-Enemy::Enemy()
+namespace MainGame
 {
-	AddComponent<DrawModel>(this)->Load("asset\\model\\Enemy.obj");
-	AddComponent<OBBCollision>()->SetScale(0.5f);
-	AddComponent<Rigidbody>();
+	Enemy::Enemy()
+	{
+		AddComponent<DrawModel>(this)->Load("asset\\model\\Enemy.obj");
+		AddComponent<OBBCollision>()->SetScale(0.5f);
+		AddComponent<Rigidbody>();
 
-	m_transform = GetComponent<Transform>();
-	m_transform->SetQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
-	m_transform->SetScale(Vector3(0.5f, 0.5f, 0.5f));
+		m_transform = GetComponent<Transform>();
+		m_transform->SetQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
+		m_transform->SetScale(Vector3(0.5f, 0.5f, 0.5f));
 
 
-	SetTag(TAG::ENEMY);
+		SetTag(TAG::ENEMY);
 
-	m_state = std::make_shared<EnemyMoveToTargetState>(EnemyMoveToTargetState(this));
-	m_state->StateEnter();
+		m_state = std::make_shared<EnemyMoveToTargetState>(EnemyMoveToTargetState(this));
+		m_state->StateEnter();
 
-	auto scene = Manager::GetInstance().GetScene();
-	m_targetPos = scene->GetGameObject<DefenceBase>(scene->OBJECT)->GetComponent<Transform>()->GetPosition();
-}
+		auto scene = Manager::GetInstance().GetScene();
+		m_targetPos = scene->GetGameObject<DefenceBase>(scene->OBJECT)->GetComponent<Transform>()->GetPosition();
+	}
 
-Enemy::~Enemy()
-{}
+	Enemy::~Enemy()
+	{}
 
-void Enemy::Update()
-{
-	m_state->StateUpdate();
+	void Enemy::Update()
+	{
+		m_state->StateUpdate();
+	}
 }

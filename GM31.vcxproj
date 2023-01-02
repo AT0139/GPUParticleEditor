@@ -250,6 +250,7 @@
     <ClInclude Include="Source\Object\SkyDome.h" />
     <ClInclude Include="Source\Object\Stair.h" />
     <ClInclude Include="Source\Object\Tree.h" />
+    <ClInclude Include="Source\Object\Turret.h" />
     <ClInclude Include="Source\Polygon2D.h" />
     <ClInclude Include="Source\ResourceManager.h" />
     <ClInclude Include="Source\Scene\Game.h" />
@@ -268,7 +269,6 @@
     <ClInclude Include="Source\System\strconv.h" />
     <ClInclude Include="Source\System\Structures.h" />
     <ClInclude Include="Source\Utility.h" />
-    <ClInclude Include="Turret.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\CollisionManager.cpp" />
@@ -316,6 +316,7 @@
     <ClCompile Include="Source\Object\SkyDome.cpp" />
     <ClCompile Include="Source\Object\Stair.cpp" />
     <ClCompile Include="Source\Object\Tree.cpp" />
+    <ClCompile Include="Source\Object\Turret.cpp" />
     <ClCompile Include="Source\Polygon2D.cpp" />
     <ClCompile Include="Source\ResourceManager.cpp" />
     <ClCompile Include="Source\Scene\Game.cpp" />
@@ -336,7 +337,6 @@
     </ClCompile>
     <ClCompile Include="Source\System\Structures.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
-    <ClCompile Include="Turret.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\common.hlsl">

@@ -2,18 +2,21 @@
 
 #include "GameObject.h"
 
-class Enemy;
-
-class EnemyStateBase
+namespace MainGame
 {
-public:
-	EnemyStateBase(Enemy* pGO) : m_pGameObject(pGO) {}
-	virtual ~EnemyStateBase() {}
+	class Enemy;
 
-	virtual void StateEnter() = 0;
-	virtual void StateUpdate() = 0;
-	virtual void StateExit() = 0;
+	class EnemyStateBase
+	{
+	public:
+		EnemyStateBase(Enemy* pGO) : m_pGameObject(pGO) {}
+		virtual ~EnemyStateBase() {}
 
-protected:
-	Enemy* m_pGameObject;
-};
+		virtual void StateEnter() = 0;
+		virtual void StateUpdate() = 0;
+		virtual void StateExit() = 0;
+
+	protected:
+		Enemy* m_pGameObject;
+	};
+}

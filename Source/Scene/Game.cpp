@@ -34,11 +34,11 @@ namespace MainGame
 
 		auto basePos = Vector3(5.0f, 5.0f, 5.0f);
 		basePos.y =field->GetHeight(basePos);
-		AddGameObject<DefenceBase>(OBJECT)->GetComponent<Transform>()->SetPosition(basePos);
+		m_defenceBase = AddGameObject<DefenceBase>(OBJECT);
+		m_defenceBase->GetComponent<Transform>()->SetPosition(basePos);
 
 		AddGameObject<Player>(OBJECT);
 		//AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(00.0f, 4.0f, -0.0f));
-		//AddGameObject<Stair>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(10.0f, 5.0f, 10.0f));
 
 		AddGameObject<GameUI>(UI);
 		//Audio* bgm = AddGameObject<Audio>(UI);
@@ -61,7 +61,7 @@ namespace MainGame
 		Scene::Update();
 
 		m_collisionManager->Update();
-		if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN))
+		if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN) || m_defenceBase->GetHP() <= 0)
 		{
 			Manager::GetInstance().SetScene<Result>();
 		}
