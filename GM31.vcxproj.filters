@@ -38,6 +38,9 @@
     <Filter Include="ソース ファイル\Object\Placement">
       <UniqueIdentifier>{facb0b3a-aeb8-4e73-80e8-ee3f96ada519}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\UI">
+      <UniqueIdentifier>{a2d5e42d-e753-4095-85e0-3e1e48cfe21d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Manager.h">
@@ -50,12 +53,6 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utility.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ObjectPlacementUI.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameUI.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\CollisionManager.h">
@@ -235,6 +232,12 @@
     <ClInclude Include="Source\Object\Turret.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Source\UI\ObjectPlacementUI.h">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\GameUI.h">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Manager.cpp">
@@ -247,12 +250,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utility.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ObjectPlacementUI.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GameUI.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\CollisionManager.cpp">
@@ -419,6 +416,12 @@
     </ClCompile>
     <ClCompile Include="Source\Object\Turret.cpp">
       <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\ObjectPlacementUI.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\GameUI.cpp">
+      <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

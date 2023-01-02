@@ -105,7 +105,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
@@ -131,7 +131,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
@@ -157,7 +157,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OmitFramePointers>false</OmitFramePointers>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
@@ -184,7 +184,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OmitFramePointers>false</OmitFramePointers>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
@@ -222,7 +222,6 @@
     <ClInclude Include="Source\Component\SerializeComponent.h" />
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\GameObject.h" />
-    <ClInclude Include="Source\GameUI.h" />
     <ClInclude Include="Source\imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="Source\imgui\backends\imgui_impl_win32.h" />
     <ClInclude Include="Source\imgui\imconfig.h" />
@@ -230,7 +229,6 @@
     <ClInclude Include="Source\imgui\imgui_internal.h" />
     <ClInclude Include="Source\Main.h" />
     <ClInclude Include="Source\Manager.h" />
-    <ClInclude Include="Source\ObjectPlacementUI.h" />
     <ClInclude Include="Source\Object\BlankObject.h" />
     <ClInclude Include="Source\Object\Bullet.h" />
     <ClInclude Include="Source\Object\Camera.h" />
@@ -268,6 +266,8 @@
     <ClInclude Include="Source\System\stdafx.h" />
     <ClInclude Include="Source\System\strconv.h" />
     <ClInclude Include="Source\System\Structures.h" />
+    <ClInclude Include="Source\UI\GameUI.h" />
+    <ClInclude Include="Source\UI\ObjectPlacementUI.h" />
     <ClInclude Include="Source\Utility.h" />
   </ItemGroup>
   <ItemGroup>
@@ -288,7 +288,6 @@
     <ClCompile Include="Source\Component\Rigidbody.cpp" />
     <ClCompile Include="Source\Component\SerializeComponent.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
-    <ClCompile Include="Source\GameUI.cpp" />
     <ClCompile Include="Source\imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="Source\imgui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="Source\imgui\imgui.cpp" />
@@ -297,7 +296,6 @@
     <ClCompile Include="Source\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Manager.cpp" />
-    <ClCompile Include="Source\ObjectPlacementUI.cpp" />
     <ClCompile Include="Source\Object\BlankObject.cpp" />
     <ClCompile Include="Source\Object\Bullet.cpp" />
     <ClCompile Include="Source\Object\Camera.cpp" />
@@ -336,6 +334,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\System\Structures.cpp" />
+    <ClCompile Include="Source\UI\GameUI.cpp" />
+    <ClCompile Include="Source\UI\ObjectPlacementUI.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
