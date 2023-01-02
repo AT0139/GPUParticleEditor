@@ -3,6 +3,7 @@
 
 #define KEY_NONE NULL
 
+static const POINT SCREEN_CENTER = { (int)SCREEN_WIDTH_HALF,(int)SCREEN_HEIGHT_HALF };
 
 KEY_CONFIG_INFO keyConfigList[] =
 {
@@ -14,6 +15,7 @@ KEY_CONFIG_INFO keyConfigList[] =
 	{KEY_CONFIG::ACTION    ,		KEY_TYPE::OR,	'E',		KEY_NONE,KEY_NONE,KEY_NONE},
 	{KEY_CONFIG::MOUSE_L   ,		KEY_TYPE::OR,	VK_LBUTTON,	KEY_NONE,KEY_NONE,KEY_NONE},
 	{KEY_CONFIG::MOUSE_R   ,		KEY_TYPE::OR,	VK_RBUTTON,	KEY_NONE,KEY_NONE,KEY_NONE},
+	{KEY_CONFIG::MOUSE_OPERATION,	KEY_TYPE::OR,	VK_LCONTROL,KEY_NONE,KEY_NONE,KEY_NONE},
 	{KEY_CONFIG::OPEN_UI   ,		KEY_TYPE::OR,	VK_TAB,		KEY_NONE,KEY_NONE,KEY_NONE},
 	{KEY_CONFIG::OBJECT_ROTATE_L,	KEY_TYPE::OR,	'Q',		KEY_NONE,KEY_NONE,KEY_NONE},
 	{KEY_CONFIG::OBJECT_ROTATE_R,	KEY_TYPE::OR,	'R',		KEY_NONE,KEY_NONE,KEY_NONE},
@@ -27,6 +29,8 @@ void Input::Init()
 		m_oldKeyState[i] = KEY_STATE::NONE;
 		m_keyState[i] = KEY_STATE::NONE;
 	}
+
+	ShowCursor(false);
 }
 
 void Input::Uninit()
@@ -35,14 +39,6 @@ void Input::Uninit()
 
 void Input::Update()
 {
-	//マウス用
-	{
-		m_preMousePos = m_mousePos;
-		auto pos = MouseAcquisition();
-		m_mousePos = Vector2(pos.x, pos.y);
-		m_mouseAcceleration = m_preMousePos - m_mousePos;
-	}
-
 	BYTE buffer[KEY_NUM];
 	//前回のキー入力保存
 	for (int i = 0; i < KEY_NUM; i++)
@@ -71,6 +67,27 @@ void Input::Update()
 			else
 				m_keyState[i] = KEY_STATE::NONE;
 		}
+	}
+
+	//マウス用
+	if (GetKeyTrigger(KEY_CONFIG::MOUSE_OPERATION))
+		ShowCursor(true);
+	else if (GetKeyRelease(KEY_CONFIG::MOUSE_OPERATION))
+	{
+		ShowCursor(false);
+		SetCursorPosToClient(SCREEN_CENTER);
+	}
+	else if (GetKeyPress(KEY_CONFIG::MOUSE_OPERATION))
+	{
+		m_mouseAcceleration = Vector2(0.0f, 0.0f);
+	}
+	else
+	{
+		m_preMousePos = m_mousePos;
+		auto pos = MouseAcquisition();
+		m_mousePos = Vector2(pos.x, pos.y);
+		m_mouseAcceleration = Vector2(SCREEN_WIDTH_HALF, SCREEN_HEIGHT_HALF) - m_mousePos;
+		SetCursorPosToClient(SCREEN_CENTER);
 	}
 }
 

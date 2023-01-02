@@ -49,26 +49,24 @@ namespace MainGame
 		float mouseXAcc = mouseAcc.x / CAMERA_FACTOR;
 		float mouseYAcc = mouseAcc.y / CAMERA_FACTOR;
 
-		if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOUSE_R))
+
+		m_theta += mouseXAcc;
+		m_delta += mouseYAcc;
+
+		if (m_delta <= DELTA_MIN)
+			m_delta = DELTA_MIN;
+
+		if (m_delta >= DELTA_MAX)
+			m_delta = DELTA_MAX;
+	
+		//カメラがフィールドに沿っていたら
+		if (m_isOnField)
 		{
-
-			m_theta += mouseXAcc;
-			m_delta += mouseYAcc;
-
-			if (m_delta <= DELTA_MIN)
-				m_delta = DELTA_MIN;
-
-			if (m_delta >= DELTA_MAX)
-				m_delta = DELTA_MAX;
-
-			//カメラがフィールドに沿っていたら
-			if (m_isOnField)
-			{
-				//上を向けるようにターゲット位置に加算する変数に加算
-				m_targetYOffset += mouseYAcc;
-				m_lerpRatio = 0.0f;
-			}
+			//上を向けるようにターゲット位置に加算する変数に加算
+			m_targetYOffset += mouseYAcc;
+			m_lerpRatio = 0.0f;
 		}
+
 		m_cameraPos.x = playerPos.x + CAMERA_DISTANCE * cos(m_delta) * cos(m_theta);
 		m_cameraPos.y = playerPos.y + CAMERA_DISTANCE * sin(m_delta);
 		m_cameraPos.z = playerPos.z + CAMERA_DISTANCE * cos(m_delta) * sin(m_theta);

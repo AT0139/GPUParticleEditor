@@ -30,6 +30,13 @@ POINTS MouseAcquisition()
 	return g_mousePoint;
 }
 
+void SetCursorPosToClient(POINT pos)
+{
+	ClientToScreen(g_Window, &pos);
+	SetCursorPos(pos.x, pos.y);
+}
+
+
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	WNDCLASSEX wcex =
