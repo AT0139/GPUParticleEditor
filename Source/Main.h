@@ -7,3 +7,4 @@
 HWND GetWindow();
 POINTS MouseAcquisition();
 void SetCursorPosToClient(POINT pos);
+int GetMouseWheel();

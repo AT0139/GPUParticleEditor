@@ -9,6 +9,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 HWND g_Window;
 POINTS g_mousePoint;
+int g_zDelta;
 
 HWND GetWindow()
 {
@@ -36,6 +37,10 @@ void SetCursorPosToClient(POINT pos)
 	SetCursorPos(pos.x, pos.y);
 }
 
+int GetMouseWheel()
+{
+	return g_zDelta / WHEEL_DELTA;
+}
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -109,6 +114,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				dwExecLastTime = dwCurrentTime;
 
 				Manager::GetInstance().Update();
+				g_zDelta = 0;
 				Manager::GetInstance().Draw();
 			}
 		}
@@ -147,6 +153,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEMOVE:
 		g_mousePoint = MAKEPOINTS(lParam);
 		break;
+
+	case WM_MOUSEWHEEL:
+		g_zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+
 	default:
 		break;
 	}

@@ -24,11 +24,11 @@ private:
 		std::shared_ptr<Draw2DPolygon> icon;
 	};
 
-	void MoveIcons(float xValue);
+	void MoveIcons(float value);
 
 	int m_createModelID;
 	int m_selectIndex;
-	float m_xMovingDistance;
+	float m_yMovingDistance;
 	std::shared_ptr<Draw2DPolygon> m_backGround;
 	std::shared_ptr<Draw2DPolygon> m_flame;
 	std::vector<IconInfo> m_pIconInfos;
