@@ -72,7 +72,7 @@ namespace MainGame
 		//投げる
 		if (m_haveObject != nullptr)
 		{
-			if (GET_INPUT.GetKeyRelease(KEY_CONFIG::ACTION))
+			if (GET_INPUT.GetKeyRelease(KEY_CONFIG::DETERMINATION))
 			{
 				Throw();
 			}

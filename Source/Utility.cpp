@@ -73,6 +73,16 @@ Vector3 Utility::CalcScreenToWorld(Vector3& pout, float screenX, float screenY, 
 	return pout;
 }
 
+Ray Utility::CreateRay(Vector3 pos1, Vector3 pos2)
+{
+	Ray ray;
+	ray.position = pos1;
+	ray.direction = pos1 - pos2;
+	ray.direction.Normalize();
+
+	return ray;
+}
+
 Ray Utility::ScreenPosToRay(float screenX, float screenY, Matrix* view, Matrix* prj)
 {
 	Vector3 nearpos;

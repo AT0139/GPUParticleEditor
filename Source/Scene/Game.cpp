@@ -18,8 +18,7 @@
 #include "GameUI.h"
 #include "DefenceBase.h"
 
-
-#include "Bullet.h"
+#include "ParticleEmitterManager.h"
 
 namespace MainGame
 {
@@ -39,6 +38,8 @@ namespace MainGame
 
 		AddGameObject<Player>(OBJECT);
 		//AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(00.0f, 4.0f, -0.0f));
+
+		AddGameObject<ParticleEmitterManager>(OBJECT);
 
 		AddGameObject<GameUI>(UI);
 		//Audio* bgm = AddGameObject<Audio>(UI);
