@@ -421,6 +421,22 @@ void Renderer::CreatePixelShader(ID3D11PixelShader** PixelShader, const char* Fi
 	delete[] buffer;
 }
 
+void Renderer::CreateComputeShader(ID3D11ComputeShader** computeShader, const char* FileName)
+{
+	FILE* file;
+	long int fsize;
+
+	file = fopen(FileName, "rb");
+	fsize = _filelength(_fileno(file));
+	unsigned char* buffer = new unsigned char[fsize];
+	fread(buffer, fsize, 1, file);
+	fclose(file);
+
+	Renderer::GetInstance().GetDevice()->CreateComputeShader(buffer, fsize, nullptr, computeShader);
+
+	delete[] buffer;
+}
+
 void Renderer::CreateStructuredBuffer(UINT elementSize, UINT count, void* initData, ID3D11Buffer** ppBuffer, bool useMap)
 {
 	*ppBuffer = nullptr;

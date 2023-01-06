@@ -44,6 +44,8 @@ int GetMouseWheel()
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	srand((unsigned)time(NULL));
+
 	WNDCLASSEX wcex =
 	{
 		sizeof(WNDCLASSEX),

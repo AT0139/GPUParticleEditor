@@ -247,12 +247,6 @@
     <ClInclude Include="Source\Particle\ParticleEmitterManager.h">
       <Filter>ソース ファイル\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Particle\ParticleBase.h">
-      <Filter>ソース ファイル\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Particle\QuadParticle.h">
-      <Filter>ソース ファイル\Particle</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Manager.cpp">
@@ -440,9 +434,6 @@
     </ClCompile>
     <ClCompile Include="Source\Particle\ParticleEmitter.cpp">
       <Filter>ソース ファイル\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Particle\QuadParticle.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Particle\ParticleEmitterManager.cpp">
       <Filter>ソース ファイル</Filter>

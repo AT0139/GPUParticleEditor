@@ -249,10 +249,8 @@
     <ClInclude Include="Source\Object\Stair.h" />
     <ClInclude Include="Source\Object\Tree.h" />
     <ClInclude Include="Source\Object\Turret.h" />
-    <ClInclude Include="Source\Particle\ParticleBase.h" />
     <ClInclude Include="Source\Particle\ParticleEmitter.h" />
     <ClInclude Include="Source\Particle\ParticleEmitterManager.h" />
-    <ClInclude Include="Source\Particle\QuadParticle.h" />
     <ClInclude Include="Source\Polygon2D.h" />
     <ClInclude Include="Source\ResourceManager.h" />
     <ClInclude Include="Source\Scene\Game.h" />
@@ -321,7 +319,6 @@
     <ClCompile Include="Source\Object\Turret.cpp" />
     <ClCompile Include="Source\Particle\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Particle\ParticleEmitterManager.cpp" />
-    <ClCompile Include="Source\Particle\QuadParticle.cpp" />
     <ClCompile Include="Source\Polygon2D.cpp" />
     <ClCompile Include="Source\ResourceManager.cpp" />
     <ClCompile Include="Source\Scene\Game.cpp" />

@@ -6,10 +6,10 @@
 #include "Camera.h"
 #include "Manager.h"
 
+static const UINT PARTICLE_AMOUNT = 100;
 
 ParticleEmitter::ParticleEmitter()
-	: m_particleAmount(PARTICLE_AMOUNT)
-	, m_particleBuffer(nullptr)
+	: m_particleBuffer(nullptr)
 	, m_positionBuffer(nullptr)
 	, m_resultBuffer(nullptr)
 {
@@ -35,13 +35,16 @@ ParticleEmitter::ParticleEmitter()
 	vertex[3].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].texCoord = Vector2(1.0f, 1.0f);
 
-	//m_particle = new ParticleCompute[m_particleAmount];
+	m_particle.reset(new ParticleCompute[PARTICLE_AMOUNT]);
 
-	for (int i = 0; i < m_particleAmount; i++)
+	for (int i = 0; i < PARTICLE_AMOUNT; i++)
 	{
-		m_particle[i].vel = Vector3(0, 0.1, 0);
+		float x = Utility::FloatRand(-1.0f, 2.0f);
+		float y = Utility::FloatRand(-1.0f, 2.0f);
+		float z = Utility::FloatRand(-1.0f, 2.0f);
+		m_particle[i].vel = Vector3(x, y, z);
 		m_particle[i].life = 300.0f;
-		m_particle[i].pos = Vector3(0, 0, 0);
+		m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
 	}
 
 	//頂点バッファ生成
@@ -60,33 +63,36 @@ ParticleEmitter::ParticleEmitter()
 	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "ParticleTextureVS.cso");
 	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "ParticleTexturePS.cso");
 
-	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleAmount, nullptr, &m_particleBuffer, true);
-	Renderer::GetInstance().CreateStructuredBuffer(sizeof(Vector3), m_particleAmount, nullptr, &m_positionBuffer, true);
-	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleAmount, nullptr, &m_resultBuffer);
+	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), PARTICLE_AMOUNT, nullptr, &m_particleBuffer, true);
+	Renderer::GetInstance().CreateStructuredBuffer(sizeof(Vector3), PARTICLE_AMOUNT, nullptr, &m_positionBuffer, true);
+	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), PARTICLE_AMOUNT, nullptr, &m_resultBuffer);
 
 	Renderer::GetInstance().CreateBufferSRV(m_particleBuffer, &m_particleSRV);
 	Renderer::GetInstance().CreateBufferSRV(m_positionBuffer, &m_positionSRV);
 
 	Renderer::GetInstance().CreateBufferUAV(m_resultBuffer, &m_resultUAV);
 
-	{
-		FILE* file;
-		long int fsize;
-
-		file = fopen("ComputeShader.cso", "rb");
-		fsize = _filelength(_fileno(file));
-		unsigned char* buffer = new unsigned char[fsize];
-		fread(buffer, fsize, 1, file);
-		fclose(file);
-
-		Renderer::GetInstance().GetDevice()->CreateComputeShader(buffer, fsize, nullptr, &m_computeShader);
-
-		delete[] buffer;
-	}
+	Renderer::GetInstance().CreateComputeShader(&m_computeShader, "ComputeShader.cso");
 }
 
 ParticleEmitter::~ParticleEmitter()
 {
+	m_computeShader->Release();
+
+	m_particleBuffer->Release();
+	m_resultBuffer->Release();
+	m_positionBuffer->Release();
+
+
+	m_particleSRV->Release();
+	m_positionSRV->Release();
+
+	m_resultUAV->Release();
+
+	m_vertexBuffer->Release();
+	m_vertexShader->Release();
+	m_pixelShader->Release();
+	m_vertexLayout->Release();
 }
 
 void ParticleEmitter::Update()
@@ -94,7 +100,7 @@ void ParticleEmitter::Update()
 	D3D11_MAPPED_SUBRESOURCE subRes;  
 	Renderer::GetInstance().GetDeviceContext()->Map(m_particleBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes);
 	ParticleCompute* pBufType = (ParticleCompute*)subRes.pData;
-	memcpy(subRes.pData, m_particle, sizeof(ParticleCompute) * m_particleAmount);
+	memcpy(subRes.pData, m_particle.get() , sizeof(ParticleCompute) * PARTICLE_AMOUNT);
 	Renderer::GetInstance().GetDeviceContext()->Unmap(m_particleBuffer, 0);
 
 	//　コンピュートシェーダー実行
@@ -109,14 +115,14 @@ void ParticleEmitter::Update()
 	D3D11_MAPPED_SUBRESOURCE subRes2;
 	Renderer::GetInstance().GetDeviceContext()->Map(pBufDbg, 0, D3D11_MAP_READ, 0, &subRes2);
 	ParticleCompute* pBufType2 = reinterpret_cast<ParticleCompute*>(subRes2.pData);
-	memcpy(m_particle, pBufType2, sizeof(ParticleCompute) * m_particleAmount);
+	memcpy(m_particle.get(), pBufType2, sizeof(ParticleCompute) * PARTICLE_AMOUNT);
 	Renderer::GetInstance().GetDeviceContext()->Unmap(pBufDbg, 0);
 	pBufDbg->Release();
 
 	// 座標を座標バッファに入れる(頂点シェーダーで使う)
 	Renderer::GetInstance().GetDeviceContext()->Map(m_positionBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes2);
 	Vector3* BufType = (Vector3*)subRes2.pData;
-	for (int v = 0; v < m_particleAmount; v++) 
+	for (int v = 0; v < PARTICLE_AMOUNT; v++)
 	{
 		BufType[v] = m_particle[v].pos;
 	}
@@ -138,20 +144,14 @@ void ParticleEmitter::Draw()
 
 	// ワールド座標、スケールなどの処理
 	Matrix world, scale, trans;
-	Matrix::CreateScale(Vector3(1,1,1));
-	Matrix::CreateTranslation(m_managerPosition + m_offsetPosition);
+	scale = Matrix::CreateScale(Vector3(1,1,1));
+	trans = Matrix::CreateTranslation(m_managerPosition + m_offsetPosition);
 	world = scale * invView * trans;
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	//シェーダー設定
 	context->VSSetShader(m_vertexShader, NULL, 0);
 	context->PSSetShader(m_pixelShader, NULL, 0);
-
-	//マテリアル設定
-	MATERIAL material;
-	ZeroMemory(&material, sizeof(material));
-	material.diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
-	Renderer::GetInstance().SetMaterial(material);
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -160,10 +160,7 @@ void ParticleEmitter::Draw()
 	context->PSSetShaderResources(0, 1, &m_texture); // テクスチャ設定（あれば）
 	context->VSSetShaderResources(2, 1, &m_positionSRV); // VSに入れる座標設定
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	context->DrawInstanced(4, m_particleAmount, 0, 0);
-
-
-
+	context->DrawInstanced(4, PARTICLE_AMOUNT, 0, 0);
 }
 
 void ParticleEmitter::Load(const wchar_t* filePath)

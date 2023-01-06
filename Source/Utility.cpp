@@ -102,3 +102,10 @@ float Utility::Lerp(float start, float end, float t)
 {
 	return (1 - t) * start + t * end;
 }
+
+float Utility::FloatRand(float min, float max)
+{
+	float r = rand() / static_cast<float>(RAND_MAX);
+	r *= max;
+	return r + min;
+}

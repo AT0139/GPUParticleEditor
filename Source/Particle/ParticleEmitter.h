@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include "QuadParticle.h"
-
 
 struct ParticleCompute
 {
@@ -9,8 +7,6 @@ struct ParticleCompute
 	Vector3 vel;
 	float life;
 }; 
-static const UINT PARTICLE_AMOUNT = 100;
-
 
 class ParticleEmitter
 {
@@ -27,7 +23,7 @@ public:
 private:
 	ID3D11ComputeShader* m_computeShader;
 
-	ParticleCompute m_particle[PARTICLE_AMOUNT];
+	std::shared_ptr<ParticleCompute[]> m_particle;
 
 	ID3D11Buffer* m_particleBuffer;
 	ID3D11Buffer* m_resultBuffer;
@@ -46,10 +42,6 @@ private:
 	ID3D11VertexShader* m_vertexShader;
 	ID3D11PixelShader* m_pixelShader;
 	ID3D11InputLayout* m_vertexLayout;
-
-	int m_particleAmount;
-
-
 
 	Vector3 m_managerPosition;
 	Vector3 m_offsetPosition; //エミッターマネージャーからのオフセット位置
