@@ -5,13 +5,20 @@ struct ParticleCompute
 {
 	Vector3 pos;
 	Vector3 vel;
-	float life;
-}; 
+	int life;
+};
+
+struct EmitterInitData
+{
+	Vector2 size;
+	Vector3 direction;
+	int life;
+};
 
 class ParticleEmitter
 {
 public:
-	ParticleEmitter();
+	ParticleEmitter(EmitterInitData initData);
 	~ParticleEmitter();
 
 	void SetManagerPosition(Vector3 pos) { m_managerPosition = pos; }

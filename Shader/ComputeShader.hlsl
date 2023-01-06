@@ -3,7 +3,7 @@ struct ParticleCompute
 {
 	float3 pos;
 	float3 vel;
-	float life;
+	int life;
 };
 
 struct CSInput
@@ -29,6 +29,6 @@ void main(const CSInput input)
 	float3 result = particle[index].pos + particle[index].vel;
 
 	bufOut[index].pos = result;
-	bufOut[index].life = particle[index].life - 1.0f;
+	bufOut[index].life = particle[index].life - 1;
 	bufOut[index].vel = particle[index].vel;
 }

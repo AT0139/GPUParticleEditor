@@ -1,36 +1,35 @@
 ﻿#include "ParticleEmitter.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include <io.h>
 #include "Scene.h"
 #include "Camera.h"
 #include "Manager.h"
 
 static const UINT PARTICLE_AMOUNT = 100;
 
-ParticleEmitter::ParticleEmitter()
+ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	: m_particleBuffer(nullptr)
 	, m_positionBuffer(nullptr)
 	, m_resultBuffer(nullptr)
 {
 	VERTEX_3D vertex[4];
 
-	vertex[0].position = Vector3(-1.0f, 1.0f, 0.0f);
+	vertex[0].position = Vector3(-initData.size.x, initData.size.y, 0.0f);
 	vertex[0].normal = Vector3(0.0f, 1.0f, 0.0f);
 	vertex[0].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[0].texCoord = Vector2(0.0f, 0.0f);
 
-	vertex[1].position = Vector3(1.0f, 1.0f, 0.0f);
+	vertex[1].position = Vector3(initData.size.x, initData.size.y, 0.0f);
 	vertex[1].normal = Vector3(0.0f, 1.0f, 0.0f);
 	vertex[1].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[1].texCoord = Vector2(1.0f, 0.0f);
 
-	vertex[2].position = Vector3(-1.0f, -1.0f, 0.0f);
+	vertex[2].position = Vector3(-initData.size.x, -initData.size.y, 0.0f);
 	vertex[2].normal = Vector3(0.0f, 1.0f, 0.0f);
 	vertex[2].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[2].texCoord = Vector2(0.0f, 1.0f);
 
-	vertex[3].position = Vector3(1.0f, -1.0f, 0.0f);
+	vertex[3].position = Vector3(initData.size.x, -initData.size.y, 0.0f);
 	vertex[3].normal = Vector3(0.0f, 1.0f, 0.0f);
 	vertex[3].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].texCoord = Vector2(1.0f, 1.0f);
@@ -39,11 +38,11 @@ ParticleEmitter::ParticleEmitter()
 
 	for (int i = 0; i < PARTICLE_AMOUNT; i++)
 	{
-		float x = Utility::FloatRand(-1.0f, 2.0f);
-		float y = Utility::FloatRand(-1.0f, 2.0f);
-		float z = Utility::FloatRand(-1.0f, 2.0f);
-		m_particle[i].vel = Vector3(x, y, z);
-		m_particle[i].life = 300.0f;
+		float x = Utility::FloatRand(-0.4f, 1.4f);
+		float y = Utility::FloatRand(-0.4f, 1.4f);
+		float z = Utility::FloatRand(-0.4f, 1.4f);
+		m_particle[i].vel = Vector3(x, y, z) + initData.direction;
+		m_particle[i].life = initData.life;
 		m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
 	}
 
