@@ -18,7 +18,7 @@ void Manager::Init()
 	GET_INPUT.Init();
 	CAudio::InitMaster();
 
-	SetScene<MainGame::Game>();
+	SetScene<Title>();
 }
 
 void Manager::Uninit()

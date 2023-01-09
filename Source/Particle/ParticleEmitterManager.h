@@ -16,7 +16,7 @@ public:
 
 
 private:
-	std::shared_ptr<ParticleEmitter> m_particleEmitter;
+	std::list<std::shared_ptr<ParticleEmitter>> m_particleEmitter;
 
 
 };

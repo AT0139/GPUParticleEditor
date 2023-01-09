@@ -36,9 +36,6 @@ namespace MainGame
 
 	void DefenceBase::Update()
 	{
-		ImGui::Begin("Base");
-		ImGui::Text("HP_%d", m_hp);
-		ImGui::End();
 	}
 
 	void DefenceBase::Draw()

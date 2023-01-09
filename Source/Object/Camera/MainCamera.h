@@ -1,14 +1,14 @@
 ﻿#pragma once
 
-#include "GameObject.h"
+#include "Camera.h"
 
 namespace MainGame
 {
-	class Camera : public GameObject
+	class MainCamera : public Camera
 	{
 	public:
-		Camera();
-		~Camera();
+		MainCamera();
+		~MainCamera();
 		virtual void Update()override;
 		virtual void Draw()override;
 

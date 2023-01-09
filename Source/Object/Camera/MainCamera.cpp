@@ -1,7 +1,7 @@
 ﻿#include "main.h"
 #include "manager.h"
 #include "renderer.h"
-#include "Camera.h"
+#include "MainCamera.h"
 #include "input.h"
 #include "Scene.h"
 #include "Player.h"
@@ -17,7 +17,7 @@ static const float FIELD_Y_OFFSET = 1.0f;
 
 namespace MainGame
 {
-	Camera::Camera()
+	MainCamera::MainCamera()
 		: m_targetYOffset(0.0f)
 		, m_targetYOffsetTemporary(0.0f)
 		, m_target(0.0f, 0.0f, 0.0f)
@@ -31,11 +31,11 @@ namespace MainGame
 		m_cameraPos.z = m_target.z + CAMERA_DISTANCE * cos(m_delta) * sin(m_theta);
 	}
 
-	Camera::~Camera()
+	MainCamera::~MainCamera()
 	{
 	}
 
-	void Camera::Update()
+	void MainCamera::Update()
 	{
 		//プレイヤーの取得
 		Scene* scene = Manager::GetInstance().GetScene();
@@ -100,18 +100,12 @@ namespace MainGame
 				m_lerpRatio = 0.0f;
 		}
 
-		ImGui::Begin("a");
-		{
-			ImGui::Text("targetY %f", m_targetYOffset);
-			ImGui::Text("lerpRatio %f", m_lerpRatio);
-		}
-		ImGui::End();
 
 		Renderer::GetInstance().SetCameraPosition(m_cameraPos);
 	}
 
 
-	void Camera::Draw()
+	void MainCamera::Draw()
 	{
 		//ビューマトリクス設定
 		m_viewMatrix = XMMatrixLookAtLH(m_cameraPos, m_target, Vector3::Up);
@@ -123,13 +117,13 @@ namespace MainGame
 
 		Renderer::GetInstance().SetProjectionMatrix(&m_projection);
 	}
-	Vector3 Camera::GetCamaraForward()
+	Vector3 MainCamera::GetCamaraForward()
 	{
 		Vector3 forward = m_target - m_cameraPos;
 		forward.y = 0.0f;
 		return XMVector3Normalize(forward);
 	}
-	Vector3 Camera::GetCamaraRight()
+	Vector3 MainCamera::GetCamaraRight()
 	{
 		Vector3 forward = m_target - m_cameraPos;
 

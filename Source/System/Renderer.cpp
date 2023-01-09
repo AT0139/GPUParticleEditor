@@ -1,4 +1,4 @@
-﻿#include "main.h"
+#include "main.h"
 #include "renderer.h"
 #include <io.h>
 
@@ -126,7 +126,7 @@ void Renderer::Init()
 
 	// ブレンドステート設定
 	D3D11_BLEND_DESC blendDesc{};
-	blendDesc.AlphaToCoverageEnable = FALSE;
+	blendDesc.AlphaToCoverageEnable = TRUE;
 	blendDesc.IndependentBlendEnable = FALSE;
 	blendDesc.RenderTarget[0].BlendEnable = TRUE;
 	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
@@ -283,7 +283,7 @@ void Renderer::Uninit()
 
 void Renderer::Begin()
 {
-	float clearColor[4] = { 0.0f, 0.5f, 0.5f, 1.0f };
+	float clearColor[4] = { 0.4f, 0.4f, 0.4f, 1.0f };
 	m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetView, clearColor);
 	m_pDeviceContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }

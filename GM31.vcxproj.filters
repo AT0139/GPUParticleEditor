@@ -44,6 +44,9 @@
     <Filter Include="ソース ファイル\Particle">
       <UniqueIdentifier>{8c07450d-d5f5-4852-9fb1-4f21a27b5342}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Object\Camera">
+      <UniqueIdentifier>{c0c2ae9f-a183-4ff3-8a0b-dc97e7b24211}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Manager.h">
@@ -199,9 +202,6 @@
     <ClInclude Include="Source\Object\ChildObject.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Object\Camera.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Object\DefenceBase.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
@@ -246,6 +246,12 @@
     </ClInclude>
     <ClInclude Include="Source\Particle\ParticleEmitterManager.h">
       <Filter>ソース ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\Camera\Camera.h">
+      <Filter>ソース ファイル\Object\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\Camera\MainCamera.h">
+      <Filter>ソース ファイル\Object\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -393,9 +399,6 @@
     <ClCompile Include="Source\Object\ChildObject.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Object\Camera.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Object\DefenceBase.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
@@ -437,6 +440,12 @@
     </ClCompile>
     <ClCompile Include="Source\Particle\ParticleEmitterManager.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\Camera\Camera.cpp">
+      <Filter>ソース ファイル\Object\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\Camera\MainCamera.cpp">
+      <Filter>ソース ファイル\Object\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

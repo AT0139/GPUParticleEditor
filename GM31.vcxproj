@@ -105,7 +105,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI;$(ProjectDir)Source\Particle</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI;$(ProjectDir)Source\Particle;$(ProjectDir)Source\Object\Camera</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
@@ -131,7 +131,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI;$(ProjectDir)Source\Particle</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI;$(ProjectDir)Source\Particle;$(ProjectDir)Source\Object\Camera</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
@@ -157,7 +157,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI;$(ProjectDir)Source\Particle</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI;$(ProjectDir)Source\Particle;$(ProjectDir)Source\Object\Camera</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OmitFramePointers>false</OmitFramePointers>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
@@ -184,7 +184,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI;$(ProjectDir)Source\Particle</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI;$(ProjectDir)Source\Particle;$(ProjectDir)Source\Object\Camera</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OmitFramePointers>false</OmitFramePointers>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
@@ -231,7 +231,8 @@
     <ClInclude Include="Source\Manager.h" />
     <ClInclude Include="Source\Object\BlankObject.h" />
     <ClInclude Include="Source\Object\Bullet.h" />
-    <ClInclude Include="Source\Object\Camera.h" />
+    <ClInclude Include="Source\Object\Camera\Camera.h" />
+    <ClInclude Include="Source\Object\Camera\MainCamera.h" />
     <ClInclude Include="Source\Object\ChildObject.h" />
     <ClInclude Include="Source\Object\DefenceBase.h" />
     <ClInclude Include="Source\Object\Enemy\Enemy.h" />
@@ -300,7 +301,8 @@
     <ClCompile Include="Source\Manager.cpp" />
     <ClCompile Include="Source\Object\BlankObject.cpp" />
     <ClCompile Include="Source\Object\Bullet.cpp" />
-    <ClCompile Include="Source\Object\Camera.cpp" />
+    <ClCompile Include="Source\Object\Camera\Camera.cpp" />
+    <ClCompile Include="Source\Object\Camera\MainCamera.cpp" />
     <ClCompile Include="Source\Object\ChildObject.cpp" />
     <ClCompile Include="Source\Object\DefenceBase.cpp" />
     <ClCompile Include="Source\Object\Enemy\Enemy.cpp" />

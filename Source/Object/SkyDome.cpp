@@ -28,9 +28,11 @@ void SkyDome::Update()
 {
 	auto scene = Manager::GetInstance().GetScene();
 	auto player = scene->GetGameObject<MainGame::Player>(scene->OBJECT);
+	if (player)
+	{
+		auto playerPos = player->GetComponent<Transform>()->GetPosition();
 
-	auto playerPos = player->GetComponent<Transform>()->GetPosition();
-
-	auto transform = GetComponent<Transform>();
-	transform->SetPosition(Vector3(playerPos.x, playerPos.y+-100.0f, playerPos.z));
+		auto transform = GetComponent<Transform>();
+		transform->SetPosition(Vector3(playerPos.x, playerPos.y + -100.0f, playerPos.z));
+	}
 }

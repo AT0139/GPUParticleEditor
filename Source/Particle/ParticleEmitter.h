@@ -13,6 +13,10 @@ struct EmitterInitData
 	Vector2 size;
 	Vector3 direction;
 	int life;
+	const wchar_t* filePath;
+	int maxNum;
+	int createOnceNum;
+	int createInterval;
 };
 
 class ParticleEmitter
@@ -22,12 +26,14 @@ public:
 	~ParticleEmitter();
 
 	void SetManagerPosition(Vector3 pos) { m_managerPosition = pos; }
+	void SetOffsetPosition(Vector3 pos) { m_offsetPosition = pos; }
 	
 	void Update();
 	void Draw();
-	void Load(const wchar_t* filePath);
 
 private:
+	void CreateParticle();
+
 	ID3D11ComputeShader* m_computeShader;
 
 	std::shared_ptr<ParticleCompute[]> m_particle;
@@ -35,10 +41,12 @@ private:
 	ID3D11Buffer* m_particleBuffer;
 	ID3D11Buffer* m_resultBuffer;
 	ID3D11Buffer* m_positionBuffer;
+	ID3D11Buffer* m_lifeBuffer;
 
 	// SRV
 	ID3D11ShaderResourceView* m_particleSRV;
 	ID3D11ShaderResourceView* m_positionSRV;
+	ID3D11ShaderResourceView* m_lifeSRV;
 	// UAV
 	ID3D11UnorderedAccessView* m_resultUAV;
 
@@ -52,5 +60,9 @@ private:
 
 	Vector3 m_managerPosition;
 	Vector3 m_offsetPosition; //エミッターマネージャーからのオフセット位置
-	
+
+	EmitterInitData m_initData;
+
+	int m_particleNum;
+	int m_createCount;
 };

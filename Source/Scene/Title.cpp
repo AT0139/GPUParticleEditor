@@ -1,17 +1,21 @@
 ﻿#include "Title.h"
-#include "BlankObject.h"
-#include "input.h"
-#include "manager.h"
+#include "Input.h"
+#include "Manager.h"
+#include "Camera.h"
 #include "Game.h"
-#include "Draw2DPolygon.h"
+#include "ParticleEmitterManager.h"
+#include "DefenceBase.h"
+#include "SkyDome.h"
 
 void Title::Init()
 {
-	auto title = AddGameObject<BlankObject>(UI);
-	auto texture = title->AddComponent<Draw2DPolygon>(title);
-	texture->LoadTexture(L"Asset/Texture/Title.jpg");
-	texture->SetPosition(Vector2(SCREEN_WIDTH_HALF, SCREEN_HEIGHT_HALF));
-	texture->SetSize(Vector2(SCREEN_WIDTH, SCREEN_HEIGHT));
+	//カメラ
+	SetCamera<Camera>();
+	AddGameObject<SkyDome>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -200.0f, 0.0f));
+
+	AddGameObject<MainGame::DefenceBase>(OBJECT)->GetComponent<Transform>();
+	AddGameObject<ParticleEmitterManager>(EFFECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f,-40.0f,0.0f));
+
 }
 
 void Title::Uninit()

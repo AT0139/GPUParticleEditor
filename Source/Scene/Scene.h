@@ -5,6 +5,7 @@
 #include <typeinfo>
 #include "main.h"
 #include "GameObject.h"
+#include "Camera.h"
 
 class Scene
 {
@@ -16,6 +17,8 @@ public:
 	{
 		CAMERA,
 		OBJECT,
+		EFFECT,
+
 		UI,
 		LAYER_MAX
 	};
@@ -107,6 +110,20 @@ public:
 		return m_gameObjects[OBJECT];
 	}
 
+	template <typename T>
+	void SetCamera()
+	{
+		T* gameobject = new T;
+		m_gameObjects[CAMERA].push_back(gameobject);
+		m_currentCamera = gameobject;
+	}
+
+	Camera* GetCamera()
+	{
+		return m_currentCamera;
+	}
+
 protected:
 	std::list<GameObject*> m_gameObjects[LAYER_MAX];	//STLのリスト構造
+	Camera* m_currentCamera;
 };

@@ -7,7 +7,7 @@
 #include "Rigidbody.h"
 #include "Manager.h"
 #include "ChildObject.h"
-#include "Camera.h"
+#include "MainCamera.h"
 
 namespace MainGame
 {
@@ -117,7 +117,7 @@ namespace MainGame
 	void Player::Move()
 	{
 		auto scene = Manager::GetInstance().GetScene();
-		auto camera = scene->GetGameObject<Camera>(scene->CAMERA);
+		auto camera = scene->GetGameObject<MainCamera>(scene->CAMERA);
 
 		Vector3 cameraForward = camera->GetCamaraForward();	//カメラ向き
 		Vector3 cameraRight = camera->GetCamaraRight();	//カメラ向き

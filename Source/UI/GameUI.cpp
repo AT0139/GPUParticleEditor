@@ -3,7 +3,7 @@
 #include "Input.h"
 #include "Manager.h"
 #include "Scene.h"
-#include "Camera.h"
+#include "MainCamera.h"
 #include "MeshField.h"
 #include "Renderer.h"
 #include "Player.h"
@@ -57,7 +57,7 @@ void GameUI::PlacementUIUpdate()
 		auto scene = Manager::GetInstance().GetScene();
 
 		//マウスポジションから座標を計算
-		auto camera = scene->GetGameObject<MainGame::Camera>(scene->CAMERA);
+		auto camera = scene->GetGameObject<MainGame::MainCamera>(scene->CAMERA);
 		auto field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
 		auto trans = m_pPlaceObject->GetComponent<Transform>();
 
