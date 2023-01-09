@@ -22,9 +22,11 @@ namespace Utility
 	Vector3* CalcScreenToXZ(Vector3* pout, float screenX, float screenY, Matrix* view, Matrix* prj);
 	Vector3 CalcScreenToWorld(Vector3& pout, float screenX, float screenY, int farZ,  Matrix* view, Matrix* prj);
 
+	Ray CreateRay(Vector3 pos1, Vector3 pos2);
 	Ray ScreenPosToRay(float screenX, float screenY, Matrix* view, Matrix* prj);
 
 	float Lerp(float start, float end, float t);
+	float FloatRand(float min, float max);
 
 	inline float VECtoFloat(XMVECTOR vec)
 	{

@@ -2,7 +2,7 @@
 #include "Renderer.h"
 #include "Game.h"
 #include "Polygon2D.h"
-#include "Camera.h"
+#include "MainCamera.h"
 #include "MeshField.h"
 #include "Player.h"
 #include "Stair.h"
@@ -18,27 +18,28 @@
 #include "GameUI.h"
 #include "DefenceBase.h"
 
-
-#include "Bullet.h"
+#include "ParticleEmitterManager.h"
 
 namespace MainGame
 {
 	void Game::Init()
 	{
 		//カメラ
-		AddGameObject<Camera>(CAMERA);
+		SetCamera<MainCamera>();
 
 		//3Dオブジェクト
 		AddGameObject<SkyDome>(OBJECT);
 		auto field = AddGameObject<MeshField>(OBJECT);
 
 		auto basePos = Vector3(5.0f, 5.0f, 5.0f);
-		basePos.y =field->GetHeight(basePos);
+		basePos.y = field->GetHeight(basePos);
 		m_defenceBase = AddGameObject<DefenceBase>(OBJECT);
 		m_defenceBase->GetComponent<Transform>()->SetPosition(basePos);
 
 		AddGameObject<Player>(OBJECT);
 		//AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(00.0f, 4.0f, -0.0f));
+
+		AddGameObject<ParticleEmitterManager>(EFFECT);
 
 		AddGameObject<GameUI>(UI);
 		//Audio* bgm = AddGameObject<Audio>(UI);
@@ -48,6 +49,7 @@ namespace MainGame
 		m_collisionManager = std::make_unique<CollisionManager>();
 		m_serializeManger = std::make_unique<SerializeManager>();
 		StaticDataTable::GetInstance();
+
 	}
 
 	void Game::Uninit()

@@ -1,4 +1,4 @@
-﻿#include "main.h"
+#include "main.h"
 #include "renderer.h"
 #include <io.h>
 
@@ -40,7 +40,13 @@ void Renderer::Init()
 	swapChainDesc.SampleDesc.Quality = 0;	//MSAA設定
 	swapChainDesc.Windowed = TRUE;
 
-	hr = D3D11CreateDeviceAndSwapChain(NULL,
+	UINT creationFlags = 0;
+#if defined(_DEBUG)
+	creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
+	hr = D3D11CreateDeviceAndSwapChain(
+		NULL,
 		D3D_DRIVER_TYPE_HARDWARE,
 		NULL,
 		0,
@@ -120,7 +126,7 @@ void Renderer::Init()
 
 	// ブレンドステート設定
 	D3D11_BLEND_DESC blendDesc{};
-	blendDesc.AlphaToCoverageEnable = FALSE;
+	blendDesc.AlphaToCoverageEnable = TRUE;
 	blendDesc.IndependentBlendEnable = FALSE;
 	blendDesc.RenderTarget[0].BlendEnable = TRUE;
 	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
@@ -277,7 +283,7 @@ void Renderer::Uninit()
 
 void Renderer::Begin()
 {
-	float clearColor[4] = { 0.0f, 0.5f, 0.5f, 1.0f };
+	float clearColor[4] = { 0.4f, 0.4f, 0.4f, 1.0f };
 	m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetView, clearColor);
 	m_pDeviceContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
@@ -413,4 +419,115 @@ void Renderer::CreatePixelShader(ID3D11PixelShader** PixelShader, const char* Fi
 	m_pDevice->CreatePixelShader(buffer, fsize, NULL, PixelShader);
 
 	delete[] buffer;
+}
+
+void Renderer::CreateComputeShader(ID3D11ComputeShader** computeShader, const char* FileName)
+{
+	FILE* file;
+	long int fsize;
+
+	file = fopen(FileName, "rb");
+	fsize = _filelength(_fileno(file));
+	unsigned char* buffer = new unsigned char[fsize];
+	fread(buffer, fsize, 1, file);
+	fclose(file);
+
+	Renderer::GetInstance().GetDevice()->CreateComputeShader(buffer, fsize, nullptr, computeShader);
+
+	delete[] buffer;
+}
+
+void Renderer::CreateStructuredBuffer(UINT elementSize, UINT count, void* initData, ID3D11Buffer** ppBuffer, bool useMap)
+{
+	*ppBuffer = nullptr;
+
+	D3D11_BUFFER_DESC bufferDesc = {};
+	bufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	bufferDesc.ByteWidth = elementSize * count;
+	bufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	bufferDesc.StructureByteStride = elementSize;
+	if (useMap)
+	{
+		bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+		bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	}
+	else
+	{
+		bufferDesc.BindFlags |= D3D11_BIND_UNORDERED_ACCESS;
+	}
+
+	auto hr = m_pDevice->CreateBuffer(&bufferDesc, nullptr, ppBuffer);
+	if (FAILED(hr))
+		assert(nullptr);
+}
+
+void Renderer::CreateBufferSRV(ID3D11Buffer* pBuffer, ID3D11ShaderResourceView** ppSrv)
+{
+	D3D11_BUFFER_DESC descBuf = {};
+	pBuffer->GetDesc(&descBuf);
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFEREX;
+	srvDesc.Buffer.FirstElement = 0;
+
+	if (descBuf.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS)
+	{
+		//生バッファ
+		srvDesc.Format = DXGI_FORMAT_R32_TYPELESS;
+		srvDesc.BufferEx.Flags = D3D11_BUFFEREX_SRV_FLAG_RAW;
+		srvDesc.BufferEx.NumElements = descBuf.ByteWidth / 4;
+	}
+	else
+	{
+		//structBuffer
+		srvDesc.Format = DXGI_FORMAT_UNKNOWN;
+		srvDesc.Buffer.NumElements = descBuf.ByteWidth / descBuf.StructureByteStride;
+	}
+
+	auto hr = m_pDevice->CreateShaderResourceView(pBuffer, &srvDesc, ppSrv);
+	if (FAILED(hr))
+		assert(nullptr);
+}
+
+void Renderer::CreateBufferUAV(ID3D11Buffer* pBuffer, ID3D11UnorderedAccessView** ppUrv)
+{
+	D3D11_BUFFER_DESC descBuf = {};
+	pBuffer->GetDesc(&descBuf);
+
+	D3D11_UNORDERED_ACCESS_VIEW_DESC UAVDesc = {};
+	UAVDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+	UAVDesc.Buffer.FirstElement = 0;
+
+	if (descBuf.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS)
+	{
+		UAVDesc.Format = DXGI_FORMAT_R32_TYPELESS;
+		UAVDesc.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_RAW;
+		UAVDesc.Buffer.NumElements = descBuf.ByteWidth / 4;
+	}
+	else if (descBuf.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_STRUCTURED)
+	{
+		UAVDesc.Format = DXGI_FORMAT_UNKNOWN;
+		UAVDesc.Buffer.NumElements = descBuf.ByteWidth / descBuf.StructureByteStride;
+	}
+
+	auto hr = m_pDevice->CreateUnorderedAccessView(pBuffer, &UAVDesc, ppUrv);
+	if (FAILED(hr))
+		assert(nullptr);
+}
+
+ID3D11Buffer* Renderer::CreateAndCopyToBuffer(ID3D11Buffer* buffer)
+{
+	ID3D11Buffer* debugbuf = nullptr;
+
+	D3D11_BUFFER_DESC desc = {};
+	buffer->GetDesc(&desc);
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	desc.Usage = D3D11_USAGE_STAGING;
+	desc.BindFlags = 0;
+	desc.MiscFlags = 0;
+	auto hr = m_pDevice->CreateBuffer(&desc, NULL, &debugbuf);
+
+	m_pDeviceContext->CopyResource(debugbuf, buffer);
+
+	return debugbuf;
 }

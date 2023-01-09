@@ -73,6 +73,16 @@ Vector3 Utility::CalcScreenToWorld(Vector3& pout, float screenX, float screenY, 
 	return pout;
 }
 
+Ray Utility::CreateRay(Vector3 pos1, Vector3 pos2)
+{
+	Ray ray;
+	ray.position = pos1;
+	ray.direction = pos1 - pos2;
+	ray.direction.Normalize();
+
+	return ray;
+}
+
 Ray Utility::ScreenPosToRay(float screenX, float screenY, Matrix* view, Matrix* prj)
 {
 	Vector3 nearpos;
@@ -91,4 +101,11 @@ Ray Utility::ScreenPosToRay(float screenX, float screenY, Matrix* view, Matrix* 
 float Utility::Lerp(float start, float end, float t)
 {
 	return (1 - t) * start + t * end;
+}
+
+float Utility::FloatRand(float min, float max)
+{
+	float r = rand() / static_cast<float>(RAND_MAX);
+	r *= max;
+	return r + min;
 }

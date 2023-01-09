@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #pragma comment (lib, "winmm.lib")
 #pragma comment (lib, "d3d11.lib")

@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Manager.h"
 #include "Scene.h"
-#include "Camera.h"
+#include "MainCamera.h"
 #include "Renderer.h"
 
 DrawGeometry::DrawGeometry(GameObject* pGameObject)
@@ -32,7 +32,7 @@ void DrawGeometry::Draw()
 		world = GetGameObject()->GetComponent<Transform>()->GetWorldMatrix();
 
 	auto scene = Manager::GetInstance().GetScene();
-	auto camera = scene->GetGameObject<MainGame::Camera>(scene->CAMERA);
+	auto camera = scene->GetGameObject<MainGame::MainCamera>(scene->CAMERA);
 	Matrix view = camera->GetViewMatrix();
 	Matrix proj = camera->GetProjectionMatrix();
 

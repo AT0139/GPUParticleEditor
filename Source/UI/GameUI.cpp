@@ -3,7 +3,7 @@
 #include "Input.h"
 #include "Manager.h"
 #include "Scene.h"
-#include "Camera.h"
+#include "MainCamera.h"
 #include "MeshField.h"
 #include "Renderer.h"
 #include "Player.h"
@@ -16,7 +16,6 @@ GameUI::GameUI()
 	auto scene = Manager::GetInstance().GetScene();
 	//UI
 	m_pPlacementUI = scene->AddGameObject<ObjectPlacementUI>(scene->UI);
-	m_pPlacementUI->SetHidden(true);
 }
 
 GameUI::~GameUI()
@@ -28,11 +27,11 @@ void GameUI::Update()
 	//UIを開く
 	if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::OPEN_UI))
 	{
-		m_pPlacementUI->SetHidden(false);
+		m_pPlacementUI->InOutUI(true);
 	}
 	if (GET_INPUT.GetKeyRelease(KEY_CONFIG::OPEN_UI))
 	{
-		m_pPlacementUI->SetHidden(true);
+		m_pPlacementUI->InOutUI(false);
 	}
 	
 	PlacementUIUpdate();
@@ -58,7 +57,7 @@ void GameUI::PlacementUIUpdate()
 		auto scene = Manager::GetInstance().GetScene();
 
 		//マウスポジションから座標を計算
-		auto camera = scene->GetGameObject<MainGame::Camera>(scene->CAMERA);
+		auto camera = scene->GetGameObject<MainGame::MainCamera>(scene->CAMERA);
 		auto field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
 		auto trans = m_pPlaceObject->GetComponent<Transform>();
 
@@ -66,9 +65,9 @@ void GameUI::PlacementUIUpdate()
 		Matrix proj = camera->GetProjectionMatrix();
 
 		//マウス座標からレイを飛ばす
-		Ray ray = Utility::ScreenPosToRay(mousePos.x, mousePos.y, &view, &proj);
-		std::list<Triangle> triangles;
+		Ray ray = Utility::ScreenPosToRay(mousePos.x, mousePos.y - SCREEN_HEIGHT_HALF * 0.5f, &view, &proj);
 		auto playerTrans = scene->GetGameObject<MainGame::Player>(scene->OBJECT)->GetComponent<Transform>();
+		std::list<Triangle> triangles;
 		field->GetTriangles(triangles, playerTrans->GetPosition());
 
 		//離されたら
@@ -111,7 +110,6 @@ void GameUI::PlacementUIUpdate()
 					field->SetNotTraffic(position - axizScale);
 				}
 			}
-
 			return;
 		}
 
@@ -146,7 +144,18 @@ void GameUI::PlacementUIUpdate()
 		{
 			Vector3 pos;
 			pos = ray.position + ray.direction * dist;
-			trans->SetPosition(pos);
+
+			float playerLength = (playerTrans->GetPosition() - pos).LengthSquared();
+
+			if (playerLength < 8)
+			{
+				Vector3 cameraForward = camera->GetCamaraForward();
+				pos += cameraForward * 0.1f;
+				pos.y = field->GetHeight(pos);
+				trans->SetPosition(pos);
+			}
+			else
+				trans->SetPosition(pos);
 		}
 
 		//回転
@@ -194,6 +203,6 @@ void GameUI::CreateObjectAtID(int staticObjectID)
 	m_pPlaceObject->AddComponent<SerializeComponent>(this);
 	m_pPlaceObject->SetTag(TAG::STATIC_OBJECT);
 	//UIを消す
-	m_pPlacementUI->SetHidden(true);
+	m_pPlacementUI->InOutUI(false);
 	m_pPlacementUI->ResetModelID();
 }
