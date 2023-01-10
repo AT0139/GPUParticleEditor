@@ -1,6 +1,6 @@
 ﻿#include "EnemyMoveToTargetState.h"
 #include "GameObject.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 #include "DefenceBase.h"
 #include "MeshField.h"
@@ -24,7 +24,7 @@ namespace MainGame
 
 	void EnemyMoveToTargetState::StateEnter()
 	{
-		auto scene = Manager::GetInstance().GetScene();
+		auto scene = SceneManager::GetInstance().GetScene();
 		m_aster = false;
 	}
 
@@ -65,7 +65,7 @@ namespace MainGame
 
 	void EnemyMoveToTargetState::CalcWayPoint(Vector3 startPos, Vector3 endPos)
 	{
-		auto scene = Manager::GetInstance().GetScene();
+		auto scene = SceneManager::GetInstance().GetScene();
 		auto field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
 
 		auto pStartNode = field->GetNodes(startPos);

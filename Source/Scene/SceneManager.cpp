@@ -1,18 +1,18 @@
 ﻿#include "main.h"
 #include "renderer.h"
 #include "Scene.h"
-#include "manager.h"
+#include "SceneManager.h"
 #include "input.h"
 #include "Game.h"
 #include "Title.h"
 #include "Result.h"
 #include "CAudio.h"
 
-Manager::Manager()
+SceneManager::SceneManager()
 	: m_pScene(nullptr)
 {}
 
-void Manager::Init()
+void SceneManager::Init()
 {
 	Renderer::GetInstance().Init();
 	GET_INPUT.Init();
@@ -21,7 +21,7 @@ void Manager::Init()
 	SetScene<Title>();
 }
 
-void Manager::Uninit()
+void SceneManager::Uninit()
 {
 	m_pScene->Uninit();
 	delete m_pScene;
@@ -31,14 +31,14 @@ void Manager::Uninit()
 	Renderer::GetInstance().Uninit();
 }
 
-void Manager::Update()
+void SceneManager::Update()
 {
 	GET_INPUT.Update();
 
 	m_pScene->Update();
 }
 
-void Manager::Draw()
+void SceneManager::Draw()
 {
 	Renderer::GetInstance().Begin();
 
@@ -47,5 +47,5 @@ void Manager::Draw()
 	Renderer::GetInstance().End();
 }
 
-Manager::~Manager()
+SceneManager::~SceneManager()
 {}

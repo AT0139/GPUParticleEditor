@@ -45,10 +45,6 @@ Field::Field()
 	m_texture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/field000.jpg");
 	assert(m_texture);
 
-	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
-
-	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
-
 	auto transform = GetComponent<Transform>();
 	transform->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 	transform->SetQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
@@ -59,10 +55,6 @@ Field::~Field()
 {
 	m_vertexBuffer->Release();
 	m_texture->Release();
-
-	m_vertexLayout->Release();
-	m_vertexShader->Release();
-	m_pixelShader->Release();
 }
 
 void Field::Update()
@@ -71,12 +63,7 @@ void Field::Update()
 
 void Field::Draw()
 {
-	//入力レイアウト設定
-	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
-
-	//シェーダー設定
-	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+	ShaderManager::GetInstance().Set(SHADER_TYPE::UNLIT);
 
 	//ワールドマトリクス設定
 	Matrix world = GetComponent<Transform>()->GetWorldMatrix();

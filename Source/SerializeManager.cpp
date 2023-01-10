@@ -1,6 +1,6 @@
 ﻿#include "SerializeManager.h"
 #include "SerializeComponent.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 
 SerializeManager::SerializeManager()
@@ -17,7 +17,7 @@ void SerializeManager::ToSerialize()
 	std::list<SerializeInfo> serializeList;
 
 	//シリアライズコンポーネントを付けたオブジェクト情報の取得
-	auto& objects = Manager::GetInstance().GetScene()->GetAllObject();
+	auto& objects = SceneManager::GetInstance().GetScene()->GetAllObject();
 	for (auto& obj : objects)
 	{
 		auto pSerial = obj->GetComponent<SerializeComponent>();
@@ -46,7 +46,7 @@ void SerializeManager::ToDeserialize()
 	//デシリアライズ
 	serialize(archive, inputList);
 
-	auto scene = Manager::GetInstance().GetScene();
+	auto scene = SceneManager::GetInstance().GetScene();
 
 	//オブジェクトの作成、座標、回転代入
 	for (auto input : inputList)

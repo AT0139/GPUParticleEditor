@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Transform.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "MainCamera.h"
 
 Transform::Transform(GameObject* pGameObject)
@@ -188,7 +188,7 @@ Matrix Transform::GetPrevWorldMatrix()
 Matrix Transform::GetWorldMatrixInvView()
 {
 	//ビューの逆行列
-	Scene* scene = Manager::GetInstance().GetScene();
+	Scene* scene = SceneManager::GetInstance().GetScene();
 	MainGame::MainCamera* camera = scene->GetGameObject<MainGame::MainCamera>(scene->CAMERA);
 	Matrix view = camera->GetViewMatrix();
 	Matrix invView = XMMatrixInverse(NULL, view);

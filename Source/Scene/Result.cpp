@@ -25,6 +25,6 @@ void Result::Update()
 
 	if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN))
 	{
-		Manager::GetInstance().SetScene<Title>();
+		SceneManager::GetInstance().SetScene<Title>();
 	}
 }

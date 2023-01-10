@@ -5,7 +5,7 @@
 #include "input.h"
 #include "ResourceManager.h"
 #include "Rigidbody.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "ChildObject.h"
 #include "MainCamera.h"
 
@@ -43,7 +43,7 @@ namespace MainGame
 
 
 		//当たり判定用子オブジェクト
-		auto scene = Manager::GetInstance().GetScene();
+		auto scene = SceneManager::GetInstance().GetScene();
 		auto obj = scene->AddGameObject<ChildObject>(scene->OBJECT);
 		auto objRigid = obj->AddComponent<Rigidbody>();
 		objRigid->SetIsTrigger(true);
@@ -116,7 +116,7 @@ namespace MainGame
 
 	void Player::Move()
 	{
-		auto scene = Manager::GetInstance().GetScene();
+		auto scene = SceneManager::GetInstance().GetScene();
 		auto camera = scene->GetGameObject<MainCamera>(scene->CAMERA);
 
 		Vector3 cameraForward = camera->GetCamaraForward();	//カメラ向き

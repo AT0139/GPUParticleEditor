@@ -1,6 +1,6 @@
 ﻿#include "EnemyAttackState.h"
 #include "Bullet.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 #include "Enemy.h"
 
@@ -43,7 +43,7 @@ namespace MainGame
 		auto dir = targetPos - myPos;
 		dir.Normalize();
 
-		auto scene = Manager::GetInstance().GetScene();
+		auto scene = SceneManager::GetInstance().GetScene();
 		auto bullet = scene->AddGameObject<MainGame::Bullet>(scene->OBJECT);
 		bullet->GetComponent<Transform>()->SetPosition(m_pGameObject->GetComponent<Transform>()->GetPosition());
 		bullet->SetVelocity(dir);

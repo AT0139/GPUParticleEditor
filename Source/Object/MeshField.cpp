@@ -157,9 +157,6 @@ namespace MainGame
 
 		assert(m_texture);
 		assert(m_normalTexture);
-
-		Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "EnvMappingVS.cso");
-		Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "EnvMappingPS.cso");
 	}
 
 	MeshField::~MeshField()
@@ -168,10 +165,6 @@ namespace MainGame
 		m_indexBuffer->Release();
 		m_texture->Release();
 		m_normalTexture->Release();
-
-		m_vertexLayout->Release();
-		m_vertexShader->Release();
-		m_pixelShader->Release();
 	}
 
 	void MeshField::Update()
@@ -181,11 +174,12 @@ namespace MainGame
 	void MeshField::Draw()
 	{
 		//入力レイアウト設定
-		Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
+		//Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
 		//シェーダー設定
-		Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-		Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+		//Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
+		//Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+		ShaderManager::GetInstance().Set(SHADER_TYPE::ENV_MAPPING);
 
 		//ワールドマトリクス設定
 		Matrix world = GetComponent<Transform>()->GetWorldMatrix();

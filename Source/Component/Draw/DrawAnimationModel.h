@@ -20,8 +20,7 @@ public:
 	void SetAnimationName(std::string animationName);
 
 	//todo: シェーダーのセット
-	void SetVertexShader(const char* filename);
-	void SetPixelShader(const char* filename);
+	void SetShader(SHADER_TYPE type);
 
 	void AddBlendRate();
 	void AddBlendRate(float factor);
@@ -30,13 +29,9 @@ public:
 
 private:
 	class AnimationModel* m_model;
-
-	ID3D11VertexShader* m_vertexShader;
-	ID3D11PixelShader* m_pixelShader;
-	ID3D11InputLayout* m_vertexLayout;
+	SHADER_TYPE m_shaderType;
 
 	int m_frame;
 	float m_blendRate;
-
 	std::string m_animationName;
 };

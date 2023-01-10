@@ -1,5 +1,5 @@
 ﻿#include "main.h"
-#include "manager.h"
+#include "SceneManager.h"
 #include "renderer.h"
 #include "MainCamera.h"
 #include "input.h"
@@ -38,7 +38,7 @@ namespace MainGame
 	void MainCamera::Update()
 	{
 		//プレイヤーの取得
-		Scene* scene = Manager::GetInstance().GetScene();
+		Scene* scene = SceneManager::GetInstance().GetScene();
 		Vector3 playerPos = scene->GetGameObject<Player>(scene->OBJECT)->GetComponent<Transform>()->GetPosition();
 
 		m_target = playerPos;

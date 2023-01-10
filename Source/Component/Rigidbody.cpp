@@ -2,7 +2,7 @@
 #include "Transform.h"
 #include "GameObject.h"
 #include "Scene.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "MeshField.h"
 
 static const float GRAVITY = 1.0f;
@@ -50,7 +50,7 @@ void Rigidbody::Update()
 		pos += m_gravity;
 
 		//フィールド以下には行かないように
-		auto scene = Manager::GetInstance().GetScene();
+		auto scene = SceneManager::GetInstance().GetScene();
 		MainGame::MeshField* field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
 		float fieldHeight = field->GetHeight(pos);
 		if (pos.y <= fieldHeight)

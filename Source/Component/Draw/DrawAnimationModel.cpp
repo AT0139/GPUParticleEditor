@@ -13,16 +13,12 @@ DrawAnimationModel::DrawAnimationModel(GameObject* pGameObject)
 	, m_blendRate(0.0f)
 	, m_frame(0)
 	, m_animationName("Idle")
+	, m_shaderType(SHADER_TYPE::VERTEX_LIGHTING)
 {
-	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "vertexLightingVS.cso");
-	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "vertexLightingPS.cso");
 }
 
 DrawAnimationModel::~DrawAnimationModel()
 {
-	m_vertexLayout->Release();
-	m_vertexShader->Release();
-	m_pixelShader->Release();
 }
 
 void DrawAnimationModel::Update()
@@ -45,12 +41,7 @@ void DrawAnimationModel::Update()
 
 void DrawAnimationModel::Draw()
 {
-	//入力レイアウト設定
-	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
-
-	//シェーダー設定
-	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+	ShaderManager::GetInstance().Set(m_shaderType);
 
 	//ワールドマトリクス設定
 	Matrix world = GetGameObject()->GetComponent<Transform>()->GetWorldMatrix();
@@ -76,18 +67,9 @@ void DrawAnimationModel::SetAnimationName(std::string animationName)
 	m_animationName = animationName;
 }
 
-
-void DrawAnimationModel::SetVertexShader(const char* filename)
+void DrawAnimationModel::SetShader(SHADER_TYPE type)
 {
-	m_vertexLayout->Release();
-	m_vertexShader->Release();
-	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, filename);
-}
-
-void DrawAnimationModel::SetPixelShader(const char* filename)
-{
-	m_pixelShader->Release();
-	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, filename);
+	m_shaderType = type;
 }
 
 void DrawAnimationModel::AddBlendRate()

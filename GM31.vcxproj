@@ -117,7 +117,7 @@
     </Link>
     <FxCompile />
     <FxCompile>
-      <ObjectFileOutput>%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput>$(ProjectDir)Shader\%(Filename).cso</ObjectFileOutput>
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
@@ -145,7 +145,7 @@
     </Link>
     <FxCompile />
     <FxCompile>
-      <ObjectFileOutput>%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput>$(ProjectDir)Shader\%(Filename).cso</ObjectFileOutput>
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
@@ -170,7 +170,7 @@
     </Link>
     <FxCompile />
     <FxCompile>
-      <ObjectFileOutput>%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput>$(ProjectDir)Shader\%(Filename).cso</ObjectFileOutput>
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
@@ -199,12 +199,11 @@
     </Link>
     <FxCompile />
     <FxCompile>
-      <ObjectFileOutput>%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput>$(ProjectDir)Shader\%(Filename).cso</ObjectFileOutput>
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="Source\CollisionManager.h" />
     <ClInclude Include="Source\CollisionUtility.h" />
     <ClInclude Include="Source\Component\Collision\AABBCollision.h" />
@@ -229,7 +228,6 @@
     <ClInclude Include="Source\imgui\imgui.h" />
     <ClInclude Include="Source\imgui\imgui_internal.h" />
     <ClInclude Include="Source\Main.h" />
-    <ClInclude Include="Source\Manager.h" />
     <ClInclude Include="Source\Object\BlankObject.h" />
     <ClInclude Include="Source\Object\Bullet.h" />
     <ClInclude Include="Source\Object\Camera\Camera.h" />
@@ -254,10 +252,10 @@
     <ClInclude Include="Source\Particle\ParticleEmitter.h" />
     <ClInclude Include="Source\Particle\ParticleEmitterManager.h" />
     <ClInclude Include="Source\Polygon2D.h" />
-    <ClInclude Include="Source\ResourceManager.h" />
     <ClInclude Include="Source\Scene\Game.h" />
     <ClInclude Include="Source\Scene\Result.h" />
     <ClInclude Include="Source\Scene\Scene.h" />
+    <ClInclude Include="Source\Scene\SceneManager.h" />
     <ClInclude Include="Source\Scene\Title.h" />
     <ClInclude Include="Source\SerializeManager.h" />
     <ClInclude Include="Source\System\AnimationModel.h" />
@@ -265,6 +263,8 @@
     <ClInclude Include="Source\System\CModel.h" />
     <ClInclude Include="Source\System\Input.h" />
     <ClInclude Include="Source\System\Renderer.h" />
+    <ClInclude Include="Source\System\ResourceManager.h" />
+    <ClInclude Include="Source\System\ShaderManager.h" />
     <ClInclude Include="Source\System\Singleton.h" />
     <ClInclude Include="Source\System\StaticDataTable.h" />
     <ClInclude Include="Source\System\stdafx.h" />
@@ -275,7 +275,6 @@
     <ClInclude Include="Source\Utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="Source\CollisionManager.cpp" />
     <ClCompile Include="Source\CollisionUtility.cpp" />
     <ClCompile Include="Source\Component\Collision\AABBCollision.cpp" />
@@ -300,7 +299,6 @@
     <ClCompile Include="Source\imgui\imgui_tables.cpp" />
     <ClCompile Include="Source\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\Manager.cpp" />
     <ClCompile Include="Source\Object\BlankObject.cpp" />
     <ClCompile Include="Source\Object\Bullet.cpp" />
     <ClCompile Include="Source\Object\Camera\Camera.cpp" />
@@ -324,9 +322,9 @@
     <ClCompile Include="Source\Particle\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Particle\ParticleEmitterManager.cpp" />
     <ClCompile Include="Source\Polygon2D.cpp" />
-    <ClCompile Include="Source\ResourceManager.cpp" />
     <ClCompile Include="Source\Scene\Game.cpp" />
     <ClCompile Include="Source\Scene\Result.cpp" />
+    <ClCompile Include="Source\Scene\SceneManager.cpp" />
     <ClCompile Include="Source\Scene\Title.cpp" />
     <ClCompile Include="Source\SerializeManager.cpp" />
     <ClCompile Include="Source\System\AnimationModel.cpp" />
@@ -334,6 +332,8 @@
     <ClCompile Include="Source\System\CModel.cpp" />
     <ClCompile Include="Source\System\Input.cpp" />
     <ClCompile Include="Source\System\Renderer.cpp" />
+    <ClCompile Include="Source\System\ResourceManager.cpp" />
+    <ClCompile Include="Source\System\ShaderManager.cpp" />
     <ClCompile Include="Source\System\StaticDataTable.cpp" />
     <ClCompile Include="Source\System\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

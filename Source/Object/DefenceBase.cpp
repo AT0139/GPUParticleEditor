@@ -1,6 +1,6 @@
 ﻿#include "DefenceBase.h"
 #include "DrawAnimationModel.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "Result.h"
 
 static const int INITIAL_HP = 30;

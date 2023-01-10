@@ -2,7 +2,7 @@
 #include "renderer.h"
 #include "SkyDome.h"
 #include "DrawModel.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 #include "Player.h"
 
@@ -11,8 +11,7 @@ SkyDome::SkyDome()
 	//モデル読み込み
 	auto model = AddComponent<DrawModel>(this);
 	model->Load("asset\\model\\skydome.obj");
-	model->SetVertexShader("unlitTextureVS.cso");
-	model->SetPixelShader("unlitTexturePS.cso");
+	model->SetShader(SHADER_TYPE::UNLIT);
 
 	auto transform = GetComponent<Transform>();
 	transform->SetPosition(Vector3(0.0f, -100.0f, 0.0f));
@@ -26,7 +25,7 @@ SkyDome::~SkyDome()
 
 void SkyDome::Update()
 {
-	auto scene = Manager::GetInstance().GetScene();
+	auto scene = SceneManager::GetInstance().GetScene();
 	auto player = scene->GetGameObject<MainGame::Player>(scene->OBJECT);
 	if (player)
 	{

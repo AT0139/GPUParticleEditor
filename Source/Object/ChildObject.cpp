@@ -1,6 +1,6 @@
 ﻿#include "ChildObject.h"
 #include "Scene.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "Player.h"
 
 ChildObject::ChildObject()

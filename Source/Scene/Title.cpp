@@ -1,6 +1,6 @@
 ﻿#include "Title.h"
 #include "Input.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "Camera.h"
 #include "Game.h"
 #include "ParticleEmitterManager.h"
@@ -29,6 +29,6 @@ void Title::Update()
 
 	if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN))
 	{
-		Manager::GetInstance().SetScene<MainGame::Game>();
+		SceneManager::GetInstance().SetScene<MainGame::Game>();
 	}
 }

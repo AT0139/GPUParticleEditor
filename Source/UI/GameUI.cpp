@@ -1,7 +1,7 @@
 ﻿#include "GameUI.h"
 #include "ObjectPlacementUI.h"
 #include "Input.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 #include "MainCamera.h"
 #include "MeshField.h"
@@ -13,7 +13,7 @@
 GameUI::GameUI()
 	: m_pPlaceObject(nullptr)
 {
-	auto scene = Manager::GetInstance().GetScene();
+	auto scene = SceneManager::GetInstance().GetScene();
 	//UI
 	m_pPlacementUI = scene->AddGameObject<ObjectPlacementUI>(scene->UI);
 }
@@ -54,7 +54,7 @@ void GameUI::PlacementUIUpdate()
 	if (m_pPlaceObject)
 	{
 		auto mousePos = GET_INPUT.GetMousePoint();
-		auto scene = Manager::GetInstance().GetScene();
+		auto scene = SceneManager::GetInstance().GetScene();
 
 		//マウスポジションから座標を計算
 		auto camera = scene->GetGameObject<MainGame::MainCamera>(scene->CAMERA);
@@ -168,7 +168,7 @@ void GameUI::PlacementUIUpdate()
 
 void GameUI::CreateObjectAtID(int staticObjectID)
 {
-	auto scene = Manager::GetInstance().GetScene();
+	auto scene = SceneManager::GetInstance().GetScene();
 
 
 	m_placeObjectData = StaticDataTable::GetInstance().GetStaticObjectData(staticObjectID);
@@ -187,8 +187,7 @@ void GameUI::CreateObjectAtID(int staticObjectID)
 	auto model = m_pPlaceObject->AddComponent<DrawModel>(this);
 
 	model->Load(modelData->GetPath().c_str());
-	model->SetVertexShader("NormalMappingVS.cso");
-	model->SetPixelShader("NormalMappingPS.cso");
+	model->SetShader(SHADER_TYPE::NORMAL_MAPPING);
 
 	m_pPlaceObject->GetComponent<Transform>()->SetScale(modelData->GetScale());
 	auto col = m_pPlaceObject->AddComponent<OBBCollision>();

@@ -1,12 +1,12 @@
 ﻿#include "CollisionManager.h"
 #include "CollisionComponent.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 
 void CollisionManager::Update()
 {
 	m_collisionVector.clear();
-	auto& objects = Manager::GetInstance().GetScene()->GetAllObject();
+	auto& objects = SceneManager::GetInstance().GetScene()->GetAllObject();
 	for (auto& obj : objects)
 	{
 		auto pCollision = obj->GetComponent<CollisionComponent>();

@@ -11,7 +11,7 @@
 #include "SkyDome.h"
 #include "Tree.h"
 #include "input.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "Result.h"
 #include "ResourceManager.h"
 #include "audio.h"
@@ -61,7 +61,7 @@ namespace MainGame
 		m_collisionManager->Update();
 		if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN) || m_defenceBase->GetHP() <= 0)
 		{
-			Manager::GetInstance().SetScene<Result>();
+			SceneManager::GetInstance().SetScene<Result>();
 		}
 
 		ImGui::Begin("Serialize", 0, ImGuiWindowFlags_AlwaysAutoResize);

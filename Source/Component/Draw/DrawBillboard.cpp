@@ -46,18 +46,11 @@ DrawBillboard::DrawBillboard(GameObject* pGameObject)
 	sd.pSysMem = vertex;
 
 	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
-	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
-
-	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 }
 
 DrawBillboard::~DrawBillboard()
 {
 	m_vertexBuffer->Release();
-
-	m_vertexLayout->Release();
-	m_vertexShader->Release();
-	m_pixelShader->Release();
 }
 
 void DrawBillboard::Update()
@@ -116,12 +109,7 @@ void DrawBillboard::Draw()
 
 	Renderer::GetInstance().GetDeviceContext()->Unmap(m_vertexBuffer, 0);
 
-	//入力レイアウト設定
-	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
-
-	//シェーダー設定
-	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+	ShaderManager::GetInstance().Set(SHADER_TYPE::UNLIT);
 
 	//ワールドマトリクス設定
 	Matrix world = GetGameObject()->GetComponent<Transform>()->GetWorldMatrixInvView();

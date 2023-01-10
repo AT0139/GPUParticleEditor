@@ -1,5 +1,5 @@
 ﻿#include "main.h"
-#include "manager.h"
+#include "SceneManager.h"
 #include "Renderer.h"
 
 const char* CLASS_NAME = "AppClass";
@@ -77,7 +77,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		hInstance,
 		NULL);
 
-	Manager::GetInstance().Init();
+	SceneManager::GetInstance().Init();
 
 	ShowWindow(g_Window, nCmdShow);
 	UpdateWindow(g_Window);
@@ -115,9 +115,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 				dwExecLastTime = dwCurrentTime;
 
-				Manager::GetInstance().Update();
+				SceneManager::GetInstance().Update();
 				g_zDelta = 0;
-				Manager::GetInstance().Draw();
+				SceneManager::GetInstance().Draw();
 			}
 		}
 	}
@@ -126,7 +126,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	UnregisterClass(CLASS_NAME, wcex.hInstance);
 
-	Manager::GetInstance().Uninit();
+	SceneManager::GetInstance().Uninit();
 
 	return (int)msg.wParam;
 }

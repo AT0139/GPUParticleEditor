@@ -57,10 +57,6 @@ namespace MainGame
 
 		VERTEX_3D m_vertex[FIELD_X + 1][FIELD_Z + 1];
 
-		ID3D11VertexShader* m_vertexShader;
-		ID3D11PixelShader* m_pixelShader;
-		ID3D11InputLayout* m_vertexLayout;
-
 		int m_terrainWidth, m_terrainHeight;
 		std::vector<std::vector<float>> m_heightMap;
 		std::vector<std::vector<Node>> m_nodes;

@@ -3,10 +3,10 @@
 #include "Singleton.h"
 #include "Scene.h"
 
-class Manager : public Singleton<Manager>
+class SceneManager : public Singleton<SceneManager>
 {
 public:
-	friend class Singleton<Manager>;
+	friend class Singleton<SceneManager>;
 
 	void Init();
 	void Uninit();
@@ -28,8 +28,8 @@ public:
 	}
 
 private:
-	Manager();
-	~Manager();
+	SceneManager();
+	~SceneManager();
 
 	class Scene* m_pScene;
 };

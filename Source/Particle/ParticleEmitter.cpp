@@ -3,7 +3,7 @@
 #include "ResourceManager.h"
 #include "Scene.h"
 #include "MainCamera.h"
-#include "Manager.h"
+#include "SceneManager.h"
 
 
 static const float MIN_RAND = -1.0f;
@@ -65,8 +65,6 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	sd.pSysMem = vertex;
 
 	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
-	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "ParticleTextureVS.cso");
-	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "ParticleTexturePS.cso");
 
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_particleBuffer, true);
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(Vector3), m_particleNum, nullptr, &m_positionBuffer, true);
@@ -81,7 +79,7 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 
 	Renderer::GetInstance().CreateBufferUAV(m_resultBuffer, &m_resultUAV);
 
-	Renderer::GetInstance().CreateComputeShader(&m_computeShader, "ComputeShader.cso");
+	Renderer::GetInstance().CreateComputeShader(&m_computeShader, "Shader/ComputeShader.cso");
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -100,9 +98,6 @@ ParticleEmitter::~ParticleEmitter()
 	m_resultUAV->Release();
 
 	m_vertexBuffer->Release();
-	m_vertexShader->Release();
-	m_pixelShader->Release();
-	m_vertexLayout->Release();
 }
 
 void ParticleEmitter::Update()
@@ -162,10 +157,9 @@ void ParticleEmitter::Update()
 void ParticleEmitter::Draw()
 {
 	auto context = Renderer::GetInstance().GetDeviceContext();
-	//入力レイアウト設定
-	context->IASetInputLayout(m_vertexLayout);
+
 	// ビルボード
-	auto scene = Manager::GetInstance().GetScene();
+	auto scene = SceneManager::GetInstance().GetScene();
 	Matrix view = scene->GetCamera()->GetViewMatrix();
 	Matrix invView = view.Invert();
 	invView._41 = 0.0f;
@@ -179,9 +173,7 @@ void ParticleEmitter::Draw()
 	world = scale * invView * trans;
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
-	//シェーダー設定
-	context->VSSetShader(m_vertexShader, NULL, 0);
-	context->PSSetShader(m_pixelShader, NULL, 0);
+	ShaderManager::GetInstance().Set(SHADER_TYPE::PARTICLE);
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);

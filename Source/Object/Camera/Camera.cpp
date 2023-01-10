@@ -1,5 +1,5 @@
 ﻿#include "main.h"
-#include "manager.h"
+#include "SceneManager.h"
 #include "renderer.h"
 #include "Camera.h"
 #include "input.h"

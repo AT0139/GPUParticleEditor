@@ -9,17 +9,12 @@ DrawModel::DrawModel(GameObject* pGameObject)
 	, m_model(nullptr)
 	, m_rasterizerState(RASTERIZER::DEFAULT)
 	, m_isCollision(false)
+	, m_shaderType(SHADER_TYPE::PIXEL_LIGHTING)
 {
-	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "pixelLightingVS.cso");
-
-	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "pixelLightingPS.cso");
 }
 
 DrawModel::~DrawModel()
 {
-	m_vertexLayout->Release();
-	m_vertexShader->Release();
-	m_pixelShader->Release();
 }
 
 void DrawModel::Update()
@@ -33,12 +28,14 @@ void DrawModel::Draw()
 	if (m_rasterizerState == RASTERIZER::WIRE_FRAME)
 		Renderer::GetInstance().SetRasterizerState(RASTERIZER::WIRE_FRAME);
 
-	//入力レイアウト設定
-	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
+	////入力レイアウト設定
+	//Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
-	//シェーダー設定
-	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+	////シェーダー設定
+	//Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
+	//Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+
+	ShaderManager::GetInstance().Set(m_shaderType);
 
 	//ワールドマトリクス設定
 	Matrix world;
@@ -64,15 +61,7 @@ void DrawModel::Load(const char* filePath)
 	m_model = ResourceManager::GetInstance().GetModelData(filePath);
 }
 
-void DrawModel::SetVertexShader(const char* filename)
+void DrawModel::SetShader(SHADER_TYPE type)
 {
-	m_vertexLayout->Release();
-	m_vertexShader->Release();
-	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, filename);
-}
-
-void DrawModel::SetPixelShader(const char* filename)
-{
-	m_pixelShader->Release();
-	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, filename);
+	m_shaderType = type;
 }

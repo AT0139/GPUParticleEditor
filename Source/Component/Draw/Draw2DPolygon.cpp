@@ -7,9 +7,6 @@ Draw2DPolygon::Draw2DPolygon(GameObject* gameObject)
 	: Component(gameObject)
 	, m_vertexBuffer(nullptr)
 	, m_texture(nullptr)
-	, m_vertexShader(nullptr)
-	, m_pixelShader(nullptr)
-	, m_vertexLayout(nullptr)
 	, m_position(Vector2(0.0f, 0.0f))
 	, m_size(Vector2(100.0f, 100.0f))
 	, m_uv(0.0f, 0.0f)
@@ -48,19 +45,11 @@ Draw2DPolygon::Draw2DPolygon(GameObject* gameObject)
 	D3D11_SUBRESOURCE_DATA sd{};
 	sd.pSysMem = vertex;
 	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
-
-
-	Renderer::GetInstance().CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
-	Renderer::GetInstance().CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 }
 
 Draw2DPolygon::~Draw2DPolygon()
 {
 	m_vertexBuffer->Release();
-
-	m_vertexLayout->Release();
-	m_vertexShader->Release();
-	m_pixelShader->Release();
 }
 
 void Draw2DPolygon::Update()
@@ -98,12 +87,8 @@ void Draw2DPolygon::Draw()
 
 		Renderer::GetInstance().GetDeviceContext()->Unmap(m_vertexBuffer, 0);
 	}
-	//入力レイアウト設定
-	Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
 
-	//シェーダー設定
-	Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-	Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
+	ShaderManager::GetInstance().Set(SHADER_TYPE::UNLIT);
 
 	//マトリクス設定
 	Renderer::GetInstance().SetWorldViewProjection2D();

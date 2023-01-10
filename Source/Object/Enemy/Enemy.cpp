@@ -2,7 +2,7 @@
 #include "Enemy.h"
 #include "DrawModel.h"
 #include "Rigidbody.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 #include "DefenceBase.h"
 #include "EnemyMoveToTargetState.h"
@@ -26,7 +26,7 @@ namespace MainGame
 		m_state = std::make_shared<EnemyMoveToTargetState>(EnemyMoveToTargetState(this));
 		m_state->StateEnter();
 
-		auto scene = Manager::GetInstance().GetScene();
+		auto scene = SceneManager::GetInstance().GetScene();
 		m_targetPos = scene->GetGameObject<DefenceBase>(scene->OBJECT)->GetComponent<Transform>()->GetPosition();
 	}
 

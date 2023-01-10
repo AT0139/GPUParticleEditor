@@ -1,6 +1,6 @@
 ﻿#include "Wall.h"
 #include "Foundation.h"
-#include "Manager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 #include "MeshField.h"
 #include "Input.h"
@@ -14,7 +14,7 @@ namespace Placement
 
 		auto staticSnapPointList = CreateSnapInfo().m_snapPointList;
 
-		auto scene = Manager::GetInstance().GetScene();
+		auto scene = SceneManager::GetInstance().GetScene();
 		auto field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
 
 		auto it = std::remove_if(staticSnapPointList.begin(), staticSnapPointList.end(), [&field](SnapPoint it)->bool
