@@ -18,8 +18,6 @@
 #include "GameUI.h"
 #include "DefenceBase.h"
 
-#include "ParticleEmitterManager.h"
-
 namespace MainGame
 {
 	void Game::Init()
@@ -38,8 +36,6 @@ namespace MainGame
 
 		AddGameObject<Player>(OBJECT);
 		//AddGameObject<Enemy>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(00.0f, 4.0f, -0.0f));
-
-		AddGameObject<ParticleEmitterManager>(EFFECT);
 
 		AddGameObject<GameUI>(UI);
 		//Audio* bgm = AddGameObject<Audio>(UI);

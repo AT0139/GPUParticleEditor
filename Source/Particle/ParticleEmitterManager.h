@@ -11,12 +11,9 @@ public:
 
 	// GameObject を介して継承されました
 	virtual void Update() override;
-
 	virtual void Draw() override;
 
 
 private:
 	std::list<std::shared_ptr<ParticleEmitter>> m_particleEmitter;
-
-
 };

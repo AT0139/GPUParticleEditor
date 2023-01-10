@@ -34,5 +34,5 @@ void ParticleEmitterManager::Update()
 void ParticleEmitterManager::Draw()
 {
 	for (auto it : m_particleEmitter)
-		it->Draw();
+		it->Draw(); 
 }
