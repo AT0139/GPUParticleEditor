@@ -1,7 +1,7 @@
 ﻿#include "main.h"
 #include "renderer.h"
 #include "Explosion.h"
-#include "manager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 #include "Camera.h"
 #include "ResourceManager.h"

@@ -1,7 +1,7 @@
 ﻿#include "main.h"
 #include "renderer.h"
 #include "Tree.h"
-#include "manager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 #include "DrawBillboard.h"
 #include "ResourceManager.h"

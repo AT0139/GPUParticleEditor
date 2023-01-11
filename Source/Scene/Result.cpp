@@ -2,7 +2,7 @@
 #include "BlankObject.h"
 #include "Draw2DPolygon.h"
 #include "input.h"
-#include "manager.h"
+#include "SceneManager.h"
 #include "Title.h"
 
 void Result::Init()

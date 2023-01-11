@@ -1,7 +1,7 @@
 ﻿#include "Title.h"
 #include "Input.h"
 #include "SceneManager.h"
-#include "Camera.h"
+#include "TitleCamera.h"
 #include "Game.h"
 #include "ParticleEmitterManager.h"
 #include "DefenceBase.h"
@@ -10,7 +10,7 @@
 void Title::Init()
 {
 	//カメラ
-	SetCamera<Camera>();
+	SetCamera<TitleCamera>();
 	AddGameObject<SkyDome>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -200.0f, 0.0f));
 
 	AddGameObject<MainGame::DefenceBase>(OBJECT)->GetComponent<Transform>();

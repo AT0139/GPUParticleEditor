@@ -256,6 +256,9 @@
     <ClInclude Include="Source\Scene\SceneManager.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Object\Camera\TitleCamera.h">
+      <Filter>ソース ファイル\Object\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Polygon2D.cpp">
@@ -452,6 +455,9 @@
     </ClCompile>
     <ClCompile Include="Source\Scene\SceneManager.cpp">
       <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\Camera\TitleCamera.cpp">
+      <Filter>ソース ファイル\Object\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
