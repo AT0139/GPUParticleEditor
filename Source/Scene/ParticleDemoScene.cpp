@@ -2,7 +2,6 @@
 #include "Title.h"
 #include "Input.h"
 #include "SceneManager.h"
-#include "ParticleEmitterManager.h"
 #include "SkyDome.h"
 #include "ParticleDemoSceneCamera.h"
 
@@ -14,7 +13,8 @@ void ParticleDemoScene::Init()
 	SetCamera<ParticleDemoSceneCamera>();
 	AddGameObject<SkyDome>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -200.0f, 0.0f));
 
-	AddGameObject<ParticleEmitterManager>(EFFECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -40.0f, 0.0f));
+	m_emitterManager = AddGameObject<ParticleEmitterManager>(EFFECT);
+	m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -40.0f, 0.0f));
 }
 
 void ParticleDemoScene::Uninit()
@@ -26,11 +26,24 @@ void ParticleDemoScene::Update()
 {
 	Scene::Update();
 
-	ImGui::Begin("ParticleSetting");
+	ImGui::Begin("ParticleSetting", 0, ImGuiWindowFlags_NoMove|ImGuiWindowFlags_AlwaysAutoResize| ImGuiWindowFlags_NoDocking);
 	{
+		if(ImGui::TreeNode("InitData"))
+		{
+			ImGui::SliderInt("Life", &m_initData.life, 1, 800);
+			ImGui::SliderInt("MaxNum", &m_initData.maxNum, 1, 100000);
+			ImGui::SliderInt("CreateOnceNum", &m_initData.createOnceNum, 1, 50000);
+			ImGui::SliderInt("CreateInterval", &m_initData.createInterval, 1, 1000);
+			static float size = 0;
+			ImGui::SliderFloat("size", &size, 0.01f, 10.0f);
+			m_initData.size = Vector2(size, size);
+
+			ImGui::TreePop();
+		}
+
 		if (ImGui::Button("Generate"))
 		{
-
+			m_emitterManager->AddEmitter(m_initData);
 		}
 	}
 	ImGui::End();

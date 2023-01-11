@@ -13,7 +13,7 @@ struct EmitterInitData
 	Vector2 size;
 	Vector3 direction;
 	int life;
-	const wchar_t* filePath;
+	const wchar_t* filePath = L"Asset\\Texture\\BlueBloom.png";
 	int maxNum;
 	int createOnceNum;
 	int createInterval;
