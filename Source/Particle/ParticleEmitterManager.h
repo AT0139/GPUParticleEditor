@@ -13,7 +13,7 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
-
+	void AddEmitter(EmitterInitData initData);
 private:
 	std::list<std::shared_ptr<ParticleEmitter>> m_particleEmitter;
 };

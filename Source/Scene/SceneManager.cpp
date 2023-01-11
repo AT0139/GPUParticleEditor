@@ -7,6 +7,7 @@
 #include "Title.h"
 #include "Result.h"
 #include "CAudio.h"
+#include "ParticleDemoScene.h"
 
 SceneManager::SceneManager()
 	: m_pScene(nullptr)

@@ -2,9 +2,9 @@
 
 #include "Scene.h"
 
-class Title :public Scene
+class ParticleDemoScene :public Scene
 {
-private:
+public:
 	void Init();
 	void Uninit();
 	void Update();
