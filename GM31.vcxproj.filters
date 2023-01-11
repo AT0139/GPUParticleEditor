@@ -512,7 +512,7 @@
     <FxCompile Include="Shader\ParticleTexturePS.hlsl">
       <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\ComputeShader.hlsl">
+    <FxCompile Include="Shader\ParticleCS.hlsl">
       <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
   </ItemGroup>

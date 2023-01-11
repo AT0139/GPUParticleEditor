@@ -79,7 +79,7 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 
 	Renderer::GetInstance().CreateBufferUAV(m_resultBuffer, &m_resultUAV);
 
-	Renderer::GetInstance().CreateComputeShader(&m_computeShader, "Shader/ComputeShader.cso");
+	Renderer::GetInstance().CreateComputeShader(&m_computeShader, "Shader/ParticleCS.cso");
 }
 
 ParticleEmitter::~ParticleEmitter()

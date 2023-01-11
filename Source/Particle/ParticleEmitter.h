@@ -10,13 +10,13 @@ struct ParticleCompute
 
 struct EmitterInitData
 {
-	Vector2 size;
-	Vector3 direction;
-	int life;
-	const wchar_t* filePath = L"Asset\\Texture\\BlueBloom.png";
-	int maxNum;
-	int createOnceNum;
-	int createInterval;
+	Vector2 size			= Vector2(1.0f, 1.0f);
+	Vector3 direction		= Vector3::Zero;
+	int life				= 10;
+	const wchar_t* filePath	= L"Asset\\Texture\\BlueBloom.png";
+	int maxNum				= 10000;
+	int createOnceNum		= 100;
+	int createInterval		= 10;
 };
 
 class ParticleEmitter

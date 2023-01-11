@@ -14,7 +14,6 @@ void ParticleDemoScene::Init()
 	AddGameObject<SkyDome>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -200.0f, 0.0f));
 
 	m_emitterManager = AddGameObject<ParticleEmitterManager>(EFFECT);
-	m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -40.0f, 0.0f));
 }
 
 void ParticleDemoScene::Uninit()
