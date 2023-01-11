@@ -22,6 +22,8 @@ namespace MainGame
 {
 	void Game::Init()
 	{
+		GET_INPUT.ToggleCursor(false);
+
 		//カメラ
 		SetCamera<MainCamera>();
 

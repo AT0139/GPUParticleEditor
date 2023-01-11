@@ -7,6 +7,8 @@
 
 void Result::Init()
 {
+	GET_INPUT.ToggleCursor(true);
+
 	auto title = AddGameObject<BlankObject>(UI);
 	auto texture = title->AddComponent<Draw2DPolygon>(title);
 	texture->LoadTexture(L"Asset/Texture/Result.jpg");

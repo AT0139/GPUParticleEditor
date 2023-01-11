@@ -56,6 +56,9 @@ class Input : public Singleton<Input>
 public:
 	friend class Singleton<Input>;
 
+	Input();
+	~Input() {}
+
 	void Init();
 	void Uninit();
 	void Update();
@@ -66,6 +69,8 @@ public:
 
 	Vector2 GetMousePoint() { return m_mousePos; }
 	Vector2 GetMouseAcceleration() { return m_mouseAcceleration; }
+
+	void ToggleCursor(bool show);
 private:
 	bool CheckKey(KEY_CONFIG keyConfigList, KEY_STATE keyState);
 
@@ -75,4 +80,6 @@ private:
 	Vector2 m_mousePos;
 	Vector2 m_preMousePos;
 	Vector2 m_mouseAcceleration;
+
+	bool m_enebleCursor;
 };

@@ -22,6 +22,10 @@ KEY_CONFIG_INFO keyConfigList[] =
 	{KEY_CONFIG::RETURN	   ,		KEY_TYPE::OR,	VK_RETURN,	KEY_NONE,KEY_NONE,KEY_NONE},
 };
 
+Input::Input()
+	: m_enebleCursor(true)
+{}
+
 void Input::Init()
 {
 	for (int i = 0; i < KEY_NUM; i++)
@@ -29,8 +33,6 @@ void Input::Init()
 		m_oldKeyState[i] = KEY_STATE::NONE;
 		m_keyState[i] = KEY_STATE::NONE;
 	}
-
-	ShowCursor(false);
 }
 
 void Input::Uninit()
@@ -70,14 +72,7 @@ void Input::Update()
 	}
 
 	//マウス用
-	if (GetKeyTrigger(KEY_CONFIG::MOUSE_OPERATION))
-		ShowCursor(true);
-	else if (GetKeyRelease(KEY_CONFIG::MOUSE_OPERATION))
-	{
-		ShowCursor(false);
-		SetCursorPosToClient(SCREEN_CENTER);
-	}
-	else if (GetKeyPress(KEY_CONFIG::MOUSE_OPERATION))
+	if (m_enebleCursor)
 	{
 		m_mouseAcceleration = Vector2(0.0f, 0.0f);
 	}
@@ -88,6 +83,7 @@ void Input::Update()
 		m_mousePos = Vector2(pos.x, pos.y);
 		m_mouseAcceleration = Vector2(SCREEN_WIDTH_HALF, SCREEN_HEIGHT_HALF) - m_mousePos;
 		SetCursorPosToClient(SCREEN_CENTER);
+		ShowCursor(false);
 	}
 }
 
@@ -135,4 +131,19 @@ bool Input::CheckKey(KEY_CONFIG keyConfig, KEY_STATE keyState)
 	}
 
 	return false;
+}
+
+void Input::ToggleCursor(bool show)
+{
+	if (show)
+	{
+		ShowCursor(true);
+		m_enebleCursor = true;
+	}
+	else
+	{
+		ShowCursor(false);
+		SetCursorPosToClient(SCREEN_CENTER);
+		m_enebleCursor = false;
+	}
 }

@@ -9,6 +9,8 @@
 
 void Title::Init()
 {
+	GET_INPUT.ToggleCursor(true);
+
 	//カメラ
 	SetCamera<TitleCamera>();
 	AddGameObject<SkyDome>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -200.0f, 0.0f));
