@@ -135,9 +135,6 @@ void ParticleEmitter::Update()
 		Vector3* BufType = (Vector3*)subRes2.pData;
 		for (int v = 0; v < m_particleNum; v++)
 		{
-			if (m_particle[v].life <= 0)
-				BufType[v] = Vector3(0.0f, -100.0f, 0.0f);
-			else
 				BufType[v] = m_particle[v].pos;
 		}
 		context->Unmap(m_positionBuffer, 0);

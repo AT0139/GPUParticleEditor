@@ -25,10 +25,17 @@ RWStructuredBuffer<ParticleCompute> bufOut : register(u0);
 void main(const CSInput input)
 {
 	int index = input.dispatch.x;
-
 	float3 result = particle[index].pos + particle[index].vel;
 
-	bufOut[index].pos = result;
+	
+	
 	bufOut[index].life = particle[index].life - 1;
+	if (bufOut[index].life <= 0)
+	{
+		bufOut[index].pos.xz = 0.0f;
+		bufOut[index].pos.y = -100.0f;
+	}
+	else
+		bufOut[index].pos = result;
 	bufOut[index].vel = particle[index].vel;
 }

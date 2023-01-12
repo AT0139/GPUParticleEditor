@@ -17,8 +17,8 @@ void ParticleDemoScene::Init()
 	m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 100.0f, 0.0f));
 
 
-	EmitterInitData m_initData = {};
-	m_currentEmitter = m_emitterManager->AddEmitter(m_initData);
+	EmitterInitData initData = {};
+	m_currentEmitter = m_emitterManager->AddEmitter(initData);
 	m_currentData = m_currentEmitter->GetEmitterData();
 }
 
@@ -49,12 +49,10 @@ void ParticleDemoScene::Update()
 			m_currentData->color.y = color[1];
 			m_currentData->color.z = color[2];
 
-			//todo : íœ
+			//todo : ƒŠƒZƒbƒg
 		}
 	}
 	ImGui::End();
-
-
 
 
 	if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN))
