@@ -19,7 +19,9 @@ void ParticleEmitterManager::Draw()
 		it->Draw(); 
 }
 
-void ParticleEmitterManager::AddEmitter(EmitterInitData initData)
+std::shared_ptr<ParticleEmitter> ParticleEmitterManager::AddEmitter(EmitterInitData initData)
 {
-	m_particleEmitter.push_back(std::make_shared<ParticleEmitter>(initData));
+	auto emitter =std::make_shared<ParticleEmitter>(initData);
+	m_particleEmitter.push_back(emitter);
+	return emitter;
 }

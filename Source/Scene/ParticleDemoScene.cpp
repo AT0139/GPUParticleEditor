@@ -14,6 +14,12 @@ void ParticleDemoScene::Init()
 	AddGameObject<SkyDome>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -200.0f, 0.0f));
 
 	m_emitterManager = AddGameObject<ParticleEmitterManager>(EFFECT);
+	m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 100.0f, 0.0f));
+
+
+	EmitterInitData m_initData = {};
+	m_currentEmitter = m_emitterManager->AddEmitter(m_initData);
+	m_currentData = m_currentEmitter->GetEmitterData();
 }
 
 void ParticleDemoScene::Uninit()
@@ -27,22 +33,23 @@ void ParticleDemoScene::Update()
 
 	ImGui::Begin("ParticleSetting", 0, ImGuiWindowFlags_NoMove|ImGuiWindowFlags_AlwaysAutoResize| ImGuiWindowFlags_NoDocking);
 	{
-		if(ImGui::TreeNode("InitData"))
+		if (m_currentData)
 		{
-			ImGui::SliderInt("Life", &m_initData.life, 1, 800);
-			ImGui::SliderInt("MaxNum", &m_initData.maxNum, 1, 100000);
-			ImGui::SliderInt("CreateOnceNum", &m_initData.createOnceNum, 1, 50000);
-			ImGui::SliderInt("CreateInterval", &m_initData.createInterval, 1, 1000);
-			static float size = 0;
+			static float size = 1.0f;
 			ImGui::SliderFloat("size", &size, 0.01f, 10.0f);
-			m_initData.size = Vector2(size, size);
+			m_currentEmitter->SetSize(Vector2(size, size));
 
-			ImGui::TreePop();
-		}
+			ImGui::SliderInt("Life", &m_currentData->life, 1, 800);
+			ImGui::SliderInt("CreateOnceNum", &m_currentData->createOnceNum, 1, 50000);
+			ImGui::SliderInt("CreateInterval", &m_currentData->createInterval, 1, 1000);
 
-		if (ImGui::Button("Generate"))
-		{
-			m_emitterManager->AddEmitter(m_initData);
+			static float color[3] = {1.0f,1.0f,1.0f};
+			ImGui::SliderFloat3("color", color, 0.0f, 1.0f);
+			m_currentData->color.x = color[0];
+			m_currentData->color.y = color[1];
+			m_currentData->color.z = color[2];
+
+			//todo : çÌèú
 		}
 	}
 	ImGui::End();

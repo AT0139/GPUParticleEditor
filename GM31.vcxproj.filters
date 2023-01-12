@@ -469,7 +469,7 @@
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\Object\Camera\ParticleDemoSceneCamera.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Object\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

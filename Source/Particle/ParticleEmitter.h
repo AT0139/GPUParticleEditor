@@ -12,11 +12,12 @@ struct EmitterInitData
 {
 	Vector2 size			= Vector2(1.0f, 1.0f);
 	Vector3 direction		= Vector3::Zero;
-	int life				= 10;
-	const wchar_t* filePath	= L"Asset\\Texture\\BlueBloom.png";
-	int maxNum				= 10000;
+	int life				= 30;
+	const wchar_t* filePath	= L"Asset\\Texture\\WhiteBloom.png";
+	int maxNum				= 100000;
 	int createOnceNum		= 100;
 	int createInterval		= 10;
+	Color color				= Color(1.0f,1.0f,1.0f,1.0f);
 };
 
 class ParticleEmitter
@@ -31,6 +32,9 @@ public:
 	void Update();
 	void Draw();
 
+	EmitterInitData* GetEmitterData() { return &m_initData; }
+	void SetSize(Vector2 size);
+
 private:
 	void CreateParticle();
 
@@ -41,12 +45,10 @@ private:
 	ID3D11Buffer* m_particleBuffer;
 	ID3D11Buffer* m_resultBuffer;
 	ID3D11Buffer* m_positionBuffer;
-	ID3D11Buffer* m_lifeBuffer;
 
 	// SRV
 	ID3D11ShaderResourceView* m_particleSRV;
 	ID3D11ShaderResourceView* m_positionSRV;
-	ID3D11ShaderResourceView* m_lifeSRV;
 	// UAV
 	ID3D11UnorderedAccessView* m_resultUAV;
 

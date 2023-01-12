@@ -11,6 +11,7 @@ public:
 	void Update();
 
 private:
-	EmitterInitData m_initData;
+	std::shared_ptr<ParticleEmitter> m_currentEmitter;
+	EmitterInitData* m_currentData;
 	ParticleEmitterManager* m_emitterManager;
 };

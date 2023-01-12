@@ -68,13 +68,11 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_particleBuffer, true);
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(Vector3), m_particleNum, nullptr, &m_positionBuffer, true);
-	Renderer::GetInstance().CreateStructuredBuffer(sizeof(int), m_particleNum, nullptr, &m_lifeBuffer, true);
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_resultBuffer);
 
 
 	Renderer::GetInstance().CreateBufferSRV(m_particleBuffer, &m_particleSRV);
 	Renderer::GetInstance().CreateBufferSRV(m_positionBuffer, &m_positionSRV);
-	Renderer::GetInstance().CreateBufferSRV(m_lifeBuffer, &m_lifeSRV);
 
 
 	Renderer::GetInstance().CreateBufferUAV(m_resultBuffer, &m_resultUAV);
@@ -89,11 +87,9 @@ ParticleEmitter::~ParticleEmitter()
 	m_particleBuffer->Release();
 	m_resultBuffer->Release();
 	m_positionBuffer->Release();
-	m_lifeBuffer->Release();
 
 	m_particleSRV->Release();
 	m_positionSRV->Release();
-	m_lifeSRV->Release();
 
 	m_resultUAV->Release();
 
@@ -139,18 +135,12 @@ void ParticleEmitter::Update()
 		Vector3* BufType = (Vector3*)subRes2.pData;
 		for (int v = 0; v < m_particleNum; v++)
 		{
-			BufType[v] = m_particle[v].pos;
+			if (m_particle[v].life <= 0)
+				BufType[v] = Vector3(0.0f, -100.0f, 0.0f);
+			else
+				BufType[v] = m_particle[v].pos;
 		}
 		context->Unmap(m_positionBuffer, 0);
-	}
-	{
-		context->Map(m_lifeBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes2);
-		int* BufType = (int*)subRes2.pData;
-		for (int v = 0; v < m_particleNum; v++)
-		{
-			BufType[v] = m_particle[v].life;
-		}
-		context->Unmap(m_lifeBuffer, 0);
 	}
 }
 
@@ -175,15 +165,58 @@ void ParticleEmitter::Draw()
 
 	ShaderManager::GetInstance().Set(SHADER_TYPE::PARTICLE);
 
+	MATERIAL material;
+	ZeroMemory(&material, sizeof(material));
+	material.diffuse = m_initData.color;
+	Renderer::GetInstance().SetMaterial(material);
+
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
 	context->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 	context->PSSetShaderResources(0, 1, &m_texture); // テクスチャ設定（あれば）
 	context->VSSetShaderResources(2, 1, &m_positionSRV); // VSに入れる座標設定
-	context->VSSetShaderResources(3, 1, &m_lifeSRV);
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	context->DrawInstanced(4, m_particleNum, 0, 0);
+}
+
+void ParticleEmitter::SetSize(Vector2 size)
+{
+	m_vertexBuffer->Release();
+	VERTEX_3D vertex[4];
+
+	vertex[0].position = Vector3(-size.x, size.y, 0.0f);
+	vertex[0].normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[0].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[0].texCoord = Vector2(0.0f, 0.0f);
+
+	vertex[1].position = Vector3(size.x, size.y, 0.0f);
+	vertex[1].normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[1].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[1].texCoord = Vector2(1.0f, 0.0f);
+
+	vertex[2].position = Vector3(-size.x, -size.y, 0.0f);
+	vertex[2].normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[2].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[2].texCoord = Vector2(0.0f, 1.0f);
+
+	vertex[3].position = Vector3(size.x, -size.y, 0.0f);
+	vertex[3].normal = Vector3(0.0f, 1.0f, 0.0f);
+	vertex[3].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[3].texCoord = Vector2(1.0f, 1.0f);
+
+	//頂点バッファ生成
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage = D3D11_USAGE_DYNAMIC;
+	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	D3D11_SUBRESOURCE_DATA sd;
+	ZeroMemory(&sd, sizeof(sd));
+	sd.pSysMem = vertex;
+	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 }
 
 void ParticleEmitter::CreateParticle()
