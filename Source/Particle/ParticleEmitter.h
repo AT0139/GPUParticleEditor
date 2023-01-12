@@ -45,6 +45,7 @@ private:
 	ID3D11Buffer* m_particleBuffer;
 	ID3D11Buffer* m_resultBuffer;
 	ID3D11Buffer* m_positionBuffer;
+	ID3D11Buffer* m_flagBuffer;
 
 	// SRV
 	ID3D11ShaderResourceView* m_particleSRV;

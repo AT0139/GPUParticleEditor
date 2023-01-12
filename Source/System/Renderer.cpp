@@ -437,6 +437,20 @@ void Renderer::CreateComputeShader(ID3D11ComputeShader** computeShader, const ch
 	delete[] buffer;
 }
 
+void Renderer::CreateConstantBuffer(ID3D11Buffer* pBuffer, UINT size, UINT stride, UINT slot)
+{
+	D3D11_BUFFER_DESC bufferDesc{};
+	bufferDesc.ByteWidth = size;
+	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bufferDesc.CPUAccessFlags = 0;
+	bufferDesc.MiscFlags = 0;
+	bufferDesc.StructureByteStride = stride;
+
+	m_pDevice->CreateBuffer(&bufferDesc, NULL, &pBuffer);
+	m_pDeviceContext->VSSetConstantBuffers(slot, 1, &pBuffer);
+}
+
 void Renderer::CreateStructuredBuffer(UINT elementSize, UINT count, void* initData, ID3D11Buffer** ppBuffer, bool useMap)
 {
 	*ppBuffer = nullptr;
@@ -530,4 +544,9 @@ ID3D11Buffer* Renderer::CreateAndCopyToBuffer(ID3D11Buffer* buffer)
 	m_pDeviceContext->CopyResource(debugbuf, buffer);
 
 	return debugbuf;
+}
+
+void Renderer::UpdateConstantBuffer(ID3D11Resource* buffer, void* data)
+{
+	m_pDeviceContext->UpdateSubresource(buffer, 0, NULL, &data, 0, 0);
 }

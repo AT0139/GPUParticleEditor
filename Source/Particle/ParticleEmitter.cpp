@@ -13,6 +13,7 @@ static const float MAX_RAND = 2.0f;
 ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	: m_particleBuffer(nullptr)
 	, m_positionBuffer(nullptr)
+	, m_flagBuffer(nullptr)
 	, m_resultBuffer(nullptr)
 	, m_particleNum(initData.maxNum)
 	, m_initData(initData)
@@ -65,6 +66,8 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	sd.pSysMem = vertex;
 
 	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
+
+	Renderer::GetInstance().CreateConstantBuffer(m_flagBuffer, sizeof(), , 6);
 
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_particleBuffer, true);
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(Vector3), m_particleNum, nullptr, &m_positionBuffer, true);
