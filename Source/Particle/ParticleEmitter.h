@@ -20,6 +20,14 @@ struct EmitterInitData
 	Color color				= Color(1.0f,1.0f,1.0f,1.0f);
 };
 
+struct BufferInfo
+{
+	float gravity;
+	float p1;
+	float p2;
+	float p3;
+};
+
 class ParticleEmitter
 {
 public:
@@ -45,7 +53,7 @@ private:
 	ID3D11Buffer* m_particleBuffer;
 	ID3D11Buffer* m_resultBuffer;
 	ID3D11Buffer* m_positionBuffer;
-	ID3D11Buffer* m_flagBuffer;
+	ID3D11Buffer* m_gravityBuffer;
 
 	// SRV
 	ID3D11ShaderResourceView* m_particleSRV;
@@ -65,4 +73,7 @@ private:
 
 	int m_particleNum;
 	int m_createCount;
+	bool m_gravity;
+
+	float m_gravityPower;
 };

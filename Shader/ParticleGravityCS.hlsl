@@ -16,19 +16,7 @@ struct CSInput
 StructuredBuffer<ParticleCompute> particle : register(t0);
 RWStructuredBuffer<ParticleCompute> bufOut : register(u0);
 
-struct Info
-{
-	float gravity;
-	float p1;
-	float p2;
-	float p3;
-};
-
-cbuffer InfoBuffer : register(b7)
-{
-	Info info;
-}
-
+ByteAddressBuffer gravityPower : register(t0);
 
 #define SIZE_X 256
 #define SIZE_Y 1
@@ -38,20 +26,7 @@ cbuffer InfoBuffer : register(b7)
 void main(const CSInput input)
 {
 	int index = input.dispatch.x;
-	float3 result = particle[index].pos + particle[index].vel;
+	float power = asfloat(gravityPower.Load(0));
 
-	
-	
-	bufOut[index].life = particle[index].life - 1;
-	if (bufOut[index].life <= 0)
-	{
-		bufOut[index].pos.xz = 0.0f;
-		bufOut[index].pos.y = -100.0f;
-	}
-	else
-	{
-		bufOut[index].pos = result;
-		bufOut[index].vel = particle[index].vel;
-		bufOut[index].vel.y += info.gravity;
-	}
+	bufOut[index].vel.y += -power;
 }

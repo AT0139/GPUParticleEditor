@@ -9,15 +9,17 @@
 static const float MIN_RAND = -1.0f;
 static const float MAX_RAND = 2.0f;
 
+//todo :　バッファの最適化
 
 ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	: m_particleBuffer(nullptr)
 	, m_positionBuffer(nullptr)
-	, m_flagBuffer(nullptr)
 	, m_resultBuffer(nullptr)
 	, m_particleNum(initData.maxNum)
 	, m_initData(initData)
 	, m_createCount(initData.createInterval)
+	, m_gravity(false)
+	, m_gravityPower(-0.0001f)
 
 {
 	VERTEX_3D vertex[4];
@@ -67,7 +69,13 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 
 	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 
-	Renderer::GetInstance().CreateConstantBuffer(m_flagBuffer, sizeof(), , 6);
+	BufferInfo info = {};
+	info.gravity = -0.1f;
+	D3D11_SUBRESOURCE_DATA initSubResource = {};
+	initSubResource.pSysMem = &info;
+	initSubResource.SysMemPitch = sizeof(info);
+	Renderer::GetInstance().CreateConstantBuffer(&m_gravityBuffer, initSubResource, sizeof(BufferInfo), sizeof(float), 7);
+
 
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_particleBuffer, true);
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(Vector3), m_particleNum, nullptr, &m_positionBuffer, true);
@@ -117,6 +125,8 @@ void ParticleEmitter::Update()
 	context->Unmap(m_particleBuffer, 0);
 
 	//　コンピュートシェーダー実行
+	ID3D11Buffer* pCBs[1] = { m_gravityBuffer };
+	context->CSSetConstantBuffers(7, 1, pCBs);
 	ID3D11ShaderResourceView* pSRVs[1] = { m_particleSRV };
 	context->CSSetShaderResources(0, 1, pSRVs);
 	context->CSSetShader(m_computeShader, nullptr, 0);

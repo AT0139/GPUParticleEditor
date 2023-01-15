@@ -54,7 +54,10 @@ cbuffer CameraBuffer : register(b5)
     float4 CameraPosition;
 }
 
-
+cbuffer ParameterBuffer : register(b6)
+{
+	float4 Parameter;
+}
 
 struct VS_IN
 {
