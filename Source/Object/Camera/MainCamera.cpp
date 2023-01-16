@@ -40,7 +40,7 @@ namespace MainGame
 		Scene* scene = SceneManager::GetInstance().GetScene();
 		Vector3 playerPos = scene->GetGameObject<Player>(scene->OBJECT)->GetComponent<Transform>()->GetPosition();
 
-		m_target = playerPos;
+		m_target = playerPos + Vector3::Up;
 		m_target.y += m_targetYOffset;
 
 		//マウス加速度

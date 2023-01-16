@@ -19,8 +19,6 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	, m_initData(initData)
 	, m_createCount(initData.createInterval)
 	, m_gravity(false)
-	, m_gravityPower(-0.0001f)
-
 {
 	VERTEX_3D vertex[4];
 
@@ -70,11 +68,11 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 
 	BufferInfo info = {};
-	info.gravity = -0.1f;
+	info.gravity = initData.gravity;
 	D3D11_SUBRESOURCE_DATA initSubResource = {};
 	initSubResource.pSysMem = &info;
 	initSubResource.SysMemPitch = sizeof(info);
-	Renderer::GetInstance().CreateConstantBuffer(&m_gravityBuffer, initSubResource, sizeof(BufferInfo), sizeof(float), 7);
+	Renderer::GetInstance().CreateConstantBuffer(&m_gravityBuffer, nullptr, sizeof(BufferInfo), sizeof(float), 7);
 
 
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_particleBuffer, true);
@@ -227,6 +225,13 @@ void ParticleEmitter::SetSize(Vector2 size)
 	ZeroMemory(&sd, sizeof(sd));
 	sd.pSysMem = vertex;
 	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
+}
+
+void ParticleEmitter::SetGravity(float power)
+{
+	BufferInfo info = {};
+	info.gravity = power;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &info, 0, 0);
 }
 
 void ParticleEmitter::CreateParticle()

@@ -48,7 +48,7 @@ void ParticleDemoScene::Update()
 			m_currentData->color.x = color[0];
 			m_currentData->color.y = color[1];
 			m_currentData->color.z = color[2];
-
+			
 			//todo : ƒŠƒZƒbƒg
 		}
 	}

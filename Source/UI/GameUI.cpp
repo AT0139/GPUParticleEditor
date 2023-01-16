@@ -64,8 +64,8 @@ void GameUI::PlacementUIUpdate()
 		Matrix view = camera->GetViewMatrix();
 		Matrix proj = camera->GetProjectionMatrix();
 
-		//マウス座標からレイを飛ばす
-		Ray ray = Utility::ScreenPosToRay(mousePos.x, mousePos.y - SCREEN_HEIGHT_HALF * 0.5f, &view, &proj);
+		//レイを飛ばす
+		Ray ray = Utility::ScreenPosToRay(mousePos.x, mousePos.y - SCREEN_HEIGHT_HALF * 0.2f, &view, &proj);
 		auto playerTrans = scene->GetGameObject<MainGame::Player>(scene->OBJECT)->GetComponent<Transform>();
 		std::list<Triangle> triangles;
 		field->GetTriangles(triangles, playerTrans->GetPosition());

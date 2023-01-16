@@ -437,7 +437,7 @@ void Renderer::CreateComputeShader(ID3D11ComputeShader** computeShader, const ch
 	delete[] buffer;
 }
 
-void Renderer::CreateConstantBuffer(ID3D11Buffer** pBuffer, D3D11_SUBRESOURCE_DATA initData, UINT size, UINT stride, UINT slot)
+void Renderer::CreateConstantBuffer(ID3D11Buffer** pBuffer, D3D11_SUBRESOURCE_DATA* initData, UINT size, UINT stride, UINT slot)
 {
 	D3D11_BUFFER_DESC bufferDesc{};
 	bufferDesc.ByteWidth = size;
@@ -447,7 +447,7 @@ void Renderer::CreateConstantBuffer(ID3D11Buffer** pBuffer, D3D11_SUBRESOURCE_DA
 	bufferDesc.MiscFlags = 0;
 	bufferDesc.StructureByteStride = stride;
 
-	auto hr = m_pDevice->CreateBuffer(&bufferDesc, &initData, pBuffer);
+	auto hr = m_pDevice->CreateBuffer(&bufferDesc, initData, pBuffer);
 	if (FAILED(hr))
 		assert(nullptr);
 	m_pDeviceContext->VSSetConstantBuffers(slot, 1, pBuffer);

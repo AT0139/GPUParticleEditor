@@ -14,9 +14,6 @@
     <Filter Include="ソース ファイル\Object">
       <UniqueIdentifier>{3eaf8851-d3b8-487f-a800-cef75b89cfc1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\System">
-      <UniqueIdentifier>{741cdef5-6fb9-4a4d-86b3-7d8589b53530}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Component\Collision">
       <UniqueIdentifier>{c09e2873-7f01-4969-bd8a-379370233c4a}</UniqueIdentifier>
     </Filter>
@@ -25,9 +22,6 @@
     </Filter>
     <Filter Include="ソース ファイル\imgui\backend">
       <UniqueIdentifier>{793c5ae9-ab62-42f4-a2f4-64539d1311b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Shader">
-      <UniqueIdentifier>{6b9d3d32-c1ed-4e1b-89a8-7960c7d60b43}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Component\Draw">
       <UniqueIdentifier>{258de4d3-7a10-4270-b351-2cd560ad3cbc}</UniqueIdentifier>
@@ -46,6 +40,12 @@
     </Filter>
     <Filter Include="ソース ファイル\Object\Camera">
       <UniqueIdentifier>{c0c2ae9f-a183-4ff3-8a0b-dc97e7b24211}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Shader">
+      <UniqueIdentifier>{6b9d3d32-c1ed-4e1b-89a8-7960c7d60b43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\System">
+      <UniqueIdentifier>{741cdef5-6fb9-4a4d-86b3-7d8589b53530}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

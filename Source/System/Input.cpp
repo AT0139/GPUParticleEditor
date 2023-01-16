@@ -75,6 +75,7 @@ void Input::Update()
 	if (m_enebleCursor)
 	{
 		m_mouseAcceleration = Vector2(0.0f, 0.0f);
+		ShowCursor(true);
 	}
 	else
 	{

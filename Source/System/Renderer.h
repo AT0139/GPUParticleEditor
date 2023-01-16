@@ -91,7 +91,7 @@ public:
 	void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
 	void CreateComputeShader(ID3D11ComputeShader** computeShader, const char* FileName);
 
-	void CreateConstantBuffer(ID3D11Buffer** pBuffer, D3D11_SUBRESOURCE_DATA initData, UINT size, UINT stride, UINT slot);
+	void CreateConstantBuffer(ID3D11Buffer** pBuffer, D3D11_SUBRESOURCE_DATA* initData, UINT size, UINT stride, UINT slot);
 	void CreateStructuredBuffer(UINT elementSize, UINT count, void* initData, ID3D11Buffer** ppBuffer,bool useMap = false);
 	void CreateBufferSRV(ID3D11Buffer* pBuffer, ID3D11ShaderResourceView** ppSrv);
 	void CreateBufferUAV(ID3D11Buffer* pBuffer, ID3D11UnorderedAccessView** ppUrv);

@@ -66,6 +66,15 @@ namespace MainGame
 			SceneManager::GetInstance().SetScene<Result>();
 		}
 
+		if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOUSE_OPERATION))
+		{
+			GET_INPUT.ToggleCursor(true);
+		}
+		else if (GET_INPUT.GetKeyRelease(KEY_CONFIG::MOUSE_OPERATION))
+		{
+			GET_INPUT.ToggleCursor(false);
+		}
+
 		ImGui::Begin("Serialize", 0, ImGuiWindowFlags_AlwaysAutoResize);
 		{
 			if (ImGui::Button("Enemy"))

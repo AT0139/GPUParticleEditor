@@ -32,7 +32,7 @@ namespace Placement
 			snapPoint = NearestSnapPoint(staticSnapPointList, hitPos);
 
 		//スナップポイントから一番近い自分のスナップポイントを計算
-		auto objSnapList = obj->CreateSnapInfo().m_snapPointList;
+		auto objSnapList = CreateSnapInfo().m_snapPointList;
 		auto itEnd = std::remove_if(objSnapList.begin(), objSnapList.end(), [](SnapPoint it)->bool
 			{
 				return it.axiz == Axiz::Z;
@@ -46,68 +46,66 @@ namespace Placement
 	}
 
 	//壁と壁のスナップ
-	void Wall::SetSnapPoint(Wall* obj, SnapObjectInfo info, Vector3 hitPos)
+	void Wall::SetSnapPoint(Wall* placeObj, SnapObjectInfo placedInfo, Vector3 hitPos)
 	{
-		auto objTrans = obj->GetComponent<Transform>();
+		auto placeTrans = placeObj->GetComponent<Transform>();	//設置する方のトランスフォーム
+		auto placedObjectSnapPoint = NearestSnapPoint(placedInfo.m_snapPointList, hitPos);	//一番近いスナップポイントを計算
 
-		//一番近いスナップポイントを計算
-		auto staticObjectSnapPoint = NearestSnapPoint(info.m_snapPointList, hitPos);
-
-
-
-		//スナップポイントから一番近い自分のスナップポイントを計算
-		auto snapInfo = obj->CreateSnapInfo();
-		auto objSnapList = snapInfo.m_snapPointList;
+		auto placeInfo = placeObj->CreateSnapInfo();
+		auto placeSnapList = placeInfo.m_snapPointList;
 
 		//スナップできないポイントの削除
-		auto itrNewEnd = std::remove_if(objSnapList.begin(), objSnapList.end(), [&staticObjectSnapPoint](SnapPoint snapPoint) ->bool
+		auto itrNewEnd = std::remove_if(placeSnapList.begin(), placeSnapList.end(), [&placedObjectSnapPoint](SnapPoint snapPoint) ->bool
 			{
-				if (staticObjectSnapPoint.axiz == Axiz::Z && snapPoint.axiz != Axiz::Z)
+				if (placedObjectSnapPoint.axiz == Axiz::Z && snapPoint.axiz != Axiz::Z)
 					return true;
-				else if (staticObjectSnapPoint.axiz == Axiz::Y && snapPoint.axiz != Axiz::Y)
+				else if (placedObjectSnapPoint.axiz == Axiz::Y && snapPoint.axiz != Axiz::Y)
 					return true;
 				return false;
 			});
-		objSnapList.erase(itrNewEnd, objSnapList.end());
+		placeSnapList.erase(itrNewEnd, placeSnapList.end());
 
-		SnapPoint mySnapPoint;
-		if (staticObjectSnapPoint.axiz == Axiz::Y)
+		//回転
 		{
-			Vector3 hitDir = hitPos - snapInfo.m_obb.Center;
-			if (hitDir.y >= 0)
+			if (GET_INPUT.GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_L))
+				placeTrans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, -ROTATION_SPEED));
+			if (GET_INPUT.GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_R))
+				placeTrans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, ROTATION_SPEED));
+		}
+
+		//スナップポイントから一番近い自分(設置されてる方)のスナップポイントを計算
+		SnapPoint mySnapPoint;
+		if (placedObjectSnapPoint.axiz == Axiz::Y)
+		{
+			//Y軸方向設置
+			Vector3 hitDir = hitPos - placeInfo.m_obb.Center;
+	
+			if (placeSnapList[0].position.y < placeSnapList[1].position.y)
 			{
-				if (objSnapList[0].position.y < objSnapList[1].position.y)
-					mySnapPoint = objSnapList[0];
-				else
-					mySnapPoint = objSnapList[1];
+				mySnapPoint = placeSnapList[0];
 			}
 			else
 			{
-				if (objSnapList[0].position.y < objSnapList[1].position.y)
-					mySnapPoint = objSnapList[0];
-				else
-					mySnapPoint = objSnapList[1];
+				mySnapPoint = placeSnapList[1];
 			}
 
-			Vector3 pointDiff = objTrans->GetPosition() - mySnapPoint.position;
+			Vector3 pointDiff = placeTrans->GetPosition() - mySnapPoint.position;
 
-			objTrans->SetPosition(staticObjectSnapPoint.position + pointDiff);
-			objTrans->SetQuaternion(this->GetComponent<Transform>()->GetQuaternion());
+			placeTrans->SetPosition(placedObjectSnapPoint.position + pointDiff);
+			placeTrans->SetQuaternion(this->GetComponent<Transform>()->GetQuaternion());
 		}
 		else
 		{
-			mySnapPoint = NearestSnapPoint(objSnapList, info.m_obb.Center);
-			Vector3 pointDiff = objTrans->GetPosition() - mySnapPoint.position;
+			mySnapPoint = NearestSnapPoint(placeSnapList, placedInfo.m_obb.Center);
 
-			objTrans->SetPosition(staticObjectSnapPoint.position + pointDiff);
+			Vector3 pointDiff = placeTrans->GetPosition() - mySnapPoint.position;
 
+			if (pointDiff.Length() <= 0.01f)
+			{
+				Vector3 pointDiff = placeTrans->GetPosition() - mySnapPoint.position;
+			}
+			placeTrans->SetPosition(placedObjectSnapPoint.position + pointDiff);
 		}
-
-		//回転
-		if (GET_INPUT.GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_L))
-			objTrans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, -ROTATION_SPEED));
-		if (GET_INPUT.GetKeyPress(KEY_CONFIG::OBJECT_ROTATE_R))
-			objTrans->AddQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, ROTATION_SPEED));
 	}
 
 	SnapObjectInfo Wall::CreateSnapInfo()
