@@ -18,10 +18,8 @@ RWStructuredBuffer<ParticleCompute> bufOut : register(u0);
 
 struct Info
 {
-	float gravity;
+	float3 gravity;
 	float p1;
-	float p2;
-	float p3;
 };
 
 cbuffer InfoBuffer : register(b7)
@@ -30,7 +28,7 @@ cbuffer InfoBuffer : register(b7)
 }
 
 
-#define SIZE_X 256
+#define SIZE_X 512
 #define SIZE_Y 1
 #define SIZE_Z 1
 
@@ -52,6 +50,6 @@ void main(const CSInput input)
 	{
 		bufOut[index].pos = result;
 		bufOut[index].vel = particle[index].vel;
-		bufOut[index].vel.y += info.gravity;
+		bufOut[index].vel += info.gravity;
 	}
 }

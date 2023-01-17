@@ -35,20 +35,47 @@ void ParticleDemoScene::Update()
 	{
 		if (m_currentData)
 		{
-			static float size = 1.0f;
-			ImGui::SliderFloat("size", &size, 0.01f, 10.0f);
-			m_currentEmitter->SetSize(Vector2(size, size));
+			if (ImGui::TreeNode("Size"))
+			{
+				static float size[2] = { 1.0f,1.0f };
+				ImGui::SliderFloat2("", size, 0.01f, 5.0f);
+				if (m_size.x != size[0] || m_size.y != size[1])
+				{
+					m_size.x = size[0];
+					m_size.y = size[1];
+					m_currentEmitter->SetSize(m_size);
+				}
+				ImGui::TreePop();
+			}
 
 			ImGui::SliderInt("Life", &m_currentData->life, 1, 800);
-			ImGui::SliderInt("CreateOnceNum", &m_currentData->createOnceNum, 1, 50000);
-			ImGui::SliderInt("CreateInterval", &m_currentData->createInterval, 1, 1000);
+			ImGui::SliderInt("CreateOnceNum", &m_currentData->createOnceNum, 1, 10000);
+			ImGui::SliderInt("CreateInterval", &m_currentData->createInterval, 1, 500);
 
-			static float color[3] = {1.0f,1.0f,1.0f};
-			ImGui::SliderFloat3("color", color, 0.0f, 1.0f);
-			m_currentData->color.x = color[0];
-			m_currentData->color.y = color[1];
-			m_currentData->color.z = color[2];
-			
+			if (ImGui::TreeNode("Color"))
+			{
+				static float color[4] = { 1.0f,1.0f,1.0f,1.0f };
+				ImGui::SliderFloat4("", color, 0.0f, 1.0f);
+				m_currentData->color.x = color[0];
+				m_currentData->color.y = color[1];
+				m_currentData->color.z = color[2];
+				m_currentData->color.w = color[3];
+
+				ImGui::TreePop();
+			}
+
+			if (ImGui::TreeNode("Gravity"))
+			{
+				static float gravity[3] = {};
+				ImGui::SliderFloat3("GravityXYZ", gravity, -0.1f, 0.1f);
+				Vector3 gravityPower;
+				gravityPower.x = gravity[0];
+				gravityPower.y = gravity[1];
+				gravityPower.z = gravity[2];
+				m_currentEmitter->SetGravity(gravityPower);
+
+				ImGui::TreePop();
+			}
 			//todo : ƒŠƒZƒbƒg
 		}
 	}

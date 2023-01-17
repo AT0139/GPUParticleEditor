@@ -78,8 +78,6 @@ namespace MainGame
 							m_nodes[x][z].adjacentNode.push_back(adNode);
 						}
 					}
-
-
 				}
 			}
 

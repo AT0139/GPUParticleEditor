@@ -47,6 +47,5 @@ namespace MainGame
 		auto bullet = scene->AddGameObject<MainGame::Bullet>(scene->OBJECT);
 		bullet->GetComponent<Transform>()->SetPosition(m_pGameObject->GetComponent<Transform>()->GetPosition());
 		bullet->SetVelocity(dir);
-
 	}
 }

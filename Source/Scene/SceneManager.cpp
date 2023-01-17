@@ -19,7 +19,7 @@ void SceneManager::Init()
 	GET_INPUT.Init();
 	CAudio::InitMaster();
 
-	SetScene<Title>();
+	SetScene<ParticleDemoScene>();
 }
 
 void SceneManager::Uninit()

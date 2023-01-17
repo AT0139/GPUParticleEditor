@@ -227,7 +227,7 @@ void ParticleEmitter::SetSize(Vector2 size)
 	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 }
 
-void ParticleEmitter::SetGravity(float power)
+void ParticleEmitter::SetGravity(Vector3 power)
 {
 	BufferInfo info = {};
 	info.gravity = power;

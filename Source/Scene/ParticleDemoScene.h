@@ -14,4 +14,5 @@ private:
 	std::shared_ptr<ParticleEmitter> m_currentEmitter;
 	EmitterInitData* m_currentData;
 	ParticleEmitterManager* m_emitterManager;
+	Vector2 m_size;
 };

@@ -18,15 +18,13 @@ struct EmitterInitData
 	int createOnceNum		= 100;
 	int createInterval		= 10;
 	Color color				= Color(1.0f,1.0f,1.0f,1.0f);
-	float gravity			= 0.0f;
+	Vector3 gravity			= {};
 };
 
 struct BufferInfo
 {
-	float gravity;
+	Vector3 gravity;
 	float p1;
-	float p2;
-	float p3;
 };
 
 class ParticleEmitter
@@ -43,7 +41,7 @@ public:
 
 	EmitterInitData* GetEmitterData() { return &m_initData; }
 	void SetSize(Vector2 size);
-	void SetGravity(float power);
+	void SetGravity(Vector3 power);
 
 private:
 	void CreateParticle();

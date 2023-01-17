@@ -10,6 +10,7 @@ namespace MainGame
 
 		auto rigid = AddComponent<Rigidbody>();
 		rigid->SetIsTrigger(true);
+		rigid->SetGravityZero();
 
 		auto col = AddComponent<SphereCollision>();
 		col->SetScale(0.3f);
