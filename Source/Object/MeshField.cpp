@@ -173,12 +173,6 @@ namespace MainGame
 
 	void MeshField::Draw()
 	{
-		//入力レイアウト設定
-		//Renderer::GetInstance().GetDeviceContext()->IASetInputLayout(m_vertexLayout);
-
-		//シェーダー設定
-		//Renderer::GetInstance().GetDeviceContext()->VSSetShader(m_vertexShader, NULL, 0);
-		//Renderer::GetInstance().GetDeviceContext()->PSSetShader(m_pixelShader, NULL, 0);
 		ShaderManager::GetInstance().Set(SHADER_TYPE::ENV_MAPPING);
 
 		//ワールドマトリクス設定
@@ -207,7 +201,7 @@ namespace MainGame
 		Renderer::GetInstance().GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 		//ポリゴン描画
-		//Renderer::GetInstance().GetDeviceContext()->DrawIndexed(INDEX_NUM, 0, 0);
+		Renderer::GetInstance().GetDeviceContext()->DrawIndexed(INDEX_NUM, 0, 0);
 	}
 
 	float MeshField::GetHeight(Vector3 position)

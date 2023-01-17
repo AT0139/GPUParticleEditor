@@ -77,19 +77,32 @@ namespace Placement
 		SnapPoint mySnapPoint;
 		if (placedObjectSnapPoint.axiz == Axiz::Y)
 		{
-			//Y軸方向設置
-			Vector3 hitDir = hitPos - placeInfo.m_obb.Center;
-	
-			if (placeSnapList[0].position.y < placeSnapList[1].position.y)
+			auto placedDir = placedObjectSnapPoint.position - placedInfo.m_obb.Center;
+			if (placedDir.y > 0)
 			{
-				mySnapPoint = placeSnapList[0];
+				//Y軸方向設置
+				if (placeSnapList[0].position.y < placeSnapList[1].position.y)
+				{
+					mySnapPoint = placeSnapList[0];
+				}
+				else
+				{
+					mySnapPoint = placeSnapList[1];
+				}
 			}
 			else
 			{
-				mySnapPoint = placeSnapList[1];
+				if (placeSnapList[0].position.y < placeSnapList[1].position.y)
+				{
+					mySnapPoint = placeSnapList[1];
+				}
+				else
+				{
+					mySnapPoint = placeSnapList[0];
+				}
 			}
-
-			Vector3 pointDiff = placeTrans->GetPosition() - mySnapPoint.position;
+	
+			Vector3 pointDiff = mySnapPoint.position - placeTrans->GetPosition();
 
 			placeTrans->SetPosition(placedObjectSnapPoint.position + pointDiff);
 			placeTrans->SetQuaternion(this->GetComponent<Transform>()->GetQuaternion());
