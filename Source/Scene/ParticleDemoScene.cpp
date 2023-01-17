@@ -31,8 +31,25 @@ void ParticleDemoScene::Update()
 {
 	Scene::Update();
 
-	ImGui::Begin("ParticleSetting", 0, ImGuiWindowFlags_NoMove|ImGuiWindowFlags_AlwaysAutoResize| ImGuiWindowFlags_NoDocking);
+	ImGui::Begin("ParticleSetting", 0, ImGuiWindowFlags_NoMove|ImGuiWindowFlags_AlwaysAutoResize|ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking);
 	{
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("Save"))
+				{
+
+				}
+				if (ImGui::MenuItem("Load"))
+				{
+
+				}
+				ImGui::EndMenu();
+			}	
+		ImGui::EndMenuBar();
+		}
+
 		if (m_currentData)
 		{
 			if (ImGui::TreeNode("Size"))
