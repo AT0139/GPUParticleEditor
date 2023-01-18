@@ -518,6 +518,9 @@
     <FxCompile Include="Shader\ParticleGravityCS.hlsl">
       <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="GeometryShader.hlsl">
+      <Filter>ソース ファイル\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

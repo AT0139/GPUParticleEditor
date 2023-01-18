@@ -31,8 +31,9 @@ void ParticleDemoScene::Update()
 {
 	Scene::Update();
 
-	ImGui::Begin("ParticleSetting", 0, ImGuiWindowFlags_NoMove|ImGuiWindowFlags_AlwaysAutoResize|ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking);
+	ImGui::Begin("ParticleSetting", 0, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking);
 	{
+		//メニューバー
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
@@ -46,11 +47,11 @@ void ParticleDemoScene::Update()
 
 				}
 				ImGui::EndMenu();
-			}	
-		ImGui::EndMenuBar();
+			}
+			ImGui::EndMenuBar();
 		}
 
-		if (m_currentData)
+		if (ImGui::TreeNode("InitializeParticle"))
 		{
 			if (ImGui::TreeNode("Size"))
 			{
@@ -80,11 +81,14 @@ void ParticleDemoScene::Update()
 
 				ImGui::TreePop();
 			}
-
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("ParticleUpdate"))
+		{
 			if (ImGui::TreeNode("Gravity"))
 			{
 				static float gravity[3] = {};
-				ImGui::SliderFloat3("GravityXYZ", gravity, -0.1f, 0.1f);
+				ImGui::SliderFloat3("", gravity, -0.1f, 0.1f);
 				Vector3 gravityPower;
 				gravityPower.x = gravity[0];
 				gravityPower.y = gravity[1];
@@ -93,8 +97,9 @@ void ParticleDemoScene::Update()
 
 				ImGui::TreePop();
 			}
-			//todo : リセット
+			ImGui::TreePop();
 		}
+		//todo : リセット
 	}
 	ImGui::End();
 

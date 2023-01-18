@@ -42,17 +42,6 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	vertex[3].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].texCoord = Vector2(1.0f, 1.0f);
 
-	m_texture = ResourceManager::GetInstance().GetTextureData(initData.filePath);
-
-	m_particle.reset(new ParticleCompute[m_particleNum]);
-
-	for (int i = 0; i < m_particleNum; i++)
-	{
-		m_particle[i].vel = Vector3::Zero;
-		m_particle[i].life = 0;
-		m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
-	}
-
 	//頂点バッファ生成
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
@@ -66,6 +55,18 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	sd.pSysMem = vertex;
 
 	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
+
+	m_texture = ResourceManager::GetInstance().GetTextureData(initData.filePath);
+
+	m_particle.reset(new ParticleCompute[m_particleNum]);
+
+	for (int i = 0; i < m_particleNum; i++)
+	{
+		m_particle[i].vel = Vector3::Zero;
+		m_particle[i].life = 0;
+		m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
+	}
+
 
 	BufferInfo info = {};
 	info.gravity = initData.gravity;
@@ -190,8 +191,11 @@ void ParticleEmitter::Draw()
 
 void ParticleEmitter::SetSize(Vector2 size)
 {
-	m_vertexBuffer->Release();
-	VERTEX_3D vertex[4];
+	//頂点データ書き換え
+	D3D11_MAPPED_SUBRESOURCE msr;
+	Renderer::GetInstance().GetDeviceContext()->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
 	vertex[0].position = Vector3(-size.x, size.y, 0.0f);
 	vertex[0].normal = Vector3(0.0f, 1.0f, 0.0f);
@@ -213,18 +217,7 @@ void ParticleEmitter::SetSize(Vector2 size)
 	vertex[3].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].texCoord = Vector2(1.0f, 1.0f);
 
-	//頂点バッファ生成
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DYNAMIC;
-	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-	D3D11_SUBRESOURCE_DATA sd;
-	ZeroMemory(&sd, sizeof(sd));
-	sd.pSysMem = vertex;
-	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
+	Renderer::GetInstance().GetDeviceContext()->Unmap(m_vertexBuffer, 0);
 }
 
 void ParticleEmitter::SetGravity(Vector3 power)
