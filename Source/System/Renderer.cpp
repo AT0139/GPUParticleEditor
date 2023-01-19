@@ -185,12 +185,16 @@ void Renderer::Init()
 
 	m_pDevice->CreateBuffer(&bufferDesc, NULL, &m_pWorldBuffer);
 	m_pDeviceContext->VSSetConstantBuffers(0, 1, &m_pWorldBuffer);
+	m_pDeviceContext->GSSetConstantBuffers(0, 1, &m_pWorldBuffer);
 
 	m_pDevice->CreateBuffer(&bufferDesc, NULL, &m_pViewBuffer);
 	m_pDeviceContext->VSSetConstantBuffers(1, 1, &m_pViewBuffer);
+	m_pDeviceContext->GSSetConstantBuffers(1, 1, &m_pViewBuffer);
+
 
 	m_pDevice->CreateBuffer(&bufferDesc, NULL, &m_pProjectionBuffer);
 	m_pDeviceContext->VSSetConstantBuffers(2, 1, &m_pProjectionBuffer);
+	m_pDeviceContext->GSSetConstantBuffers(2, 1, &m_pProjectionBuffer);
 
 	bufferDesc.ByteWidth = sizeof(MATERIAL);
 
@@ -207,6 +211,7 @@ void Renderer::Init()
 
 	m_pDevice->CreateBuffer(&bufferDesc, NULL, &m_pCameraBuffer);
 	m_pDeviceContext->PSSetConstantBuffers(5, 1, &m_pCameraBuffer);
+	m_pDeviceContext->GSSetConstantBuffers(5, 1, &m_pCameraBuffer);
 
 	// ライト初期化
 	LIGHT light{};
@@ -433,6 +438,22 @@ void Renderer::CreateComputeShader(ID3D11ComputeShader** computeShader, const ch
 	fclose(file);
 
 	Renderer::GetInstance().GetDevice()->CreateComputeShader(buffer, fsize, nullptr, computeShader);
+
+	delete[] buffer;
+}
+
+void Renderer::CreateGeometryShader(ID3D11GeometryShader** geometryShader, const char* FileName)
+{
+	FILE* file;
+	long int fsize;
+
+	file = fopen(FileName, "rb");
+	fsize = _filelength(_fileno(file));
+	unsigned char* buffer = new unsigned char[fsize];
+	fread(buffer, fsize, 1, file);
+	fclose(file);
+
+	Renderer::GetInstance().GetDevice()->CreateGeometryShader(buffer, fsize, nullptr, geometryShader);
 
 	delete[] buffer;
 }

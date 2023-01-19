@@ -90,6 +90,7 @@ public:
 	void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
 	void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
 	void CreateComputeShader(ID3D11ComputeShader** computeShader, const char* FileName);
+	void CreateGeometryShader(ID3D11GeometryShader** geometryShader, const char* FileName);
 
 	void CreateConstantBuffer(ID3D11Buffer** pBuffer, D3D11_SUBRESOURCE_DATA* initData, UINT size, UINT stride, UINT slot);
 	void CreateStructuredBuffer(UINT elementSize, UINT count, void* initData, ID3D11Buffer** ppBuffer,bool useMap = false);

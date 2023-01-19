@@ -27,6 +27,7 @@ struct BufferInfo
 	float p1;
 };
 
+
 class ParticleEmitter
 {
 public:
@@ -47,6 +48,7 @@ private:
 	void CreateParticle();
 
 	ID3D11ComputeShader* m_computeShader;
+	ID3D11GeometryShader* m_geometryShader;
 
 	std::shared_ptr<ParticleCompute[]> m_particle;
 
@@ -54,6 +56,7 @@ private:
 	ID3D11Buffer* m_resultBuffer;
 	ID3D11Buffer* m_positionBuffer;
 	ID3D11Buffer* m_gravityBuffer;
+	ID3D11Buffer* m_WVPBuffer;
 
 	// SRV
 	ID3D11ShaderResourceView* m_particleSRV;

@@ -100,6 +100,10 @@ void ParticleDemoScene::Update()
 			ImGui::TreePop();
 		}
 		//todo : ƒŠƒZƒbƒg
+
+		static float y = 100.0f;
+		ImGui::SliderFloat("pos", &y, 0.0f, 1000.0f);
+		m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, y, 0.0f));
 	}
 	ImGui::End();
 

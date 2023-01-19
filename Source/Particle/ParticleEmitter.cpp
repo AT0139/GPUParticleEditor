@@ -20,27 +20,12 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	, m_createCount(initData.createInterval)
 	, m_gravity(false)
 {
-	VERTEX_3D vertex[4];
+	VERTEX_3D vertex[1];
 
-	vertex[0].position = Vector3(-initData.size.x, initData.size.y, 0.0f);
+	vertex[0].position = Vector3(0.0f, 0.0f, 0.0f);
 	vertex[0].normal = Vector3(0.0f, 1.0f, 0.0f);
 	vertex[0].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[0].texCoord = Vector2(0.0f, 0.0f);
-
-	vertex[1].position = Vector3(initData.size.x, initData.size.y, 0.0f);
-	vertex[1].normal = Vector3(0.0f, 1.0f, 0.0f);
-	vertex[1].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[1].texCoord = Vector2(1.0f, 0.0f);
-
-	vertex[2].position = Vector3(-initData.size.x, -initData.size.y, 0.0f);
-	vertex[2].normal = Vector3(0.0f, 1.0f, 0.0f);
-	vertex[2].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[2].texCoord = Vector2(0.0f, 1.0f);
-
-	vertex[3].position = Vector3(initData.size.x, -initData.size.y, 0.0f);
-	vertex[3].normal = Vector3(0.0f, 1.0f, 0.0f);
-	vertex[3].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[3].texCoord = Vector2(1.0f, 1.0f);
 
 	//頂点バッファ生成
 	D3D11_BUFFER_DESC bd;
@@ -74,8 +59,8 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	initSubResource.pSysMem = &info;
 	initSubResource.SysMemPitch = sizeof(info);
 	Renderer::GetInstance().CreateConstantBuffer(&m_gravityBuffer, nullptr, sizeof(BufferInfo), sizeof(float), 7);
-
-
+	Renderer::GetInstance().CreateConstantBuffer(&m_WVPBuffer, nullptr, sizeof(Matrix), sizeof(Matrix), 8);
+	
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_particleBuffer, true);
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(Vector3), m_particleNum, nullptr, &m_positionBuffer, true);
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_resultBuffer);
@@ -88,11 +73,13 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	Renderer::GetInstance().CreateBufferUAV(m_resultBuffer, &m_resultUAV);
 
 	Renderer::GetInstance().CreateComputeShader(&m_computeShader, "Shader/ParticleCS.cso");
+	Renderer::GetInstance().CreateGeometryShader(&m_geometryShader, "Shader/GeometryShader.cso");
 }
 
 ParticleEmitter::~ParticleEmitter()
 {
 	m_computeShader->Release();
+	m_geometryShader->Release();
 
 	m_particleBuffer->Release();
 	m_resultBuffer->Release();
@@ -169,10 +156,11 @@ void ParticleEmitter::Draw()
 	Matrix world, scale, trans;
 	scale = Matrix::CreateScale(Vector3(1,1,1));
 	trans = Matrix::CreateTranslation(m_managerPosition + m_offsetPosition);
-	world = scale * invView * trans;
+	world = scale * view * trans;
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	ShaderManager::GetInstance().Set(SHADER_TYPE::PARTICLE);
+	context->GSSetShader(m_geometryShader, NULL, 0);
 
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
@@ -185,39 +173,45 @@ void ParticleEmitter::Draw()
 	context->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 	context->PSSetShaderResources(0, 1, &m_texture); // テクスチャ設定（あれば）
 	context->VSSetShaderResources(2, 1, &m_positionSRV); // VSに入れる座標設定
+	context->GSSetShaderResources(2, 1, &m_positionSRV); // VSに入れる座標設定
+
+	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	context->DrawInstanced(1, m_particleNum, 0, 0);
+
+	context->GSSetShader(NULL, NULL, 0);
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	context->DrawInstanced(4, m_particleNum, 0, 0);
+
 }
 
 void ParticleEmitter::SetSize(Vector2 size)
 {
-	//頂点データ書き換え
-	D3D11_MAPPED_SUBRESOURCE msr;
-	Renderer::GetInstance().GetDeviceContext()->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+	////頂点データ書き換え
+	//D3D11_MAPPED_SUBRESOURCE msr;
+	//Renderer::GetInstance().GetDeviceContext()->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 
-	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+	//VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-	vertex[0].position = Vector3(-size.x, size.y, 0.0f);
-	vertex[0].normal = Vector3(0.0f, 1.0f, 0.0f);
-	vertex[0].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[0].texCoord = Vector2(0.0f, 0.0f);
+	//vertex[0].position = Vector3(-size.x, size.y, 0.0f);
+	//vertex[0].normal = Vector3(0.0f, 1.0f, 0.0f);
+	//vertex[0].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	//vertex[0].texCoord = Vector2(0.0f, 0.0f);
 
-	vertex[1].position = Vector3(size.x, size.y, 0.0f);
-	vertex[1].normal = Vector3(0.0f, 1.0f, 0.0f);
-	vertex[1].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[1].texCoord = Vector2(1.0f, 0.0f);
+	//vertex[1].position = Vector3(size.x, size.y, 0.0f);
+	//vertex[1].normal = Vector3(0.0f, 1.0f, 0.0f);
+	//vertex[1].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	//vertex[1].texCoord = Vector2(1.0f, 0.0f);
 
-	vertex[2].position = Vector3(-size.x, -size.y, 0.0f);
-	vertex[2].normal = Vector3(0.0f, 1.0f, 0.0f);
-	vertex[2].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[2].texCoord = Vector2(0.0f, 1.0f);
+	//vertex[2].position = Vector3(-size.x, -size.y, 0.0f);
+	//vertex[2].normal = Vector3(0.0f, 1.0f, 0.0f);
+	//vertex[2].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	//vertex[2].texCoord = Vector2(0.0f, 1.0f);
 
-	vertex[3].position = Vector3(size.x, -size.y, 0.0f);
-	vertex[3].normal = Vector3(0.0f, 1.0f, 0.0f);
-	vertex[3].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[3].texCoord = Vector2(1.0f, 1.0f);
+	//vertex[3].position = Vector3(size.x, -size.y, 0.0f);
+	//vertex[3].normal = Vector3(0.0f, 1.0f, 0.0f);
+	//vertex[3].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	//vertex[3].texCoord = Vector2(1.0f, 1.0f);
 
-	Renderer::GetInstance().GetDeviceContext()->Unmap(m_vertexBuffer, 0);
+	//Renderer::GetInstance().GetDeviceContext()->Unmap(m_vertexBuffer, 0);
 }
 
 void ParticleEmitter::SetGravity(Vector3 power)
