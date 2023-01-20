@@ -59,8 +59,7 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	initSubResource.pSysMem = &info;
 	initSubResource.SysMemPitch = sizeof(info);
 	Renderer::GetInstance().CreateConstantBuffer(&m_gravityBuffer, nullptr, sizeof(BufferInfo), sizeof(float), 7);
-	Renderer::GetInstance().CreateConstantBuffer(&m_WVPBuffer, nullptr, sizeof(Matrix), sizeof(Matrix), 8);
-	
+
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_particleBuffer, true);
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(Vector3), m_particleNum, nullptr, &m_positionBuffer, true);
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_resultBuffer);
@@ -147,16 +146,13 @@ void ParticleEmitter::Draw()
 	// ビルボード
 	auto scene = SceneManager::GetInstance().GetScene();
 	Matrix view = scene->GetCamera()->GetViewMatrix();
-	Matrix invView = view.Invert();
-	invView._41 = 0.0f;
-	invView._42 = 0.0f;
-	invView._43 = 0.0f;
 
 	// ワールド座標、スケールなどの処理
 	Matrix world, scale, trans;
 	scale = Matrix::CreateScale(Vector3(1,1,1));
 	trans = Matrix::CreateTranslation(m_managerPosition + m_offsetPosition);
 	world = scale * view * trans;
+
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	ShaderManager::GetInstance().Set(SHADER_TYPE::PARTICLE);
@@ -173,7 +169,6 @@ void ParticleEmitter::Draw()
 	context->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 	context->PSSetShaderResources(0, 1, &m_texture); // テクスチャ設定（あれば）
 	context->VSSetShaderResources(2, 1, &m_positionSRV); // VSに入れる座標設定
-	context->GSSetShaderResources(2, 1, &m_positionSRV); // VSに入れる座標設定
 
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	context->DrawInstanced(1, m_particleNum, 0, 0);

@@ -27,6 +27,11 @@ struct BufferInfo
 	float p1;
 };
 
+struct GeometryBuffer
+{
+	Vector3 offset;
+	float p1;
+};
 
 class ParticleEmitter
 {
@@ -56,7 +61,6 @@ private:
 	ID3D11Buffer* m_resultBuffer;
 	ID3D11Buffer* m_positionBuffer;
 	ID3D11Buffer* m_gravityBuffer;
-	ID3D11Buffer* m_WVPBuffer;
 
 	// SRV
 	ID3D11ShaderResourceView* m_particleSRV;
