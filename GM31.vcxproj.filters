@@ -47,6 +47,9 @@
     <Filter Include="ソース ファイル\System">
       <UniqueIdentifier>{741cdef5-6fb9-4a4d-86b3-7d8589b53530}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Shader\Particle">
+      <UniqueIdentifier>{0b931166-256d-4a52-a482-aa56d3d1606e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Polygon2D.h">
@@ -506,26 +509,23 @@
     <FxCompile Include="Shader\EnvMappingPS.hlsl">
       <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\ParticleTextureVS.hlsl">
-      <Filter>ソース ファイル\Shader</Filter>
+    <FxCompile Include="Shader\ParticleCS.hlsl">
+      <Filter>ソース ファイル\Shader\Particle</Filter>
     </FxCompile>
     <FxCompile Include="Shader\ParticleTexturePS.hlsl">
-      <Filter>ソース ファイル\Shader</Filter>
+      <Filter>ソース ファイル\Shader\Particle</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\ParticleCS.hlsl">
-      <Filter>ソース ファイル\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\ParticleGravityCS.hlsl">
-      <Filter>ソース ファイル\Shader</Filter>
+    <FxCompile Include="Shader\ParticleTextureVS.hlsl">
+      <Filter>ソース ファイル\Shader\Particle</Filter>
     </FxCompile>
     <FxCompile Include="Shader\GeometryShader.hlsl">
-      <Filter>ソース ファイル\Shader</Filter>
+      <Filter>ソース ファイル\Shader\Particle</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Shader\ParticleHeader.hlsli">
-      <Filter>ソース ファイル\Shader</Filter>
+      <Filter>ソース ファイル\Shader\Particle</Filter>
     </None>
   </ItemGroup>
 </Project>

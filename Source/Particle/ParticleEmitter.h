@@ -4,8 +4,17 @@
 struct ParticleCompute
 {
 	Vector3 pos;
-	Vector3 vel;
+	Vector3 speed;
+	Vector3 velocity;
+
 	int life;
+	Vector2 size;
+};
+
+struct ParticleParameter
+{
+	Vector3 pos;
+	Vector2 size;
 };
 
 struct EmitterInitData
@@ -24,13 +33,19 @@ struct EmitterInitData
 struct BufferInfo
 {
 	Vector3 gravity;
-	float p1;
+	int maxLife;
+	Vector3 velocity;
+	float pad1;
+	Vector2 initialSize		= Vector2(1.0f, 1.0f);
+	Vector2 pad2;
+	Vector2 finalSize		= Vector2(1.0f, 1.0f);
+	Vector2 pad3;
 };
 
 struct GeometryBuffer
 {
 	Vector3 offset;
-	float p1;
+	float pad;
 };
 
 class ParticleEmitter
@@ -46,8 +61,11 @@ public:
 	void Draw();
 
 	EmitterInitData* GetEmitterData() { return &m_initData; }
-	void SetSize(Vector2 size);
+	void SetInitialSize(Vector2 size);
+	void SetFinalSize(Vector2 size);
 	void SetGravity(Vector3 power);
+	void SetLife(int life);
+	void SetVelocity(Vector3 vel);
 
 private:
 	void CreateParticle();
@@ -57,14 +75,14 @@ private:
 
 	std::shared_ptr<ParticleCompute[]> m_particle;
 
-	ID3D11Buffer* m_particleBuffer;
+	ID3D11Buffer* m_particleComputeBuffer;
 	ID3D11Buffer* m_resultBuffer;
-	ID3D11Buffer* m_positionBuffer;
+	ID3D11Buffer* m_parameterBuffer;
 	ID3D11Buffer* m_gravityBuffer;
 
 	// SRV
 	ID3D11ShaderResourceView* m_particleSRV;
-	ID3D11ShaderResourceView* m_positionSRV;
+	ID3D11ShaderResourceView* m_parameterSRV;
 	// UAV
 	ID3D11UnorderedAccessView* m_resultUAV;
 
@@ -75,7 +93,7 @@ private:
 
 	Vector3 m_managerPosition;
 	Vector3 m_offsetPosition; //エミッターマネージャーからのオフセット位置
-
+	BufferInfo m_bufferInfo;
 	EmitterInitData m_initData;
 
 	int m_particleNum;

@@ -27,8 +27,8 @@ void main(point GS_PARTICLE_IN input[1] : SV_POSITION, inout TriangleStream<PS_P
 	float3 upVector = float3(0.0f, 1.0f, 0.0f);
 	float3 rightVector = normalize(cross(upVector, planeNormal));
 	
-	rightVector = rightVector * size;
-	upVector = float3(0.0f, size, 0.0f);
+	rightVector = rightVector * input[0].Size.x;
+	upVector = float3(0.0f, input[0].Size.y, 0.0f);
 
 	//’¸“_î•ñ
 	float3 vert[4];
@@ -53,7 +53,8 @@ void main(point GS_PARTICLE_IN input[1] : SV_POSITION, inout TriangleStream<PS_P
 
 		outputVert.Normal = float4(0, 0, 0, 0);
 		outputVert.Diffuse = input[0].Diffuse;
-
+		outputVert.Clip = input[0].Clip;
+		
 		output.Append(outputVert);
 	}
 }

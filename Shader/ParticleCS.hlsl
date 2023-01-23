@@ -1,8 +1,12 @@
+#include "ParticleHeader.hlsli"
+
 struct ParticleCompute
 {
 	float3 pos;
-	float3 vel;
+	float3 speed;
+	float3 velocity;
 	int life;
+	float2 size;
 };
 
 struct CSInput
@@ -19,7 +23,13 @@ RWStructuredBuffer<ParticleCompute> bufOut : register(u0);
 struct Info
 {
 	float3 gravity;
-	float p1;
+	int maxLife;
+	float3 velocity;
+	float pad1;
+	float2 initialSize;
+	float2 pad2;
+	float2 finalSize;
+	float2 pad3;
 };
 
 cbuffer InfoBuffer : register(b7)
@@ -36,20 +46,23 @@ cbuffer InfoBuffer : register(b7)
 void main(const CSInput input)
 {
 	int index = input.dispatch.x;
-	float3 result = particle[index].pos + particle[index].vel;
+	float3 speed = particle[index].speed + info.gravity;
+	float3 result = particle[index].pos + particle[index].velocity + info.velocity + speed;
 
-	
 	
 	bufOut[index].life = particle[index].life - 1;
 	if (bufOut[index].life <= 0)
 	{
-		bufOut[index].pos.xz = 0.0f;
-		bufOut[index].pos.y = -100.0f;
+		bufOut[index].pos.xyz = voidPosition;
 	}
 	else
 	{
 		bufOut[index].pos = result;
-		bufOut[index].vel = particle[index].vel;
-		bufOut[index].vel += info.gravity;
+		bufOut[index].velocity = particle[index].velocity;
+		bufOut[index].speed = speed;
+	//Size
+		float t = info.maxLife - particle[index].life;
+		t = t / info.maxLife;
+		bufOut[index].size = lerp(info.initialSize, info.finalSize, t);
 	}
 }

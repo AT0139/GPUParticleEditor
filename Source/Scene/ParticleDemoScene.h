@@ -11,8 +11,16 @@ public:
 	void Update();
 
 private:
+	struct EmitterFlags
+	{
+		bool addVelocity;
+		bool scaleSize;
+		bool gravity;
+	};
+
 	std::shared_ptr<ParticleEmitter> m_currentEmitter;
 	EmitterInitData* m_currentData;
 	ParticleEmitterManager* m_emitterManager;
-	Vector2 m_size;
+	BufferInfo m_bufferInfo;
+	EmitterFlags m_flags;
 };

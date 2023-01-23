@@ -12,8 +12,8 @@ static const float MAX_RAND = 2.0f;
 //todo :　バッファの最適化
 
 ParticleEmitter::ParticleEmitter(EmitterInitData initData)
-	: m_particleBuffer(nullptr)
-	, m_positionBuffer(nullptr)
+	: m_particleComputeBuffer(nullptr)
+	, m_parameterBuffer(nullptr)
 	, m_resultBuffer(nullptr)
 	, m_particleNum(initData.maxNum)
 	, m_initData(initData)
@@ -47,26 +47,26 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 
 	for (int i = 0; i < m_particleNum; i++)
 	{
-		m_particle[i].vel = Vector3::Zero;
+		m_particle[i].velocity = Vector3::Zero;
+		m_particle[i].speed = Vector3::Zero;
 		m_particle[i].life = 0;
 		m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
 	}
 
-
+	
 	BufferInfo info = {};
 	info.gravity = initData.gravity;
-	D3D11_SUBRESOURCE_DATA initSubResource = {};
-	initSubResource.pSysMem = &info;
-	initSubResource.SysMemPitch = sizeof(info);
+	
 	Renderer::GetInstance().CreateConstantBuffer(&m_gravityBuffer, nullptr, sizeof(BufferInfo), sizeof(float), 7);
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
 
-	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_particleBuffer, true);
-	Renderer::GetInstance().CreateStructuredBuffer(sizeof(Vector3), m_particleNum, nullptr, &m_positionBuffer, true);
+	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_particleComputeBuffer, true);
+	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleParameter), m_particleNum, nullptr, &m_parameterBuffer, true);
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_resultBuffer);
 
 
-	Renderer::GetInstance().CreateBufferSRV(m_particleBuffer, &m_particleSRV);
-	Renderer::GetInstance().CreateBufferSRV(m_positionBuffer, &m_positionSRV);
+	Renderer::GetInstance().CreateBufferSRV(m_particleComputeBuffer, &m_particleSRV);
+	Renderer::GetInstance().CreateBufferSRV(m_parameterBuffer, &m_parameterSRV);
 
 
 	Renderer::GetInstance().CreateBufferUAV(m_resultBuffer, &m_resultUAV);
@@ -80,12 +80,12 @@ ParticleEmitter::~ParticleEmitter()
 	m_computeShader->Release();
 	m_geometryShader->Release();
 
-	m_particleBuffer->Release();
+	m_particleComputeBuffer->Release();
 	m_resultBuffer->Release();
-	m_positionBuffer->Release();
+	m_parameterBuffer->Release();
 
 	m_particleSRV->Release();
-	m_positionSRV->Release();
+	m_parameterSRV->Release();
 
 	m_resultUAV->Release();
 
@@ -100,14 +100,18 @@ void ParticleEmitter::Update()
 		CreateParticle();
 		m_createCount = 0;
 	}
+	if (m_initData.life != m_bufferInfo.maxLife)
+	{
+		SetLife(m_initData.life);
+	}
 
 	auto context = Renderer::GetInstance().GetDeviceContext();
 
 	D3D11_MAPPED_SUBRESOURCE subRes;
-	context->Map(m_particleBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes);
+	context->Map(m_particleComputeBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes);
 	ParticleCompute* pBufType = (ParticleCompute*)subRes.pData;
 	memcpy(subRes.pData, m_particle.get(), sizeof(ParticleCompute) * m_particleNum);
-	context->Unmap(m_particleBuffer, 0);
+	context->Unmap(m_particleComputeBuffer, 0);
 
 	//　コンピュートシェーダー実行
 	ID3D11Buffer* pCBs[1] = { m_gravityBuffer };
@@ -129,13 +133,15 @@ void ParticleEmitter::Update()
 
 	// 座標を座標バッファに入れる(頂点シェーダーで使う)
 	{
-		context->Map(m_positionBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes2);
-		Vector3* BufType = (Vector3*)subRes2.pData;
+		context->Map(m_parameterBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes2);
+		ParticleParameter* BufType = (ParticleParameter*)subRes2.pData;
+
 		for (int v = 0; v < m_particleNum; v++)
 		{
-				BufType[v] = m_particle[v].pos;
+			BufType[v].pos = m_particle[v].pos;
+			BufType[v].size = m_particle[v].size;
 		}
-		context->Unmap(m_positionBuffer, 0);
+		context->Unmap(m_parameterBuffer, 0);
 	}
 }
 
@@ -168,7 +174,7 @@ void ParticleEmitter::Draw()
 	UINT offset = 0;
 	context->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 	context->PSSetShaderResources(0, 1, &m_texture); // テクスチャ設定（あれば）
-	context->VSSetShaderResources(2, 1, &m_positionSRV); // VSに入れる座標設定
+	context->VSSetShaderResources(2, 1, &m_parameterSRV); // VSに入れる座標設定
 
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	context->DrawInstanced(1, m_particleNum, 0, 0);
@@ -178,47 +184,34 @@ void ParticleEmitter::Draw()
 
 }
 
-void ParticleEmitter::SetSize(Vector2 size)
+void ParticleEmitter::SetInitialSize(Vector2 size)
 {
-	////頂点データ書き換え
-	//D3D11_MAPPED_SUBRESOURCE msr;
-	//Renderer::GetInstance().GetDeviceContext()->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+	m_bufferInfo.initialSize = size;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
+}
 
-	//VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
-
-	//vertex[0].position = Vector3(-size.x, size.y, 0.0f);
-	//vertex[0].normal = Vector3(0.0f, 1.0f, 0.0f);
-	//vertex[0].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	//vertex[0].texCoord = Vector2(0.0f, 0.0f);
-
-	//vertex[1].position = Vector3(size.x, size.y, 0.0f);
-	//vertex[1].normal = Vector3(0.0f, 1.0f, 0.0f);
-	//vertex[1].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	//vertex[1].texCoord = Vector2(1.0f, 0.0f);
-
-	//vertex[2].position = Vector3(-size.x, -size.y, 0.0f);
-	//vertex[2].normal = Vector3(0.0f, 1.0f, 0.0f);
-	//vertex[2].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	//vertex[2].texCoord = Vector2(0.0f, 1.0f);
-
-	//vertex[3].position = Vector3(size.x, -size.y, 0.0f);
-	//vertex[3].normal = Vector3(0.0f, 1.0f, 0.0f);
-	//vertex[3].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	//vertex[3].texCoord = Vector2(1.0f, 1.0f);
-
-	//Renderer::GetInstance().GetDeviceContext()->Unmap(m_vertexBuffer, 0);
+void ParticleEmitter::SetFinalSize(Vector2 size)
+{
+	m_bufferInfo.finalSize = size;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
 }
 
 void ParticleEmitter::SetGravity(Vector3 power)
 {
-	BufferInfo info = {};
-	info.gravity = power;
-	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &info, 0, 0);
+	m_bufferInfo.gravity = power;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
+}
+
+void ParticleEmitter::SetLife(int life)
+{
+	m_bufferInfo.maxLife = life;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
 }
 
 void ParticleEmitter::CreateParticle()
 {
 	int count = 0;
+
 	for (int i = 0; i < m_particleNum; i++)
 	{
 		if (m_particle[i].life <= 0)
@@ -226,7 +219,8 @@ void ParticleEmitter::CreateParticle()
 			float x = Utility::FloatRand(MIN_RAND, MAX_RAND);
 			float y = Utility::FloatRand(MIN_RAND, MAX_RAND);
 			float z = Utility::FloatRand(MIN_RAND, MAX_RAND);
-			m_particle[i].vel = (Vector3(x, y, z) + m_initData.direction) * 0.5f;
+			m_particle[i].velocity = (Vector3(x, y, z) + m_initData.direction) * 0.5f;
+			m_particle[i].speed = Vector3::Zero;
 			m_particle[i].life = m_initData.life;
 			m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
 			count++;
@@ -234,4 +228,10 @@ void ParticleEmitter::CreateParticle()
 				return;
 		}
 	}
+}
+
+void ParticleEmitter::SetVelocity(Vector3 vel)
+{
+	m_bufferInfo.velocity = vel;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
 }

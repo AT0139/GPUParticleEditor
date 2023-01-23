@@ -49,10 +49,11 @@ cbuffer CameraBuffer : register(b5)
 	float4 CameraPosition;
 }
 
-cbuffer ParameterBuffer : register(b6)
+struct ParticleParameter
 {
-	float4 Parameter;
-}
+	float3 position;
+	float2 size;
+};
 
 struct VS_PARTICLE_IN
 {
@@ -66,10 +67,12 @@ struct VS_PARTICLE_IN
 struct GS_PARTICLE_IN
 {
 	float4 Position : POSITION0;
-	float4 StructurePos : POSITION1;
 	float4 Normal : NORMAL0;
 	float4 Diffuse : COLOR0;
 	float2 TexCoord : TEXCOORD0;
+	float4 StructurePos : POSITION1;
+	float2 Size : SIZE;
+	float Clip : CLIP;
 };
 
 struct PS_PARTICLE_IN
@@ -79,6 +82,7 @@ struct PS_PARTICLE_IN
 	float4 Diffuse : COLOR0;
 	float4 Normal : NORMAL0;
 	float2 TexCoord : TEXCOORD0;
+	float Clip : CLIP;
 };
 
 float4x4 inverse(float4x4 m)
@@ -120,3 +124,5 @@ float4x4 inverse(float4x4 m)
 
 	return ret;
 }
+
+static const float3 voidPosition = { 0.0f, -100.0f, 0.0f };
