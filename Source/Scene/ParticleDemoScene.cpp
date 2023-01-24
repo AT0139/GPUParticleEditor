@@ -92,23 +92,29 @@ void ParticleDemoScene::Update()
 			}
 
 			//‰Á‘¬“x
+			bool isSetVelocity = false;
 			if (ImGui::Checkbox("Add Velocity", &m_flags.addVelocity))
 			{
+				
 				if (!m_flags.addVelocity)
-					m_currentEmitter->SetVelocity(Vector3::Zero,ADD_VELOCITY_TYPE::NONE);
+					m_currentEmitter->SetVelocity(Vector3::Zero, ADD_VELOCITY_TYPE::NONE);
 				else
-					m_currentEmitter->SetVelocity(m_bufferInfo.velocity, ADD_VELOCITY_TYPE::IN_CONE);
+					isSetVelocity = true;
 			}
 			if (m_flags.addVelocity)
 			{
+				static int type = 0;
+				isSetVelocity |= ImGui::RadioButton("None", &type, 0); ImGui::SameLine();
+				isSetVelocity |= ImGui::RadioButton("InCone", &type, 1);
+
 				static float vel[3] = { 0.0f,0.0f ,0.0f };
 				ImGui::SliderFloat3("Velocity", vel, -5.0f, 5.0f);
-				if (m_bufferInfo.velocity.x != vel[0] || m_bufferInfo.velocity.y != vel[1] || m_bufferInfo.velocity.z != vel[1])
+				if (m_bufferInfo.velocity.x != vel[0] || m_bufferInfo.velocity.y != vel[1] || m_bufferInfo.velocity.z != vel[2]|| isSetVelocity)
 				{
 					m_bufferInfo.velocity.x = vel[0];
 					m_bufferInfo.velocity.y = vel[1];
 					m_bufferInfo.velocity.z = vel[2];
-					m_currentEmitter->SetVelocity(m_bufferInfo.velocity, ADD_VELOCITY_TYPE::IN_CONE);
+					m_currentEmitter->SetVelocity(m_bufferInfo.velocity, static_cast<ADD_VELOCITY_TYPE>(type));
 				}
 			}
 		}
