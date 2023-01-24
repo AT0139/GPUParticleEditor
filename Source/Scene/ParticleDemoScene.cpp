@@ -31,7 +31,7 @@ void ParticleDemoScene::Update()
 {
 	Scene::Update();
 
-	ImGui::Begin("ParticleSetting", 0, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking);
+	ImGui::Begin("ParticleSetting", 0,ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking);
 	{
 		//メニューバー
 		if (ImGui::BeginMenuBar())
@@ -93,9 +93,20 @@ void ParticleDemoScene::Update()
 				//サイズ
 				if (ImGui::TreeNode("Size"))
 				{
-					static float size[2] = { 1.0f,1.0f };
+					static bool division = false;
 
-					ImGui::SliderFloat2("initial", size, 0.01f, 5.0f);
+					ImGui::Spacing(); ImGui::SameLine(0.0f, 50.0f);
+					ImGui::Checkbox("division", &division);
+					static float size[2] = { 1.0f,1.0f };
+					if (!division)
+					{
+						ImGui::SliderFloat("size", &size[0], 0.01f, 5.0f);
+						size[1] = size[0];
+					}
+					else
+					{
+						ImGui::SliderFloat2("size", size, 0.01f, 5.0f);
+					}
 					if (m_bufferInfo.initialSize.x != size[0] || m_bufferInfo.initialSize.y != size[1])
 					{
 						m_bufferInfo.initialSize.x = size[0];
@@ -163,8 +174,24 @@ void ParticleDemoScene::Update()
 			ImGui::Checkbox("ScaleSize", &m_flags.scaleSize);
 			if (m_flags.scaleSize)
 			{
+				static bool division = false;
+				ImGui::Spacing(); ImGui::SameLine(0.0f,50.0f);
+				ImGui::Checkbox("division", &division);
 				static float initialSize[2] = { 1.0f,1.0f };
-				ImGui::SliderFloat2("initial", initialSize, 0.01f, 5.0f);
+				static float finalSize[2] = { 1.0f,1.0f };
+
+				if (!division)
+				{
+					ImGui::SliderFloat("initial", &initialSize[0], 0.01f, 5.0f);
+					ImGui::SliderFloat("final", &finalSize[0], 0.01f, 5.0f);
+					initialSize[1] = initialSize[0];
+					finalSize[1] = finalSize[0];
+				}
+				else
+				{
+					ImGui::SliderFloat2("initial", initialSize, 0.01f, 5.0f);
+					ImGui::SliderFloat2("final", finalSize, 0.01f, 5.0f);
+				}
 				if (m_bufferInfo.initialSize.x != initialSize[0] || m_bufferInfo.initialSize.y != initialSize[1])
 				{
 					m_bufferInfo.initialSize.x = initialSize[0];
@@ -172,8 +199,6 @@ void ParticleDemoScene::Update()
 					m_currentEmitter->SetInitialSize(m_bufferInfo.initialSize);
 				}
 
-				static float finalSize[2] = { 1.0f,1.0f };
-				ImGui::SliderFloat2("final", finalSize, 0.01f, 5.0f);
 				if (m_bufferInfo.finalSize.x != finalSize[0] || m_bufferInfo.finalSize.y != finalSize[1])
 				{
 					m_bufferInfo.finalSize.x = finalSize[0];

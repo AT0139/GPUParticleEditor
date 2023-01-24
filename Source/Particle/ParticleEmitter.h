@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+//todo ; ParFrame,ParUnit,スポーン確立(間引き)
 enum class SPAWN_TYPE
 {
 	PAR_SECOND,
