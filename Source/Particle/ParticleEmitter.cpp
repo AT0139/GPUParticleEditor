@@ -17,8 +17,11 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	, m_resultBuffer(nullptr)
 	, m_particleNum(initData.maxNum)
 	, m_initData(initData)
-	, m_createCount(initData.createInterval)
 	, m_gravity(false)
+	, m_spawnType(initData.spawnType)
+	, m_createInterval(1)
+	, m_createCount(0)
+	, m_createOnceNum(0)
 {
 	VERTEX_3D vertex[1];
 
@@ -94,16 +97,18 @@ ParticleEmitter::~ParticleEmitter()
 
 void ParticleEmitter::Update()
 {
-	m_createCount++;
-	if (m_createCount >= m_initData.createInterval)
+	//パーティクル生成
+	m_createCount += 1;
+	while (m_createCount >= m_createInterval)
 	{
-		CreateParticle();
-		m_createCount = 0;
+		CreateParticle(m_createOnceNum);
+		m_createCount -= m_createInterval;
 	}
 	if (m_initData.life != m_bufferInfo.maxLife)
 	{
 		SetLife(m_initData.life);
 	}
+
 
 	auto context = Renderer::GetInstance().GetDeviceContext();
 
@@ -140,6 +145,7 @@ void ParticleEmitter::Update()
 		{
 			BufType[v].pos = m_particle[v].pos;
 			BufType[v].size = m_particle[v].size;
+			BufType[v].color = m_particle[v].color;
 		}
 		context->Unmap(m_parameterBuffer, 0);
 	}
@@ -196,6 +202,18 @@ void ParticleEmitter::SetFinalSize(Vector2 size)
 	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
 }
 
+void ParticleEmitter::SetInitialColor(Vector4 color)
+{
+	m_bufferInfo.initialColor = color;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
+}
+
+void ParticleEmitter::SetFinalColor(Vector4 color)
+{
+	m_bufferInfo.finalColor = color;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
+}
+
 void ParticleEmitter::SetGravity(Vector3 power)
 {
 	m_bufferInfo.gravity = power;
@@ -208,7 +226,7 @@ void ParticleEmitter::SetLife(int life)
 	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
 }
 
-void ParticleEmitter::CreateParticle()
+void ParticleEmitter::CreateParticle(int createNum)
 {
 	int count = 0;
 
@@ -236,7 +254,7 @@ void ParticleEmitter::CreateParticle()
 			m_particle[i].life = m_initData.life;
 			m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
 			count++;
-			if (m_initData.createOnceNum <= count)
+			if (createNum <= count)
 				return;
 		}
 	}
@@ -247,4 +265,19 @@ void ParticleEmitter::SetVelocity(Vector3 vel, ADD_VELOCITY_TYPE type)
 	m_velocityType = type;
 	m_bufferInfo.velocity = vel;
 	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
+}
+
+void ParticleEmitter::SetSpawnRate(float rate)
+{
+	m_spawnRate = rate;
+	float createFrame = FPS / rate;
+	if (createFrame < 1)
+	{
+		m_createOnceNum = 1;
+	}
+	else
+	{
+		m_createOnceNum = 1;
+	}
+	m_createInterval = createFrame;
 }

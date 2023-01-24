@@ -9,7 +9,6 @@ void main(in VS_PARTICLE_IN In, out GS_PARTICLE_IN Out)
 	Out.Size = parameter[In.instanceID].size;
 	Out.Normal = In.Normal;
 	Out.TexCoord = In.TexCoord;
-	Out.Diffuse = In.Diffuse * Material.Diffuse;
-	Out.Diffuse.a = In.Diffuse.a * Material.Diffuse.a;
+	Out.Diffuse = parameter[In.instanceID].color;
 	Out.Clip = parameter[In.instanceID].position.y - voidPosition.y;
 }

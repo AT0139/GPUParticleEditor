@@ -17,24 +17,6 @@ void Title::Init()
 
 	AddGameObject<MainGame::DefenceBase>(OBJECT)->GetComponent<Transform>();
 
-	auto particleManager = AddGameObject<ParticleEmitterManager>(EFFECT);
-	particleManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -40.0f, 0.0f));
-
-	EmitterInitData initData = {};
-	initData.size = Vector2(1.0f, 1.0f);
-	initData.life = 300;
-	initData.filePath = L"Asset\\Texture\\BlueBloom.png";
-	initData.maxNum = 100000;
-	initData.createInterval = 10;
-	initData.createOnceNum = 50;
-	particleManager->AddEmitter(initData);
-	initData.size = Vector2(0.3f, 0.3f);
-	initData.life = 500;
-	initData.filePath = L"Asset\\Texture\\WhiteBloom.png";
-	initData.maxNum = 100000;
-	initData.createInterval = 50;
-	initData.createOnceNum = 5000;
-	particleManager->AddEmitter(initData);
 }
 
 void Title::Uninit()

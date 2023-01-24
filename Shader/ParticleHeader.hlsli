@@ -53,6 +53,7 @@ struct ParticleParameter
 {
 	float3 position;
 	float2 size;
+	float4 color;
 };
 
 struct VS_PARTICLE_IN

@@ -1,5 +1,18 @@
 ﻿#pragma once
 
+enum class SPAWN_TYPE
+{
+	PAR_SECOND,
+	//PAR_FRAME,
+	BURST
+	//PAR_UNIT
+};
+
+enum class ADD_VELOCITY_TYPE
+{
+	NONE,
+	IN_CONE,
+};
 
 struct EmitterInitData
 {
@@ -7,8 +20,7 @@ struct EmitterInitData
 	int life				= 30;
 	const wchar_t* filePath	= L"Asset\\Texture\\WhiteBloom.png";
 	int maxNum				= 100000;
-	int createOnceNum		= 100;
-	int createInterval		= 10;
+	SPAWN_TYPE spawnType	= SPAWN_TYPE::PAR_SECOND;
 	Color color				= Color(1.0f,1.0f,1.0f,1.0f);
 	Vector3 gravity			= {};
 };
@@ -19,16 +31,14 @@ struct BufferInfo
 	int maxLife;
 	Vector3 velocity;
 	float pad1;
+
 	Vector2 initialSize		= Vector2(1.0f, 1.0f);
 	Vector2 pad2;
 	Vector2 finalSize		= Vector2(1.0f, 1.0f);
 	Vector2 pad3;
-};
 
-enum class ADD_VELOCITY_TYPE
-{
-	NONE,
-	IN_CONE,
+	Vector4 initialColor	= Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	Vector4 finalColor		= Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 };
 
 class ParticleEmitter
@@ -46,15 +56,22 @@ public:
 	EmitterInitData* GetEmitterData() { return &m_initData; }
 	void SetInitialSize(Vector2 size);
 	void SetFinalSize(Vector2 size);
+	void SetInitialColor(Vector4 color);
+	void SetFinalColor(Vector4 color);
 	void SetGravity(Vector3 power);
 	void SetLife(int life);
 	void SetVelocity(Vector3 vel, ADD_VELOCITY_TYPE type);
+	void SetSpawnRate(float rate);
+	void SetSpawnType(SPAWN_TYPE type) { m_spawnType = type; }
+	void SetCreateInterval(float interval) { m_createInterval = interval; }
+	void SetCreateOnceNum(int num) { m_createOnceNum = num; }
 
 private:
 	struct ParticleParameter
 	{
 		Vector3 pos;
 		Vector2 size;
+		Vector4 color;
 	};
 
 	//コンピュートシェーダで仕様する構造体
@@ -66,11 +83,12 @@ private:
 
 		int life;
 		Vector2 size;
+		Vector4 color;
 	};
 
 
 
-	void CreateParticle();
+	void CreateParticle(int createNum);
 
 	ID3D11ComputeShader* m_computeShader;
 	ID3D11GeometryShader* m_geometryShader;
@@ -99,7 +117,11 @@ private:
 	EmitterInitData m_initData;
 
 	int m_particleNum;
-	int m_createCount;
+	float m_createCount;
 	bool m_gravity;
 	ADD_VELOCITY_TYPE m_velocityType;
+	SPAWN_TYPE m_spawnType;
+	float m_spawnRate;
+	int m_createOnceNum;
+	float m_createInterval;
 };

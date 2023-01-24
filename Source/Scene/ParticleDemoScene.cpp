@@ -31,7 +31,7 @@ void ParticleDemoScene::Update()
 {
 	Scene::Update();
 
-	ImGui::Begin("ParticleSetting", 0, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking);
+	ImGui::Begin("ParticleSetting", 0, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking);
 	{
 		//メニューバー
 		if (ImGui::BeginMenuBar())
@@ -55,10 +55,41 @@ void ParticleDemoScene::Update()
 		{
 			if (ImGui::TreeNode("InitializeParticle"))
 			{
-				ImGui::SliderInt("Life", &m_currentData->life, 1, 800);
-				ImGui::SliderInt("CreateOnceNum", &m_currentData->createOnceNum, 1, 10000);
-				ImGui::SliderInt("CreateInterval", &m_currentData->createInterval, 1, 500);
-
+				if (ImGui::TreeNode("Spawning"))
+				{
+					bool isSet = false;
+					static int type = 0;
+					isSet |= ImGui::RadioButton("ParSecond", &type, 0); ImGui::SameLine();
+					isSet |= ImGui::RadioButton("Burst", &type, 1);
+					static float spawnRate = 1;
+					static float interval = 1;
+					static int onceNum = 1;
+					switch (type)
+					{
+					case static_cast<int>(SPAWN_TYPE::PAR_SECOND):
+						isSet |= ImGui::SliderFloat("SpawnRate", &spawnRate, 1, 2000);
+						if (isSet)
+						{
+							m_currentEmitter->SetSpawnRate(spawnRate);
+							m_currentEmitter->SetSpawnType(SPAWN_TYPE::PAR_SECOND);
+						}
+						break;
+					case static_cast<int>(SPAWN_TYPE::BURST):
+						isSet |= ImGui::SliderInt("CreateOnceNum", &onceNum, 1, 5000);
+						isSet |= ImGui::SliderFloat("CreateInterval", &interval, 1, 500);
+						if (isSet)
+						{
+							m_currentEmitter->SetCreateOnceNum(onceNum);
+							m_currentEmitter->SetCreateInterval(interval);
+							m_currentEmitter->SetSpawnType(SPAWN_TYPE::BURST);
+						}
+						break;
+					default:
+						break;
+					}
+					ImGui::SliderInt("Life", &m_currentData->life, 1, 800);
+					ImGui::TreePop();
+				}
 				//サイズ
 				if (ImGui::TreeNode("Size"))
 				{
@@ -81,11 +112,16 @@ void ParticleDemoScene::Update()
 				{
 					static float color[4] = { 1.0f,1.0f,1.0f,1.0f };
 					ImGui::ColorPicker4("", color);
-					m_currentData->color.x = color[0];
-					m_currentData->color.y = color[1];
-					m_currentData->color.z = color[2];
-					m_currentData->color.w = color[3];
-
+					m_bufferInfo.initialColor.x = color[0];
+					m_bufferInfo.initialColor.y = color[1];
+					m_bufferInfo.initialColor.z = color[2];
+					m_bufferInfo.initialColor.w = color[3];
+					m_bufferInfo.finalColor.x = color[0];
+					m_bufferInfo.finalColor.y = color[1];
+					m_bufferInfo.finalColor.z = color[2];
+					m_bufferInfo.finalColor.w = color[3];
+					m_currentEmitter->SetInitialColor(m_bufferInfo.initialColor);
+					m_currentEmitter->SetFinalColor(m_bufferInfo.finalColor);
 					ImGui::TreePop();
 				}
 				ImGui::TreePop();
@@ -151,7 +187,38 @@ void ParticleDemoScene::Update()
 			ImGui::Checkbox("ScaleColor", &m_flags.scaleColor);
 			if (m_flags.scaleColor)
 			{
-				//todo; koko
+				if (ImGui::TreeNode("InitialColor"))
+				{
+					static float initialColor[4] = { 1.0f,1.0f,1.0f,1.0f };
+					ImGui::ColorPicker4("initial", initialColor);
+					if (m_bufferInfo.initialColor.x != initialColor[0] || m_bufferInfo.initialColor.y != initialColor[1] ||
+						m_bufferInfo.initialColor.z != initialColor[2] || m_bufferInfo.initialColor.w != initialColor[3])
+					{
+						m_bufferInfo.initialColor.x = initialColor[0];
+						m_bufferInfo.initialColor.y = initialColor[1];
+						m_bufferInfo.initialColor.z = initialColor[2];
+						m_bufferInfo.initialColor.w = initialColor[3];
+						m_currentEmitter->SetInitialColor(m_bufferInfo.initialColor);
+					}
+					ImGui::TreePop();
+				}
+				if (ImGui::TreeNode("FinalColor"))
+				{
+					static float finalColor[4] = { 1.0f,1.0f,1.0f,1.0f };
+					ImGui::ColorPicker4("final", finalColor);
+					if (m_bufferInfo.finalColor.x != finalColor[0] || m_bufferInfo.initialColor.y != finalColor[1] ||
+						m_bufferInfo.finalColor.z != finalColor[2] || m_bufferInfo.initialColor.w != finalColor[3])
+					{
+						m_bufferInfo.finalColor.x = finalColor[0];
+						m_bufferInfo.finalColor.y = finalColor[1];
+						m_bufferInfo.finalColor.z = finalColor[2];
+						m_bufferInfo.finalColor.w = finalColor[3];
+						m_currentEmitter->SetFinalColor(m_bufferInfo.finalColor);
+					}
+					ImGui::TreePop();
+				}
+				ImGui::Spacing();
+
 			}
 
 			//重力

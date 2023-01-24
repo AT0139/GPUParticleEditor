@@ -7,6 +7,7 @@ struct ParticleCompute
 	float3 velocity;
 	int life;
 	float2 size;
+	float4 color;
 };
 
 struct CSInput
@@ -30,6 +31,8 @@ struct Info
 	float2 pad2;
 	float2 finalSize;
 	float2 pad3;
+	float4 initialColor;
+	float4 finalColor;
 };
 
 cbuffer InfoBuffer : register(b7)
@@ -60,9 +63,10 @@ void main(const CSInput input)
 		bufOut[index].pos = result;
 		bufOut[index].velocity = particle[index].velocity;
 		bufOut[index].speed = speed;
-	//Size
+		//Size
 		float t = info.maxLife - particle[index].life;
 		t = t / info.maxLife;
 		bufOut[index].size = lerp(info.initialSize, info.finalSize, t);
+		bufOut[index].color = lerp(info.initialColor, info.finalColor, t);
 	}
 }
