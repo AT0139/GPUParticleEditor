@@ -15,6 +15,7 @@ private:
 	{
 		bool addVelocity;
 		bool scaleSize;
+		bool scaleColor;
 		bool gravity;
 	};
 

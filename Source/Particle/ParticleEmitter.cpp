@@ -216,10 +216,22 @@ void ParticleEmitter::CreateParticle()
 	{
 		if (m_particle[i].life <= 0)
 		{
-			float x = Utility::FloatRand(MIN_RAND, MAX_RAND);
-			float y = Utility::FloatRand(MIN_RAND, MAX_RAND);
-			float z = Utility::FloatRand(MIN_RAND, MAX_RAND);
-			m_particle[i].velocity = (Vector3(x, y, z) + m_initData.direction) * 0.5f;
+			Vector3 vel = {};
+			switch (m_velocityType)
+			{
+			case ADD_VELOCITY_TYPE::NONE:
+	
+				break;
+			case ADD_VELOCITY_TYPE::IN_CONE:
+				vel.x = Utility::FloatRand(MIN_RAND, MAX_RAND);
+				vel.y = Utility::FloatRand(MIN_RAND, MAX_RAND);
+				vel.z = Utility::FloatRand(MIN_RAND, MAX_RAND);
+				break;
+			default:
+				break;
+			}
+		
+			m_particle[i].velocity = (vel) * 0.5f;
 			m_particle[i].speed = Vector3::Zero;
 			m_particle[i].life = m_initData.life;
 			m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
@@ -230,8 +242,9 @@ void ParticleEmitter::CreateParticle()
 	}
 }
 
-void ParticleEmitter::SetVelocity(Vector3 vel)
+void ParticleEmitter::SetVelocity(Vector3 vel, ADD_VELOCITY_TYPE type)
 {
+	m_velocityType = type;
 	m_bufferInfo.velocity = vel;
 	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
 }

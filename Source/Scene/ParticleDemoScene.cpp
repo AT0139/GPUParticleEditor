@@ -95,9 +95,9 @@ void ParticleDemoScene::Update()
 			if (ImGui::Checkbox("Add Velocity", &m_flags.addVelocity))
 			{
 				if (!m_flags.addVelocity)
-					m_currentEmitter->SetVelocity(Vector3::Zero);
+					m_currentEmitter->SetVelocity(Vector3::Zero,ADD_VELOCITY_TYPE::NONE);
 				else
-					m_currentEmitter->SetVelocity(m_bufferInfo.velocity);
+					m_currentEmitter->SetVelocity(m_bufferInfo.velocity, ADD_VELOCITY_TYPE::IN_CONE);
 			}
 			if (m_flags.addVelocity)
 			{
@@ -108,7 +108,7 @@ void ParticleDemoScene::Update()
 					m_bufferInfo.velocity.x = vel[0];
 					m_bufferInfo.velocity.y = vel[1];
 					m_bufferInfo.velocity.z = vel[2];
-					m_currentEmitter->SetVelocity(m_bufferInfo.velocity);
+					m_currentEmitter->SetVelocity(m_bufferInfo.velocity, ADD_VELOCITY_TYPE::IN_CONE);
 				}
 			}
 		}
@@ -117,7 +117,7 @@ void ParticleDemoScene::Update()
 
 		if (ImGui::CollapsingHeader("ParticleUpdate"))
 		{
-			//サイズ
+			//スケールサイズ
 			ImGui::Checkbox("ScaleSize", &m_flags.scaleSize);
 			if (m_flags.scaleSize)
 			{
@@ -139,6 +139,13 @@ void ParticleDemoScene::Update()
 					m_currentEmitter->SetFinalSize(m_bufferInfo.finalSize);
 				}
 				ImGui::Spacing();
+			}
+
+			//スケールカラー
+			ImGui::Checkbox("ScaleColor", &m_flags.scaleColor);
+			if (m_flags.scaleColor)
+			{
+				//todo; koko
 			}
 
 			//重力
