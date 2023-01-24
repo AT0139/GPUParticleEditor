@@ -122,7 +122,7 @@ void ParticleDemoScene::Update()
 				if (ImGui::TreeNode("Color"))
 				{
 					static float color[4] = { 1.0f,1.0f,1.0f,1.0f };
-					ImGui::ColorPicker4("", color);
+					ImGui::ColorPicker4("", color, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_PickerHueWheel);
 					m_bufferInfo.initialColor.x = color[0];
 					m_bufferInfo.initialColor.y = color[1];
 					m_bufferInfo.initialColor.z = color[2];
@@ -215,7 +215,7 @@ void ParticleDemoScene::Update()
 				if (ImGui::TreeNode("InitialColor"))
 				{
 					static float initialColor[4] = { 1.0f,1.0f,1.0f,1.0f };
-					ImGui::ColorPicker4("initial", initialColor);
+					ImGui::ColorPicker4("initial", initialColor, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_PickerHueWheel);
 					if (m_bufferInfo.initialColor.x != initialColor[0] || m_bufferInfo.initialColor.y != initialColor[1] ||
 						m_bufferInfo.initialColor.z != initialColor[2] || m_bufferInfo.initialColor.w != initialColor[3])
 					{
@@ -230,7 +230,7 @@ void ParticleDemoScene::Update()
 				if (ImGui::TreeNode("FinalColor"))
 				{
 					static float finalColor[4] = { 1.0f,1.0f,1.0f,1.0f };
-					ImGui::ColorPicker4("final", finalColor);
+					ImGui::ColorPicker4("final", finalColor, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_PickerHueWheel);
 					if (m_bufferInfo.finalColor.x != finalColor[0] || m_bufferInfo.initialColor.y != finalColor[1] ||
 						m_bufferInfo.finalColor.z != finalColor[2] || m_bufferInfo.initialColor.w != finalColor[3])
 					{
