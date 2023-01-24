@@ -252,7 +252,7 @@ void ParticleDemoScene::Update()
 			if (m_flags.gravity)
 			{
 				static float gravity[3] = {};
-				ImGui::SliderFloat3("", gravity, -0.1f, 0.1f);
+				ImGui::SliderFloat3("##GravityForce", gravity, -0.1f, 0.1f);
 				Vector3 gravityPower;
 				gravityPower.x = gravity[0];
 				gravityPower.y = gravity[1];
