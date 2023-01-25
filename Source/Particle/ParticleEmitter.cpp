@@ -139,7 +139,7 @@ void ParticleEmitter::Update()
 	{
 		context->Map(m_parameterBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes2);
 		ParticleParameter* BufType = (ParticleParameter*)subRes2.pData;
-
+		
 		for (int v = 0; v < m_particleNum; v++)
 		{
 			BufType[v].pos = m_particle[v].pos;
