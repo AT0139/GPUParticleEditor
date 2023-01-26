@@ -268,6 +268,9 @@
     <ClInclude Include="Source\Object\Camera\ParticleDemoSceneCamera.h">
       <Filter>ソース ファイル\Object\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Particle\EmitterGui.h">
+      <Filter>ソース ファイル\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Polygon2D.cpp">
@@ -473,6 +476,9 @@
     </ClCompile>
     <ClCompile Include="Source\Object\Camera\ParticleDemoSceneCamera.cpp">
       <Filter>ソース ファイル\Object\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Particle\EmitterGui.cpp">
+      <Filter>ソース ファイル\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

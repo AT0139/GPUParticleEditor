@@ -14,6 +14,7 @@ public:
 	virtual void Draw() override;
 
 	std::shared_ptr<ParticleEmitter> AddEmitter(EmitterInitData initData);
+	int GetEmitterIndex(std::shared_ptr<ParticleEmitter> emitter);
 private:
-	std::list<std::shared_ptr<ParticleEmitter>> m_particleEmitter;
+	std::vector<std::shared_ptr<ParticleEmitter>> m_particleEmitter;
 };

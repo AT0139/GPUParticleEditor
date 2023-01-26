@@ -2,6 +2,7 @@
 
 #include "Scene.h"
 #include "ParticleEmitterManager.h"
+#include "EmitterGui.h"
 
 class ParticleDemoScene :public Scene
 {
@@ -11,17 +12,8 @@ public:
 	void Update();
 
 private:
-	struct EmitterFlags
-	{
-		bool addVelocity;
-		bool scaleSize;
-		bool scaleColor;
-		bool gravity;
-	};
+	void AddEmitter();
 
-	std::shared_ptr<ParticleEmitter> m_currentEmitter;
-	EmitterInitData* m_currentData;
 	ParticleEmitterManager* m_emitterManager;
-	BufferInfo m_bufferInfo;
-	EmitterFlags m_flags;
+	std::list<std::shared_ptr<EmitterGui>> m_emitterList;
 };

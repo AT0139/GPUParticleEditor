@@ -25,3 +25,12 @@ std::shared_ptr<ParticleEmitter> ParticleEmitterManager::AddEmitter(EmitterInitD
 	m_particleEmitter.push_back(emitter);
 	return emitter;
 }
+
+int ParticleEmitterManager::GetEmitterIndex(std::shared_ptr<ParticleEmitter> emitter)
+{
+	auto itr = std::find(m_particleEmitter.begin(), m_particleEmitter.end(), emitter);
+	if (itr == m_particleEmitter.end())
+		return -1;
+	const int index = std::distance(m_particleEmitter.begin(), itr);
+	return index;
+}
