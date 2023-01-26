@@ -12,19 +12,27 @@ public:
 	void Update();
 
 private:
-	struct EmitterFlags
+	struct EmitterDatas
 	{
+		int spawningType;
+		float spawnRate		= 1;
+		float interval		= 1;
+		int onceNum			= 1;
+		bool sizeDivision;
+		bool scaleSizeDivision;
 		bool addVelocity;
+		int addVelocityType;
 		bool scaleSize;
 		bool scaleColor;
 		bool gravity;
+
 	};
 
 
 	std::shared_ptr<ParticleEmitter> m_currentEmitter;
 	EmitterInitData* m_currentData;
 	BufferInfo m_bufferInfo;
-	EmitterFlags m_flags;
+	EmitterDatas m_datas;
 
 	std::string m_name;
 };

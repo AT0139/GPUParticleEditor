@@ -31,6 +31,6 @@ int ParticleEmitterManager::GetEmitterIndex(std::shared_ptr<ParticleEmitter> emi
 	auto itr = std::find(m_particleEmitter.begin(), m_particleEmitter.end(), emitter);
 	if (itr == m_particleEmitter.end())
 		return -1;
-	const int index = std::distance(m_particleEmitter.begin(), itr);
+	const int index = (const int)std::distance(m_particleEmitter.begin(), itr);
 	return index;
 }

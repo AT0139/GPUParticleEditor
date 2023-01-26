@@ -5,6 +5,7 @@ EmitterGui::EmitterGui(std::shared_ptr<ParticleEmitter> emitter, std::string emi
 	m_currentEmitter = emitter;
 	m_currentData = m_currentEmitter->GetEmitterData();
 	m_name = emitterName;
+	m_datas = {};
 }
 
 void EmitterGui::Update()
@@ -18,29 +19,26 @@ void EmitterGui::Update()
 				if (ImGui::TreeNode("Spawning"))
 				{
 					bool isSet = false;
-					static int type = 0;
-					isSet |= ImGui::RadioButton("ParSecond", &type, 0); ImGui::SameLine();
-					isSet |= ImGui::RadioButton("Burst", &type, 1);
-					static float spawnRate = 1;
-					static float interval = 1;
-					static int onceNum = 1;
-					switch (type)
+					isSet |= ImGui::RadioButton("ParSecond", &m_datas.spawningType, 0); ImGui::SameLine();
+					isSet |= ImGui::RadioButton("Burst", &m_datas.spawningType, 1);
+
+					switch (m_datas.spawningType)
 					{
 					case static_cast<int>(SPAWN_TYPE::PAR_SECOND):
-						isSet |= ImGui::SliderFloat("SpawnRate", &spawnRate, 1, 2000);
+						isSet |= ImGui::SliderFloat("SpawnRate", &m_datas.spawnRate, 1, 2000);
 						if (isSet)
 						{
-							m_currentEmitter->SetSpawnRate(spawnRate);
+							m_currentEmitter->SetSpawnRate(m_datas.spawnRate);
 							m_currentEmitter->SetSpawnType(SPAWN_TYPE::PAR_SECOND);
 						}
 						break;
 					case static_cast<int>(SPAWN_TYPE::BURST):
-						isSet |= ImGui::SliderInt("CreateOnceNum", &onceNum, 1, 5000);
-						isSet |= ImGui::SliderFloat("CreateInterval", &interval, 1, 500);
+						isSet |= ImGui::SliderInt("CreateOnceNum", &m_datas.onceNum, 1, 5000);
+						isSet |= ImGui::SliderFloat("CreateInterval", &m_datas.interval, 1, 500);
 						if (isSet)
 						{
-							m_currentEmitter->SetCreateOnceNum(onceNum);
-							m_currentEmitter->SetCreateInterval(interval);
+							m_currentEmitter->SetCreateOnceNum(m_datas.onceNum);
+							m_currentEmitter->SetCreateInterval(m_datas.interval);
 							m_currentEmitter->SetSpawnType(SPAWN_TYPE::BURST);
 						}
 						break;
@@ -53,12 +51,10 @@ void EmitterGui::Update()
 				//サイズ
 				if (ImGui::TreeNode("Size"))
 				{
-					static bool division = false;
-
 					ImGui::Spacing(); ImGui::SameLine(0.0f, 50.0f);
-					ImGui::Checkbox("division", &division);
-					static float size[2] = { 1.0f,1.0f };
-					if (!division)
+					ImGui::Checkbox("division", &m_datas.sizeDivision);
+					float size[2] = { m_bufferInfo.initialSize.x,m_bufferInfo.initialSize.y };
+					if (!m_datas.sizeDivision)
 					{
 						ImGui::SliderFloat("size", &size[0], 0.01f, 5.0f);
 						size[1] = size[0];
@@ -81,7 +77,8 @@ void EmitterGui::Update()
 				//カラー
 				if (ImGui::TreeNode("Color"))
 				{
-					static float color[4] = { 1.0f,1.0f,1.0f,1.0f };
+					float color[4] = { m_bufferInfo.initialColor.x,m_bufferInfo.initialColor.y,
+						m_bufferInfo.initialColor.z,m_bufferInfo.initialColor.w };
 					ImGui::SliderFloat4("##Color", color, 0.0f, 1.0f);
 					ImVec4 colorVec4(color[0], color[1], color[2], color[3]); ImGui::SameLine();
 					ImGui::ColorButton("##color", colorVec4);
@@ -123,28 +120,27 @@ void EmitterGui::Update()
 
 			//加速度
 			bool isSetVelocity = false;
-			if (ImGui::Checkbox("Add Velocity", &m_flags.addVelocity))
+			if (ImGui::Checkbox("Add Velocity", &m_datas.addVelocity))
 			{
 
-				if (!m_flags.addVelocity)
+				if (!m_datas.addVelocity)
 					m_currentEmitter->SetVelocity(Vector3::Zero, ADD_VELOCITY_TYPE::NONE);
 				else
 					isSetVelocity = true;
 			}
-			if (m_flags.addVelocity)
+			if (m_datas.addVelocity)
 			{
-				static int type = 0;
-				isSetVelocity |= ImGui::RadioButton("None", &type, 0); ImGui::SameLine();
-				isSetVelocity |= ImGui::RadioButton("InCone", &type, 1);
+				isSetVelocity |= ImGui::RadioButton("None", &m_datas.addVelocityType, 0); ImGui::SameLine();
+				isSetVelocity |= ImGui::RadioButton("InCone", &m_datas.addVelocityType, 1);
 
-				static float vel[3] = { 0.0f,0.0f ,0.0f };
+				float vel[3] = { m_bufferInfo.velocity.x,m_bufferInfo.velocity.y,m_bufferInfo.velocity.z };
 				ImGui::SliderFloat3("Velocity", vel, -5.0f, 5.0f);
 				if (m_bufferInfo.velocity.x != vel[0] || m_bufferInfo.velocity.y != vel[1] || m_bufferInfo.velocity.z != vel[2] || isSetVelocity)
 				{
 					m_bufferInfo.velocity.x = vel[0];
 					m_bufferInfo.velocity.y = vel[1];
 					m_bufferInfo.velocity.z = vel[2];
-					m_currentEmitter->SetVelocity(m_bufferInfo.velocity, static_cast<ADD_VELOCITY_TYPE>(type));
+					m_currentEmitter->SetVelocity(m_bufferInfo.velocity, static_cast<ADD_VELOCITY_TYPE>(m_datas.addVelocityType));
 				}
 			}
 		}
@@ -154,16 +150,15 @@ void EmitterGui::Update()
 		if (ImGui::CollapsingHeader("ParticleUpdate"))
 		{
 			//スケールサイズ
-			ImGui::Checkbox("ScaleSize", &m_flags.scaleSize);
-			if (m_flags.scaleSize)
+			ImGui::Checkbox("ScaleSize", &m_datas.scaleSize);
+			if (m_datas.scaleSize)
 			{
-				static bool division = false;
 				ImGui::Spacing(); ImGui::SameLine(0.0f, 50.0f);
-				ImGui::Checkbox("division", &division);
-				static float initialSize[2] = { 1.0f,1.0f };
-				static float finalSize[2] = { 1.0f,1.0f };
+				ImGui::Checkbox("division", &m_datas.scaleSizeDivision);
+				float initialSize[2] = { m_bufferInfo.initialSize.x,m_bufferInfo.initialSize.y };
+				float finalSize[2] = { m_bufferInfo.finalSize.x,m_bufferInfo.finalSize.y };
 
-				if (!division)
+				if (!m_datas.scaleSizeDivision)
 				{
 					ImGui::SliderFloat("initial", &initialSize[0], 0.01f, 5.0f);
 					ImGui::SliderFloat("final", &finalSize[0], 0.01f, 5.0f);
@@ -192,12 +187,12 @@ void EmitterGui::Update()
 			}
 
 			//スケールカラー
-			ImGui::Checkbox("ScaleColor", &m_flags.scaleColor);
-			if (m_flags.scaleColor)
+			ImGui::Checkbox("ScaleColor", &m_datas.scaleColor);
+			if (m_datas.scaleColor)
 			{
 				if (ImGui::TreeNode("InitialColor"))
 				{
-					static float initialColor[4] = { 1.0f,1.0f,1.0f,1.0f };
+					float initialColor[4] = { m_bufferInfo.initialColor.x,m_bufferInfo.initialColor.y,m_bufferInfo.initialColor.z,m_bufferInfo.initialColor.w };
 					ImGui::SliderFloat4("initial", initialColor, 0.0f, 1.0f);
 					ImVec4 colorVec4(initialColor[0], initialColor[1], initialColor[2], initialColor[3]); ImGui::SameLine();
 					ImGui::ColorButton("##color", colorVec4);
@@ -229,7 +224,7 @@ void EmitterGui::Update()
 				}
 				if (ImGui::TreeNode("FinalColor"))
 				{
-					static float finalColor[4] = { 1.0f,1.0f,1.0f,1.0f };
+					float finalColor[4] = { m_bufferInfo.finalColor.x,m_bufferInfo.finalColor.y,m_bufferInfo.finalColor.z,m_bufferInfo.finalColor.w };
 					ImGui::SliderFloat4("final", finalColor, 0.0f, 1.0f);
 					ImVec4 colorVec4(finalColor[0], finalColor[1], finalColor[2], finalColor[3]); ImGui::SameLine();
 					ImGui::ColorButton("##color", colorVec4);
@@ -264,17 +259,17 @@ void EmitterGui::Update()
 			}
 
 			//重力
-			if (ImGui::Checkbox("Gravity Force", &m_flags.gravity) && !m_flags.gravity)
+			if (ImGui::Checkbox("Gravity Force", &m_datas.gravity) && !m_datas.gravity)
 				m_currentEmitter->SetGravity(Vector3::Zero);
-			if (m_flags.gravity)
+			if (m_datas.gravity)
 			{
-				static float gravity[3] = {};
+				float gravity[3] = { m_bufferInfo.gravity.x ,m_bufferInfo.gravity.y ,m_bufferInfo.gravity.z};
 				ImGui::SliderFloat3("##GravityForce", gravity, -0.1f, 0.1f);
-				Vector3 gravityPower;
-				gravityPower.x = gravity[0];
-				gravityPower.y = gravity[1];
-				gravityPower.z = gravity[2];
-				m_currentEmitter->SetGravity(gravityPower);
+				m_bufferInfo.gravity.x = gravity[0];
+				m_bufferInfo.gravity.y = gravity[1];
+				m_bufferInfo.gravity.z = gravity[2];
+
+				m_currentEmitter->SetGravity(m_bufferInfo.gravity);
 				ImGui::Spacing();
 			}
 		}
