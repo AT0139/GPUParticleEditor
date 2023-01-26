@@ -56,11 +56,11 @@ void ParticleDemoScene::Update()
 
 		//todo : ƒŠƒZƒbƒg
 
-		static float y = 100.0f;
+		static float y = 0.0f;
 		static float z = 0.0f;
-		ImGui::SliderFloat("y", &y, 0.0f, 250.0f);
-		ImGui::SliderFloat("z", &z, 0.0f, 1000.0f);
-		m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, y, z));
+		ImGui::SliderFloat("y", &y, -50.0f, 50.0f);
+		ImGui::SliderFloat("z", &z, -200.0f, 200.0f);
+		m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, y + 100.0f, z));
 	}
 	ImGui::End();
 
