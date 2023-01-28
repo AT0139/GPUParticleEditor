@@ -4,7 +4,7 @@
 #include "Scene.h"
 #include "MainCamera.h"
 #include "SceneManager.h"
-
+#include <omp.h>
 
 static const float MIN_RAND = -1.0f;
 static const float MAX_RAND = 2.0f;
@@ -124,7 +124,7 @@ void ParticleEmitter::Update()
 	context->CSSetShaderResources(0, 1, pSRVs);
 	context->CSSetShader(m_computeShader, nullptr, 0);
 	context->CSSetUnorderedAccessViews(0, 1, &m_resultUAV, 0);
-	context->Dispatch(256, 1, 1);
+	context->Dispatch(512, 1, 1);
 
 	// 戻った計算結果をバッファに入れる
 	ID3D11Buffer* pBufDbg = Renderer::GetInstance().CreateAndCopyToBuffer(m_resultBuffer);
@@ -139,7 +139,7 @@ void ParticleEmitter::Update()
 	{
 		context->Map(m_parameterBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes2);
 		ParticleParameter* BufType = (ParticleParameter*)subRes2.pData;
-		
+#pragma omp parallel for
 		for (int v = 0; v < m_particleNum; v++)
 		{
 			BufType[v].pos = m_particle[v].pos;

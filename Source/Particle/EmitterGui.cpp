@@ -3,7 +3,7 @@
 EmitterGui::EmitterGui(std::shared_ptr<ParticleEmitter> emitter, std::string emitterName)
 {
 	m_currentEmitter = emitter;
-	m_currentData = m_currentEmitter->GetEmitterData();
+	m_currentData = m_currentEmitter->GetEmitterData();	
 	m_name = emitterName;
 	m_datas = {};
 }

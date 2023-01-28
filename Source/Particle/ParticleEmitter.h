@@ -20,7 +20,7 @@ struct EmitterInitData
 	Vector2 size			= Vector2(1.0f, 1.0f);
 	int life				= 30;
 	const wchar_t* filePath	= L"Asset\\Texture\\WhiteBloom.png";
-	int maxNum				= 100000;
+	int maxNum				= 10000;
 	SPAWN_TYPE spawnType	= SPAWN_TYPE::PAR_SECOND;
 	Color color				= Color(1.0f,1.0f,1.0f,1.0f);
 	Vector3 gravity			= {};
@@ -34,9 +34,7 @@ struct BufferInfo
 	float pad1;
 
 	Vector2 initialSize		= Vector2(1.0f, 1.0f);
-	Vector2 pad2;
 	Vector2 finalSize		= Vector2(1.0f, 1.0f);
-	Vector2 pad3;
 
 	Vector4 initialColor	= Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	Vector4 finalColor		= Vector4(1.0f, 1.0f, 1.0f, 1.0f);

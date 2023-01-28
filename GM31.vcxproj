@@ -108,6 +108,8 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI;$(ProjectDir)Source\Particle;$(ProjectDir)Source\Object\Camera</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -134,6 +136,8 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Source;$(ProjectDir)Source\imgui;$(ProjectDir)Source\imgui\backends;$(ProjectDir)Source\Component;$(ProjectDir)Source\Component\Draw;$(ProjectDir)Source\Component\Collision;$(ProjectDir)Source\Scene;$(ProjectDir)Source\System;$(ProjectDir)Source\Object;$(ProjectDir)Source\Object\Enemy;$(ProjectDir)Source\Object\Placement;$(ProjectDir)Source\UI;$(ProjectDir)Source\Particle;$(ProjectDir)Source\Object\Camera</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -161,6 +165,8 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OmitFramePointers>false</OmitFramePointers>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -188,6 +194,8 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OmitFramePointers>false</OmitFramePointers>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+      <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

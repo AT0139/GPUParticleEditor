@@ -28,9 +28,7 @@ struct Info
 	float3 velocity;
 	float pad1;
 	float2 initialSize;
-	float2 pad2;
 	float2 finalSize;
-	float2 pad3;
 	float4 initialColor;
 	float4 finalColor;
 };
