@@ -46,7 +46,6 @@ Field::Field()
 	assert(m_texture);
 
 	auto transform = GetComponent<Transform>();
-	transform->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 	transform->SetQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
 	transform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 }
@@ -82,6 +81,7 @@ void Field::Draw()
 
 	//テクスチャ設定
 	Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
+	
 
 	//プリミティブトポロジ設定
 	Renderer::GetInstance().GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);

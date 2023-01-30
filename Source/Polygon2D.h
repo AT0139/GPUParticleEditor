@@ -17,4 +17,6 @@ private:
 
 	Vector2 m_position;
 	float m_alpha;
+
+	ID3D11Buffer* m_vertexBuffer;
 };

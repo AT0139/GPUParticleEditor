@@ -55,6 +55,10 @@ private:
 	ID3D11RasterizerState* m_wireFrameRasterizerState;
 
 	Viewport m_viewport;
+
+	ID3D11DepthStencilView* m_depthStencilView;
+	ID3D11ShaderResourceView* m_depthSRV;
+
 private:
 #ifdef _DEBUG
 	inline static bool show_demo_window = false;
@@ -70,6 +74,7 @@ public:
 	void Init();
 	void Uninit();
 	void Begin();
+	void BeginDepth();
 	void End();
 
 	void SetDepthEnable(bool Enable);
@@ -83,6 +88,7 @@ public:
 	void SetRasterizerState(RASTERIZER state);
 
 	Viewport GetViewport();
+	ID3D11ShaderResourceView* GetShadowDepthTexture() { return m_depthSRV; }
 
 	ID3D11Device* GetDevice(void) { return m_pDevice; }
 	ID3D11DeviceContext* GetDeviceContext(void) { return m_pDeviceContext; }

@@ -4,6 +4,7 @@
 #include "SceneManager.h"
 #include "SkyDome.h"
 #include "ParticleDemoSceneCamera.h"
+#include "Field.h"
 
 void ParticleDemoScene::Init()
 {
@@ -14,9 +15,9 @@ void ParticleDemoScene::Init()
 	AddGameObject<SkyDome>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -200.0f, 0.0f));
 
 	m_emitterManager = AddGameObject<ParticleEmitterManager>(EFFECT);
-	m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 100.0f, 0.0f));
 
-
+	auto field = AddGameObject<Field>(OBJECT);
+	field->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -10.0f, 0.0f));
 }
 
 void ParticleDemoScene::Uninit()
@@ -60,7 +61,7 @@ void ParticleDemoScene::Update()
 		static float z = 0.0f;
 		ImGui::SliderFloat("y", &y, -50.0f, 50.0f);
 		ImGui::SliderFloat("z", &z, -200.0f, 200.0f);
-		m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, y + 100.0f, z));
+		m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, y, z));
 	}
 	ImGui::End();
 

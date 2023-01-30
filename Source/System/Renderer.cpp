@@ -78,7 +78,7 @@ void Renderer::Init()
 	textureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	textureDesc.CPUAccessFlags = 0;
 	textureDesc.MiscFlags = 0;
-	m_pDevice->CreateTexture2D(&textureDesc, NULL, &depthStencile);
+	hr = m_pDevice->CreateTexture2D(&textureDesc, NULL, &depthStencile);
 
 	// デプスステンシルビュー作成
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
@@ -263,7 +263,47 @@ void Renderer::Init()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(20.0f, 20.0f));
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20.0f, 3.0f));
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(5.0f, 10.0f));
+
+	{
+		//シャドウバッファ作成
+		ID3D11Texture2D* depthTexture = NULL;
+		D3D11_TEXTURE2D_DESC td;
+		ZeroMemory(&td, sizeof(td));
+		td.Width = swapChainDesc.BufferDesc.Width;
+		td.Height = swapChainDesc.BufferDesc.Height;
+		td.MipLevels = 1;
+		td.ArraySize = 1;
+		td.Format = DXGI_FORMAT_R32_TYPELESS;
+		td.SampleDesc = swapChainDesc.SampleDesc;
+		td.Usage = D3D11_USAGE_DEFAULT;
+		td.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+		td.CPUAccessFlags = 0;
+		td.MiscFlags = 0;
+		hr = m_pDevice->CreateTexture2D(&td, NULL, &depthTexture);
+		if (FAILED(hr))
+			assert(nullptr);
+
+		//デプスステンシルターゲットビュー作成
+		D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
+		ZeroMemory(&dsvd, sizeof(dsvd));
+		dsvd.Format = DXGI_FORMAT_D32_FLOAT;
+		dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
+		dsvd.Flags = 0;
+		hr = m_pDevice->CreateDepthStencilView(depthTexture, &dsvd, &m_depthStencilView);
+		if (FAILED(hr))
+			assert(nullptr);
+
+		//シェーダーリソースビュー作成
+		D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
+		SRVDesc.Format = DXGI_FORMAT_R32_FLOAT;//ピクセルフォーマットは32BitFLOAT型
+		SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+		SRVDesc.Texture2D.MipLevels = 1;
+		hr = m_pDevice->CreateShaderResourceView(depthTexture, &SRVDesc, &m_depthSRV);
+		if (FAILED(hr))
+			assert(nullptr);
+	}
 }
+
 
 void Renderer::Uninit()
 {
@@ -288,9 +328,18 @@ void Renderer::Uninit()
 
 void Renderer::Begin()
 {
+	m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetView, m_pDepthStencilView);
+
 	float clearColor[4] = { 0.4f, 0.4f, 0.4f, 1.0f };
 	m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetView, clearColor);
 	m_pDeviceContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+}
+
+void Renderer::BeginDepth()
+{
+	//シャドウバッファを深度バッファに設定し、内容を1で塗りつぶしておく
+	m_pDeviceContext->OMSetRenderTargets(0, NULL, m_depthStencilView);
+	m_pDeviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
 void Renderer::End()
