@@ -186,6 +186,7 @@ void Renderer::Init()
 	m_pDevice->CreateBuffer(&bufferDesc, NULL, &m_pWorldBuffer);
 	m_pDeviceContext->VSSetConstantBuffers(0, 1, &m_pWorldBuffer);
 	m_pDeviceContext->GSSetConstantBuffers(0, 1, &m_pWorldBuffer);
+	m_pDeviceContext->CSSetConstantBuffers(0, 1, &m_pWorldBuffer);
 
 	m_pDevice->CreateBuffer(&bufferDesc, NULL, &m_pViewBuffer);
 	m_pDeviceContext->VSSetConstantBuffers(1, 1, &m_pViewBuffer);
