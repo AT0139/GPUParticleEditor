@@ -51,6 +51,7 @@ void SceneManager::Draw()
 	light.view = camera->GetViewMatrix();
 	//ライトカメラのプロジェクション行列を作成
 	light.proj = camera->GetProjectionMatrix();
+		//CreatePerspectiveFieldOfView(1.0f, (float)SCREEN_WIDTH / SCREEN_HEIGHT, 5.0f, 100.0f);
 	Renderer::GetInstance().SetLight(light);
 
 	Renderer::GetInstance().BeginDepth();

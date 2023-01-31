@@ -47,35 +47,11 @@ cbuffer InfoBuffer : register(b7)
 #define SIZE_Z 1
 
 
-float3 calcViewSpacePositionFromDepth(float2 normalizedScreenPosition, int2 texelOffset)
+float GetDepth(float2 uv)
 {
-	float2 uv;
-
-	// Add the texel offset to the normalized screen position
-	normalizedScreenPosition.x += (float) texelOffset.x / (float) 1920;
-	normalizedScreenPosition.y += (float) texelOffset.y / (float) 1080;
-
-	// Scale, bias and convert to texel range
-	uv.x = (0.5 + normalizedScreenPosition.x * 0.5) * (float) 1920;
-	uv.y = (1 - (0.5 + normalizedScreenPosition.y * 0.5)) * (float) 1080;
-
-	// Fetch the depth value at this point
-	float depth = g_textureDepth.Load(uint3(uv.x, uv.y, 0)).x;
-	
-	// Generate a point in screen space with this depth
-	float4 viewSpacePosOfDepthBuffer;
-	viewSpacePosOfDepthBuffer.xy = normalizedScreenPosition.xy;
-	viewSpacePosOfDepthBuffer.z = depth;
-	viewSpacePosOfDepthBuffer.w = 1;
-
-	// Transform into view space using the inverse projection matrix
-	matrix invProj = inverse(Projection);
-	viewSpacePosOfDepthBuffer = mul(viewSpacePosOfDepthBuffer, invProj);
-	viewSpacePosOfDepthBuffer.xyz /= viewSpacePosOfDepthBuffer.w;
-
-	return viewSpacePosOfDepthBuffer.xyz;
+	float2 coord = float2(uv.x * 1920, uv.y * 1080);
+	return g_textureDepth.Load(uint3(coord.x, coord.y, 0)).r;
 }
-
 
 [numthreads(SIZE_X, SIZE_Y, SIZE_Z)]
 void main(const CSInput input)
@@ -94,29 +70,22 @@ void main(const CSInput input)
 		float3 speed = particle[index].speed + info.gravity;
 		float3 result = particle[index].pos + particle[index].velocity + info.velocity + speed;
 
-		
+		bufOut[index].velocity = particle[index].velocity;
+		//スクリーンスペースコリジョン(深度バッファ)
 		{
-			float3 viewSpacePosition = mul(float4(result, 1), View).xyz;
-			float4 screenSpacePosition = mul(float4(result, 1), mul(View, Projection));
-			screenSpacePosition.xyz /= screenSpacePosition.w;
-
-			if(screenSpacePosition.x > -1&& screenSpacePosition.x<1&&
-				screenSpacePosition.y > -1&&screenSpacePosition.y <1)
+			float4 vpPosition = mul(mul(Projection, View), float4(result, 1.0f));
+			float2 uv = vpPosition.xy / vpPosition.w * 0.5f + 0.5f;
+			float bufferDepth = GetDepth(uv);
+			float particleDepth = vpPosition.z / vpPosition.w;
+			float3 normal = float3(0.0f, 1.0f, 0.0f);
+			if (particleDepth>bufferDepth)
 			{
-				float3 viewSpacePositionOfDepth = calcViewSpacePositionFromDepth(screenSpacePosition.xy, int2(0, 0));
-
-				if(viewSpacePosition.z > viewSpacePositionOfDepth.z)
-				{
-					
-					bufOut[index].life = 0;
-
-				}
+				bufOut[index].velocity -= dot(particle[index].velocity, normal) * normal * 1.99 /* 1.0 + bouciness */;
 			}
 		}
 		
 		//Position更新
 		bufOut[index].pos = result;
-		bufOut[index].velocity = particle[index].velocity;
 		bufOut[index].speed = speed;
 		//Size
 		float t = info.maxLife - particle[index].life;

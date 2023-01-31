@@ -92,7 +92,7 @@ private:
 	ID3D11ComputeShader* m_computeShader;
 	ID3D11GeometryShader* m_geometryShader;
 
-	std::shared_ptr<ParticleCompute[]> m_particle;
+	std::shared_ptr<ParticleCompute[]> m_particle; //todo : notSharedPtr
 
 	ID3D11Buffer* m_particleComputeBuffer;
 	ID3D11Buffer* m_resultBuffer;

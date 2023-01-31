@@ -190,11 +190,12 @@ void Renderer::Init()
 	m_pDevice->CreateBuffer(&bufferDesc, NULL, &m_pViewBuffer);
 	m_pDeviceContext->VSSetConstantBuffers(1, 1, &m_pViewBuffer);
 	m_pDeviceContext->GSSetConstantBuffers(1, 1, &m_pViewBuffer);
-
+	m_pDeviceContext->CSSetConstantBuffers(1, 1, &m_pViewBuffer);
 
 	m_pDevice->CreateBuffer(&bufferDesc, NULL, &m_pProjectionBuffer);
 	m_pDeviceContext->VSSetConstantBuffers(2, 1, &m_pProjectionBuffer);
 	m_pDeviceContext->GSSetConstantBuffers(2, 1, &m_pProjectionBuffer);
+	m_pDeviceContext->CSSetConstantBuffers(2, 1, &m_pProjectionBuffer);
 
 	bufferDesc.ByteWidth = sizeof(MATERIAL);
 
