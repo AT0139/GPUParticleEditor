@@ -122,6 +122,9 @@ void ParticleEmitter::Update()
 	context->CSSetConstantBuffers(7, 1, pCBs);
 	ID3D11ShaderResourceView* pSRVs[1] = { m_particleSRV };
 	context->CSSetShaderResources(0, 1, pSRVs);
+	auto depthTexture = Renderer::GetInstance().GetShadowDepthTexture();
+	context->CSSetShaderResources(1, 1, &depthTexture);
+
 	context->CSSetShader(m_computeShader, nullptr, 0);
 	context->CSSetUnorderedAccessViews(0, 1, &m_resultUAV, 0);
 	context->Dispatch(512, 1, 1);

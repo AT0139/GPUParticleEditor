@@ -265,7 +265,6 @@ void Renderer::Init()
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(5.0f, 10.0f));
 
 	{
-		//シャドウバッファ作成
 		ID3D11Texture2D* depthTexture = NULL;
 		D3D11_TEXTURE2D_DESC td;
 		ZeroMemory(&td, sizeof(td));
@@ -337,7 +336,6 @@ void Renderer::Begin()
 
 void Renderer::BeginDepth()
 {
-	//シャドウバッファを深度バッファに設定し、内容を1で塗りつぶしておく
 	m_pDeviceContext->OMSetRenderTargets(0, NULL, m_depthStencilView);
 	m_pDeviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
@@ -400,6 +398,8 @@ void Renderer::SetMaterial(MATERIAL material)
 
 void Renderer::SetLight(LIGHT Light)
 {
+	Light.view = XMMatrixTranspose(Light.view);
+	Light.proj = XMMatrixTranspose(Light.proj);
 	m_pDeviceContext->UpdateSubresource(m_pLightBuffer, 0, NULL, &Light, 0, 0);
 }
 

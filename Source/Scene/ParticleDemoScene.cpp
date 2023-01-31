@@ -5,6 +5,7 @@
 #include "SkyDome.h"
 #include "ParticleDemoSceneCamera.h"
 #include "Field.h"
+#include "Polygon2D.h"
 
 void ParticleDemoScene::Init()
 {
@@ -18,6 +19,9 @@ void ParticleDemoScene::Init()
 
 	auto field = AddGameObject<Field>(OBJECT);
 	field->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -10.0f, 0.0f));
+	AddDepthObject(field);
+
+	AddGameObject<Polygon2D>(UI);
 }
 
 void ParticleDemoScene::Uninit()

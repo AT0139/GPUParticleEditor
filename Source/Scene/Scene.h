@@ -69,6 +69,18 @@ public:
 		}
 	}
 
+	void DepthDraw()
+	{
+		for (GameObject* object : m_depthObjects)
+		{
+			if (!object->IsHidden())
+			{
+				object->Draw();
+				object->ComponentDraw();
+			}
+		}
+	}
+
 	template <typename T>
 	T* AddGameObject(int layer)
 	{
@@ -76,6 +88,11 @@ public:
 		m_gameObjects[layer].push_back(gameobject);
 
 		return gameobject;
+	}
+
+	void AddDepthObject(GameObject* object)
+	{
+		m_depthObjects.push_back(object);
 	}
 
 	template <typename T>
@@ -124,6 +141,7 @@ public:
 	}
 
 protected:
-	std::list<GameObject*> m_gameObjects[LAYER_MAX];	//STLのリスト構造
+	std::list<GameObject*> m_gameObjects[LAYER_MAX];
+	std::list<GameObject*> m_depthObjects;
 	Camera* m_currentCamera;
 };

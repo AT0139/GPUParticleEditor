@@ -14,6 +14,8 @@ public:
 	virtual Matrix GetProjectionMatrix() { return m_projection; }
 	virtual Vector3 GetCamaraForward();
 	virtual Vector3 GetCamaraRight();
+	Vector3 GetTarget() { return m_target; }
+	Vector3 GetCameraPos(){return m_cameraPos; }
 
 protected:
 	Vector3 m_target;

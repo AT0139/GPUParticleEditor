@@ -42,6 +42,9 @@ struct LIGHT
     float4 Direction;
     float4 Diffuse;
     float4 Ambient;
+
+	matrix View;
+	matrix Proj;
 };
 
 cbuffer LightBuffer : register(b4)
@@ -76,4 +79,6 @@ struct PS_IN
     float4 Diffuse : COLOR0;
     float4 Normal:NORMAL0;
     float2 TexCoord : TEXCOORD0;
+
+	float4 ShadowPosition : POSITION1;
 };

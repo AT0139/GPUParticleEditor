@@ -67,7 +67,8 @@ void Polygon2D::Draw()
 	material.diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	Renderer::GetInstance().SetMaterial(material);
 
-	//Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(0, 1, &depthTexture);
+	auto depthTexture = Renderer::GetInstance().GetShadowDepthTexture();
+	Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(0, 1, &depthTexture);
 
 	Renderer::GetInstance().GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 

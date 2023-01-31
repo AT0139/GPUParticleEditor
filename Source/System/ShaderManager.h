@@ -10,7 +10,7 @@ enum class SHADER_TYPE
 	ENV_MAPPING,
 	NORMAL_MAPPING,
 	PARTICLE,
-
+	DEPTH,
 };
 
 struct DrawShader

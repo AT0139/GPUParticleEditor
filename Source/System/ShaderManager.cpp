@@ -29,6 +29,10 @@ ShaderManager::ShaderManager()
 	Renderer::GetInstance().CreateVertexShader(&shader.vertexShader, &shader.inputLayout, "Shader/ParticleTextureVS.cso");
 	Renderer::GetInstance().CreatePixelShader(&shader.pixelShader, "Shader/ParticleTexturePS.cso");
 	m_drawShaderMap[SHADER_TYPE::PARTICLE] = shader;
+
+	Renderer::GetInstance().CreateVertexShader(&shader.vertexShader, &shader.inputLayout, "Shader/DepthMappingVS.cso");
+	Renderer::GetInstance().CreatePixelShader(&shader.pixelShader, "Shader/DepthMappingPS.cso");
+	m_drawShaderMap[SHADER_TYPE::DEPTH] = shader;
 }
 
 ShaderManager::~ShaderManager()

@@ -25,6 +25,9 @@ struct LIGHT
 	Vector4	Direction;
 	Color	diffuse;
 	Color	Ambient;
+
+	Matrix view;
+	Matrix proj;
 };
 
 class Renderer : public Singleton<Renderer>

@@ -62,7 +62,7 @@ void Field::Update()
 
 void Field::Draw()
 {
-	ShaderManager::GetInstance().Set(SHADER_TYPE::UNLIT);
+	ShaderManager::GetInstance().Set(SHADER_TYPE::DEPTH);
 
 	//ワールドマトリクス設定
 	Matrix world = GetComponent<Transform>()->GetWorldMatrix();
@@ -81,7 +81,8 @@ void Field::Draw()
 
 	//テクスチャ設定
 	Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(0, 1, &m_texture);
-	
+	auto depthTexture = Renderer::GetInstance().GetShadowDepthTexture();
+	Renderer::GetInstance().GetDeviceContext()->PSSetShaderResources(1, 1, &depthTexture);
 
 	//プリミティブトポロジ設定
 	Renderer::GetInstance().GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
