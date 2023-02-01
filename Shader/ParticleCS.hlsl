@@ -46,34 +46,34 @@ cbuffer InfoBuffer : register(b7)
 #define SIZE_Y 1
 #define SIZE_Z 1
 
-float3 calcViewSpacePositionFromDepth(float2 normalizedScreenPosition, int2 texelOffset)
-{
-	float2 uv;
+//float3 calcViewSpacePositionFromDepth(float2 normalizedScreenPosition, int2 texelOffset)
+//{
+//	float2 uv;
 
-	// Add the texel offset to the normalized screen position
-	normalizedScreenPosition.x += (float) texelOffset.x / (float) 1920;
-	normalizedScreenPosition.y += (float) texelOffset.y / (float) 1080;
+//	// Add the texel offset to the normalized screen position
+//	normalizedScreenPosition.x += (float) texelOffset.x / (float) 1920;
+//	normalizedScreenPosition.y += (float) texelOffset.y / (float) 1080;
 
-	// Scale, bias and convert to texel range
-	uv.x = (0.5 + normalizedScreenPosition.x * 0.5) * (float) 1920;
-	uv.y = (1 - (0.5 + normalizedScreenPosition.y * 0.5)) * (float) 1080;
+//	// Scale, bias and convert to texel range
+//	uv.x = (0.5 + normalizedScreenPosition.x * 0.5) * (float) 1920;
+//	uv.y = (1 - (0.5 + normalizedScreenPosition.y * 0.5)) * (float) 1080;
 
-	// Fetch the depth value at this point
-	float depth = g_textureDepth.Load(uint3(uv.x, uv.y, 0)).x;
+//	// Fetch the depth value at this point
+//	float depth = g_textureDepth.Load(uint3(uv.x, uv.y, 0)).x;
 	
-	// Generate a point in screen space with this depth
-	float4 viewSpacePosOfDepthBuffer;
-	viewSpacePosOfDepthBuffer.xy = normalizedScreenPosition.xy;
-	viewSpacePosOfDepthBuffer.z = depth;
-	viewSpacePosOfDepthBuffer.w = 1;
+//	// Generate a point in screen space with this depth
+//	float4 viewSpacePosOfDepthBuffer;
+//	viewSpacePosOfDepthBuffer.xy = normalizedScreenPosition.xy;
+//	viewSpacePosOfDepthBuffer.z = depth;
+//	viewSpacePosOfDepthBuffer.w = 1;
 
-	// Transform into view space using the inverse projection matrix
-	matrix invProj = inverse(Projection);
-	viewSpacePosOfDepthBuffer = mul(viewSpacePosOfDepthBuffer, invProj);
-	viewSpacePosOfDepthBuffer.xyz /= viewSpacePosOfDepthBuffer.w;
+//	// Transform into view space using the inverse projection matrix
+//	matrix invProj = inverse(Projection);
+//	viewSpacePosOfDepthBuffer = mul(viewSpacePosOfDepthBuffer, invProj);
+//	viewSpacePosOfDepthBuffer.xyz /= viewSpacePosOfDepthBuffer.w;
 
-	return viewSpacePosOfDepthBuffer.xyz;
-}
+//	return viewSpacePosOfDepthBuffer.xyz;
+//}
 
 [numthreads(SIZE_X, SIZE_Y, SIZE_Z)]
 void main(const CSInput input)
@@ -93,53 +93,53 @@ void main(const CSInput input)
 		float3 result = particle[index].pos + particle[index].velocity + info.velocity + speed;
 
 		bufOut[index].velocity = particle[index].velocity;
-		//スクリーンスペースコリジョン(深度バッファ)
-		{
-			matrix wvp;
-			wvp = View;
-			wvp = mul(wvp, Projection);
+		////スクリーンスペースコリジョン(深度バッファ)
+		//{
+		//	matrix wvp;
+		//	wvp = View;
+		//	wvp = mul(wvp, Projection);
 
-			float3 particlePosition = mul(result, wvp);
+		//	float3 particlePosition = mul(result, wvp);
 			
-			// Transform new position into view space
-			float3 viewSpaceParticlePosition = mul(float4(particlePosition, 1), View).xyz;
+		//	// Transform new position into view space
+		//	float3 viewSpaceParticlePosition = mul(float4(particlePosition, 1), View).xyz;
 
-			// Also obtain screen space position
-			float4 screenSpaceParticlePosition = mul(float4(particlePosition, 1), mul(Projection, View));
-			screenSpaceParticlePosition.xyz /= screenSpaceParticlePosition.w;
+		//	// Also obtain screen space position
+		//	float4 screenSpaceParticlePosition = mul(float4(particlePosition, 1), mul(Projection, View));
+		//	screenSpaceParticlePosition.xyz /= screenSpaceParticlePosition.w;
 
-				// Get the view space position of the depth buffer
-			float3 viewSpacePosOfDepthBuffer = calcViewSpacePositionFromDepth(screenSpaceParticlePosition.xy, int2(0, 0));
+		//		// Get the view space position of the depth buffer
+		//	float3 viewSpacePosOfDepthBuffer = calcViewSpacePositionFromDepth(screenSpaceParticlePosition.xy, int2(0, 0));
 
-				// If the particle view space position is behind the depth buffer, but not by more than the collision thickness, then a collision has occurred
-			if (viewSpaceParticlePosition.z > viewSpacePosOfDepthBuffer.z)
-			{
-					// Generate the surface normal. Ideally, we would use the normals from the G-buffer as this would be more reliable than deriving them
-				float3 surfaceNormal;
+		//		// If the particle view space position is behind the depth buffer, but not by more than the collision thickness, then a collision has occurred
+		//	if (viewSpaceParticlePosition.z > viewSpacePosOfDepthBuffer.z)
+		//	{
+		//			// Generate the surface normal. Ideally, we would use the normals from the G-buffer as this would be more reliable than deriving them
+		//		float3 surfaceNormal;
 
-					// Take three points on the depth buffer
-				float3 p0 = viewSpacePosOfDepthBuffer;
-				float3 p1 = calcViewSpacePositionFromDepth(screenSpaceParticlePosition.xy, int2(1, 0));
-				float3 p2 = calcViewSpacePositionFromDepth(screenSpaceParticlePosition.xy, int2(0, 1));
+		//			// Take three points on the depth buffer
+		//		float3 p0 = viewSpacePosOfDepthBuffer;
+		//		float3 p1 = calcViewSpacePositionFromDepth(screenSpaceParticlePosition.xy, int2(1, 0));
+		//		float3 p2 = calcViewSpacePositionFromDepth(screenSpaceParticlePosition.xy, int2(0, 1));
 
-					// Generate the view space normal from the two vectors
-				float3 viewSpaceNormal = normalize(cross(p2 - p0, p1 - p0));
+		//			// Generate the view space normal from the two vectors
+		//		float3 viewSpaceNormal = normalize(cross(p2 - p0, p1 - p0));
 
-					// Transform into world space using the inverse view matrix
-				matrix invView = inverse(View);
-				surfaceNormal = normalize(mul(-viewSpaceNormal, invView).xyz);
+		//			// Transform into world space using the inverse view matrix
+		//		matrix invView = inverse(View);
+		//		surfaceNormal = normalize(mul(-viewSpaceNormal, invView).xyz);
 
-					// The velocity is reflected in the collision plane
-				float3 newVelocity = reflect(particle[index].velocity, surfaceNormal);
+		//			// The velocity is reflected in the collision plane
+		//		float3 newVelocity = reflect(particle[index].velocity, surfaceNormal);
 
-					// Update the velocity and apply some restitution
-				bufOut[index].velocity = 0.3 * newVelocity;
+		//			// Update the velocity and apply some restitution
+		//		bufOut[index].velocity = 0.3 * newVelocity;
 
-					// Update the new collided position
-				result = particle[index].pos + bufOut[index].velocity + info.velocity + speed;
-			}
+		//			// Update the new collided position
+		//		result = particle[index].pos + bufOut[index].velocity + info.velocity + speed;
+		//	}
 			
-		}
+		//}
 		
 		//Position更新
 		bufOut[index].pos = result;

@@ -1,5 +1,23 @@
 #include "EmitterGui.h"
 
+namespace
+{
+	inline Vector4 SliderVector4(Vector4 initial,const char* label)
+	{
+		float slider[4] = { initial.x,initial.y,initial.z,initial.w };
+		ImGui::SliderFloat4(label, slider, 0.0f, 1.0f);
+	
+		return Vector4(slider[0], slider[1], slider[2], slider[3]);
+	}
+
+	Vector4 ColorPickerVector4(Vector4 initial, const char* label)
+	{
+		float color[4] = { initial.x,initial.y,initial.z,initial.w };
+		ImGui::ColorPicker4("", color, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_Float);
+		return Vector4(color[0], color[1], color[2], color[3]);
+	}
+}
+
 EmitterGui::EmitterGui(std::shared_ptr<ParticleEmitter> emitter, std::string emitterName)
 {
 	m_currentEmitter = emitter;
@@ -77,19 +95,13 @@ void EmitterGui::Update()
 				//カラー
 				if (ImGui::TreeNode("Color"))
 				{
-					float color[4] = { m_bufferInfo.initialColor.x,m_bufferInfo.initialColor.y,
-						m_bufferInfo.initialColor.z,m_bufferInfo.initialColor.w };
-					ImGui::SliderFloat4("##Color", color, 0.0f, 1.0f);
-					ImVec4 colorVec4(color[0], color[1], color[2], color[3]); ImGui::SameLine();
+					m_bufferInfo.initialColor = SliderVector4(m_bufferInfo.initialColor,"##Color");
+					m_bufferInfo.finalColor = m_bufferInfo.initialColor;
+
+					ImVec4 colorVec4(m_bufferInfo.initialColor.x, m_bufferInfo.initialColor.y,
+						m_bufferInfo.initialColor.z, m_bufferInfo.initialColor.w); ImGui::SameLine();
 					ImGui::ColorButton("##color", colorVec4);
-					m_bufferInfo.initialColor.x = color[0];
-					m_bufferInfo.initialColor.y = color[1];
-					m_bufferInfo.initialColor.z = color[2];
-					m_bufferInfo.initialColor.w = color[3];
-					m_bufferInfo.finalColor.x = color[0];
-					m_bufferInfo.finalColor.y = color[1];
-					m_bufferInfo.finalColor.z = color[2];
-					m_bufferInfo.finalColor.w = color[3];
+
 					m_currentEmitter->SetInitialColor(m_bufferInfo.initialColor);
 					m_currentEmitter->SetFinalColor(m_bufferInfo.finalColor);
 
@@ -99,15 +111,9 @@ void EmitterGui::Update()
 
 					if (ImGui::BeginPopup("ColorPicker"))
 					{
-						ImGui::ColorPicker4("", color, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_Float);
-						m_bufferInfo.initialColor.x = color[0];
-						m_bufferInfo.initialColor.y = color[1];
-						m_bufferInfo.initialColor.z = color[2];
-						m_bufferInfo.initialColor.w = color[3];
-						m_bufferInfo.finalColor.x = color[0];
-						m_bufferInfo.finalColor.y = color[1];
-						m_bufferInfo.finalColor.z = color[2];
-						m_bufferInfo.finalColor.w = color[3];
+						m_bufferInfo.initialColor = ColorPickerVector4(m_bufferInfo.initialColor,"##Color");
+						m_bufferInfo.finalColor = m_bufferInfo.initialColor;
+
 						m_currentEmitter->SetInitialColor(m_bufferInfo.initialColor);
 						m_currentEmitter->SetFinalColor(m_bufferInfo.finalColor);
 						ImGui::EndPopup();
@@ -192,17 +198,14 @@ void EmitterGui::Update()
 			{
 				if (ImGui::TreeNode("InitialColor"))
 				{
-					float initialColor[4] = { m_bufferInfo.initialColor.x,m_bufferInfo.initialColor.y,m_bufferInfo.initialColor.z,m_bufferInfo.initialColor.w };
-					ImGui::SliderFloat4("initial", initialColor, 0.0f, 1.0f);
-					ImVec4 colorVec4(initialColor[0], initialColor[1], initialColor[2], initialColor[3]); ImGui::SameLine();
+					Vector4 initialColor = SliderVector4(m_bufferInfo.initialColor,"Initial");
+
+					ImVec4 colorVec4(initialColor.x, initialColor.y, initialColor.z, initialColor.w); ImGui::SameLine();
 					ImGui::ColorButton("##color", colorVec4);
-					if (m_bufferInfo.initialColor.x != initialColor[0] || m_bufferInfo.initialColor.y != initialColor[1] ||
-						m_bufferInfo.initialColor.z != initialColor[2] || m_bufferInfo.initialColor.w != initialColor[3])
+					if (m_bufferInfo.initialColor.x != initialColor.x || m_bufferInfo.initialColor.y != initialColor.z ||
+						m_bufferInfo.initialColor.z != initialColor.z || m_bufferInfo.initialColor.w != initialColor.w)
 					{
-						m_bufferInfo.initialColor.x = initialColor[0];
-						m_bufferInfo.initialColor.y = initialColor[1];
-						m_bufferInfo.initialColor.z = initialColor[2];
-						m_bufferInfo.initialColor.w = initialColor[3];
+						m_bufferInfo.initialColor = initialColor;
 						m_currentEmitter->SetInitialColor(m_bufferInfo.initialColor);
 					}
 					//ピッカー
@@ -211,11 +214,8 @@ void EmitterGui::Update()
 
 					if (ImGui::BeginPopup("ColorPicker"))
 					{
-						ImGui::ColorPicker4("##InitialColor", initialColor, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_Float);
-						m_bufferInfo.initialColor.x = initialColor[0];
-						m_bufferInfo.initialColor.y = initialColor[1];
-						m_bufferInfo.initialColor.z = initialColor[2];
-						m_bufferInfo.initialColor.w = initialColor[3];
+						ColorPickerVector4(initialColor,"Initial");
+						m_bufferInfo.initialColor = initialColor;
 						m_currentEmitter->SetInitialColor(m_bufferInfo.initialColor);
 						ImGui::EndPopup();
 					}
