@@ -13,15 +13,15 @@ void ParticleDemoScene::Init()
 
 	//ÉJÉÅÉâ
 	SetCamera<ParticleDemoSceneCamera>();
-	AddGameObject<SkyDome>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -200.0f, 0.0f));
+	AddGameObject<SkyDome>(OBJECT)->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -00.0f, 0.0f));
 
 	m_emitterManager = AddGameObject<ParticleEmitterManager>(EFFECT);
 
-	//auto field = AddGameObject<Field>(OBJECT);
-	//field->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -10.0f, 0.0f));
-	//AddDepthObject(field);
+	auto field = AddGameObject<Field>(OBJECT);
+	field->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -10.0f, 0.0f));
+	AddDepthObject(field);
 
-	//AddGameObject<Polygon2D>(UI);
+	AddGameObject<Polygon2D>(UI);
 }
 
 void ParticleDemoScene::Uninit()

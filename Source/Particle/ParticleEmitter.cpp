@@ -120,10 +120,20 @@ void ParticleEmitter::Update()
 	//　コンピュートシェーダー実行
 	ID3D11Buffer* pCBs[1] = { m_gravityBuffer };
 	context->CSSetConstantBuffers(7, 1, pCBs);
+	auto depthTexture = Renderer::GetInstance().GetShadowDepthTexture();
 	ID3D11ShaderResourceView* pSRVs[1] = { m_particleSRV };
 	context->CSSetShaderResources(0, 1, pSRVs);
-	auto depthTexture = Renderer::GetInstance().GetShadowDepthTexture();
 	context->CSSetShaderResources(1, 1, &depthTexture);
+
+	//ジオメトリシェーダ用ワールド行列
+	auto scene = SceneManager::GetInstance().GetScene();
+	Matrix view = scene->GetCamera()->GetViewMatrix();
+	Matrix world, scale, trans;
+	scale = Matrix::CreateScale(Vector3(1, 1, 1));
+	trans = Matrix::CreateTranslation(m_managerPosition + m_offsetPosition);
+	world = scale * view * trans;
+
+	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	context->CSSetShader(m_computeShader, nullptr, 0);
 	context->CSSetUnorderedAccessViews(0, 1, &m_resultUAV, 0);
