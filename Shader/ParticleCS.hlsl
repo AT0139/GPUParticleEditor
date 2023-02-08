@@ -64,26 +64,26 @@ void main(const CSInput input)
 
 
 
-		////スクリーンスペースコリジョン(深度バッファ)
-		//{
-		//	matrix wvp;
-		//	wvp = mul(World, View);
-		//	wvp = mul(wvp, Projection);
+		//スクリーンスペースコリジョン(深度バッファ)
+		{
+			matrix wvp;
+			wvp = mul(World, View);
+			wvp = mul(wvp, Projection);
 			
-		//	float4 vpPos = mul(float4(result, 1), wvp);
-		//	float2 uv = vpPos.xy / vpPos.w * 0.5 + 0.5;
-		//	float gbufferDepth = GetDepth(uv);
-		//	float particleDepth = vpPos.z / vpPos.w;
-		//	float3 normal = float3(0, 1, 0);
+			float4 vpPos = mul(float4(result, 1), wvp);
+			float2 uv = vpPos.xy / vpPos.w * 0.5 + 0.5;
+			float gbufferDepth = GetDepth(uv);
+			float particleDepth = vpPos.z / vpPos.w;
+			float3 normal = float3(0, 1, 0);
 
 			
-		//	if (particleDepth > gbufferDepth)
-		//	{
-		//		float3 velocity = -dot(particle[index].velocity, normal) * normal * 1.99 /* 1.0 + bouciness */;
+			if (particleDepth > gbufferDepth)
+			{
+				float3 velocity = -dot(particle[index].velocity, normal) * normal * 1.99 /* 1.0 + bouciness */;
 			
-		//		result = particle[index].pos + velocity + info.velocity + speed;
-		//	}
-		//}
+				result = particle[index].pos + velocity + info.velocity + speed;
+			}
+		}
 		
 		//Position更新
 		bufOut[index].pos = result;
