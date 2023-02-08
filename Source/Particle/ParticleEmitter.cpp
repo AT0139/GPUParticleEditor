@@ -63,7 +63,7 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
 
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_particleComputeBuffer, true);
-	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleParameter), m_particleNum, nullptr, &m_parameterBuffer, true);
+	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_parameterBuffer, true);
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_resultBuffer);
 
 
@@ -151,14 +151,8 @@ void ParticleEmitter::Update()
 	// 座標を座標バッファに入れる(頂点シェーダーで使う)
 	{
 		context->Map(m_parameterBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes2);
-		ParticleParameter* BufType = (ParticleParameter*)subRes2.pData;
-#pragma omp parallel for
-		for (int v = 0; v < m_particleNum; v++)
-		{
-			BufType[v].pos = m_particle[v].pos;
-			BufType[v].size = m_particle[v].size;
-			BufType[v].color = m_particle[v].color;
-		}
+		ParticleCompute* BufType = (ParticleCompute*)subRes2.pData;
+		memcpy(BufType, m_particle.get(), sizeof(ParticleCompute) * m_particleNum);
 		context->Unmap(m_parameterBuffer, 0);
 	}
 }

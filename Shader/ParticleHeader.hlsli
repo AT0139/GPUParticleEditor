@@ -49,12 +49,16 @@ cbuffer CameraBuffer : register(b5)
 	float4 CameraPosition;
 }
 
-struct ParticleParameter
+struct ParticleCompute
 {
-	float3 position;
+	float3 pos;
+	float3 speed;
+	float3 velocity;
+	int life;
 	float2 size;
 	float4 color;
 };
+
 
 struct VS_PARTICLE_IN
 {

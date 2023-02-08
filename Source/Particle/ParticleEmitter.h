@@ -66,13 +66,6 @@ public:
 	void SetCreateOnceNum(int num) { m_createOnceNum = num; }
 
 private:
-	struct ParticleParameter
-	{
-		Vector3 pos;
-		Vector2 size;
-		Vector4 color;
-	};
-
 	//コンピュートシェーダで仕様する構造体
 	struct ParticleCompute
 	{

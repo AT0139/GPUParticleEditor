@@ -1,15 +1,5 @@
 #include "ParticleHeader.hlsli"
 
-struct ParticleCompute
-{
-	float3 pos;
-	float3 speed;
-	float3 velocity;
-	int life;
-	float2 size;
-	float4 color;
-};
-
 struct CSInput
 {
 	uint3 groupThread : SV_GroupThreadID;
