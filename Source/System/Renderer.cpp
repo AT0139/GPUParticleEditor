@@ -266,12 +266,11 @@ void Renderer::Init()
 		td.Height = swapChainDesc.BufferDesc.Height;
 		td.MipLevels = 1;
 		td.ArraySize = 1;
-		td.Format = DXGI_FORMAT_R32_TYPELESS;
 		td.SampleDesc = swapChainDesc.SampleDesc;
 		td.Usage = D3D11_USAGE_DEFAULT;
 		td.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
-		td.CPUAccessFlags = 0;
-		td.MiscFlags = 0;
+		td.Format = DXGI_FORMAT_R32_TYPELESS;
+
 		hr = m_pDevice->CreateTexture2D(&td, NULL, &depthTexture);
 		if (FAILED(hr))
 			assert(nullptr);

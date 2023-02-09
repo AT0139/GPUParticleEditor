@@ -56,11 +56,13 @@ private:
 
 	ID3D11RasterizerState* m_rasterizerState;
 	ID3D11RasterizerState* m_wireFrameRasterizerState;
+	ID3D11RasterizerState* m_depthRasterizerState;
 
 	Viewport m_viewport;
 
 	ID3D11DepthStencilView* m_depthStencilView;
 	ID3D11ShaderResourceView* m_depthSRV;
+	
 
 private:
 #ifdef _DEBUG
