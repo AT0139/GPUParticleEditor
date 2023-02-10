@@ -16,7 +16,7 @@ SkyDome::SkyDome()
 	auto transform = GetComponent<Transform>();
 	transform->SetPosition(Vector3(0.0f, -100.0f, 0.0f));
 	transform->SetQuaternion(Quaternion(0.0f, 0.0f, 0.0f, 0.0f));
-	transform->SetScale(Vector3(250.0f, 250.0f, 250.0f));
+	transform->SetScale(Vector3(100.0f,100.0f, 100.0f));
 }
 
 SkyDome::~SkyDome()

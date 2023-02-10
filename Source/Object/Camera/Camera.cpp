@@ -31,7 +31,7 @@ void Camera::Draw()
 	Renderer::GetInstance().SetViewMatrix(&m_viewMatrix);
 
 	//プロジェクションマトリクス設定
-	m_projection = XMMatrixPerspectiveFovLH(1.0f, (float)SCREEN_WIDTH / SCREEN_HEIGHT, 1.0f, 1000.0f);
+	m_projection = XMMatrixPerspectiveFovLH(1.0f, (float)SCREEN_WIDTH / SCREEN_HEIGHT, 1.0f, 500.0f);
 
 	Renderer::GetInstance().SetProjectionMatrix(&m_projection);
 }
