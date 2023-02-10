@@ -10,10 +10,10 @@ namespace
 		return Vector4(slider[0], slider[1], slider[2], slider[3]);
 	}
 
-	Vector4 ColorPickerVector4(Vector4 initial, const char* label)
+	inline Vector4 ColorPickerVector4(Vector4 initial, const char* label)
 	{
 		float color[4] = { initial.x,initial.y,initial.z,initial.w };
-		ImGui::ColorPicker4("", color, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_Float);
+		ImGui::ColorPicker4(label, color, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_Float);
 		return Vector4(color[0], color[1], color[2], color[3]);
 	}
 }
@@ -95,30 +95,32 @@ void EmitterGui::Update()
 				//カラー
 				if (ImGui::TreeNode("Color"))
 				{
-					m_bufferInfo.initialColor = SliderVector4(m_bufferInfo.initialColor,"##Color");
-					m_bufferInfo.finalColor = m_bufferInfo.initialColor;
-
-					ImVec4 colorVec4(m_bufferInfo.initialColor.x, m_bufferInfo.initialColor.y,
-						m_bufferInfo.initialColor.z, m_bufferInfo.initialColor.w); ImGui::SameLine();
-					ImGui::ColorButton("##color", colorVec4);
-
-					m_currentEmitter->SetInitialColor(m_bufferInfo.initialColor);
-					m_currentEmitter->SetFinalColor(m_bufferInfo.finalColor);
-
-					//ピッカー
-					if (ImGui::Button("OpenColorPicker"))
-						ImGui::OpenPopup("ColorPicker", ImGuiPopupFlags_MouseButtonLeft);
-
-					if (ImGui::BeginPopup("ColorPicker"))
+					if (!m_datas.scaleColor)
 					{
-						m_bufferInfo.initialColor = ColorPickerVector4(m_bufferInfo.initialColor,"##Color");
+						m_bufferInfo.initialColor = SliderVector4(m_bufferInfo.initialColor, "##Color");
 						m_bufferInfo.finalColor = m_bufferInfo.initialColor;
+
+						ImVec4 colorVec4(m_bufferInfo.initialColor.x, m_bufferInfo.initialColor.y,
+							m_bufferInfo.initialColor.z, m_bufferInfo.initialColor.w); ImGui::SameLine();
+						ImGui::ColorButton("##color", colorVec4);
 
 						m_currentEmitter->SetInitialColor(m_bufferInfo.initialColor);
 						m_currentEmitter->SetFinalColor(m_bufferInfo.finalColor);
-						ImGui::EndPopup();
-					}
 
+						//ピッカー
+						if (ImGui::Button("OpenColorPicker"))
+							ImGui::OpenPopup("ColorPicker", ImGuiPopupFlags_MouseButtonLeft);
+
+						if (ImGui::BeginPopup("ColorPicker"))
+						{
+							m_bufferInfo.initialColor = ColorPickerVector4(m_bufferInfo.initialColor, "##Color");
+							m_bufferInfo.finalColor = m_bufferInfo.initialColor;
+
+							m_currentEmitter->SetInitialColor(m_bufferInfo.initialColor);
+							m_currentEmitter->SetFinalColor(m_bufferInfo.finalColor);
+							ImGui::EndPopup();
+						}
+					}
 					ImGui::TreePop();
 				}
 				ImGui::TreePop();
@@ -202,8 +204,7 @@ void EmitterGui::Update()
 
 					ImVec4 colorVec4(initialColor.x, initialColor.y, initialColor.z, initialColor.w); ImGui::SameLine();
 					ImGui::ColorButton("##color", colorVec4);
-					if (m_bufferInfo.initialColor.x != initialColor.x || m_bufferInfo.initialColor.y != initialColor.z ||
-						m_bufferInfo.initialColor.z != initialColor.z || m_bufferInfo.initialColor.w != initialColor.w)
+					if (m_bufferInfo.initialColor != initialColor)
 					{
 						m_bufferInfo.initialColor = initialColor;
 						m_currentEmitter->SetInitialColor(m_bufferInfo.initialColor);
@@ -214,7 +215,7 @@ void EmitterGui::Update()
 
 					if (ImGui::BeginPopup("ColorPicker"))
 					{
-						ColorPickerVector4(initialColor,"Initial");
+						initialColor = ColorPickerVector4(initialColor, "Initial");
 						m_bufferInfo.initialColor = initialColor;
 						m_currentEmitter->SetInitialColor(m_bufferInfo.initialColor);
 						ImGui::EndPopup();
@@ -224,17 +225,12 @@ void EmitterGui::Update()
 				}
 				if (ImGui::TreeNode("FinalColor"))
 				{
-					float finalColor[4] = { m_bufferInfo.finalColor.x,m_bufferInfo.finalColor.y,m_bufferInfo.finalColor.z,m_bufferInfo.finalColor.w };
-					ImGui::SliderFloat4("final", finalColor, 0.0f, 1.0f);
-					ImVec4 colorVec4(finalColor[0], finalColor[1], finalColor[2], finalColor[3]); ImGui::SameLine();
+					Vector4 finalColor = SliderVector4(m_bufferInfo.finalColor, "Final");
+					ImVec4 colorVec4(finalColor.x, finalColor.y, finalColor.z, finalColor.w); ImGui::SameLine();
 					ImGui::ColorButton("##color", colorVec4);
-					if (m_bufferInfo.finalColor.x != finalColor[0] || m_bufferInfo.initialColor.y != finalColor[1] ||
-						m_bufferInfo.finalColor.z != finalColor[2] || m_bufferInfo.initialColor.w != finalColor[3])
+					if (m_bufferInfo.finalColor != finalColor)
 					{
-						m_bufferInfo.finalColor.x = finalColor[0];
-						m_bufferInfo.finalColor.y = finalColor[1];
-						m_bufferInfo.finalColor.z = finalColor[2];
-						m_bufferInfo.finalColor.w = finalColor[3];
+						m_bufferInfo.finalColor = finalColor;
 						m_currentEmitter->SetFinalColor(m_bufferInfo.finalColor);
 					}
 					//ピッカー
@@ -243,11 +239,8 @@ void EmitterGui::Update()
 
 					if (ImGui::BeginPopup("ColorPicker"))
 					{
-						ImGui::ColorPicker4("##FinalColor", finalColor, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_Float);
-						m_bufferInfo.finalColor.x = finalColor[0];
-						m_bufferInfo.finalColor.y = finalColor[1];
-						m_bufferInfo.finalColor.z = finalColor[2];
-						m_bufferInfo.finalColor.w = finalColor[3];
+						finalColor = ColorPickerVector4(finalColor, "Final");
+						m_bufferInfo.finalColor = finalColor;
 						m_currentEmitter->SetFinalColor(m_bufferInfo.finalColor);
 						ImGui::EndPopup();
 					}

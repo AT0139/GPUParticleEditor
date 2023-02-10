@@ -54,7 +54,7 @@ void SceneManager::Draw()
 		
 	Renderer::GetInstance().SetLight(light);
 
-	Renderer::GetInstance().BeginDepth();
+	Renderer::GetInstance().BeginDepth();	
 	Renderer::GetInstance().SetViewMatrix(&light.view);
 	Renderer::GetInstance().SetProjectionMatrix(&light.proj);
 	m_pScene->DepthDraw();
