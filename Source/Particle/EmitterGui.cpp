@@ -2,20 +2,28 @@
 
 namespace
 {
-	Vector4 SliderVector4(Vector4 initial,const char* label)
-	{
-		float slider[4] = { initial.x,initial.y,initial.z,initial.w };
-		ImGui::SliderFloat4(label, slider, 0.0f, 1.0f);
-	
-		return Vector4(slider[0], slider[1], slider[2], slider[3]);
-	}
-
 	Vector2 SliderVector2(Vector2 initial, float min, float max, const char* label)
 	{
 		float slider[2] = { initial.x,initial.y };
 		ImGui::SliderFloat2(label, slider, min, max);
 
 		return Vector2(slider[0], slider[1]);
+	}
+
+	Vector3 SliderVector3(Vector3 initial, float min, float max, const char* label)
+	{
+		float slider[3] = { initial.x,initial.y,initial.z };
+		ImGui::SliderFloat3(label, slider, min, max);
+
+		return Vector3(slider[0], slider[1], slider[2]);
+	}
+
+	Vector4 SliderVector4(Vector4 initial, const char* label)
+	{
+		float slider[4] = { initial.x,initial.y,initial.z,initial.w };
+		ImGui::SliderFloat4(label, slider, 0.0f, 1.0f);
+
+		return Vector4(slider[0], slider[1], slider[2], slider[3]);
 	}
 
 	Vector4 ColorPickerVector4(Vector4 initial, const char* label)
@@ -162,13 +170,11 @@ void EmitterGui::Update()
 				isSetVelocity |= ImGui::RadioButton("None", &m_datas.addVelocityType, 0); ImGui::SameLine();
 				isSetVelocity |= ImGui::RadioButton("InCone", &m_datas.addVelocityType, 1);
 
-				float vel[3] = { m_bufferInfo.velocity.x,m_bufferInfo.velocity.y,m_bufferInfo.velocity.z };
-				ImGui::SliderFloat3("Velocity", vel, -5.0f, 5.0f);
-				if (m_bufferInfo.velocity.x != vel[0] || m_bufferInfo.velocity.y != vel[1] || m_bufferInfo.velocity.z != vel[2] || isSetVelocity)
+				Vector3 vel = m_bufferInfo.velocity;
+				vel = SliderVector3(vel, -5.0f, 5.0f, "Velocity");
+				if (m_bufferInfo.velocity != vel|| isSetVelocity)
 				{
-					m_bufferInfo.velocity.x = vel[0];
-					m_bufferInfo.velocity.y = vel[1];
-					m_bufferInfo.velocity.z = vel[2];
+					m_bufferInfo.velocity = vel;
 					m_currentEmitter->SetVelocity(m_bufferInfo.velocity, static_cast<ADD_VELOCITY_TYPE>(m_datas.addVelocityType));
 				}
 			}
@@ -221,13 +227,14 @@ void EmitterGui::Update()
 				m_currentEmitter->SetGravity(Vector3::Zero);
 			if (m_datas.gravity)
 			{
-				float gravity[3] = { m_bufferInfo.gravity.x ,m_bufferInfo.gravity.y ,m_bufferInfo.gravity.z};
-				ImGui::SliderFloat3("##GravityForce", gravity, -0.1f, 0.1f);
-				m_bufferInfo.gravity.x = gravity[0];
-				m_bufferInfo.gravity.y = gravity[1];
-				m_bufferInfo.gravity.z = gravity[2];
+				Vector3 gravity = m_bufferInfo.gravity;
+				gravity = SliderVector3(gravity, -0.1f, 0.1f, "##GravityForce");
 
-				m_currentEmitter->SetGravity(m_bufferInfo.gravity);
+				if (gravity != m_bufferInfo.gravity)
+				{
+					m_bufferInfo.gravity = gravity;
+					m_currentEmitter->SetGravity(m_bufferInfo.gravity);
+				}
 				ImGui::Spacing();
 			}
 		}
