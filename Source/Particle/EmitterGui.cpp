@@ -131,10 +131,10 @@ void EmitterGui::Update()
 						break;
 					}
 
-					ImGui::SliderInt("Life", &m_datas.life, 1, 800);
-					if (m_datas.life != m_bufferInfo.maxLife)
+					ImGui::SliderInt("Life", &m_datas.maxLife, 1, 800);
+					if (m_datas.maxLife != m_bufferInfo.maxLife)
 					{
-						m_bufferInfo.maxLife = m_datas.life;
+						m_bufferInfo.maxLife = m_datas.maxLife;
 						m_currentEmitter->SetLife(m_bufferInfo.maxLife);
 					}
 					ImGui::TreePop();

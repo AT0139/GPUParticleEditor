@@ -43,7 +43,7 @@ void ParticleDemoScene::Update()
 			{
 				if (ImGui::MenuItem("Save"))
 				{
-
+					ToSerialize();
 				}
 				if (ImGui::MenuItem("Load"))
 				{
@@ -102,10 +102,19 @@ void ParticleDemoScene::AddEmitter()
 	m_emitterList.push_back(std::make_shared<EmitterGui>(emitter, "ParticleEmitter" + sequence));
 }
 
-void ParticleDemoScene::Serialize()
+void ParticleDemoScene::ToSerialize()
 {
+	std::list<ParticleSerializeData> serializeList;
+
 	for (auto emitter : m_emitterList)
 	{
-		
+		ParticleSerializeData serializeData;
+		serializeData.data = emitter->GetEmitter()->GetSerializeData();
+		serializeList.push_back(serializeData);
+
 	}
+	std::ofstream os("Particle.json", std::ios::out);
+	cereal::JSONOutputArchive archiveFile(os);
+
+	serialize(archiveFile, serializeList);
 }

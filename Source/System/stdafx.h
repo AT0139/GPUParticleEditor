@@ -40,7 +40,7 @@
 #include <cereal/archives/json.hpp>
 #include <cereal/types/vector.hpp>
 #include <cereal/types/list.hpp>
-
+#include <cereal/types/string.hpp>
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;

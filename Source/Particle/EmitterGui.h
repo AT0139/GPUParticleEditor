@@ -11,6 +11,8 @@ public:
 
 	void Update();
 
+	std::shared_ptr<ParticleEmitter> GetEmitter() { return m_currentEmitter; }
+
 private:
 	struct EmitterDatas
 	{
@@ -25,7 +27,7 @@ private:
 		bool scaleSize;
 		bool scaleColor;
 		bool gravity;
-		int life			= 10;
+		int maxLife			= 10;
 	};
 
 	//todo ; ParFrame,ParUnit,スポーン確立(間引き)

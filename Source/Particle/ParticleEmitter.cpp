@@ -5,12 +5,12 @@
 #include "MainCamera.h"
 #include "SceneManager.h"
 #include <omp.h>
+#include "strconv.h"
 
 static const int MAX_PARTICLE_NUM = 10000;
 static const float MIN_RAND = -1.0f;
 static const float MAX_RAND = 2.0f;
 
-//todo :　バッファの最適化
 
 ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	: m_particleComputeBuffer(nullptr)
@@ -45,33 +45,45 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	m_particle.reset(new ParticleCompute[MAX_PARTICLE_NUM]);
 	//initDataを使用した初期化
 	{
-		m_texture = ResourceManager::GetInstance().GetTextureData(initData.filePath);
+		m_texture = ResourceManager::GetInstance().GetTextureData(utf8_to_wide(initData.filePath).c_str());
+		m_texturePath = initData.filePath;
 
-		//パーティクルは0で初期化
-		for (int i = 0; i < MAX_PARTICLE_NUM; i++)
-		{
-			m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
-			m_particle[i].speed = Vector3::Zero;
-			m_particle[i].velocity = Vector3::Zero;
+		m_particleInfo.gravity = initData.gravity;
+		m_particleInfo.maxLife = initData.maxLife;
+		m_particleInfo.velocity= initData.velocity;
+		m_particleInfo.initialSize = initData.initialSize;
+		m_particleInfo.finalSize = initData.finalSize;
+		m_particleInfo.initialColor = initData.initialColor;
+		m_particleInfo.finalColor = initData.finalColor;
 
-			m_particle[i].life = 0;
-		}
+		m_offsetPosition = initData.offsetPosition;
 	}
 
-	Renderer::GetInstance().CreateConstantBuffer(&m_particleInfoBuffer, nullptr, sizeof(ParticleInfo), sizeof(float), 7);
-	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
+	//パーティクルの初期化
+	for (int i = 0; i < MAX_PARTICLE_NUM; i++)
+	{
+		m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
+		m_particle[i].speed = Vector3::Zero;
+		m_particle[i].velocity = Vector3::Zero;
 
-	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_particleComputeBuffer, true);
-	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_parameterBuffer, true);
-	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_resultBuffer);
+		m_particle[i].maxLife = 0;
+	}
+
+	//各種バッファの作成
+	{
+		Renderer::GetInstance().CreateConstantBuffer(&m_particleInfoBuffer, nullptr, sizeof(ParticleInfo), sizeof(float), 7);
+		Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
+
+		Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_particleComputeBuffer, true);
+		Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_parameterBuffer, true);
+		Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_resultBuffer);
 
 
-	Renderer::GetInstance().CreateBufferSRV(m_particleComputeBuffer, &m_particleSRV);
-	Renderer::GetInstance().CreateBufferSRV(m_parameterBuffer, &m_parameterSRV);
+		Renderer::GetInstance().CreateBufferSRV(m_particleComputeBuffer, &m_particleSRV);
+		Renderer::GetInstance().CreateBufferSRV(m_parameterBuffer, &m_parameterSRV);
 
-
-	Renderer::GetInstance().CreateBufferUAV(m_resultBuffer, &m_resultUAV);
-
+		Renderer::GetInstance().CreateBufferUAV(m_resultBuffer, &m_resultUAV);
+	}
 	Renderer::GetInstance().CreateComputeShader(&m_computeShader, "Shader/ParticleCS.cso");
 	Renderer::GetInstance().CreateGeometryShader(&m_geometryShader, "Shader/GeometryShader.cso");
 }
@@ -215,9 +227,9 @@ void ParticleEmitter::SetGravity(Vector3 power)
 	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
 }
 
-void ParticleEmitter::SetLife(int life)
+void ParticleEmitter::SetLife(int maxLife)
 {
-	m_particleInfo.maxLife = life;
+	m_particleInfo.maxLife = maxLife;
 	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
 }
 
@@ -227,7 +239,7 @@ void ParticleEmitter::CreateParticle(int createNum)
 
 	for (int i = 0; i < MAX_PARTICLE_NUM; i++)
 	{
-		if (m_particle[i].life <= 0)
+		if (m_particle[i].maxLife <= 0)
 		{
 			Vector3 vel = {};
 			switch (m_velocityType)
@@ -246,17 +258,13 @@ void ParticleEmitter::CreateParticle(int createNum)
 		
 			m_particle[i].velocity = (vel) * 0.5f;
 			m_particle[i].speed = Vector3::Zero;
-			m_particle[i].life = m_particleInfo.maxLife;
+			m_particle[i].maxLife = m_particleInfo.maxLife;
 			m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
 			count++;
 			if (createNum <= count)
 				return;
 		}
 	}
-}
-
-void ParticleEmitter::Serialize()
-{
 }
 
 void ParticleEmitter::SetVelocity(Vector3 vel, ADD_VELOCITY_TYPE type)
@@ -278,4 +286,22 @@ void ParticleEmitter::SetSpawnRate(float rate)
 		m_createOnceNum = 1;
 	}
 	m_createInterval = createFrame;
+}
+
+EmitterInitData ParticleEmitter::GetSerializeData()
+{
+	EmitterInitData data;
+	data.filePath = m_texturePath;
+
+	data.gravity = m_particleInfo.gravity;
+	data.maxLife = m_particleInfo.maxLife;
+	data.velocity = m_particleInfo.velocity; 
+	data.initialSize = m_particleInfo.initialSize;
+	data.finalSize = m_particleInfo.finalSize;
+	data.initialColor = m_particleInfo.initialColor;
+	data.finalColor = m_particleInfo.finalColor;
+
+	data.offsetPosition = m_offsetPosition;
+
+	return data;
 }
