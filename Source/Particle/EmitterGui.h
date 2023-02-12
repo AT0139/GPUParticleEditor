@@ -38,7 +38,7 @@ private:
 	};
 
 	std::shared_ptr<ParticleEmitter> m_currentEmitter;
-	BufferInfo m_bufferInfo;
+	ParticleInfo m_bufferInfo;
 	EmitterDatas m_datas;
 
 	std::string m_name;

@@ -16,7 +16,6 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	: m_particleComputeBuffer(nullptr)
 	, m_parameterBuffer(nullptr)
 	, m_resultBuffer(nullptr)
-	, m_gravity(false)
 	, m_createInterval(1)
 	, m_createCount(0)
 	, m_createOnceNum(0)
@@ -43,27 +42,24 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 		Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 	}
 
-
-	m_texture = ResourceManager::GetInstance().GetTextureData(initData.filePath);
-
 	m_particle.reset(new ParticleCompute[MAX_PARTICLE_NUM]);
-
-	//初期化
-	for (int i = 0; i < MAX_PARTICLE_NUM; i++)
+	//initDataを使用した初期化
 	{
-		m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
-		m_particle[i].speed = Vector3::Zero;
-		m_particle[i].velocity = Vector3::Zero;
+		m_texture = ResourceManager::GetInstance().GetTextureData(initData.filePath);
 
-		m_particle[i].life = 0;
+		//パーティクルは0で初期化
+		for (int i = 0; i < MAX_PARTICLE_NUM; i++)
+		{
+			m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
+			m_particle[i].speed = Vector3::Zero;
+			m_particle[i].velocity = Vector3::Zero;
+
+			m_particle[i].life = 0;
+		}
 	}
 
-	
-	BufferInfo info = {};
-	info.gravity = initData.gravity;
-	
-	Renderer::GetInstance().CreateConstantBuffer(&m_gravityBuffer, nullptr, sizeof(BufferInfo), sizeof(float), 7);
-	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
+	Renderer::GetInstance().CreateConstantBuffer(&m_particleInfoBuffer, nullptr, sizeof(ParticleInfo), sizeof(float), 7);
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
 
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_particleComputeBuffer, true);
 	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_parameterBuffer, true);
@@ -116,7 +112,7 @@ void ParticleEmitter::Update()
 	context->Unmap(m_particleComputeBuffer, 0);
 
 	//　コンピュートシェーダー実行
-	ID3D11Buffer* pCBs[1] = { m_gravityBuffer };
+	ID3D11Buffer* pCBs[1] = { m_particleInfoBuffer };
 	context->CSSetConstantBuffers(7, 1, pCBs);
 	auto depthTexture = Renderer::GetInstance().GetShadowDepthTexture();
 	ID3D11ShaderResourceView* pSRVs[1] = { m_particleSRV };
@@ -191,38 +187,38 @@ void ParticleEmitter::Draw()
 
 void ParticleEmitter::SetInitialSize(Vector2 size)
 {
-	m_bufferInfo.initialSize = size;
-	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
+	m_particleInfo.initialSize = size;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
 }
 
 void ParticleEmitter::SetFinalSize(Vector2 size)
 {
-	m_bufferInfo.finalSize = size;
-	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
+	m_particleInfo.finalSize = size;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
 }
 
 void ParticleEmitter::SetInitialColor(Vector4 color)
 {
-	m_bufferInfo.initialColor = color;
-	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
+	m_particleInfo.initialColor = color;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
 }
 
 void ParticleEmitter::SetFinalColor(Vector4 color)
 {
-	m_bufferInfo.finalColor = color;
-	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
+	m_particleInfo.finalColor = color;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
 }
 
 void ParticleEmitter::SetGravity(Vector3 power)
 {
-	m_bufferInfo.gravity = power;
-	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
+	m_particleInfo.gravity = power;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
 }
 
 void ParticleEmitter::SetLife(int life)
 {
-	m_bufferInfo.maxLife = life;
-	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
+	m_particleInfo.maxLife = life;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
 }
 
 void ParticleEmitter::CreateParticle(int createNum)
@@ -250,7 +246,7 @@ void ParticleEmitter::CreateParticle(int createNum)
 		
 			m_particle[i].velocity = (vel) * 0.5f;
 			m_particle[i].speed = Vector3::Zero;
-			m_particle[i].life = m_bufferInfo.maxLife;
+			m_particle[i].life = m_particleInfo.maxLife;
 			m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
 			count++;
 			if (createNum <= count)
@@ -266,13 +262,12 @@ void ParticleEmitter::Serialize()
 void ParticleEmitter::SetVelocity(Vector3 vel, ADD_VELOCITY_TYPE type)
 {
 	m_velocityType = type;
-	m_bufferInfo.velocity = vel;
-	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
+	m_particleInfo.velocity = vel;
+	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
 }
 
 void ParticleEmitter::SetSpawnRate(float rate)
 {
-	m_spawnRate = rate;
 	float createFrame = FPS / rate;
 	if (createFrame < 1)
 	{

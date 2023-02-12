@@ -16,7 +16,7 @@ struct EmitterInitData
 };
 
 //コンピュートシェーダで使用するバッファ用構造体
-struct BufferInfo
+struct ParticleInfo
 {
 	Vector3 gravity;
 	int maxLife				= 10;
@@ -77,7 +77,7 @@ private:
 	ID3D11Buffer* m_particleComputeBuffer;
 	ID3D11Buffer* m_resultBuffer;
 	ID3D11Buffer* m_parameterBuffer;
-	ID3D11Buffer* m_gravityBuffer;
+	ID3D11Buffer* m_particleInfoBuffer;
 
 	// SRV
 	ID3D11ShaderResourceView* m_particleSRV;
@@ -92,12 +92,10 @@ private:
 
 	Vector3 m_managerPosition;
 	Vector3 m_offsetPosition; //エミッターマネージャーからのオフセット位置
-	BufferInfo m_bufferInfo;
+	ParticleInfo m_particleInfo;
 
-	float m_createCount;
-	bool m_gravity;
 	ADD_VELOCITY_TYPE m_velocityType;
-	float m_spawnRate;
+	float m_createCount;
 	int m_createOnceNum;
 	float m_createInterval;
 };
