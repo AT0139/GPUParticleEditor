@@ -25,14 +25,22 @@ private:
 		bool scaleSize;
 		bool scaleColor;
 		bool gravity;
-
+		int life			= 10;
 	};
 
+	//todo ; ParFrame,ParUnit,スポーン確立(間引き)
+	enum class SPAWN_TYPE
+	{
+		PAR_SECOND,
+		//PAR_FRAME,
+		BURST
+		//PAR_UNIT
+	};
 
 	std::shared_ptr<ParticleEmitter> m_currentEmitter;
-	EmitterInitData* m_currentData;
 	BufferInfo m_bufferInfo;
 	EmitterDatas m_datas;
 
 	std::string m_name;
+	std::string m_tempName;
 };

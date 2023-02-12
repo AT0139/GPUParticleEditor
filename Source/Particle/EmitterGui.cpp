@@ -84,8 +84,8 @@ namespace
 EmitterGui::EmitterGui(std::shared_ptr<ParticleEmitter> emitter, std::string emitterName)
 {
 	m_currentEmitter = emitter;
-	m_currentData = m_currentEmitter->GetEmitterData();	
 	m_name = emitterName;
+	m_tempName = emitterName;
 	m_datas = {};
 }
 
@@ -93,6 +93,11 @@ void EmitterGui::Update()
 {
 	ImGui::Begin(m_name.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDocking);
 	{
+		auto name = m_tempName.c_str();
+		ImGui::InputText("EmitterName", (char*)name, 30); ImGui::SameLine();
+		if (ImGui::Button("Apply"))
+			m_name = m_tempName.c_str();
+
 		if (ImGui::CollapsingHeader("Spawn"))
 		{
 			if (ImGui::TreeNode("InitializeParticle"))
@@ -111,7 +116,6 @@ void EmitterGui::Update()
 						if (isSet)
 						{
 							m_currentEmitter->SetSpawnRate(m_datas.spawnRate);
-							m_currentEmitter->SetSpawnType(SPAWN_TYPE::PAR_SECOND);
 						}
 						break;
 					case static_cast<int>(SPAWN_TYPE::BURST):
@@ -121,13 +125,18 @@ void EmitterGui::Update()
 						{
 							m_currentEmitter->SetCreateOnceNum(m_datas.onceNum);
 							m_currentEmitter->SetCreateInterval(m_datas.interval);
-							m_currentEmitter->SetSpawnType(SPAWN_TYPE::BURST);
 						}
 						break;
 					default:
 						break;
 					}
-					ImGui::SliderInt("Life", &m_currentData->life, 1, 800);
+
+					ImGui::SliderInt("Life", &m_datas.life, 1, 800);
+					if (m_datas.life != m_bufferInfo.maxLife)
+					{
+						m_bufferInfo.maxLife = m_datas.life;
+						m_currentEmitter->SetLife(m_bufferInfo.maxLife);
+					}
 					ImGui::TreePop();
 				}
 				//ÉTÉCÉY

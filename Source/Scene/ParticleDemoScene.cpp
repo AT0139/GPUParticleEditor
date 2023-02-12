@@ -17,11 +17,11 @@ void ParticleDemoScene::Init()
 
 	m_emitterManager = AddGameObject<ParticleEmitterManager>(EFFECT);
 
-	auto field = AddGameObject<Field>(OBJECT);
-	field->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -10.0f, 0.0f));
-	AddDepthObject(field);
+	//auto field = AddGameObject<Field>(OBJECT);
+	//field->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -10.0f, 0.0f));
+	//AddDepthObject(field);
 
-	AddGameObject<Polygon2D>(UI);
+	//AddGameObject<Polygon2D>(UI);
 }
 
 void ParticleDemoScene::Uninit()
@@ -70,7 +70,6 @@ void ParticleDemoScene::Update()
 	ImGui::End();
 
 
-
 	for (auto it : m_emitterList)
 	{
 		ImGui::PushID(&it);
@@ -101,4 +100,12 @@ void ParticleDemoScene::AddEmitter()
 	}
 
 	m_emitterList.push_back(std::make_shared<EmitterGui>(emitter, "ParticleEmitter" + sequence));
+}
+
+void ParticleDemoScene::Serialize()
+{
+	for (auto emitter : m_emitterList)
+	{
+		
+	}
 }

@@ -41,23 +41,23 @@ void SceneManager::Update()
 
 void SceneManager::Draw()
 {
-	auto camera = m_pScene->GetCamera();
-	LIGHT light;
-	light.Enable = true;
-	light.Direction = Vector4(1.0f, -1.0f, 1.0f, 0.0f);
-	light.Direction = XMVector4Normalize(light.Direction);
-	light.Ambient = Color(0.2f, 0.2f, 0.2f, 1.0f);
-	light.diffuse = Color(2.0f, 2.0f, 2.0f, 1.0f);
-	light.view = camera->GetViewMatrix();
-	//ライトカメラのプロジェクション行列を作成
-	light.proj = camera->GetProjectionMatrix();
-		
-	Renderer::GetInstance().SetLight(light);
+	//auto camera = m_pScene->GetCamera();
+	//LIGHT light;
+	//light.Enable = true;
+	//light.Direction = Vector4(1.0f, -1.0f, 1.0f, 0.0f);
+	//light.Direction = XMVector4Normalize(light.Direction);
+	//light.Ambient = Color(0.2f, 0.2f, 0.2f, 1.0f);
+	//light.diffuse = Color(2.0f, 2.0f, 2.0f, 1.0f);
+	//light.view = camera->GetViewMatrix();
+	////ライトカメラのプロジェクション行列を作成
+	//light.proj = camera->GetProjectionMatrix();
+	//	
+	//Renderer::GetInstance().SetLight(light);
 
-	Renderer::GetInstance().BeginDepth();	
-	Renderer::GetInstance().SetViewMatrix(&light.view);
-	Renderer::GetInstance().SetProjectionMatrix(&light.proj);
-	m_pScene->DepthDraw();
+	//Renderer::GetInstance().BeginDepth();	
+	//Renderer::GetInstance().SetViewMatrix(&light.view);
+	//Renderer::GetInstance().SetProjectionMatrix(&light.proj);
+	//m_pScene->DepthDraw();
 
 	Renderer::GetInstance().Begin();
 

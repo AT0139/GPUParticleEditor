@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include <omp.h>
 
+static const int MAX_PARTICLE_NUM = 10000;
 static const float MIN_RAND = -1.0f;
 static const float MAX_RAND = 2.0f;
 
@@ -15,44 +16,46 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	: m_particleComputeBuffer(nullptr)
 	, m_parameterBuffer(nullptr)
 	, m_resultBuffer(nullptr)
-	, m_particleNum(initData.maxNum)
-	, m_initData(initData)
 	, m_gravity(false)
-	, m_spawnType(initData.spawnType)
 	, m_createInterval(1)
 	, m_createCount(0)
 	, m_createOnceNum(0)
 {
-	VERTEX_3D vertex[1];
-
-	vertex[0].position = Vector3(0.0f, 0.0f, 0.0f);
-	vertex[0].normal = Vector3(0.0f, 1.0f, 0.0f);
-	vertex[0].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[0].texCoord = Vector2(0.0f, 0.0f);
-
 	//頂点バッファ生成
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	{
+		VERTEX_3D vertex[1];
 
-	D3D11_SUBRESOURCE_DATA sd;
-	ZeroMemory(&sd, sizeof(sd));
-	sd.pSysMem = vertex;
+		vertex[0].position = Vector3(0.0f, 0.0f, 0.0f);
+		vertex[0].normal = Vector3(0.0f, 1.0f, 0.0f);
+		vertex[0].diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertex[0].texCoord = Vector2(0.0f, 0.0f);
 
-	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
+		D3D11_BUFFER_DESC bd;
+		ZeroMemory(&bd, sizeof(bd));
+		bd.Usage = D3D11_USAGE_DEFAULT;
+		bd.ByteWidth = sizeof(VERTEX_3D) * 4;
+		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+		D3D11_SUBRESOURCE_DATA sd;
+		ZeroMemory(&sd, sizeof(sd));
+		sd.pSysMem = vertex;
+
+		Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
+	}
+
 
 	m_texture = ResourceManager::GetInstance().GetTextureData(initData.filePath);
 
-	m_particle.reset(new ParticleCompute[m_particleNum]);
+	m_particle.reset(new ParticleCompute[MAX_PARTICLE_NUM]);
 
-	for (int i = 0; i < m_particleNum; i++)
+	//初期化
+	for (int i = 0; i < MAX_PARTICLE_NUM; i++)
 	{
-		m_particle[i].velocity = Vector3::Zero;
-		m_particle[i].speed = Vector3::Zero;
-		m_particle[i].life = 0;
 		m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
+		m_particle[i].speed = Vector3::Zero;
+		m_particle[i].velocity = Vector3::Zero;
+
+		m_particle[i].life = 0;
 	}
 
 	
@@ -62,9 +65,9 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	Renderer::GetInstance().CreateConstantBuffer(&m_gravityBuffer, nullptr, sizeof(BufferInfo), sizeof(float), 7);
 	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_gravityBuffer, 0, NULL, &m_bufferInfo, 0, 0);
 
-	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_particleComputeBuffer, true);
-	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_parameterBuffer, true);
-	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), m_particleNum, nullptr, &m_resultBuffer);
+	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_particleComputeBuffer, true);
+	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_parameterBuffer, true);
+	Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_resultBuffer);
 
 
 	Renderer::GetInstance().CreateBufferSRV(m_particleComputeBuffer, &m_particleSRV);
@@ -103,18 +106,13 @@ void ParticleEmitter::Update()
 		CreateParticle(m_createOnceNum);
 		m_createCount -= m_createInterval;
 	}
-	if (m_initData.life != m_bufferInfo.maxLife)
-	{
-		SetLife(m_initData.life);
-	}
-
 
 	auto context = Renderer::GetInstance().GetDeviceContext();
 
 	D3D11_MAPPED_SUBRESOURCE subRes;
 	context->Map(m_particleComputeBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes);
 	ParticleCompute* pBufType = (ParticleCompute*)subRes.pData;
-	memcpy(subRes.pData, m_particle.get(), sizeof(ParticleCompute) * m_particleNum);
+	memcpy(subRes.pData, m_particle.get(), sizeof(ParticleCompute) * MAX_PARTICLE_NUM);
 	context->Unmap(m_particleComputeBuffer, 0);
 
 	//　コンピュートシェーダー実行
@@ -144,7 +142,7 @@ void ParticleEmitter::Update()
 	D3D11_MAPPED_SUBRESOURCE subRes2;
 	context->Map(pBufDbg, 0, D3D11_MAP_READ, 0, &subRes2);
 	ParticleCompute* pBufType2 = reinterpret_cast<ParticleCompute*>(subRes2.pData);
-	memcpy(m_particle.get(), pBufType2, sizeof(ParticleCompute) * m_particleNum);
+	memcpy(m_particle.get(), pBufType2, sizeof(ParticleCompute) * MAX_PARTICLE_NUM);
 	context->Unmap(pBufDbg, 0);
 	pBufDbg->Release();
 
@@ -152,7 +150,7 @@ void ParticleEmitter::Update()
 	{
 		context->Map(m_parameterBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes2);
 		ParticleCompute* BufType = (ParticleCompute*)subRes2.pData;
-		memcpy(BufType, m_particle.get(), sizeof(ParticleCompute) * m_particleNum);
+		memcpy(BufType, m_particle.get(), sizeof(ParticleCompute) * MAX_PARTICLE_NUM);
 		context->Unmap(m_parameterBuffer, 0);
 	}
 }
@@ -176,11 +174,6 @@ void ParticleEmitter::Draw()
 	ShaderManager::GetInstance().Set(SHADER_TYPE::PARTICLE);
 	context->GSSetShader(m_geometryShader, NULL, 0);
 
-	MATERIAL material;
-	ZeroMemory(&material, sizeof(material));
-	material.diffuse = m_initData.color;
-	Renderer::GetInstance().SetMaterial(material);
-
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
@@ -189,7 +182,7 @@ void ParticleEmitter::Draw()
 	context->VSSetShaderResources(2, 1, &m_parameterSRV); // VSに入れる座標設定
 
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-	context->DrawInstanced(1, m_particleNum, 0, 0);
+	context->DrawInstanced(1, MAX_PARTICLE_NUM, 0, 0);
 
 	context->GSSetShader(NULL, NULL, 0);
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
@@ -236,7 +229,7 @@ void ParticleEmitter::CreateParticle(int createNum)
 {
 	int count = 0;
 
-	for (int i = 0; i < m_particleNum; i++)
+	for (int i = 0; i < MAX_PARTICLE_NUM; i++)
 	{
 		if (m_particle[i].life <= 0)
 		{
@@ -257,13 +250,17 @@ void ParticleEmitter::CreateParticle(int createNum)
 		
 			m_particle[i].velocity = (vel) * 0.5f;
 			m_particle[i].speed = Vector3::Zero;
-			m_particle[i].life = m_initData.life;
+			m_particle[i].life = m_bufferInfo.maxLife;
 			m_particle[i].pos = Vector3(0.0f, 0.0f, 0.0f);
 			count++;
 			if (createNum <= count)
 				return;
 		}
 	}
+}
+
+void ParticleEmitter::Serialize()
+{
 }
 
 void ParticleEmitter::SetVelocity(Vector3 vel, ADD_VELOCITY_TYPE type)
