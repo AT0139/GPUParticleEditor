@@ -10,14 +10,15 @@ enum class ADD_VELOCITY_TYPE
 
 struct EmitterInitData
 {
-	std::string filePath	= "Asset\\Texture\\WhiteBloom.png";
-	Vector3 gravity			= {};
-	int		maxLife			= 30;
+	std::string filePath			= "Asset\\Texture\\WhiteBloom.png";
+	Vector3 gravity					= {};
+	int		maxLife					= 30;
 	Vector3 velocity;
-	Vector2 initialSize		= Vector2(1.0f, 1.0f);
-	Vector2 finalSize		= Vector2(1.0f, 1.0f);
-	Vector4 initialColor	= Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	Vector4 finalColor		= Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	ADD_VELOCITY_TYPE velocityType	= ADD_VELOCITY_TYPE::NONE;
+	Vector2 initialSize				= Vector2(1.0f, 1.0f);
+	Vector2 finalSize				= Vector2(1.0f, 1.0f);
+	Vector4 initialColor			= Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	Vector4 finalColor				= Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	Vector3 offsetPosition;
 };
@@ -30,11 +31,11 @@ struct ParticleInfo
 	Vector3 velocity;
 	float pad1;
 
-	Vector2 initialSize;
-	Vector2 finalSize;
-
-	Vector4 initialColor;
-	Vector4 finalColor;
+	Vector2 initialSize		= Vector2(1.0f, 1.0f);
+	Vector2 finalSize		= Vector2(1.0f, 1.0f);
+	
+	Vector4 initialColor	= Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	Vector4 finalColor		= Vector4(1.0f, 1.0f, 1.0f, 1.0f);;
 };
 
 class ParticleEmitter

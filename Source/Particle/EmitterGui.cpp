@@ -207,7 +207,7 @@ void EmitterGui::Update()
 				if (m_bufferInfo.finalSize != finalSize)
 				{
 					m_bufferInfo.finalSize = finalSize;
-					m_currentEmitter->SetInitialSize(m_bufferInfo.finalSize);
+					m_currentEmitter->SetFinalSize(m_bufferInfo.finalSize);
 				}
 			}
 

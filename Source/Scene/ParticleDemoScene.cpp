@@ -47,7 +47,7 @@ void ParticleDemoScene::Update()
 				}
 				if (ImGui::MenuItem("Load"))
 				{
-
+					ToDeserialize();
 				}
 				ImGui::EndMenu();
 			}
@@ -102,6 +102,25 @@ void ParticleDemoScene::AddEmitter()
 	m_emitterList.push_back(std::make_shared<EmitterGui>(emitter, "ParticleEmitter" + sequence));
 }
 
+void ParticleDemoScene::AddEmitter(EmitterInitData initData)
+{
+	auto emitter = m_emitterManager->AddEmitter(initData);
+	int index = m_emitterManager->GetEmitterIndex(emitter);
+	if (index == -1)
+		assert(nullptr);
+
+	std::string sequence;
+	if (index >= 1)
+	{
+		sequence = "(";
+		sequence += std::to_string(index);
+		sequence += ")";
+	}
+
+	m_emitterList.push_back(std::make_shared<EmitterGui>(emitter, "ParticleEmitter" + sequence));
+}
+
+//シリアライズ
 void ParticleDemoScene::ToSerialize()
 {
 	std::list<ParticleSerializeData> serializeList;
@@ -117,4 +136,20 @@ void ParticleDemoScene::ToSerialize()
 	cereal::JSONOutputArchive archiveFile(os);
 
 	serialize(archiveFile, serializeList);
+}
+
+//デシリアライズ
+void ParticleDemoScene::ToDeserialize()
+{
+	std::ifstream os("Particle.json", std::ios::in);
+	cereal::JSONInputArchive archive(os);
+
+	std::list<ParticleSerializeData> inputList;
+
+	serialize(archive, inputList);
+
+	for (auto input : inputList)
+	{
+		AddEmitter(input.data);
+	}
 }

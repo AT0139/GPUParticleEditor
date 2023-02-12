@@ -4,6 +4,7 @@
 #include "ParticleEmitterManager.h"
 #include "EmitterGui.h"
 
+// Vectorの非侵入型シリアライズ定義
 namespace DirectX::SimpleMath
 {
 	template<class Archive>
@@ -34,7 +35,7 @@ struct ParticleSerializeData
 	{
 		archive(CEREAL_NVP(data.filePath),
 			CEREAL_NVP(data.gravity), CEREAL_NVP(data.maxLife),
-			CEREAL_NVP(data.velocity), CEREAL_NVP(data.initialSize), CEREAL_NVP(data.finalSize),
+			CEREAL_NVP(data.velocity), CEREAL_NVP(data.velocityType), CEREAL_NVP(data.initialSize), CEREAL_NVP(data.finalSize),
 			CEREAL_NVP(data.initialColor), CEREAL_NVP(data.finalColor), CEREAL_NVP(data.offsetPosition));
 	}
 };
@@ -48,7 +49,10 @@ public:
 
 private:
 	void AddEmitter();
+	void AddEmitter(EmitterInitData initData);
+
 	void ToSerialize();
+	void ToDeserialize();
 
 	template<class Archive>
 	void serialize(Archive& archive, std::list<ParticleSerializeData>& objects)

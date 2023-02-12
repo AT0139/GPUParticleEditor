@@ -4,33 +4,34 @@
             "data.filePath": "Asset\\Texture\\WhiteBloom.png",
             "data.gravity": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": -0.05900000035762787,
                 "z": 0.0
             },
             "data.maxLife": 30,
             "data.velocity": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": 1.0230000019073487,
                 "z": 0.0
             },
+            "data.velocityType": 1,
             "data.initialSize": {
-                "x": 1.0,
-                "y": 1.0
+                "x": 0.8309999704360962,
+                "y": 0.8309999704360962
             },
             "data.finalSize": {
                 "x": 1.0,
                 "y": 1.0
             },
             "data.initialColor": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0,
+                "x": 0.9956178069114685,
+                "y": 0.09476976096630097,
+                "z": 0.09476976096630097,
                 "w": 1.0
             },
             "data.finalColor": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0,
+                "x": 0.0,
+                "y": 0.005916607566177845,
+                "z": 0.028988003730773927,
                 "w": 1.0
             },
             "data.offsetPosition": {

@@ -57,6 +57,7 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 		m_particleInfo.finalColor = initData.finalColor;
 
 		m_offsetPosition = initData.offsetPosition;
+		m_velocityType = initData.velocityType;
 	}
 
 	//パーティクルの初期化
@@ -301,6 +302,7 @@ EmitterInitData ParticleEmitter::GetSerializeData()
 	data.initialColor = m_particleInfo.initialColor;
 	data.finalColor = m_particleInfo.finalColor;
 
+	data.velocityType = m_velocityType;
 	data.offsetPosition = m_offsetPosition;
 
 	return data;
