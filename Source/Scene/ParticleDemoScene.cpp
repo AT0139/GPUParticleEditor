@@ -7,7 +7,8 @@
 #include "Field.h"
 #include "Polygon2D.h"
 
-static const char* PARTICLE_LIST_PATH = "./Particles/Particles.json";
+static const std::string PARTICLE_FOLDER_PATH = "./Particles/";
+static const std::string PARTICLE_LIST_PATH = PARTICLE_FOLDER_PATH + "Particles.json";
 
 void ParticleDemoScene::Init()
 {
@@ -159,10 +160,19 @@ void ParticleDemoScene::ToSerialize(std::string particleName)
 		serializeList.push_back(serializeData);
 	}
 
-	//ファイルパス
-	std::ofstream os(PARTICLE_LIST_PATH, std::ios::app);
-	cereal::JSONOutputArchive archiveFile(os);
-	serialize(archiveFile, serializeList);
+	{
+		std::ofstream os(PARTICLE_LIST_PATH, std::ios::out);
+		cereal::JSONOutputArchive archiveFile(os);
+
+		m_savedParticles.push_back(particleName);
+		serialize(archiveFile, m_savedParticles);
+	}
+
+	{
+		std::ofstream os(PARTICLE_FOLDER_PATH + particleName + ".json", std::ios::out);
+		cereal::JSONOutputArchive archiveFile(os);
+		serialize(archiveFile, serializeList);
+	}
 }
 
 //デシリアライズ

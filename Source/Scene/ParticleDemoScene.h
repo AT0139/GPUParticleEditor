@@ -42,6 +42,13 @@ private:
 		archive(CEREAL_NVP(particles));
 	}
 
+	template<class Archive>
+	void serialize(Archive& archive, std::list<std::string>& particles)
+	{
+		archive(CEREAL_NVP(particles));
+	}
+
+	std::list<std::string> m_savedParticles;
 	bool m_isSaving;
 	ParticleEmitterManager* m_emitterManager;
 	std::list<std::shared_ptr<EmitterGui>> m_emitterList;
