@@ -47,7 +47,7 @@
     <Filter Include="ソース ファイル\Shader\Particle">
       <UniqueIdentifier>{0b931166-256d-4a52-a482-aa56d3d1606e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Object\Particle">
+    <Filter Include="ソース ファイル\Particle">
       <UniqueIdentifier>{8c07450d-d5f5-4852-9fb1-4f21a27b5342}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -239,10 +239,10 @@
       <Filter>ソース ファイル\UI</Filter>
     </ClInclude>
     <ClInclude Include="Source\Particle\ParticleEmitter.h">
-      <Filter>ソース ファイル\Object\Particle</Filter>
+      <Filter>ソース ファイル\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Source\Particle\ParticleEmitterManager.h">
-      <Filter>ソース ファイル\Object\Particle</Filter>
+      <Filter>ソース ファイル\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Source\Object\Camera\Camera.h">
       <Filter>ソース ファイル\Object\Camera</Filter>
@@ -269,7 +269,10 @@
       <Filter>ソース ファイル\Object\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Source\Particle\EmitterGui.h">
-      <Filter>ソース ファイル\Object\Particle</Filter>
+      <Filter>ソース ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Particle\ParticleSerializeUtility.h">
+      <Filter>ソース ファイル\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -448,7 +451,7 @@
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
     <ClCompile Include="Source\Particle\ParticleEmitter.cpp">
-      <Filter>ソース ファイル\Object\Particle</Filter>
+      <Filter>ソース ファイル\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Source\Object\Camera\Camera.cpp">
       <Filter>ソース ファイル\Object\Camera</Filter>
@@ -457,7 +460,7 @@
       <Filter>ソース ファイル\Object\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\Particle\ParticleEmitterManager.cpp">
-      <Filter>ソース ファイル\Object\Particle</Filter>
+      <Filter>ソース ファイル\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Source\System\ShaderManager.cpp">
       <Filter>ソース ファイル\System</Filter>
@@ -478,7 +481,7 @@
       <Filter>ソース ファイル\Object\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\Particle\EmitterGui.cpp">
-      <Filter>ソース ファイル\Object\Particle</Filter>
+      <Filter>ソース ファイル\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

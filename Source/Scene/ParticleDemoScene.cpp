@@ -7,6 +7,8 @@
 #include "Field.h"
 #include "Polygon2D.h"
 
+static const char* PARTICLE_LIST_PATH = "./Particles/Particles.json";
+
 void ParticleDemoScene::Init()
 {
 	GET_INPUT.ToggleCursor(true);
@@ -39,12 +41,15 @@ void ParticleDemoScene::Update()
 		//メニューバー
 		if (ImGui::BeginMenuBar())
 		{
+			//ファイルメニュー
 			if (ImGui::BeginMenu("File"))
 			{
+				//セーブ(シリアライズ)
 				if (ImGui::MenuItem("Save"))
 				{
-					ToSerialize();
+					m_isSaving = true;
 				}
+				//ロード(デシリアライズ)
 				if (ImGui::MenuItem("Load"))
 				{
 					ToDeserialize();
@@ -54,32 +59,53 @@ void ParticleDemoScene::Update()
 			ImGui::EndMenuBar();
 		}
 
-		if (ImGui::Button("AddEmitter"))
+		if (!m_isSaving)
 		{
-			AddEmitter();
+			//エミッタの追加
+			if (ImGui::Button("AddEmitter"))
+			{
+				AddEmitter();
+			}
+
+			static float y = 0.0f;
+			static float z = 0.0f;
+			ImGui::SliderFloat("y", &y, -50.0f, 50.0f);
+			ImGui::SliderFloat("z", &z, -200.0f, 200.0f);
+			m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, y, z));
 		}
-
-		//todo : リセット
-
-		static float y = 0.0f;
-		static float z = 0.0f;
-		ImGui::SliderFloat("y", &y, -50.0f, 50.0f);
-		ImGui::SliderFloat("z", &z, -200.0f, 200.0f);
-		m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, y, z));
 	}
 	ImGui::End();
 
-
-	for (auto it : m_emitterList)
+	//セーブ処理中
+	if (m_isSaving)
 	{
-		ImGui::PushID(&it);
-		it->Update();
-		ImGui::PopID();
+		//名前設定
+		m_isSaving = true;
+		static char name[30];
+		ImGui::Begin("Save", 0, ImGuiWindowFlags_AlwaysAutoResize);
+		{
+			ImGui::InputText("ParticleName", name, 30);
+			if (ImGui::Button("Save"))
+			{
+				ToSerialize(name);
+				m_isSaving = false;
+			}
+		}
+		ImGui::End();
 	}
-
-	if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN))
+	else
 	{
-		SceneManager::GetInstance().SetScene<Title>();
+		for (auto it : m_emitterList)
+		{
+			ImGui::PushID(&it);
+			it->Update();
+			ImGui::PopID();
+		}
+
+		if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN))
+		{
+			SceneManager::GetInstance().SetScene<Title>();
+		}
 	}
 }
 
@@ -102,7 +128,7 @@ void ParticleDemoScene::AddEmitter()
 	m_emitterList.push_back(std::make_shared<EmitterGui>(emitter, "ParticleEmitter" + sequence));
 }
 
-void ParticleDemoScene::AddEmitter(EmitterInitData initData)
+void ParticleDemoScene::AddEmitter(EmitterInitData initData, std::string emitterName)
 {
 	auto emitter = m_emitterManager->AddEmitter(initData);
 	int index = m_emitterManager->GetEmitterIndex(emitter);
@@ -117,11 +143,11 @@ void ParticleDemoScene::AddEmitter(EmitterInitData initData)
 		sequence += ")";
 	}
 
-	m_emitterList.push_back(std::make_shared<EmitterGui>(emitter, "ParticleEmitter" + sequence));
+	m_emitterList.push_back(std::make_shared<EmitterGui>(emitter, emitterName));
 }
 
 //シリアライズ
-void ParticleDemoScene::ToSerialize()
+void ParticleDemoScene::ToSerialize(std::string particleName)
 {
 	std::list<ParticleSerializeData> serializeList;
 
@@ -129,27 +155,27 @@ void ParticleDemoScene::ToSerialize()
 	{
 		ParticleSerializeData serializeData;
 		serializeData.data = emitter->GetEmitter()->GetSerializeData();
+		serializeData.emitterName = emitter->GetEmitterName();
 		serializeList.push_back(serializeData);
-
 	}
-	std::ofstream os("Particle.json", std::ios::out);
-	cereal::JSONOutputArchive archiveFile(os);
 
+	//ファイルパス
+	std::ofstream os(PARTICLE_LIST_PATH, std::ios::app);
+	cereal::JSONOutputArchive archiveFile(os);
 	serialize(archiveFile, serializeList);
 }
 
 //デシリアライズ
 void ParticleDemoScene::ToDeserialize()
 {
-	std::ifstream os("Particle.json", std::ios::in);
+	std::ifstream os(PARTICLE_LIST_PATH, std::ios::in);
 	cereal::JSONInputArchive archive(os);
 
 	std::list<ParticleSerializeData> inputList;
 
 	serialize(archive, inputList);
-
 	for (auto input : inputList)
 	{
-		AddEmitter(input.data);
+		AddEmitter(input.data, input.emitterName);
 	}
 }

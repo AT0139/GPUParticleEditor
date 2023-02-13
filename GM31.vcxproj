@@ -262,6 +262,7 @@
     <ClInclude Include="Source\Particle\EmitterGui.h" />
     <ClInclude Include="Source\Particle\ParticleEmitter.h" />
     <ClInclude Include="Source\Particle\ParticleEmitterManager.h" />
+    <ClInclude Include="Source\Particle\ParticleSerializeUtility.h" />
     <ClInclude Include="Source\Polygon2D.h" />
     <ClInclude Include="Source\Scene\Game.h" />
     <ClInclude Include="Source\Scene\ParticleDemoScene.h" />

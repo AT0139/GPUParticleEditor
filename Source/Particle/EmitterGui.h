@@ -12,6 +12,7 @@ public:
 	void Update();
 
 	std::shared_ptr<ParticleEmitter> GetEmitter() { return m_currentEmitter; }
+	std::string GetEmitterName() { return m_name; }
 
 private:
 	struct EmitterDatas
