@@ -16,7 +16,7 @@ void main(point GS_PARTICLE_IN input[1] : SV_POSITION, inout TriangleStream<PS_P
 	invView._42 = 0.0f;
 	invView._43 = 0.0f;
 	
-	wvp = mul(world, invView);
+	wvp = mul(world, View);
 	wvp = mul(wvp, Projection);
 
 	float4 worldPosition = mul(input[0].Position, world);
