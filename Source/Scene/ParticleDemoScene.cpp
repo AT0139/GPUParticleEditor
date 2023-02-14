@@ -20,6 +20,8 @@ void ParticleDemoScene::Init()
 
 	m_emitterManager = AddGameObject<ParticleEmitterManager>(EFFECT);
 
+	InitDeserialize();
+
 	//auto field = AddGameObject<Field>(OBJECT);
 	//field->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -10.0f, 0.0f));
 	//AddDepthObject(field);
@@ -53,7 +55,7 @@ void ParticleDemoScene::Update()
 				//ロード(デシリアライズ)
 				if (ImGui::MenuItem("Load"))
 				{
-					ToDeserialize();
+					ParticleDeserialize();
 				}
 				ImGui::EndMenu();
 			}
@@ -88,7 +90,7 @@ void ParticleDemoScene::Update()
 			ImGui::InputText("ParticleName", name, 30);
 			if (ImGui::Button("Save"))
 			{
-				ToSerialize(name);
+				ParticleSerialize(name);
 				m_isSaving = false;
 			}
 		}
@@ -148,7 +150,7 @@ void ParticleDemoScene::AddEmitter(EmitterInitData initData, std::string emitter
 }
 
 //シリアライズ
-void ParticleDemoScene::ToSerialize(std::string particleName)
+void ParticleDemoScene::ParticleSerialize(std::string particleName)
 {
 	std::list<ParticleSerializeData> serializeList;
 
@@ -176,7 +178,7 @@ void ParticleDemoScene::ToSerialize(std::string particleName)
 }
 
 //デシリアライズ
-void ParticleDemoScene::ToDeserialize()
+void ParticleDemoScene::ParticleDeserialize()
 {
 	std::ifstream os(PARTICLE_LIST_PATH, std::ios::in);
 	cereal::JSONInputArchive archive(os);
@@ -188,4 +190,12 @@ void ParticleDemoScene::ToDeserialize()
 	{
 		AddEmitter(input.data, input.emitterName);
 	}
+}
+
+void ParticleDemoScene::InitDeserialize()
+{
+	std::ifstream os(PARTICLE_LIST_PATH, std::ios::in);
+	cereal::JSONInputArchive archive(os);
+
+	serialize(archive, m_savedParticles);
 }

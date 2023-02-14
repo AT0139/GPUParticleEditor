@@ -33,8 +33,10 @@ private:
 	void AddEmitter();
 	void AddEmitter(EmitterInitData initData, std::string emitterName);
 
-	void ToSerialize(std::string particleName);
-	void ToDeserialize();
+	void ParticleSerialize(std::string particleName);
+	void ParticleDeserialize();
+
+	void InitDeserialize();
 
 	template<class Archive>
 	void serialize(Archive& archive, std::list<ParticleSerializeData>& particles)
@@ -48,7 +50,7 @@ private:
 		archive(CEREAL_NVP(particles));
 	}
 
-	std::list<std::string> m_savedParticles;
+	std::list<std::string> m_savedParticles;	//保存してあるパーティクル名リスト
 	bool m_isSaving;
 	ParticleEmitterManager* m_emitterManager;
 	std::list<std::shared_ptr<EmitterGui>> m_emitterList;

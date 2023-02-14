@@ -11,7 +11,7 @@ SerializeManager::~SerializeManager()
 {
 }
 
-void SerializeManager::ToSerialize()
+void SerializeManager::ParticleSerialize()
 {
 	//todo : マスタ化
 	std::list<SerializeInfo> serializeList;
@@ -37,7 +37,7 @@ void SerializeManager::ToSerialize()
 	serialize(archiveFile, serializeList);
 }
 
-void SerializeManager::ToDeserialize()
+void SerializeManager::ParticleDeserialize()
 {
 	std::ifstream os("objects.json", std::ios::in);
 	cereal::JSONInputArchive archive(os);

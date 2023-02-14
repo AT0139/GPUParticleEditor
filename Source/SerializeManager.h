@@ -30,8 +30,8 @@ public:
 	SerializeManager();
 	~SerializeManager();
 
-	void ToSerialize();
-	void ToDeserialize();
+	void ParticleSerialize();
+	void ParticleDeserialize();
 private:
 	template<class Archive>
 	void serialize(Archive& archive, std::list<SerializeInfo>& objects)

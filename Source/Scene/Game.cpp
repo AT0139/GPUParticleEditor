@@ -84,11 +84,11 @@ namespace MainGame
 
 			if (ImGui::Button("serialize"))
 			{
-				m_serializeManger->ToSerialize();
+				m_serializeManger->ParticleSerialize();
 			}
 			if (ImGui::Button("deserialize"))
 			{
-				m_serializeManger->ToDeserialize();
+				m_serializeManger->ParticleDeserialize();
 			}
 		}
 		ImGui::End();
