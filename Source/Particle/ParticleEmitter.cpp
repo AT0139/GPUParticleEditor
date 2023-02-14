@@ -16,9 +16,7 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	: m_particleComputeBuffer(nullptr)
 	, m_parameterBuffer(nullptr)
 	, m_resultBuffer(nullptr)
-	, m_createInterval(1)
 	, m_createCount(0)
-	, m_createOnceNum(0)
 {
 	//頂点バッファ生成
 	{
@@ -58,6 +56,9 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 
 		m_offsetPosition = initData.offsetPosition;
 		m_velocityType = initData.velocityType;
+
+		m_createInterval = initData.createInterval;
+		m_createOnceNum = initData.createOnceNum;
 	}
 
 	//パーティクルの初期化
@@ -275,7 +276,6 @@ void ParticleEmitter::SetVelocity(Vector3 vel, ADD_VELOCITY_TYPE type)
 	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
 }
 
-//todo: シリアライズ
 void ParticleEmitter::SetSpawnRate(float rate)
 {
 	float createFrame = FPS / rate;
@@ -283,10 +283,7 @@ void ParticleEmitter::SetSpawnRate(float rate)
 	{
 		m_createOnceNum = 1;
 	}
-	else
-	{
-		m_createOnceNum = 1;
-	}
+
 	m_createInterval = createFrame;
 }
 
@@ -305,6 +302,9 @@ EmitterInitData ParticleEmitter::GetSerializeData()
 
 	data.velocityType = m_velocityType;
 	data.offsetPosition = m_offsetPosition;
+
+	data.createInterval = m_createInterval;
+	data.createOnceNum = m_createOnceNum;
 
 	return data;
 }

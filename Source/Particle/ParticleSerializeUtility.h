@@ -39,7 +39,8 @@ struct ParticleSerializeData
 		archive(CEREAL_NVP(emitterName), CEREAL_NVP(data.filePath),
 			CEREAL_NVP(data.gravity), CEREAL_NVP(data.maxLife),
 			CEREAL_NVP(data.velocity), CEREAL_NVP(data.velocityType), CEREAL_NVP(data.initialSize), CEREAL_NVP(data.finalSize),
-			CEREAL_NVP(data.initialColor), CEREAL_NVP(data.finalColor), CEREAL_NVP(data.offsetPosition));
+			CEREAL_NVP(data.initialColor), CEREAL_NVP(data.finalColor), CEREAL_NVP(data.offsetPosition),
+			CEREAL_NVP(data.createInterval), CEREAL_NVP(data.createOnceNum));
 	}
 };
 

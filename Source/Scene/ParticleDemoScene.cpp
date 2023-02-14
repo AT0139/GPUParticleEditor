@@ -199,7 +199,7 @@ void ParticleDemoScene::Load()
 	{
 		static int listbox_item_current = 1;
 		ImGui::ListBox("##Particles", &listbox_item_current, StringGetter,
-			m_savedParticles.data(), m_savedParticles.size());
+			m_savedParticles.data(), (int)m_savedParticles.size());
 		if (ImGui::Button("Load"))
 		{
 			auto inputList = ParticleSerialize::ParticleDeserialize(m_savedParticles[listbox_item_current]);

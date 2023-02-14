@@ -21,6 +21,8 @@ struct EmitterInitData
 	Vector4 finalColor				= Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	Vector3 offsetPosition;
+	int createOnceNum				= 0;
+	float createInterval			= 1;
 };
 
 //コンピュートシェーダで使用するバッファ用構造体
