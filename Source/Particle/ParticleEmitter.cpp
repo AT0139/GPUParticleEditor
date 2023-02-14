@@ -86,7 +86,7 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 		Renderer::GetInstance().CreateBufferUAV(m_resultBuffer, &m_resultUAV);
 	}
 	Renderer::GetInstance().CreateComputeShader(&m_computeShader, "Shader/ParticleCS.cso");
-	Renderer::GetInstance().CreateGeometryShader(&m_geometryShader, "Shader/GeometryShader.cso");
+	Renderer::GetInstance().CreateGeometryShader(&m_geometryShader, "Shader/ParticleGS.cso");
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -171,12 +171,17 @@ void ParticleEmitter::Draw()
 	// ビルボード
 	auto scene = SceneManager::GetInstance().GetScene();
 	Matrix view = scene->GetCamera()->GetViewMatrix();
+	Matrix invView;
+	view.Invert(invView);
+	invView._41 = 0.0f;
+	invView._42 = 0.0f;
+	invView._43 = 0.0f;
 
 	// ワールド座標、スケールなどの処理
 	Matrix world, scale, trans;
 	scale = Matrix::CreateScale(Vector3(1,1,1));
 	trans = Matrix::CreateTranslation(m_managerPosition + m_offsetPosition);
-	world = scale * view * trans;
+	world = scale * invView * trans;
 
 	Renderer::GetInstance().SetWorldMatrix(&world);
 

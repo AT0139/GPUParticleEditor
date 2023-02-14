@@ -530,7 +530,7 @@
     <FxCompile Include="Shader\ParticleTextureVS.hlsl">
       <Filter>ソース ファイル\Shader\Particle</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\GeometryShader.hlsl">
+    <FxCompile Include="Shader\ParticleGS.hlsl">
       <Filter>ソース ファイル\Shader\Particle</Filter>
     </FxCompile>
     <FxCompile Include="Shader\DepthMappingVS.hlsl">

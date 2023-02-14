@@ -53,24 +53,27 @@ void ParticleDemoScene::Update()
 	//メインウィンドウ
 	ImGui::Begin("ParticleSetting", 0, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking);
 	{
-		LARGE_INTEGER qpf;
-		LARGE_INTEGER qpc;
+		if(ImGui::TreeNode("Render"))
+		{
+			LARGE_INTEGER qpf;
+			LARGE_INTEGER qpc;
 
-		QueryPerformanceFrequency(&qpf);
-		QueryPerformanceCounter(&qpc);
-		LONGLONG time = qpc.QuadPart;
-		static LONGLONG lastTime;
+			QueryPerformanceFrequency(&qpf);
+			QueryPerformanceCounter(&qpc);
+			LONGLONG time = qpc.QuadPart;
+			static LONGLONG lastTime;
 
-		float drawTime = (time - lastTime) * 1000.0f / qpf.QuadPart;
-		lastTime = time;
+			float drawTime = (time - lastTime) * 1000.0f / qpf.QuadPart;
+			lastTime = time;
 
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		static float value[180];
-		for (int i = 0; i < 179; i++)
-			value[i] = value[i + 1];
-		value[170] = drawTime;
-		ImGui::PlotLines("", value, sizeof(value) / sizeof(float), 0, NULL, 0.0f, 100.0f, ImVec2(0, 50));
-
+			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+			static float value[180];
+			for (int i = 0; i < 179; i++)
+				value[i] = value[i + 1];
+			value[170] = drawTime;
+			ImGui::PlotLines("", value, sizeof(value) / sizeof(float), 0, NULL, 0.0f, 100.0f, ImVec2(0, 50));
+			ImGui::TreePop();
+		}
 		//メニューバー
 		if (ImGui::BeginMenuBar())
 		{
