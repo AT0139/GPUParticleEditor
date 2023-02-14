@@ -337,6 +337,7 @@
     <ClCompile Include="Source\Particle\EmitterGui.cpp" />
     <ClCompile Include="Source\Particle\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Particle\ParticleEmitterManager.cpp" />
+    <ClCompile Include="Source\Particle\ParticleSerializeUtility.cpp" />
     <ClCompile Include="Source\Polygon2D.cpp" />
     <ClCompile Include="Source\Scene\Game.cpp" />
     <ClCompile Include="Source\Scene\ParticleDemoScene.cpp" />

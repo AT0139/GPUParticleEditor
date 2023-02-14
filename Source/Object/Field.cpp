@@ -42,7 +42,7 @@ Field::Field()
 	Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 
 	//テクスチャ読み込み
-	m_texture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/field000.jpg");
+	m_texture = ResourceManager::GetInstance().GetTextureData(L"asset/texture/Gray.jpg");
 	assert(m_texture);
 
 	auto transform = GetComponent<Transform>();
@@ -58,19 +58,12 @@ Field::~Field()
 
 void Field::Update()
 {
-	ImGui::Begin("field");
-	{
-		static float z = 0;
-		ImGui::SliderFloat("z", &z, -100.0f, 100.0f);
-		auto transform = GetComponent<Transform>();
-		transform->SetPosition(Vector3(0.0f, -10.0f, z));
-	}
-	ImGui::End();
+	
 }
 
 void Field::Draw()
 {
-	ShaderManager::GetInstance().Set(SHADER_TYPE::DEPTH);
+	ShaderManager::GetInstance().Set(SHADER_TYPE::PIXEL_LIGHTING);
 
 	//ワールドマトリクス設定
 	Matrix world = GetComponent<Transform>()->GetWorldMatrix();

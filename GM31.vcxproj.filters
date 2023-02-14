@@ -483,6 +483,9 @@
     <ClCompile Include="Source\Particle\EmitterGui.cpp">
       <Filter>ソース ファイル\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Particle\ParticleSerializeUtility.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\common.hlsl">

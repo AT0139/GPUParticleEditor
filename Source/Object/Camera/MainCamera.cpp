@@ -71,15 +71,15 @@ namespace MainGame
 		m_cameraPos.z = playerPos.z + CAMERA_DISTANCE * cos(m_delta) * sin(m_theta);
 
 		//フィールドにめりこまないように
-		MainGame::MeshField* field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
-		float fieldHeight = field->GetHeight(m_cameraPos);
-		if (m_cameraPos.y < fieldHeight + FIELD_Y_OFFSET)
+		//MainGame::MeshField* field = scene->GetGameObject<MainGame::MeshField>(scene->OBJECT);
+		//float fieldHeight = field->GetHeight(m_cameraPos);
+	/*	if (m_cameraPos.y < fieldHeight + FIELD_Y_OFFSET)
 		{
 			m_cameraPos.y = fieldHeight + FIELD_Y_OFFSET;
 			m_isOnField = true;
 			m_targetYOffsetTemporary = m_targetYOffset;
 		}
-		else
+		else*/
 		{
 			m_isOnField = false;
 

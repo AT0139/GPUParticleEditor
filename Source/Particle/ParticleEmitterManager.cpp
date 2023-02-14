@@ -1,4 +1,5 @@
 #include "ParticleEmitterManager.h"
+#include "ParticleSerializeUtility.h"
 
 ParticleEmitterManager::ParticleEmitterManager()
 {
@@ -17,6 +18,15 @@ void ParticleEmitterManager::Draw()
 {
 	for (auto it : m_particleEmitter)
 		it->Draw(); 
+}
+
+void ParticleEmitterManager::AddParticle(std::string jsonName)
+{
+	auto inputList = ParticleSerialize::ParticleDeserialize(jsonName);
+	for (auto input : inputList)
+	{
+		AddEmitter(input.data);
+	}
 }
 
 std::shared_ptr<ParticleEmitter> ParticleEmitterManager::AddEmitter(EmitterInitData initData)
