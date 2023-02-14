@@ -7,7 +7,7 @@
 #include <omp.h>
 #include "strconv.h"
 
-static const int MAX_PARTICLE_NUM = 10000;
+static const int MAX_PARTICLE_NUM = 100000;
 static const float MIN_RAND = -1.0f;
 static const float MAX_RAND = 2.0f;
 
@@ -275,6 +275,7 @@ void ParticleEmitter::SetVelocity(Vector3 vel, ADD_VELOCITY_TYPE type)
 	Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
 }
 
+//todo: シリアライズ
 void ParticleEmitter::SetSpawnRate(float rate)
 {
 	float createFrame = FPS / rate;
