@@ -171,17 +171,12 @@ void ParticleEmitter::Draw()
 	// ビルボード
 	auto scene = SceneManager::GetInstance().GetScene();
 	Matrix view = scene->GetCamera()->GetViewMatrix();
-	Matrix invView;
-	view.Invert(invView);
-	invView._41 = 0.0f;
-	invView._42 = 0.0f;
-	invView._43 = 0.0f;
 
 	// ワールド座標、スケールなどの処理
 	Matrix world, scale, trans;
 	scale = Matrix::CreateScale(Vector3(1,1,1));
 	trans = Matrix::CreateTranslation(m_managerPosition + m_offsetPosition);
-	world = scale * invView * trans;
+	world = scale * view * trans;
 
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
