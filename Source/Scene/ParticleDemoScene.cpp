@@ -10,6 +10,16 @@
 static const std::string PARTICLE_FOLDER_PATH = "./Particles/";
 static const std::string PARTICLE_LIST_PATH = PARTICLE_FOLDER_PATH + "Particles.json";
 
+bool StringGetter(void* data, int index, const char** output)
+{
+	std::string* string = (std::string*)data;
+	std::string& current_waypoint = string[index];
+
+	*output = current_waypoint.c_str(); // not very safe
+
+	return true;
+}
+
 void ParticleDemoScene::Init()
 {
 	GET_INPUT.ToggleCursor(true);
@@ -55,14 +65,15 @@ void ParticleDemoScene::Update()
 				//ロード(デシリアライズ)
 				if (ImGui::MenuItem("Load"))
 				{
-					ParticleDeserialize();
+					m_isLoading = true;
+					
 				}
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
 		}
-
-		if (!m_isSaving)
+		//セーブ中じゃない場合操作可
+		if (!m_isSaving && !m_isLoading)
 		{
 			//エミッタの追加
 			if (ImGui::Button("AddEmitter"))
@@ -81,21 +92,10 @@ void ParticleDemoScene::Update()
 
 	//セーブ処理中
 	if (m_isSaving)
-	{
-		//名前設定
-		m_isSaving = true;
-		static char name[30];
-		ImGui::Begin("Save", 0, ImGuiWindowFlags_AlwaysAutoResize);
-		{
-			ImGui::InputText("ParticleName", name, 30);
-			if (ImGui::Button("Save"))
-			{
-				ParticleSerialize(name);
-				m_isSaving = false;
-			}
-		}
-		ImGui::End();
-	}
+		Save();
+	//ロード処理中
+	else if (m_isLoading)
+		Load();
 	else
 	{
 		for (auto it : m_emitterList)
@@ -149,6 +149,47 @@ void ParticleDemoScene::AddEmitter(EmitterInitData initData, std::string emitter
 	m_emitterList.push_back(std::make_shared<EmitterGui>(emitter, emitterName));
 }
 
+void ParticleDemoScene::Save()
+{
+	//名前設定
+	m_isSaving = true;
+	static char name[30];
+	ImGui::Begin("Save", 0, ImGuiWindowFlags_AlwaysAutoResize);
+	{
+		ImGui::InputText("ParticleName", name, 30);
+		if (ImGui::Button("Save"))
+		{
+			ParticleSerialize(name);
+			m_isSaving = false;
+		}ImGui::SameLine();
+		if (ImGui::Button("Cancel"))
+		{
+			m_isSaving = false;
+		}
+	}
+	ImGui::End();
+}
+
+void ParticleDemoScene::Load()
+{
+	ImGui::Begin("Load", 0, ImGuiWindowFlags_AlwaysAutoResize);
+	{
+		static int listbox_item_current = 1;
+		ImGui::ListBox("##Particles", &listbox_item_current, StringGetter,
+			m_savedParticles.data(), m_savedParticles.size());
+		if (ImGui::Button("Load"))
+		{
+			ParticleDeserialize(m_savedParticles[listbox_item_current]);
+			m_isLoading = false;
+		}ImGui::SameLine();
+		if (ImGui::Button("Cancel"))
+		{
+			m_isLoading = false;
+		}
+	}
+	ImGui::End();
+}
+
 //シリアライズ
 void ParticleDemoScene::ParticleSerialize(std::string particleName)
 {
@@ -178,9 +219,9 @@ void ParticleDemoScene::ParticleSerialize(std::string particleName)
 }
 
 //デシリアライズ
-void ParticleDemoScene::ParticleDeserialize()
+void ParticleDemoScene::ParticleDeserialize(std::string particleName)
 {
-	std::ifstream os(PARTICLE_LIST_PATH, std::ios::in);
+	std::ifstream os(PARTICLE_FOLDER_PATH + particleName + ".json", std::ios::in);
 	cereal::JSONInputArchive archive(os);
 
 	std::list<ParticleSerializeData> inputList;
@@ -195,6 +236,9 @@ void ParticleDemoScene::ParticleDeserialize()
 void ParticleDemoScene::InitDeserialize()
 {
 	std::ifstream os(PARTICLE_LIST_PATH, std::ios::in);
+	if (!os)
+		return;
+
 	cereal::JSONInputArchive archive(os);
 
 	serialize(archive, m_savedParticles);

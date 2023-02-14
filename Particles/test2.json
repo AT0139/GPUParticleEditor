@@ -5,16 +5,16 @@
             "data.filePath": "Asset\\Texture\\WhiteBloom.png",
             "data.gravity": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": -0.09300000220537186,
                 "z": 0.0
             },
             "data.maxLife": 30,
             "data.velocity": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": 1.9320000410079957,
                 "z": 0.0
             },
-            "data.velocityType": 0,
+            "data.velocityType": 1,
             "data.initialSize": {
                 "x": 1.0,
                 "y": 1.0

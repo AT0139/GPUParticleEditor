@@ -6,7 +6,6 @@
 #include "ParticleSerializeUtility.h"
 
 
-
 struct ParticleSerializeData
 {
 	std::string emitterName;
@@ -22,6 +21,7 @@ struct ParticleSerializeData
 	}
 };
 
+
 class ParticleDemoScene :public Scene
 {
 public:
@@ -33,8 +33,11 @@ private:
 	void AddEmitter();
 	void AddEmitter(EmitterInitData initData, std::string emitterName);
 
+	void Save();
+	void Load();
+
 	void ParticleSerialize(std::string particleName);
-	void ParticleDeserialize();
+	void ParticleDeserialize(std::string particleName);
 
 	void InitDeserialize();
 
@@ -45,13 +48,14 @@ private:
 	}
 
 	template<class Archive>
-	void serialize(Archive& archive, std::list<std::string>& particles)
+	void serialize(Archive& archive, std::vector<std::string>& particles)
 	{
 		archive(CEREAL_NVP(particles));
 	}
 
-	std::list<std::string> m_savedParticles;	//保存してあるパーティクル名リスト
+	std::vector<std::string> m_savedParticles;	//保存してあるパーティクル名リスト
 	bool m_isSaving;
+	bool m_isLoading;
 	ParticleEmitterManager* m_emitterManager;
 	std::list<std::shared_ptr<EmitterGui>> m_emitterList;
 };
