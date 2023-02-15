@@ -83,7 +83,7 @@ void EmitterGui::Update()
 			//スポーン位置
 			if (ImGui::TreeNode("SpawnPosition"))
 			{
-				Vector3 pos = SliderVector3(m_datas.spawnPos, -100, 100, "##SpawnPosition");
+				Vector3 pos = SliderVector3(m_datas.spawnPos, -50, 50, "##SpawnPosition");
 				if (pos != m_datas.spawnPos)
 				{
 					m_datas.spawnPos = pos;
