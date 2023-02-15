@@ -274,6 +274,9 @@
     <ClInclude Include="Source\Particle\ParticleSerializeUtility.h">
       <Filter>ソース ファイル\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ImGuiUtility.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Polygon2D.cpp">
@@ -484,6 +487,9 @@
       <Filter>ソース ファイル\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Source\Particle\ParticleSerializeUtility.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ImGuiUtility.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

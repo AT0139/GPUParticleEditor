@@ -230,6 +230,7 @@
     <ClInclude Include="Source\Component\SerializeComponent.h" />
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\GameObject.h" />
+    <ClInclude Include="Source\ImGuiUtility.h" />
     <ClInclude Include="Source\imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="Source\imgui\backends\imgui_impl_win32.h" />
     <ClInclude Include="Source\imgui\imconfig.h" />
@@ -305,6 +306,7 @@
     <ClCompile Include="Source\Component\Rigidbody.cpp" />
     <ClCompile Include="Source\Component\SerializeComponent.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
+    <ClCompile Include="Source\ImGuiUtility.cpp" />
     <ClCompile Include="Source\imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="Source\imgui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="Source\imgui\imgui.cpp" />
