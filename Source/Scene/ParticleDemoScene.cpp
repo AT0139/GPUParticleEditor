@@ -4,7 +4,7 @@
 #include "SceneManager.h"
 #include "SkyDome.h"
 #include "ParticleDemoSceneCamera.h"
-
+#include "ImGuiUtility.h"
 
 namespace
 {
@@ -102,11 +102,9 @@ void ParticleDemoScene::Update()
 				AddEmitter();
 			}
 
-			static float y = 0.0f;
-			static float z = 0.0f;
-			ImGui::SliderFloat("y", &y, -50.0f, 50.0f);
-			ImGui::SliderFloat("z", &z, -200.0f, 200.0f);
-			m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, y, z));
+			static Vector2 particlePos;
+			particlePos = SliderVector2(particlePos, -50.0f, 50.0f, "ParticlePosition");
+			m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, particlePos.x, particlePos.y));
 		}
 	}
 	ImGui::End();

@@ -20,76 +20,75 @@ void EmitterGui::Update()
 
 		if (ImGui::CollapsingHeader("Spawn"))
 		{
-			if (ImGui::TreeNode("InitializeParticle"))
+			//スポーン設定
+			if (ImGui::TreeNode("Spawning"))
 			{
-				//スポーン設定
-				if (ImGui::TreeNode("Spawning"))
-				{
-					bool isSet = false;
-					isSet |= ImGui::RadioButton("ParSecond", &m_datas.spawningType, 0); ImGui::SameLine();
-					isSet |= ImGui::RadioButton("Burst", &m_datas.spawningType, 1);
+				bool isSet = false;
+				isSet |= ImGui::RadioButton("ParSecond", &m_datas.spawningType, 0); ImGui::SameLine();
+				isSet |= ImGui::RadioButton("Burst", &m_datas.spawningType, 1);
 
-					switch (m_datas.spawningType)
-					{
-					case static_cast<int>(SPAWN_TYPE::PAR_SECOND):
-						isSet |= ImGui::SliderFloat("SpawnRate", &m_datas.spawnRate, 1, 2000);
-						if (isSet)
-						{
-							m_currentEmitter->SetSpawnRate(m_datas.spawnRate);
-						}
-						break;
-					case static_cast<int>(SPAWN_TYPE::BURST):
-						isSet |= ImGui::SliderInt("CreateOnceNum", &m_datas.onceNum, 1, 5000);
-						isSet |= ImGui::SliderFloat("CreateInterval", &m_datas.interval, 1, 500);
-						if (isSet)
-						{
-							m_currentEmitter->SetCreateOnceNum(m_datas.onceNum);
-							m_currentEmitter->SetCreateInterval(m_datas.interval);
-						}
-						break;
-					default:
-						break;
-					}
-
-					ImGui::SliderInt("Life", &m_datas.maxLife, 1, 500);
-					if (m_datas.maxLife != m_bufferInfo.maxLife)
-					{
-						m_bufferInfo.maxLife = m_datas.maxLife;
-						m_currentEmitter->SetLife(m_bufferInfo.maxLife);
-					}
-					ImGui::TreePop();
-				}
-				//サイズ
-				Vector2 size = SizeEditor(m_bufferInfo.initialSize, m_datas.sizeDivision, "Size");
-				if (m_bufferInfo.initialSize != size)
+				switch (m_datas.spawningType)
 				{
-					m_bufferInfo.initialSize = size;
-					m_bufferInfo.finalSize = size;
-					m_currentEmitter->SetInitialSize(m_bufferInfo.initialSize);
-					m_currentEmitter->SetFinalSize(m_bufferInfo.finalSize);
+				case static_cast<int>(SPAWN_TYPE::PAR_SECOND):
+					isSet |= ImGui::SliderFloat("SpawnRate", &m_datas.spawnRate, 1, 2000);
+					if (isSet)
+					{
+						m_currentEmitter->SetSpawnRate(m_datas.spawnRate);
+					}
+					break;
+				case static_cast<int>(SPAWN_TYPE::BURST):
+					isSet |= ImGui::SliderInt("CreateOnceNum", &m_datas.onceNum, 1, 5000);
+					isSet |= ImGui::SliderFloat("CreateInterval", &m_datas.interval, 1, 500);
+					if (isSet)
+					{
+						m_currentEmitter->SetCreateOnceNum(m_datas.onceNum);
+						m_currentEmitter->SetCreateInterval(m_datas.interval);
+					}
+					break;
+				default:
+					break;
 				}
 
-				//カラー
-				if (!m_datas.scaleColor)
+				ImGui::SliderInt("Life", &m_datas.maxLife, 1, 500);
+				if (m_datas.maxLife != m_bufferInfo.maxLife)
 				{
-					auto color = ColorEditor(m_bufferInfo.initialColor, "Color");
-					if (color != m_bufferInfo.initialColor)
-					{
-						m_bufferInfo.initialColor = color;
-						m_bufferInfo.finalColor = m_bufferInfo.initialColor;
-						m_currentEmitter->SetInitialColor(m_bufferInfo.initialColor);
-						m_currentEmitter->SetFinalColor(m_bufferInfo.finalColor);
-					}
+					m_bufferInfo.maxLife = m_datas.maxLife;
+					m_currentEmitter->SetLife(m_bufferInfo.maxLife);
 				}
+				ImGui::TreePop();
+			}
+			//サイズ
+			Vector2 size = SizeEditor(m_bufferInfo.initialSize, m_datas.sizeDivision, "Size");
+			if (m_bufferInfo.initialSize != size)
+			{
+				m_bufferInfo.initialSize = size;
+				m_bufferInfo.finalSize = size;
+				m_currentEmitter->SetInitialSize(m_bufferInfo.initialSize);
+				m_currentEmitter->SetFinalSize(m_bufferInfo.finalSize);
+			}
 
-				//スポーン位置
-				Vector3 pos = SliderVector3(m_datas.spawnPos, -100, 100, "SpawnPosition");
+			//カラー
+			if (!m_datas.scaleColor)
+			{
+				auto color = ColorEditor(m_bufferInfo.initialColor, "Color");
+				if (color != m_bufferInfo.initialColor)
+				{
+					m_bufferInfo.initialColor = color;
+					m_bufferInfo.finalColor = m_bufferInfo.initialColor;
+					m_currentEmitter->SetInitialColor(m_bufferInfo.initialColor);
+					m_currentEmitter->SetFinalColor(m_bufferInfo.finalColor);
+				}
+			}
+
+			//スポーン位置
+			if (ImGui::TreeNode("SpawnPosition"))
+			{
+				Vector3 pos = SliderVector3(m_datas.spawnPos, -100, 100, "##SpawnPosition");
 				if (pos != m_datas.spawnPos)
 				{
 					m_datas.spawnPos = pos;
 					m_currentEmitter->SetOffsetPosition(pos);
 				}
-
 				ImGui::TreePop();
 			}
 
@@ -110,7 +109,7 @@ void EmitterGui::Update()
 
 				Vector3 vel = m_bufferInfo.velocity;
 				vel = SliderVector3(vel, -5.0f, 5.0f, "Velocity");
-				if (m_bufferInfo.velocity != vel|| isSetVelocity)
+				if (m_bufferInfo.velocity != vel || isSetVelocity)
 				{
 					m_bufferInfo.velocity = vel;
 					m_currentEmitter->SetVelocity(m_bufferInfo.velocity, static_cast<ADD_VELOCITY_TYPE>(m_datas.addVelocityType));
