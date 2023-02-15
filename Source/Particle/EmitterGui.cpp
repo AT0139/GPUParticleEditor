@@ -161,6 +161,15 @@ void EmitterGui::Update()
 						m_currentEmitter->SetFinalColor(m_bufferInfo.finalColor);
 					}
 				}
+
+				//スポーン位置
+				Vector3 pos = SliderVector3(m_datas.spawnPos, -100, 100, "SpawnPosition");
+				if (pos != m_datas.spawnPos)
+				{
+					m_datas.spawnPos = pos;
+					m_currentEmitter->SetOffsetPosition(pos);
+				}
+
 				ImGui::TreePop();
 			}
 

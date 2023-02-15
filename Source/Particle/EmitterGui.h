@@ -29,6 +29,7 @@ private:
 		bool scaleColor;
 		bool gravity;
 		int maxLife			= 10;
+		Vector3 spawnPos;
 	};
 
 	//todo ; ParFrame,ParUnit,スポーン確立(間引き)
