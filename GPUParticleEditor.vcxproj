@@ -212,8 +212,6 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Source\CollisionManager.h" />
-    <ClInclude Include="Source\CollisionUtility.h" />
     <ClInclude Include="Source\Component\Collision\AABBCollision.h" />
     <ClInclude Include="Source\Component\Collision\CapsuleCollision.h" />
     <ClInclude Include="Source\Component\Collision\CollisionComponent.h" />
@@ -228,12 +226,11 @@
     <ClInclude Include="Source\Component\Draw\DrawModel.h" />
     <ClInclude Include="Source\Component\Rigidbody.h" />
     <ClInclude Include="Source\Component\Transform.h" />
-    <ClInclude Include="Source\GameObject.h" />
-    <ClInclude Include="Source\ImGuiUtility.h" />
     <ClInclude Include="Source\imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="Source\imgui\backends\imgui_impl_win32.h" />
     <ClInclude Include="Source\imgui\imconfig.h" />
     <ClInclude Include="Source\imgui\imgui.h" />
+    <ClInclude Include="Source\imgui\ImGuiUtility.h" />
     <ClInclude Include="Source\imgui\imgui_internal.h" />
     <ClInclude Include="Source\Main.h" />
     <ClInclude Include="Source\Object\Camera\Camera.h" />
@@ -241,17 +238,18 @@
     <ClInclude Include="Source\Object\Camera\ParticleDemoSceneCamera.h" />
     <ClInclude Include="Source\Object\Camera\TitleCamera.h" />
     <ClInclude Include="Source\Object\Field.h" />
+    <ClInclude Include="Source\Object\GameObject.h" />
     <ClInclude Include="Source\Object\MeshField.h" />
     <ClInclude Include="Source\Object\Placement\Foundation.h" />
     <ClInclude Include="Source\Object\Placement\PlacementObjectSnap.h" />
     <ClInclude Include="Source\Object\Placement\Wall.h" />
     <ClInclude Include="Source\Object\Player.h" />
+    <ClInclude Include="Source\Object\Polygon2D.h" />
     <ClInclude Include="Source\Object\SkyDome.h" />
     <ClInclude Include="Source\Particle\EmitterGui.h" />
     <ClInclude Include="Source\Particle\ParticleEmitter.h" />
     <ClInclude Include="Source\Particle\ParticleEmitterManager.h" />
     <ClInclude Include="Source\Particle\ParticleSerializeUtility.h" />
-    <ClInclude Include="Source\Polygon2D.h" />
     <ClInclude Include="Source\Scene\Game.h" />
     <ClInclude Include="Source\Scene\ParticleDemoScene.h" />
     <ClInclude Include="Source\Scene\Result.h" />
@@ -261,6 +259,8 @@
     <ClInclude Include="Source\System\AnimationModel.h" />
     <ClInclude Include="Source\System\CAudio.h" />
     <ClInclude Include="Source\System\CModel.h" />
+    <ClInclude Include="Source\System\CollisionManager.h" />
+    <ClInclude Include="Source\System\CollisionUtility.h" />
     <ClInclude Include="Source\System\Input.h" />
     <ClInclude Include="Source\System\Renderer.h" />
     <ClInclude Include="Source\System\ResourceManager.h" />
@@ -270,13 +270,11 @@
     <ClInclude Include="Source\System\stdafx.h" />
     <ClInclude Include="Source\System\strconv.h" />
     <ClInclude Include="Source\System\Structures.h" />
+    <ClInclude Include="Source\System\Utility.h" />
     <ClInclude Include="Source\UI\GameUI.h" />
     <ClInclude Include="Source\UI\ObjectPlacementUI.h" />
-    <ClInclude Include="Source\Utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\CollisionManager.cpp" />
-    <ClCompile Include="Source\CollisionUtility.cpp" />
     <ClCompile Include="Source\Component\Collision\AABBCollision.cpp" />
     <ClCompile Include="Source\Component\Collision\CapsuleCollision.cpp" />
     <ClCompile Include="Source\Component\Collision\CollisionComponent.cpp" />
@@ -291,10 +289,10 @@
     <ClCompile Include="Source\Component\Draw\DrawModel.cpp" />
     <ClCompile Include="Source\Component\Rigidbody.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
-    <ClCompile Include="Source\ImGuiUtility.cpp" />
     <ClCompile Include="Source\imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="Source\imgui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="Source\imgui\imgui.cpp" />
+    <ClCompile Include="Source\imgui\ImGuiUtility.cpp" />
     <ClCompile Include="Source\imgui\imgui_draw.cpp" />
     <ClCompile Include="Source\imgui\imgui_tables.cpp" />
     <ClCompile Include="Source\imgui\imgui_widgets.cpp" />
@@ -309,12 +307,12 @@
     <ClCompile Include="Source\Object\Placement\PlacementObjectSnap.cpp" />
     <ClCompile Include="Source\Object\Placement\Wall.cpp" />
     <ClCompile Include="Source\Object\Player.cpp" />
+    <ClCompile Include="Source\Object\Polygon2D.cpp" />
     <ClCompile Include="Source\Object\SkyDome.cpp" />
     <ClCompile Include="Source\Particle\EmitterGui.cpp" />
     <ClCompile Include="Source\Particle\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Particle\ParticleEmitterManager.cpp" />
     <ClCompile Include="Source\Particle\ParticleSerializeUtility.cpp" />
-    <ClCompile Include="Source\Polygon2D.cpp" />
     <ClCompile Include="Source\Scene\Game.cpp" />
     <ClCompile Include="Source\Scene\ParticleDemoScene.cpp" />
     <ClCompile Include="Source\Scene\Result.cpp" />
@@ -323,6 +321,8 @@
     <ClCompile Include="Source\System\AnimationModel.cpp" />
     <ClCompile Include="Source\System\CAudio.cpp" />
     <ClCompile Include="Source\System\CModel.cpp" />
+    <ClCompile Include="Source\System\CollisionManager.cpp" />
+    <ClCompile Include="Source\System\CollisionUtility.cpp" />
     <ClCompile Include="Source\System\Input.cpp" />
     <ClCompile Include="Source\System\Renderer.cpp" />
     <ClCompile Include="Source\System\ResourceManager.cpp" />
@@ -334,9 +334,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\System\Utility.cpp" />
     <ClCompile Include="Source\UI\GameUI.cpp" />
     <ClCompile Include="Source\UI\ObjectPlacementUI.cpp" />
-    <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shader\common.hlsl">

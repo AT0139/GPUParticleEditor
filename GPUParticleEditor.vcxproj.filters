@@ -49,15 +49,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Polygon2D.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utility.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CollisionManager.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\imgui\imgui.h">
       <Filter>ソース ファイル\imgui</Filter>
     </ClInclude>
@@ -87,9 +78,6 @@
     </ClInclude>
     <ClInclude Include="Source\Component\Draw\DrawBillboard.h">
       <Filter>ソース ファイル\Component\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CollisionUtility.h">
-      <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\Collision\OBBCollision.h">
       <Filter>ソース ファイル\Component\Collision</Filter>
@@ -160,9 +148,6 @@
     <ClInclude Include="Source\System\StaticDataTable.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GameObject.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Object\MeshField.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
@@ -229,20 +214,26 @@
     <ClInclude Include="Source\Particle\ParticleSerializeUtility.h">
       <Filter>ソース ファイル\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ImGuiUtility.h">
-      <Filter>ソース ファイル</Filter>
+    <ClInclude Include="Source\System\CollisionUtility.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\CollisionManager.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\imgui\ImGuiUtility.h">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Utility.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\Polygon2D.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\GameObject.h">
+      <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Polygon2D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utility.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CollisionManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\imgui\imgui.cpp">
       <Filter>ソース ファイル\imgui</Filter>
     </ClCompile>
@@ -275,9 +266,6 @@
     </ClCompile>
     <ClCompile Include="Source\Component\Draw\DrawBillboard.cpp">
       <Filter>ソース ファイル\Component\Draw</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CollisionUtility.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Component\Collision\SphereCollision.cpp">
       <Filter>ソース ファイル\Component\Collision</Filter>
@@ -400,10 +388,22 @@
       <Filter>ソース ファイル\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Source\Particle\ParticleSerializeUtility.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ImGuiUtility.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\System\CollisionUtility.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\CollisionManager.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\imgui\ImGuiUtility.cpp">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Utility.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\Polygon2D.cpp">
+      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
