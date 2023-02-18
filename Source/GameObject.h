@@ -8,7 +8,6 @@
 #include "AABBCollision.h"
 #include "OBBCollision.h"
 #include "RayCollision.h"
-#include "SerializeComponent.h"
 
 using std::shared_ptr;
 

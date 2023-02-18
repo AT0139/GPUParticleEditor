@@ -7,7 +7,7 @@
 
 
 
-class ParticleDemoScene :public Scene
+class ParticleEditorScene :public Scene
 {
 public:
 	void Init();

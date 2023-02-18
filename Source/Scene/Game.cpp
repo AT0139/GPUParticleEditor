@@ -28,7 +28,7 @@ namespace MainGame
 		AddGameObject<Player>(OBJECT);
 		AddGameObject<Field>(OBJECT);
 
-		AddGameObject<ParticleEmitterManager>(EFFECT)->AddParticle("434");
+		AddGameObject<ParticleEmitterManager>(EFFECT)->AddParticle("Fountain");
 
 	}
 

@@ -6,7 +6,6 @@
 #include "ResourceManager.h"
 #include "Rigidbody.h"
 #include "SceneManager.h"
-#include "ChildObject.h"
 #include "MainCamera.h"
 
 namespace MainGame
@@ -40,20 +39,6 @@ namespace MainGame
 
 		m_transform = GetComponent<Transform>();
 		m_transform->SetScale(Vector3(0.008f, 0.008f, 0.008f));
-
-
-		//当たり判定用子オブジェクト
-		auto scene = SceneManager::GetInstance().GetScene();
-		auto obj = scene->AddGameObject<ChildObject>(scene->OBJECT);
-		auto objRigid = obj->AddComponent<Rigidbody>();
-		objRigid->SetIsTrigger(true);
-		objRigid->SetIsKinematic(true);
-		auto objCol = obj->AddComponent<SphereCollision>();
-		objCol->SetScale(0.1f);
-		objCol->SetHitAction(HitAction::None);
-		auto objTrans = obj->GetComponent<Transform>();
-		objTrans->SetParent(this);
-		objTrans->SetPosition(-m_transform->GetForward() * 1.0f);
 	}
 
 	Player::~Player()	

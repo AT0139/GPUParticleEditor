@@ -199,7 +199,6 @@ void GameUI::CreateObjectAtID(int staticObjectID)
 	auto rigid = m_pPlaceObject->AddComponent<Rigidbody>();
 	rigid->SetIsKinematic(true);
 
-	m_pPlaceObject->AddComponent<SerializeComponent>(this);
 	m_pPlaceObject->SetTag(TAG::STATIC_OBJECT);
 	//UIを消す
 	m_pPlacementUI->InOutUI(false);

@@ -2,7 +2,6 @@
 
 #include "scene.h"
 #include "CollisionManager.h"
-#include "SerializeManager.h"
 
 class CollisionManager;
 
@@ -17,7 +16,6 @@ namespace MainGame
 
 	private:
 		std::unique_ptr<CollisionManager> m_collisionManager;
-		std::unique_ptr<SerializeManager> m_serializeManger;
 
 		class DefenceBase* m_defenceBase;
 	};

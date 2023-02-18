@@ -22,7 +22,7 @@ namespace
 	}
 }
 
-void ParticleDemoScene::Init()
+void ParticleEditorScene::Init()
 {
 	GET_INPUT.ToggleCursor(true);
 
@@ -41,12 +41,12 @@ void ParticleDemoScene::Init()
 	//AddGameObject<Polygon2D>(UI);
 }
 
-void ParticleDemoScene::Uninit()
+void ParticleEditorScene::Uninit()
 {
 	Scene::Uninit();
 }
 
-void ParticleDemoScene::Update()
+void ParticleEditorScene::Update()
 {
 	Scene::Update();
 
@@ -74,7 +74,7 @@ void ParticleDemoScene::Update()
 			value[170] = drawTime;
 			ImGui::PlotLines("", value, sizeof(value) / sizeof(float), 0, NULL, 0.0f, 100.0f, ImVec2(0, 50));
 			ImGui::TreePop();
-		}
+		}		
 		//メニューバー
 		if (ImGui::BeginMenuBar())
 		{
@@ -102,7 +102,7 @@ void ParticleDemoScene::Update()
 			}
 			ImGui::EndMenuBar();
 		}
-
+	
 		//セーブ中じゃない場合操作可
 		if (!m_isSaving && !m_isLoading)
 		{
@@ -110,8 +110,10 @@ void ParticleDemoScene::Update()
 			std::vector<std::string> emitterNameList;
 			for (auto it : m_emitterList)
 				emitterNameList.push_back(it->GetEmitterName());
+
 			ImGui::ListBox("##Particles", &emitterListCurrent, StringGetter,
-				emitterNameList.data(), (int)emitterNameList.size());
+				emitterNameList.data(), (int)emitterNameList.size()); ImGui::SameLine();
+			ImGui::Text("EmitterList");
 
 			//エミッタの追加
 			if (ImGui::Button("AddEmitter"))
@@ -124,6 +126,8 @@ void ParticleDemoScene::Update()
 				m_emitterList.erase(m_emitterList.begin() + emitterListCurrent);
 				emitterListCurrent = 0;
 			}
+
+			ImGui::Separator();
 
 			static Vector2 particlePos;
 			particlePos = SliderVector2(particlePos, -50.0f, 50.0f, "ParticlePosition");
@@ -159,7 +163,7 @@ void ParticleDemoScene::Update()
 	}
 }
 
-void ParticleDemoScene::AddEmitter()
+void ParticleEditorScene::AddEmitter()
 {
 	EmitterInitData initData = {};
 	auto emitter = m_emitterManager->AddEmitter(initData);
@@ -178,7 +182,7 @@ void ParticleDemoScene::AddEmitter()
 	m_emitterList.push_back(std::make_shared<EmitterGui>(emitter, "ParticleEmitter" + sequence));
 }
 
-void ParticleDemoScene::AddEmitter(EmitterInitData initData, std::string emitterName)
+void ParticleEditorScene::AddEmitter(EmitterInitData initData, std::string emitterName)
 {
 	auto emitter = m_emitterManager->AddEmitter(initData);
 	int index = m_emitterManager->GetEmitterIndex(emitter);
@@ -196,7 +200,7 @@ void ParticleDemoScene::AddEmitter(EmitterInitData initData, std::string emitter
 	m_emitterList.push_back(std::make_shared<EmitterGui>(emitter, emitterName));
 }
 
-void ParticleDemoScene::Save()
+void ParticleEditorScene::Save()
 {
 	//名前設定
 	m_isSaving = true;
@@ -217,7 +221,7 @@ void ParticleDemoScene::Save()
 	ImGui::End();
 }
 
-void ParticleDemoScene::Load()
+void ParticleEditorScene::Load()
 {
 	ImGui::Begin("Load", 0, ImGuiWindowFlags_AlwaysAutoResize);
 	{
@@ -242,7 +246,7 @@ void ParticleDemoScene::Load()
 }
 
 
-void ParticleDemoScene::InitDeserialize()
+void ParticleEditorScene::InitDeserialize()
 {
 	std::ifstream os(PARTICLE_LIST_PATH, std::ios::in);
 	if (!os)

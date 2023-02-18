@@ -26,9 +26,6 @@
     <Filter Include="ソース ファイル\Component\Draw">
       <UniqueIdentifier>{258de4d3-7a10-4270-b351-2cd560ad3cbc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Object\Enemy">
-      <UniqueIdentifier>{fa1c1ae4-08fa-459a-8438-7d528357e711}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Object\Placement">
       <UniqueIdentifier>{facb0b3a-aeb8-4e73-80e8-ee3f96ada519}</UniqueIdentifier>
     </Filter>
@@ -59,9 +56,6 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\CollisionManager.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SerializeManager.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Source\imgui\imgui.h">
@@ -169,12 +163,6 @@
     <ClInclude Include="Source\GameObject.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Component\SerializeComponent.h">
-      <Filter>ソース ファイル\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object\Explosion.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Object\MeshField.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
@@ -184,38 +172,11 @@
     <ClInclude Include="Source\Object\SkyDome.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Object\Tree.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object\Stair.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object\BlankObject.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object\Bullet.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object\ChildObject.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object\DefenceBase.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Object\Field.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="Source\Main.h">
       <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object\Enemy\EnemyStateBase.h">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object\Enemy\EnemyMoveToTargetState.h">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object\Enemy\Enemy.h">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Source\Object\Placement\PlacementObjectSnap.h">
       <Filter>ソース ファイル\Object\Placement</Filter>
@@ -225,12 +186,6 @@
     </ClInclude>
     <ClInclude Include="Source\Object\Placement\Foundation.h">
       <Filter>ソース ファイル\Object\Placement</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object\Enemy\EnemyAttackState.h">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object\Turret.h">
-      <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="Source\UI\ObjectPlacementUI.h">
       <Filter>ソース ファイル\UI</Filter>
@@ -286,9 +241,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\CollisionManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SerializeManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\imgui\imgui.cpp">
@@ -384,12 +336,6 @@
     <ClCompile Include="Source\System\Renderer.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Component\SerializeComponent.cpp">
-      <Filter>ソース ファイル\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Object\Explosion.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Object\MeshField.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
@@ -399,35 +345,11 @@
     <ClCompile Include="Source\Object\SkyDome.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Object\Tree.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Object\Stair.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Object\Bullet.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Object\BlankObject.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Object\ChildObject.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Object\DefenceBase.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Object\Field.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="Source\Main.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Object\Enemy\EnemyMoveToTargetState.cpp">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Object\Enemy\Enemy.cpp">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Source\Object\Placement\PlacementObjectSnap.cpp">
       <Filter>ソース ファイル\Object\Placement</Filter>
@@ -437,12 +359,6 @@
     </ClCompile>
     <ClCompile Include="Source\Object\Placement\Foundation.cpp">
       <Filter>ソース ファイル\Object\Placement</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Object\Enemy\EnemyAttackState.cpp">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Object\Turret.cpp">
-      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="Source\UI\ObjectPlacementUI.cpp">
       <Filter>ソース ファイル\UI</Filter>

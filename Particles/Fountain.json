@@ -1,0 +1,47 @@
+{
+    "particles": [
+        {
+            "emitterName": "ParticleEmitter",
+            "data.filePath": "Asset\\Texture\\WhiteBloom.png",
+            "data.gravity": {
+                "x": 0.0,
+                "y": -0.03200000151991844,
+                "z": 0.0
+            },
+            "data.maxLife": 101,
+            "data.velocity": {
+                "x": 0.0,
+                "y": 1.4780000448226929,
+                "z": 0.0
+            },
+            "data.velocityType": 1,
+            "data.initialSize": {
+                "x": 2.1110000610351564,
+                "y": 2.1110000610351564
+            },
+            "data.finalSize": {
+                "x": 1.6510000228881837,
+                "y": 1.6510000228881837
+            },
+            "data.initialColor": {
+                "x": 0.0,
+                "y": 0.2698338031768799,
+                "z": 1.0,
+                "w": 1.0
+            },
+            "data.finalColor": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.9393134117126465,
+                "w": 1.0
+            },
+            "data.offsetPosition": {
+                "x": 0.0,
+                "y": -23.86400032043457,
+                "z": 50.0
+            },
+            "data.createInterval": 0.28379392623901369,
+            "data.createOnceNum": 1
+        }
+    ]
+}
