@@ -44,3 +44,14 @@ int ParticleEmitterManager::GetEmitterIndex(std::shared_ptr<ParticleEmitter> emi
 	const int index = (const int)std::distance(m_particleEmitter.begin(), itr);
 	return index;
 }
+
+void ParticleEmitterManager::DeleteEmitter(std::shared_ptr<ParticleEmitter> emitter)
+{
+	int index = GetEmitterIndex(emitter);
+	m_particleEmitter.erase(m_particleEmitter.begin() + index);
+}
+
+void ParticleEmitterManager::DeleteEmitters()
+{
+	m_particleEmitter.clear();
+}

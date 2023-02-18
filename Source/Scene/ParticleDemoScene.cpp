@@ -5,6 +5,8 @@
 #include "SkyDome.h"
 #include "ParticleDemoSceneCamera.h"
 #include "ImGuiUtility.h"
+#include "Field.h"
+#include "Polygon2D.h"
 
 namespace
 {
@@ -48,6 +50,7 @@ void ParticleDemoScene::Update()
 {
 	Scene::Update();
 
+	static int emitterListCurrent = 0;
 	//メインウィンドウ
 	ImGui::Begin("ParticleSetting", 0, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking);
 	{
@@ -89,23 +92,45 @@ void ParticleDemoScene::Update()
 					m_isLoading = true;
 					
 				}
+				if (ImGui::MenuItem("Close"))
+				{
+					m_emitterList.clear();
+					m_emitterManager->DeleteEmitters();
+					
+				}
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
 		}
+
 		//セーブ中じゃない場合操作可
 		if (!m_isSaving && !m_isLoading)
 		{
+			//エミッタリストボックス
+			std::vector<std::string> emitterNameList;
+			for (auto it : m_emitterList)
+				emitterNameList.push_back(it->GetEmitterName());
+			ImGui::ListBox("##Particles", &emitterListCurrent, StringGetter,
+				emitterNameList.data(), (int)emitterNameList.size());
+
 			//エミッタの追加
 			if (ImGui::Button("AddEmitter"))
 			{
 				AddEmitter();
+			}ImGui::SameLine();
+			if (ImGui::Button("DeleteEmitter"))
+			{
+				m_emitterManager->DeleteEmitter(m_emitterList[emitterListCurrent]->GetEmitter());
+				m_emitterList.erase(m_emitterList.begin() + emitterListCurrent);
+				emitterListCurrent = 0;
 			}
 
 			static Vector2 particlePos;
 			particlePos = SliderVector2(particlePos, -50.0f, 50.0f, "ParticlePosition");
 			m_emitterManager->GetComponent<Transform>()->SetPosition(Vector3(0.0f, particlePos.x, particlePos.y));
 		}
+
+
 	}
 	ImGui::End();
 
@@ -119,9 +144,12 @@ void ParticleDemoScene::Update()
 	{
 		for (auto it : m_emitterList)
 		{
-			ImGui::PushID(&it);
-			it->Update();
-			ImGui::PopID();
+			if (it == m_emitterList[emitterListCurrent])
+			{
+				ImGui::PushID(&it);
+				it->Update();
+				ImGui::PopID();
+			}
 		}
 
 		//if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN))

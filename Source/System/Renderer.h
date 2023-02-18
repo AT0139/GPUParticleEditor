@@ -60,7 +60,7 @@ private:
 
 	Viewport m_viewport;
 
-	ID3D11DepthStencilView* m_depthStencilView;
+	ID3D11DepthStencilView* m_depthDSV;
 	ID3D11ShaderResourceView* m_depthSRV;
 	
 

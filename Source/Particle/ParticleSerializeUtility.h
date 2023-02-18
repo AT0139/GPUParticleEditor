@@ -48,7 +48,7 @@ namespace ParticleSerialize
 {
 	//シリアライズ用テンプレート関数
 	template<class Archive>
-	void serialize(Archive& archive, std::list<ParticleSerializeData>& particles)
+	void serialize(Archive& archive, std::vector<ParticleSerializeData>& particles)
 	{
 		archive(CEREAL_NVP(particles));
 	}
@@ -60,6 +60,6 @@ namespace ParticleSerialize
 	}
 
 
-	void ParticleSerialize(std::string particleName, std::list<std::shared_ptr<EmitterGui>> emitterList, std::vector<std::string>& savedList);
-	std::list<ParticleSerializeData> ParticleDeserialize(std::string particleName);
+	void ParticleSerialize(std::string particleName, std::vector<std::shared_ptr<EmitterGui>> emitterList, std::vector<std::string>& savedList);
+	std::vector<ParticleSerializeData> ParticleDeserialize(std::string particleName);
 }

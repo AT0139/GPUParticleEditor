@@ -63,8 +63,7 @@ void main(const CSInput input)
 		bufOut[index].velocity = particle[index].velocity;
 
 
-
-		//スクリーンスペースコリジョン(深度バッファ)
+		////スクリーンスペースコリジョン(深度バッファ)
 		//{
 		//	matrix wvp;
 		//	wvp = mul(World, View);

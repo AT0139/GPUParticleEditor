@@ -4,9 +4,9 @@
 namespace ParticleSerialize
 {
 	//シリアライズ
-	void ParticleSerialize(std::string particleName, std::list<std::shared_ptr<EmitterGui>> emitterList, std::vector<std::string>& savedList)
+	void ParticleSerialize(std::string particleName, std::vector<std::shared_ptr<EmitterGui>> emitterList, std::vector<std::string>& savedList)
 	{
-		std::list<ParticleSerializeData> serializeList;
+		std::vector<ParticleSerializeData> serializeList;
 
 		for (auto emitter : emitterList)
 		{
@@ -33,12 +33,12 @@ namespace ParticleSerialize
 
 
 	//デシリアライズ
-	std::list<ParticleSerializeData> ParticleDeserialize(std::string particleName)
+	std::vector<ParticleSerializeData> ParticleDeserialize(std::string particleName)
 	{
 		std::ifstream os(PARTICLE_FOLDER_PATH + particleName + ".json", std::ios::in);
 		cereal::JSONInputArchive archive(os);
 
-		std::list<ParticleSerializeData> inputList;
+		std::vector<ParticleSerializeData> inputList;
 
 		serialize(archive, inputList);
 

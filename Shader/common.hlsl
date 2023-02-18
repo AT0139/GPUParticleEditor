@@ -79,6 +79,4 @@ struct PS_IN
     float4 Diffuse : COLOR0;
     float4 Normal:NORMAL0;
     float2 TexCoord : TEXCOORD0;
-
-	float4 ShadowPosition : POSITION1;
 };

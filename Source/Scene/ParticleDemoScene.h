@@ -28,5 +28,5 @@ private:
 	bool m_isSaving;
 	bool m_isLoading;
 	ParticleEmitterManager* m_emitterManager;
-	std::list<std::shared_ptr<EmitterGui>> m_emitterList;
+	std::vector<std::shared_ptr<EmitterGui>> m_emitterList;
 };

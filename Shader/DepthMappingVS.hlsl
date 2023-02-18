@@ -22,10 +22,4 @@ void main(in VS_IN In, out PS_IN Out)
 	Out.Position = mul(In.Position, wvp);
 	Out.Normal = worldNormal; //回転後の法線出力 In.Normalでなく回転後の法線を出力
 	Out.TexCoord = In.TexCoord; //頂点のテクスチャ座標を出力
-
-	matrix lightwvp;
-	lightwvp = mul(World, Light.View);
-	lightwvp = mul(lightwvp, Light.Proj);
-    
-	Out.ShadowPosition = mul(In.Position, lightwvp);
 }

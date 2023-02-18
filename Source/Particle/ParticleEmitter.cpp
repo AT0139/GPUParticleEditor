@@ -18,6 +18,8 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 	, m_resultBuffer(nullptr)
 	, m_createCount(0)
 {
+	auto& renderer = Renderer::GetInstance();
+
 	//頂点バッファ生成
 	{
 		VERTEX_3D vertex[1];
@@ -37,7 +39,7 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 		ZeroMemory(&sd, sizeof(sd));
 		sd.pSysMem = vertex;
 
-		Renderer::GetInstance().GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
+		renderer.GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
 	}
 
 	m_particle.reset(new ParticleCompute[MAX_PARTICLE_NUM]);
@@ -73,21 +75,21 @@ ParticleEmitter::ParticleEmitter(EmitterInitData initData)
 
 	//各種バッファの作成
 	{
-		Renderer::GetInstance().CreateConstantBuffer(&m_particleInfoBuffer, nullptr, sizeof(ParticleInfo), sizeof(float), 7);
-		Renderer::GetInstance().GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
+		renderer.CreateConstantBuffer(&m_particleInfoBuffer, nullptr, sizeof(ParticleInfo), sizeof(float), 7);
+		renderer.GetDeviceContext()->UpdateSubresource(m_particleInfoBuffer, 0, NULL, &m_particleInfo, 0, 0);
 
-		Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_particleComputeBuffer, true);
-		Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_parameterBuffer, true);
-		Renderer::GetInstance().CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_resultBuffer);
+		renderer.CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_particleComputeBuffer, true);
+		renderer.CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_parameterBuffer, true);
+		renderer.CreateStructuredBuffer(sizeof(ParticleCompute), MAX_PARTICLE_NUM, nullptr, &m_resultBuffer);
 
 
-		Renderer::GetInstance().CreateBufferSRV(m_particleComputeBuffer, &m_particleSRV);
-		Renderer::GetInstance().CreateBufferSRV(m_parameterBuffer, &m_parameterSRV);
+		renderer.CreateBufferSRV(m_particleComputeBuffer, &m_particleSRV);
+		renderer.CreateBufferSRV(m_parameterBuffer, &m_parameterSRV);
 
-		Renderer::GetInstance().CreateBufferUAV(m_resultBuffer, &m_resultUAV);
+		renderer.CreateBufferUAV(m_resultBuffer, &m_resultUAV);
 	}
-	Renderer::GetInstance().CreateComputeShader(&m_computeShader, "Shader/ParticleCS.cso");
-	Renderer::GetInstance().CreateGeometryShader(&m_geometryShader, "Shader/ParticleGS.cso");
+	renderer.CreateComputeShader(&m_computeShader, "Shader/ParticleCS.cso");
+	renderer.CreateGeometryShader(&m_geometryShader, "Shader/ParticleGS.cso");
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -98,6 +100,7 @@ ParticleEmitter::~ParticleEmitter()
 	m_particleComputeBuffer->Release();
 	m_resultBuffer->Release();
 	m_parameterBuffer->Release();
+	m_particleInfoBuffer->Release();
 
 	m_particleSRV->Release();
 	m_parameterSRV->Release();
@@ -133,6 +136,14 @@ void ParticleEmitter::Update()
 	context->CSSetShaderResources(0, 1, pSRVs);
 	context->CSSetShaderResources(1, 1, &depthTexture);
 
+	auto scene = SceneManager::GetInstance().GetScene();
+	Matrix view = scene->GetCamera()->GetViewMatrix();
+	Matrix world, scale, trans;
+	scale = Matrix::CreateScale(Vector3(1, 1, 1));
+	trans = Matrix::CreateTranslation(m_managerPosition + m_offsetPosition);
+	world = scale * view * trans;
+
+	Renderer::GetInstance().SetWorldMatrix(&world);
 
 	context->CSSetShader(m_computeShader, nullptr, 0);
 	context->CSSetUnorderedAccessViews(0, 1, &m_resultUAV, 0);

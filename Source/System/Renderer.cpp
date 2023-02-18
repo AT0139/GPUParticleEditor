@@ -36,7 +36,7 @@ void Renderer::Init()
 	swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.OutputWindow = GetWindow();
-	swapChainDesc.SampleDesc.Count = 4;		//MSAA設定
+	swapChainDesc.SampleDesc.Count = 1;		//MSAA設定
 	swapChainDesc.SampleDesc.Quality = 0;	//MSAA設定
 	swapChainDesc.Windowed = TRUE;
 
@@ -83,7 +83,7 @@ void Renderer::Init()
 	// デプスステンシルビュー作成
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
 	depthStencilViewDesc.Format = textureDesc.Format;
-	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;	//MSAA設定
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;	//MSAA設定
 	depthStencilViewDesc.Flags = 0;
 	m_pDevice->CreateDepthStencilView(depthStencile, &depthStencilViewDesc, &m_pDepthStencilView);
 	depthStencile->Release();
@@ -266,7 +266,8 @@ void Renderer::Init()
 		td.Height = swapChainDesc.BufferDesc.Height;
 		td.MipLevels = 1;
 		td.ArraySize = 1;
-		td.SampleDesc = swapChainDesc.SampleDesc;
+		td.SampleDesc.Count = 1;
+		td.SampleDesc.Quality = 0;
 		td.Usage = D3D11_USAGE_DEFAULT;
 		td.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
 		td.Format = DXGI_FORMAT_R32_TYPELESS;
@@ -275,20 +276,19 @@ void Renderer::Init()
 		if (FAILED(hr))
 			assert(nullptr);
 
-		//デプスステンシルターゲットビュー作成
+		//レンダーターゲットビュー
 		D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
 		ZeroMemory(&dsvd, sizeof(dsvd));
 		dsvd.Format = DXGI_FORMAT_D32_FLOAT;
-		dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
-		dsvd.Flags = 0;
-		hr = m_pDevice->CreateDepthStencilView(depthTexture, &dsvd, &m_depthStencilView);
+		dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		hr = m_pDevice->CreateDepthStencilView(depthTexture, &dsvd, &m_depthDSV);
 		if (FAILED(hr))
 			assert(nullptr);
 
 		//シェーダーリソースビュー作成
 		D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
 		SRVDesc.Format = DXGI_FORMAT_R32_FLOAT;//ピクセルフォーマットは32BitFLOAT型
-		SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+		SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 		SRVDesc.Texture2D.MipLevels = 1;
 		hr = m_pDevice->CreateShaderResourceView(depthTexture, &SRVDesc, &m_depthSRV);
 		if (FAILED(hr))
@@ -329,8 +329,8 @@ void Renderer::Begin()
 
 void Renderer::BeginDepth()
 {
-	m_pDeviceContext->OMSetRenderTargets(0, NULL, m_depthStencilView);
-	m_pDeviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	m_pDeviceContext->OMSetRenderTargets(0, NULL, m_depthDSV);
+	m_pDeviceContext->ClearDepthStencilView(m_depthDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
 void Renderer::End()

@@ -3,7 +3,7 @@
 #include "Renderer.h"
 
 const char* CLASS_NAME = "AppClass";
-const char* WINDOW_NAME = "DX11ゲーム";
+const char* WINDOW_NAME = "ParticleEditor";
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

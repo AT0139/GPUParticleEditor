@@ -17,6 +17,8 @@ public:
 	std::shared_ptr<ParticleEmitter> AddEmitter(EmitterInitData initData);
 
 	int GetEmitterIndex(std::shared_ptr<ParticleEmitter> emitter);
+	void DeleteEmitter(std::shared_ptr<ParticleEmitter> emitter);
+	void DeleteEmitters();
 private:
 	std::vector<std::shared_ptr<ParticleEmitter>> m_particleEmitter;
 };
