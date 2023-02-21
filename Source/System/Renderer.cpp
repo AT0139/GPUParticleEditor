@@ -26,6 +26,27 @@ void Renderer::Init()
 {
 	HRESULT hr = S_OK;
 
+
+	IDXGIFactory* factory;
+	CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)(&factory));
+
+	IDXGIAdapter* hpAdapter = nullptr;
+	IDXGIAdapter* adapter;
+	size_t videoMemSize = 0;
+	for (int i = 0; factory->EnumAdapters(i, &adapter) != DXGI_ERROR_NOT_FOUND; i++)
+	{
+		DXGI_ADAPTER_DESC desc;
+		adapter->GetDesc(&desc);
+		if (videoMemSize < desc.DedicatedVideoMemory)
+		{
+			videoMemSize = desc.DedicatedVideoMemory;
+			hpAdapter = adapter;
+		}
+	}
+
+	factory->Release();
+
+
 	// デバイス、スワップチェーン作成
 	DXGI_SWAP_CHAIN_DESC swapChainDesc{};
 	swapChainDesc.BufferCount = 1;
@@ -46,8 +67,8 @@ void Renderer::Init()
 #endif
 
 	hr = D3D11CreateDeviceAndSwapChain(
-		NULL,
-		D3D_DRIVER_TYPE_HARDWARE,
+		hpAdapter,
+		D3D_DRIVER_TYPE_UNKNOWN,
 		NULL,
 		0,
 		NULL,
