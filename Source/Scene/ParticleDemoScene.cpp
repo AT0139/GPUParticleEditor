@@ -156,10 +156,10 @@ void ParticleEditorScene::Update()
 			}
 		}
 
-		//if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN))
-		//{
-		//	SceneManager::GetInstance().SetScene<Title>();
-		//}
+		if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN))
+		{
+			SceneManager::GetInstance().SetScene<Title>();
+		}
 	}
 }
 

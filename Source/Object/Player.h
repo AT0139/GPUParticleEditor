@@ -25,7 +25,7 @@ namespace MainGame
 		std::shared_ptr<Rigidbody> m_rigid;
 		std::shared_ptr<Transform> m_transform;
 
-		std::shared_ptr<DrawAnimationModel> m_model;
+		//std::shared_ptr<DrawAnimationModel> m_model;
 
 		class Audio* m_shotSE;
 		class Shadow* m_shadow;
