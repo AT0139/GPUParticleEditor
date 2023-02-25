@@ -7,11 +7,12 @@ ParticleEmitterManager::ParticleEmitterManager()
 
 void ParticleEmitterManager::Update()
 {
-	for (auto it : m_particleEmitter) 
-		it->SetManagerPosition(GetComponent<Transform>()->GetPosition());
-
 	for (auto it : m_particleEmitter)
+	{
+		it->SetScale(GetComponent<Transform>()->GetScale());
+		it->SetManagerPosition(GetComponent<Transform>()->GetPosition());
 		it->Update();
+	}
 }
 
 void ParticleEmitterManager::Draw()

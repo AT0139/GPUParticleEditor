@@ -48,6 +48,7 @@ public:
 
 	void SetManagerPosition(Vector3 pos) { m_managerPosition = pos; }
 	void SetOffsetPosition(Vector3 pos) { m_offsetPosition = pos; }
+	void SetScale(Vector3 scale) { m_scale = scale; }
 	
 	void Update();
 	void Draw();
@@ -102,6 +103,7 @@ private:
 
 	Vector3 m_managerPosition;
 	Vector3 m_offsetPosition; //エミッターマネージャーからのオフセット位置
+	Vector3 m_scale;
 	ParticleInfo m_particleInfo;
 
 	ADD_VELOCITY_TYPE m_velocityType;
