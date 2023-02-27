@@ -13,12 +13,13 @@ void main(point GS_PARTICLE_IN input[1] : SV_POSITION, inout TriangleStream<PS_P
 	float3 planeNormal = (float3) worldPosition - (float3) CameraPosition;
 	planeNormal = normalize(planeNormal);
 
-	float3 upVector = float3(0.0f, 1.0f, 0.0f);
+	float3 upVector = float3(0, 1, 0);
+	upVector = normalize(View._21_22_23);
 	float3 rightVector = normalize(cross(upVector, planeNormal));
 	
-	rightVector = rightVector * input[0].Size.x;
-	upVector = float3(0.0f, input[0].Size.y, 0.0f);
-
+	rightVector *= input[0].Size.x;
+	upVector *= input[0].Size.y;
+	
 	//’¸“_î•ñ
 	float3 vert[4];
 	vert[0] = input[0].Position.xyz + input[0].StructurePos.xyz - rightVector + upVector;
