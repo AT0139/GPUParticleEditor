@@ -34,11 +34,11 @@ void ParticleEditorScene::Init()
 
 	InitDeserialize();
 
-	/*auto field = AddGameObject<Field>(OBJECT);
+	auto field = AddGameObject<Field>(OBJECT);
 	field->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -10.0f, 0.0f));
 	AddDepthObject(field);
 
-	AddGameObject<Polygon2D>(UI);*/
+	AddGameObject<Polygon2D>(UI);
 }
 
 void ParticleEditorScene::Uninit()

@@ -6,7 +6,18 @@ EmitterGui::EmitterGui(std::shared_ptr<ParticleEmitter> emitter, std::string emi
 	m_currentEmitter = emitter;
 	m_name = emitterName;
 	m_tempName = emitterName;
+	auto data = emitter->GetSerializeData();
 	m_datas = {};
+	m_datas.maxLife = data.maxLife;
+	m_datas.spawnPos = data.offsetPosition;
+	m_datas.addVelocityType = (int)data.velocityType;
+
+	m_bufferInfo.velocity = data.velocity;
+	m_bufferInfo.initialSize = data.initialSize;
+	m_bufferInfo.finalSize = data.finalSize;
+	m_bufferInfo.initialColor = data.initialColor;
+	m_bufferInfo.finalColor = data.finalColor;
+	m_bufferInfo.gravity = data.gravity;
 }
 
 void EmitterGui::Update()

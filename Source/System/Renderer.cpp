@@ -99,7 +99,7 @@ void Renderer::Init()
 	textureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	textureDesc.CPUAccessFlags = 0;
 	textureDesc.MiscFlags = 0;
-	hr = m_pDevice->CreateTexture2D(&textureDesc, NULL, &depthStencile);
+	m_pDevice->CreateTexture2D(&textureDesc, NULL, &depthStencile);
 
 	// デプスステンシルビュー作成
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
@@ -314,13 +314,13 @@ void Renderer::Init()
 		hr = m_pDevice->CreateShaderResourceView(depthTexture, &SRVDesc, &m_depthSRV);
 		if (FAILED(hr))
 			assert(nullptr);
+		depthTexture->Release();
 	}
 }
 
 
 void Renderer::Uninit()
 {
-	// Cleanup
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
@@ -337,6 +337,9 @@ void Renderer::Uninit()
 	m_pSwapChain->Release();
 	m_pDeviceContext->Release();
 	m_pDevice->Release();
+
+	m_depthDSV->Release();
+	m_depthSRV->Release();
 }
 
 void Renderer::Begin()

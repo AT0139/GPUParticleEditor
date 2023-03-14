@@ -14,6 +14,7 @@ public:
 	std::shared_ptr<ParticleEmitter> GetEmitter() { return m_currentEmitter; }
 	std::string GetEmitterName() { return m_name; }
 
+
 private:
 	struct EmitterDatas
 	{
@@ -47,4 +48,7 @@ private:
 
 	std::string m_name;
 	std::string m_tempName;
+
+public:
+	EmitterGui(std::shared_ptr<ParticleEmitter> emitter, std::string emitterName, EmitterDatas data);
 };
