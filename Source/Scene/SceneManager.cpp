@@ -41,9 +41,9 @@ void SceneManager::Update()
 
 void SceneManager::Draw()
 {
-	//Renderer::GetInstance().BeginDepth();
+	Renderer::GetInstance().BeginDepth();
 
-	//m_pScene->DepthDraw();
+	m_pScene->DepthDraw();
 
 	Renderer::GetInstance().Begin();
 

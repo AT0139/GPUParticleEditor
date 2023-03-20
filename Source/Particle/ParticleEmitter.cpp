@@ -136,15 +136,6 @@ void ParticleEmitter::Update()
 	context->CSSetShaderResources(0, 1, pSRVs);
 	context->CSSetShaderResources(1, 1, &depthTexture);
 
-	auto scene = SceneManager::GetInstance().GetScene();
-	Matrix view = scene->GetCamera()->GetViewMatrix();
-	Matrix world, scale, trans;
-	scale = Matrix::CreateScale(Vector3(1, 1, 1));
-	trans = Matrix::CreateTranslation(m_managerPosition + m_offsetPosition);
-	world = scale * view * trans;
-
-	Renderer::GetInstance().SetWorldMatrix(&world);
-
 	context->CSSetShader(m_computeShader, nullptr, 0);
 	context->CSSetUnorderedAccessViews(0, 1, &m_resultUAV, 0);
 	context->Dispatch(512, 1, 1);
@@ -171,15 +162,11 @@ void ParticleEmitter::Draw()
 {
 	auto context = Renderer::GetInstance().GetDeviceContext();
 
-	// ビルボード
-	auto scene = SceneManager::GetInstance().GetScene();
-	Matrix view = scene->GetCamera()->GetViewMatrix();
-
 	// ワールド座標、スケールなどの処理
 	Matrix world, scale, trans;
-	scale = Matrix::CreateScale(Vector3(1,1,1));
+	scale = Matrix::CreateScale(m_scale);
 	trans = Matrix::CreateTranslation(m_managerPosition + m_offsetPosition);
-	world = scale * view * trans;
+	world = scale * trans;
 
 	Renderer::GetInstance().SetWorldMatrix(&world);
 
@@ -190,7 +177,7 @@ void ParticleEmitter::Draw()
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
 	context->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
-	context->PSSetShaderResources(0, 1, &m_texture); // テクスチャ設定（あれば）
+	context->PSSetShaderResources(0, 1, &m_texture); // テクスチャ設定
 	context->VSSetShaderResources(2, 1, &m_parameterSRV); // VSに入れる座標設定
 
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);

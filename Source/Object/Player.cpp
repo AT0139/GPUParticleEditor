@@ -24,11 +24,11 @@ namespace MainGame
 		col->SetScale(Vector3(0.5f, 1.6f, 0.5f));
 		col->SetCenterPosition(Vector3(0.0f, 0.8f, 0.0f));
 		//モデル読み込み
-		m_model = AddComponent<DrawAnimationModel>(this);
-		m_model->Load("asset\\model\\Akai_Idle.fbx");
-		m_model->LoadAnimation("asset\\model\\Akai_Idle.fbx", "Idle");
-		m_model->LoadAnimation("asset\\model\\Akai_Run.fbx", "Run");
-		m_model->LoadAnimation("asset\\model\\Akai_WalkingBackward.fbx", "WalkingBack");
+		//m_model = AddComponent<DrawAnimationModel>(this);
+		//m_model->Load("asset\\model\\Akai_Idle.fbx");
+		//m_model->LoadAnimation("asset\\model\\Akai_Idle.fbx", "Idle");
+		//m_model->LoadAnimation("asset\\model\\Akai_Run.fbx", "Run");
+		//m_model->LoadAnimation("asset\\model\\Akai_WalkingBackward.fbx", "WalkingBack");
 
 		//m_shotSE = scene->AddGameObject<Audio>(scene->UI);
 		//m_shotSE->Load("asset\\audio\\wan.wav");
@@ -115,23 +115,23 @@ namespace MainGame
 		if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOVE_UP))
 		{
 			velo += cameraForward * MOVE_SPEED;
-			m_model->SetAnimationName("Run");
+			//m_model->SetAnimationName("Run");
 			
 			m_transform->SetQuaternion(Quaternion::LookRotation(cameraForward, Vector3::Up));
-			m_model->AddBlendRate();
+			//m_model->AddBlendRate();
 		}
 		else if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOVE_DOWN))
 		{
 			velo -= cameraForward * (MOVE_SPEED / 2);
-			m_model->SetAnimationName("WalkingBack");
-			m_model->AddBlendRate();
+			//m_model->SetAnimationName("WalkingBack");
+			//m_model->AddBlendRate();
 			m_transform->SetQuaternion(-Quaternion::LookRotation(cameraForward, Vector3::Up));
 		}
 		else
 		{
-			m_model->AddBlendRate(2);
+			//m_model->AddBlendRate(2);
 
-			m_model->SetAnimationName("Idle");
+			//m_model->SetAnimationName("Idle");
 		}
 		if (GET_INPUT.GetKeyPress(KEY_CONFIG::MOVE_LEFT))
 		{

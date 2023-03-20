@@ -28,7 +28,10 @@ namespace MainGame
 		AddGameObject<Player>(OBJECT);
 		AddGameObject<Field>(OBJECT);
 
-		AddGameObject<ParticleEmitterManager>(EFFECT)->AddParticle("Fountain");
+		auto particle = AddGameObject<ParticleEmitterManager>(EFFECT);
+		particle->AddParticle("Fountain");
+		particle->GetComponent<Transform>()->SetPosition(Vector3(0.1f, 15.0f, 0.1f));
+		particle->GetComponent<Transform>()->SetScale(Vector3(0.1f, 0.1f, 0.1f));
 
 	}
 

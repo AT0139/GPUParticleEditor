@@ -26,6 +26,27 @@ void Renderer::Init()
 {
 	HRESULT hr = S_OK;
 
+
+	IDXGIFactory* factory;
+	CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)(&factory));
+
+	IDXGIAdapter* hpAdapter = nullptr;
+	IDXGIAdapter* adapter;
+	size_t videoMemSize = 0;
+	for (int i = 0; factory->EnumAdapters(i, &adapter) != DXGI_ERROR_NOT_FOUND; i++)
+	{
+		DXGI_ADAPTER_DESC desc;
+		adapter->GetDesc(&desc);
+		if (videoMemSize < desc.DedicatedVideoMemory)
+		{
+			videoMemSize = desc.DedicatedVideoMemory;
+			hpAdapter = adapter;
+		}
+	}
+
+	factory->Release();
+
+
 	// デバイス、スワップチェーン作成
 	DXGI_SWAP_CHAIN_DESC swapChainDesc{};
 	swapChainDesc.BufferCount = 1;
@@ -46,8 +67,8 @@ void Renderer::Init()
 #endif
 
 	hr = D3D11CreateDeviceAndSwapChain(
-		NULL,
-		D3D_DRIVER_TYPE_HARDWARE,
+		hpAdapter,
+		D3D_DRIVER_TYPE_UNKNOWN,
 		NULL,
 		0,
 		NULL,
@@ -78,7 +99,7 @@ void Renderer::Init()
 	textureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	textureDesc.CPUAccessFlags = 0;
 	textureDesc.MiscFlags = 0;
-	hr = m_pDevice->CreateTexture2D(&textureDesc, NULL, &depthStencile);
+	m_pDevice->CreateTexture2D(&textureDesc, NULL, &depthStencile);
 
 	// デプスステンシルビュー作成
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
@@ -293,13 +314,13 @@ void Renderer::Init()
 		hr = m_pDevice->CreateShaderResourceView(depthTexture, &SRVDesc, &m_depthSRV);
 		if (FAILED(hr))
 			assert(nullptr);
+		depthTexture->Release();
 	}
 }
 
 
 void Renderer::Uninit()
 {
-	// Cleanup
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
@@ -316,6 +337,9 @@ void Renderer::Uninit()
 	m_pSwapChain->Release();
 	m_pDeviceContext->Release();
 	m_pDevice->Release();
+
+	m_depthDSV->Release();
+	m_depthSRV->Release();
 }
 
 void Renderer::Begin()
