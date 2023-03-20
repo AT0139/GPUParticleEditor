@@ -33,12 +33,6 @@ void ParticleEditorScene::Init()
 	m_emitterManager = AddGameObject<ParticleEmitterManager>(EFFECT);
 
 	InitDeserialize();
-
-	auto field = AddGameObject<Field>(OBJECT);
-	field->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -10.0f, 0.0f));
-	AddDepthObject(field);
-
-	AddGameObject<Polygon2D>(UI);
 }
 
 void ParticleEditorScene::Uninit()
@@ -154,11 +148,6 @@ void ParticleEditorScene::Update()
 				it->Update();
 				ImGui::PopID();
 			}
-		}
-
-		if (GET_INPUT.GetKeyTrigger(KEY_CONFIG::RETURN))
-		{
-			SceneManager::GetInstance().SetScene<Title>();
 		}
 	}
 }
